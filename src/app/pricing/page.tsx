@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { PricingCard } from "@/components/pricing/pricing-card";
 
 const plans = [
   {
@@ -44,37 +45,7 @@ export default function PricingPage() {
           </div>
           <div className="mt-16 grid gap-8 lg:grid-cols-3">
             {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`relative rounded-2xl border bg-white p-8 ${plan.popular ? "border-[#2E5C8A] ring-2 ring-[#2E5C8A]" : "border-[#E5E7EB]"}`}
-              >
-                {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#2E5C8A] px-4 py-1 text-xs font-medium text-white">
-                    Most Popular
-                  </span>
-                )}
-                <h3 className="text-lg font-semibold text-[#0A1628]">{plan.name}</h3>
-                <p className="mt-1 text-sm text-[#475569]">{plan.description}</p>
-                <div className="mt-6">
-                  <span className="text-4xl font-extrabold text-[#0A1628]">{plan.price}</span>
-                  <span className="text-sm text-[#475569]">/month</span>
-                </div>
-                <button
-                  className={`mt-6 w-full rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${plan.popular ? "bg-[#2E5C8A] text-white hover:bg-[#1E3A5F]" : "border border-[#E5E7EB] text-[#0A1628] hover:bg-[#F9FAFB]"}`}
-                >
-                  {plan.cta}
-                </button>
-                <ul className="mt-8 space-y-3">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-[#475569]">
-                      <svg className="h-4 w-4 text-[#10B981]" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <PricingCard key={plan.name} {...plan} />
             ))}
           </div>
         </div>

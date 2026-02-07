@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ScanForm } from "@/components/scan/scan-form";
 
 export default function Home() {
   return (
@@ -25,16 +26,7 @@ export default function Home() {
                 Check how ChatGPT, Claude, and Perplexity see your website.
               </p>
               <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <div className="flex w-full max-w-md overflow-hidden rounded-lg border border-[#1E3A5F] bg-[#0A1628]">
-                  <input
-                    type="url"
-                    placeholder="Enter your website URL..."
-                    className="flex-1 bg-transparent px-4 py-3 text-white placeholder:text-[#4A7DAC]/50 focus:outline-none"
-                  />
-                  <button className="bg-[#2E5C8A] px-6 py-3 font-medium text-white hover:bg-[#1E3A5F] transition-colors whitespace-nowrap">
-                    Scan Free
-                  </button>
-                </div>
+                <ScanForm variant="hero" />
               </div>
               <p className="mt-4 text-sm text-[#4A7DAC]/60">
                 No sign-up required. Get your score instantly.
