@@ -1,199 +1,176 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Mobile Responsiveness', () => {
-  test('should be readable on iPhone 12', async ({ page }) => {
-    page.setViewportSize({ width: 390, height: 844 });
+// ============================================================
+// 06 — Responsiveness
+// Tests layout at 375px (mobile), 768px (tablet), 1280px (desktop).
+// Verifies mobile menu visibility, scan form usability, heading
+// readability, and touch target sizes.
+// ============================================================
+
+test.describe('Mobile — 375px viewport', () => {
+  test.use({ viewport: { width: 375, height: 667 } });
+
+  test('h1 is visible and not overflowing on mobile', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.locator('h1')).toBeVisible();
-    const h1 = page.locator('h1');
-    const box = await h1.boundingBox();
-    expect(box?.width).toBeGreaterThan(100);
+    const h1 = page.locator('h1').first();
+    await expect(h1).toBeVisible();
+
+    const scrollWidth = await h1.evaluate((el) => el.scrollWidth);
+    const clientWidth = await h1.evaluate((el) => el.clientWidth);
+    // Allow 1px tolerance for sub-pixel rendering
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
   });
 
-  test('should be readable on Pixel 5', async ({ page }) => {
-    page.setViewportSize({ width: 393, height: 851 });
-    await page.goto('/');
-
-    await expect(page.locator('h1')).toBeVisible();
-
-    const mainContent = page.locator('main');
-    await expect(mainContent).toBeVisible();
-  });
-
-  test('should be readable on small phone', async ({ page }) => {
-    page.setViewportSize({ width: 320, height: 568 });
-    await page.goto('/');
-
-    await expect(page.locator('h1')).toBeVisible();
-
-    const viewportWidth = await page.evaluate(() => window.innerWidth);
-    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 1);
-  });
-
-  test('should have mobile-friendly form on small screen', async ({ page }) => {
-    page.setViewportSize({ width: 320, height: 568 });
+  test('scan form is visible and usable on mobile', async ({ page }) => {
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
-    // Use .first() to avoid strict mode violation (two ScanForm instances on page)
-    const button = page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
-
     await expect(urlInput).toBeVisible();
-    await expect(button).toBeVisible();
+    await expect(urlInput).toBeEditable();
 
-    const inputBox = await urlInput.boundingBox();
-    const buttonBox = await button.boundingBox();
+    await urlInput.fill('https://mobile-test.com');
+    await expect(urlInput).toHaveValue('https://mobile-test.com');
 
-    if (inputBox && buttonBox) {
-      const verticalLayout = inputBox.y < buttonBox.y;
-      const horizontalWithSpacing = buttonBox.x > inputBox.x + inputBox.width;
-
-      expect(verticalLayout || horizontalWithSpacing).toBeTruthy();
-    }
+    const scanBtn = page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
+    await expect(scanBtn).toBeVisible();
+    await expect(scanBtn).toBeEnabled();
   });
 
-  test('should not have text overflow on mobile', async ({ page }) => {
-    page.setViewportSize({ width: 375, height: 667 });
+  test('scan button meets 44px touch target on mobile', async ({ page }) => {
     await page.goto('/');
 
-    const texts = page.locator('p, h1, h2, h3, h4, h5, h6, button, a');
-    const count = await texts.count();
+    const scanBtn = page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
+    const box = await scanBtn.boundingBox();
 
-    let overflowCount = 0;
-    for (let i = 0; i < Math.min(20, count); i++) {
-      const element = texts.nth(i);
-      const scrollWidth = await element.evaluate(el => el.scrollWidth);
-      const clientWidth = await element.evaluate(el => el.clientWidth);
+    expect(box).not.toBeNull();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+  });
 
-      if (scrollWidth > clientWidth) {
-        overflowCount++;
-      }
-    }
+  test('document does not overflow horizontally on mobile', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
-    expect(overflowCount).toBeLessThan(5);
+    const viewportWidth = await page.evaluate(() => window.innerWidth);
+    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    // Allow 2px tolerance
+    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 2);
+  });
+
+  test('key content sections are visible on mobile', async ({ page }) => {
+    await page.goto('/');
+
+    // Hero
+    await expect(page.locator('h1')).toBeVisible();
+
+    // Features (category cards section)
+    await expect(page.getByText('Crawler Access').first()).toBeVisible();
+
+    // How It Works
+    await expect(page.getByText('How It Works').first()).toBeVisible();
   });
 });
 
-test.describe('Tablet Responsiveness', () => {
-  test('should display properly on iPad', async ({ page }) => {
-    page.setViewportSize({ width: 768, height: 1024 });
-    await page.goto('/');
+test.describe('Tablet — 768px viewport', () => {
+  test.use({ viewport: { width: 768, height: 1024 } });
 
+  test('h1 is visible on tablet', async ({ page }) => {
+    await page.goto('/');
     await expect(page.locator('h1')).toBeVisible();
-
-    const mainContent = page.locator('main');
-    const box = await mainContent.boundingBox();
-    expect(box?.width).toBeGreaterThan(500);
   });
 
-  test('should display features grid on tablet', async ({ page }) => {
-    page.setViewportSize({ width: 768, height: 1024 });
+  test('scan form is visible on tablet', async ({ page }) => {
     await page.goto('/');
-
-    const featureText = page.getByText('Crawler Access').first();
-    await expect(featureText).toBeVisible();
+    const urlInput = page.locator('input[type="url"]').first();
+    await expect(urlInput).toBeVisible();
   });
 
-  test('should have usable navigation on tablet', async ({ page }) => {
-    page.setViewportSize({ width: 768, height: 1024 });
+  test('category cards are visible on tablet', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByText('Crawler Access').first()).toBeVisible();
+    await expect(page.getByText('Structured Data').first()).toBeVisible();
+  });
+
+  test('at least one nav link is visible on tablet', async ({ page }) => {
     await page.goto('/');
 
     const pricingLink = page.getByRole('link', { name: 'Pricing' }).first();
-    const scannerLink = page.getByRole('link', { name: 'Scanner' }).first();
     const signinLink = page.getByRole('link', { name: 'Sign In' }).first();
+    const scannerLink = page.getByRole('link', { name: 'Scanner' }).first();
 
-    const pricingVisible = await pricingLink.isVisible().catch(() => false);
-    const scannerVisible = await scannerLink.isVisible().catch(() => false);
-    const signinVisible = await signinLink.isVisible().catch(() => false);
+    const anyVisible =
+      (await pricingLink.isVisible().catch(() => false)) ||
+      (await signinLink.isVisible().catch(() => false)) ||
+      (await scannerLink.isVisible().catch(() => false));
 
-    expect(pricingVisible || scannerVisible || signinVisible).toBeTruthy();
-  });
-});
-
-test.describe('Desktop Responsiveness', () => {
-  test('should display nicely on large desktop', async ({ page }) => {
-    page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto('/');
-
-    await expect(page.locator('h1')).toBeVisible();
-
-    const maxWidth = page.locator('[class*="max-w"]').first();
-    if (await maxWidth.isVisible().catch(() => false)) {
-      const box = await maxWidth.boundingBox();
-      expect(box?.width).toBeLessThan(1400);
-    }
+    expect(anyVisible).toBe(true);
   });
 
-  test('should use full width appropriately', async ({ page }) => {
-    page.setViewportSize({ width: 1920, height: 1080 });
+  test('document does not overflow horizontally on tablet', async ({ page }) => {
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
-    const main = page.locator('main');
-    const box = await main.boundingBox();
-    expect(box?.width).toBeGreaterThan(1000);
-  });
-});
-
-test.describe('Orientation Changes', () => {
-  test('should adapt to landscape orientation', async ({ page }) => {
-    page.setViewportSize({ width: 812, height: 375 });
-    await page.goto('/');
-
-    await expect(page.locator('h1')).toBeVisible();
-
-    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     const viewportWidth = await page.evaluate(() => window.innerWidth);
-    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 1);
-  });
-
-  test('should adapt to portrait orientation', async ({ page }) => {
-    page.setViewportSize({ width: 375, height: 812 });
-    await page.goto('/');
-
-    await expect(page.locator('h1')).toBeVisible();
-
     const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    const viewportWidth = await page.evaluate(() => window.innerWidth);
-    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 1);
+    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 2);
   });
 });
 
-test.describe('Touch Targets', () => {
-  test('should have adequate touch targets on mobile', async ({ page }) => {
-    page.setViewportSize({ width: 375, height: 667 });
+test.describe('Desktop — 1280px viewport', () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+
+  test('full nav links are all visible on desktop', async ({ page }) => {
     await page.goto('/');
 
-    // Check the primary CTA button (scan button) has adequate size
-    // Use the hero scan form button specifically
-    const scanButton = page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
-    const box = await scanButton.boundingBox();
-
-    if (box) {
-      // The scan button should be large enough to tap
-      expect(box.height).toBeGreaterThanOrEqual(40);
-    }
+    await expect(page.getByRole('link', { name: 'Scanner' }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Pricing' }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Sign In' }).first()).toBeVisible();
   });
 
-  test('should have adequate spacing between touch targets', async ({ page }) => {
-    page.setViewportSize({ width: 375, height: 667 });
+  test('h1 is visible and large on desktop', async ({ page }) => {
     await page.goto('/');
 
-    const links = page.locator('a[href]');
-    const count = await links.count();
+    const h1 = page.locator('h1').first();
+    await expect(h1).toBeVisible();
 
-    if (count >= 2) {
-      const link1 = links.nth(0);
-      const link2 = links.nth(1);
+    const box = await h1.boundingBox();
+    expect(box!.width).toBeGreaterThan(200);
+  });
 
-      const box1 = await link1.boundingBox();
-      const box2 = await link2.boundingBox();
+  test('scan form is fully visible and wide on desktop', async ({ page }) => {
+    await page.goto('/');
 
-      if (box1 && box2 && box1.y === box2.y) {
-        const gap = Math.abs(box2.x - (box1.x + box1.width));
-        expect(gap).toBeGreaterThan(0);
-      }
+    const urlInput = page.locator('input[type="url"]').first();
+    await expect(urlInput).toBeVisible();
+
+    const box = await urlInput.boundingBox();
+    // On desktop, input should have reasonable width
+    expect(box!.width).toBeGreaterThan(200);
+  });
+});
+
+test.describe('Orientation — landscape mobile', () => {
+  test.use({ viewport: { width: 812, height: 375 } });
+
+  test('h1 visible in landscape and document not overflowing', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('h1')).toBeVisible();
+
+    const viewportWidth = await page.evaluate(() => window.innerWidth);
+    const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(documentWidth).toBeLessThanOrEqual(viewportWidth + 2);
+  });
+});
+
+test.describe('Pricing page — responsiveness', () => {
+  test('pricing page cards are visible on 375px mobile', async ({ page }) => {
+    page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/pricing');
+
+    await expect(page.locator('h1')).toBeVisible();
+    // At least one plan heading should be visible
+    for (const name of ['Starter', 'Pro']) {
+      await expect(page.getByRole('heading', { name }).first()).toBeVisible();
     }
   });
 });

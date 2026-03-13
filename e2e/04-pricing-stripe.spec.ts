@@ -1,170 +1,171 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Pricing Page', () => {
-  test('should load pricing page', async ({ page }) => {
-    await page.goto('/pricing');
+// ============================================================
+// 04 — Pricing & Stripe
+// Tests real pricing tier display, price values, CTA button
+// interception, and Stripe checkout API contract.
+// ============================================================
 
-    await expect(page.getByText('Pricing').first()).toBeVisible();
+test.describe('Pricing page — tier display', () => {
+  test('/pricing loads with h1 "Simple, transparent pricing"', async ({ page }) => {
+    await page.goto('/pricing');
+    const h1 = page.locator('h1').first();
+    await expect(h1).toBeVisible();
+    const text = await h1.innerText();
+    expect(text).toMatch(/pricing/i);
   });
 
-  test('should display pricing tiers', async ({ page }) => {
+  test('all 4 pricing tiers are visible (Free, Starter, Pro, Agency)', async ({ page }) => {
     await page.goto('/pricing');
-
-    // Pricing cards are rendered inside a grid — each has a plan name heading
-    const planNames = ['Free', 'Starter', 'Pro', 'Agency'];
-    let foundCount = 0;
-    for (const name of planNames) {
-      const heading = page.getByRole('heading', { name }).first();
-      if (await heading.isVisible().catch(() => false)) {
-        foundCount++;
-      }
+    for (const planName of ['Free', 'Starter', 'Pro', 'Agency']) {
+      await expect(page.getByRole('heading', { name: planName }).first()).toBeVisible();
     }
-    expect(foundCount).toBeGreaterThan(0);
   });
 
-  test('should have pricing details', async ({ page }) => {
+  test('Starter tier shows price "$29"', async ({ page }) => {
+    await page.goto('/pricing');
+    // Find the Starter heading, then assert $29 appears nearby
+    const starterCard = page.locator('[aria-label*="Starter"], h3:has-text("Starter")').first();
+    await expect(starterCard).toBeVisible();
+    await expect(page.getByText('$29').first()).toBeVisible();
+  });
+
+  test('Pro tier shows price "$199"', async ({ page }) => {
+    await page.goto('/pricing');
+    await expect(page.getByText('$199').first()).toBeVisible();
+  });
+
+  test('Agency tier shows price "$499"', async ({ page }) => {
+    await page.goto('/pricing');
+    await expect(page.getByText('$499').first()).toBeVisible();
+  });
+
+  test('each paid tier has a CTA button with correct label', async ({ page }) => {
     await page.goto('/pricing');
 
-    // Should show pricing information with $ signs
-    const pricingText = page.locator('text=/\\$|month|year|free/i');
-    const count = await pricingText.count();
-    expect(count).toBeGreaterThan(0);
-  });
+    // Starter — aria-label contains "Starter plan"
+    const starterBtn = page.locator('button[aria-label*="Starter"]');
+    await expect(starterBtn).toBeVisible();
 
-  test('should have CTA buttons on pricing cards', async ({ page }) => {
-    await page.goto('/pricing');
+    // Pro
+    const proBtn = page.locator('button[aria-label*="Pro"]');
+    await expect(proBtn).toBeVisible();
 
-    // Pricing card buttons use aria-label like "Scan Free for Free plan at $0 per month"
-    // or text "Scan Free", "Get Started", "Contact Sales"
-    const buttons = page.locator(
-      'button:has-text("Scan Free"), button:has-text("Get Started"), button:has-text("Contact Sales")'
-    );
-    const count = await buttons.count();
-    expect(count).toBeGreaterThan(0);
-  });
-
-  test('should navigate to pricing from homepage', async ({ page }) => {
-    await page.goto('/');
-
-    await page.getByRole('link', { name: 'Pricing' }).first().click();
-
-    await expect(page).toHaveURL('/pricing');
-  });
-
-  test('should have upgrade button on results page', async ({ page }) => {
-    await page.goto('/');
-
-    const urlInput = page.locator('input[type="url"]').first();
-    await urlInput.fill('https://example.com');
-
-    await page.getByRole('button', { name: 'Scan website for AI visibility' }).first().click();
-
-    // May be rate-limited during parallel test runs — skip upgrade check if 429'd
-    try {
-      await page.waitForURL(/\/scan-result/, { timeout: 30000 });
-
-      // Results page has "Upgrade for More Scans" anchor link to /pricing
-      const upgradeLink = page.getByRole('link', { name: /Upgrade for More Scans/i });
-      await expect(upgradeLink).toBeVisible({ timeout: 10000 });
-    } catch {
-      // Rate limited or slow — verify upgrade link appears on scan-result if accessible
-      const currentUrl = page.url();
-      if (currentUrl.includes('scan-result')) {
-        const upgradeLink = page.getByRole('link', { name: /Upgrade for More Scans/i });
-        await expect(upgradeLink).toBeVisible();
-      }
-      // If still on homepage (rate-limited), test is inconclusive but not a product bug
-    }
+    // Agency
+    const agencyBtn = page.locator('button[aria-label*="Agency"]');
+    await expect(agencyBtn).toBeVisible();
   });
 });
 
-test.describe('Stripe Integration', () => {
-  test('should have stripe checkout configured', async ({ page }) => {
+test.describe('Pricing page — Stripe checkout interception', () => {
+  test('clicking Starter CTA fires POST to /api/stripe/checkout', async ({ page }) => {
     await page.goto('/pricing');
 
-    const buttons = page.locator(
-      'button:has-text("Scan Free"), button:has-text("Get Started"), button:has-text("Contact Sales")'
+    // Intercept the checkout request before it hits Stripe
+    const checkoutRequest = page.waitForRequest(
+      (req) => req.url().includes('/api/stripe/checkout') && req.method() === 'POST'
     );
-    if (await buttons.count() > 0) {
-      const button = buttons.first();
 
-      await button.click({ timeout: 5000 }).catch(() => {
-        // Might be disabled or trigger redirect
-      });
+    // Click the Starter CTA button
+    const starterBtn = page.locator('button[aria-label*="Starter"]').first();
+    await expect(starterBtn).toBeVisible();
+    await starterBtn.click();
 
-      await page.waitForTimeout(2000);
-      const url = page.url();
-      void url;
-    }
+    // Confirm the request fired
+    const req = await checkoutRequest;
+    expect(req.method()).toBe('POST');
+    expect(req.url()).toContain('/api/stripe/checkout');
+
+    // Verify the request body contains tier: "starter"
+    const postData = req.postDataJSON();
+    expect(postData).toHaveProperty('tier', 'starter');
   });
 
-  test('should have Stripe checkout endpoint configured', async ({ page }) => {
-    // Stripe is integrated server-side — the checkout API handles payment sessions
-    // without loading Stripe.js on the client. Verify the endpoint is reachable.
-    const response = await page.request.post('/api/stripe/checkout', {
+  test('clicking Pro CTA fires POST with tier "pro"', async ({ page }) => {
+    await page.goto('/pricing');
+
+    const checkoutRequest = page.waitForRequest(
+      (req) => req.url().includes('/api/stripe/checkout') && req.method() === 'POST'
+    );
+
+    const proBtn = page.locator('button[aria-label*="Pro"]').first();
+    await expect(proBtn).toBeVisible();
+    await proBtn.click();
+
+    const req = await checkoutRequest;
+    const postData = req.postDataJSON();
+    expect(postData).toHaveProperty('tier', 'pro');
+  });
+});
+
+test.describe('Stripe checkout API — contract', () => {
+  test('POST /api/stripe/checkout with tier "starter" returns 200 with stripe url', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
       data: { tier: 'starter' },
-      headers: { 'Content-Type': 'application/json' },
     });
-
-    // Endpoint should respond (may fail auth, but must exist and return a known status)
-    expect([200, 302, 400, 401, 500]).toContain(response.status());
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(typeof body.url).toBe('string');
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
   });
 
-  test('should have proper error handling for checkout', async ({ page }) => {
-    const response = await page.request.post('/api/stripe/checkout', {
-      data: { priceId: 'invalid-price' },
+  test('POST /api/stripe/checkout with tier "pro" returns 200 with stripe url', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'pro' },
     });
-
-    expect([400, 404, 500]).toContain(response.status());
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
   });
 
-  test('should have webhook endpoint configured', async ({ page }) => {
-    const response = await page.request.post('/api/stripe/webhook', {
-      data: { type: 'test' },
+  test('POST /api/stripe/checkout with tier "agency" returns 200 with stripe url', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'agency' },
     });
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
+  });
 
-    expect([200, 400, 401]).toContain(response.status());
+  test('POST /api/stripe/checkout with invalid tier returns 400', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'invalid' },
+    });
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body).toHaveProperty('error');
+  });
+
+  test('POST /api/stripe/checkout with missing tier returns 400', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: {},
+    });
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body).toHaveProperty('error');
   });
 });
 
-test.describe('Pricing - Mobile', () => {
-  test('should display pricing on mobile', async ({ page }) => {
+test.describe('Pricing page — mobile', () => {
+  test('all 4 tiers visible on 375px mobile', async ({ page }) => {
     page.setViewportSize({ width: 375, height: 667 });
-
     await page.goto('/pricing');
-
-    // Pricing page h1 is "Simple, transparent pricing"
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('h1')).toContainText('pricing');
 
-    // At least one plan name should be visible
-    const planNames = ['Free', 'Starter', 'Pro', 'Agency'];
-    let found = false;
-    for (const name of planNames) {
-      const el = page.getByRole('heading', { name }).first();
-      if (await el.isVisible().catch(() => false)) {
-        found = true;
-        break;
-      }
+    for (const planName of ['Free', 'Starter', 'Pro', 'Agency']) {
+      await expect(page.getByRole('heading', { name: planName }).first()).toBeVisible();
     }
-    expect(found).toBeTruthy();
   });
 
-  test('should have readable CTA on mobile', async ({ page }) => {
+  test('Starter CTA button meets 44px touch target on mobile', async ({ page }) => {
     page.setViewportSize({ width: 375, height: 667 });
-
     await page.goto('/pricing');
 
-    const buttons = page.locator(
-      'button:has-text("Scan Free"), button:has-text("Get Started"), button:has-text("Contact Sales")'
-    );
-    if (await buttons.count() > 0) {
-      const button = buttons.first();
-      const box = await button.boundingBox();
-      if (box) {
-        expect(box.width).toBeGreaterThan(40);
-        expect(box.height).toBeGreaterThan(40);
-      }
-    }
+    const starterBtn = page.locator('button[aria-label*="Starter"]').first();
+    await expect(starterBtn).toBeVisible();
+
+    const box = await starterBtn.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
   });
 });

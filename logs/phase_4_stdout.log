@@ -1,0 +1,7 @@
+[INFO] Neon API key found (length: 69)
+[INFO] Creating Neon project: conduitscore
+[OK] Neon project created, connection string retrieved
+[OK] DATABASE_URL written to C:\Users\Administrator\Desktop\ConduitScore\phase_5_output\website\.env
+[WARNING] Vercel env POST failed: 404
+[WARNING] Could not deploy DATABASE_URL to Vercel — update manually
+[OK] Neon database provisioning complete for 'conduitscore'

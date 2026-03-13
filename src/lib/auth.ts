@@ -13,15 +13,31 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST ?? "",
-        port: Number(process.env.EMAIL_SERVER_PORT ?? 587),
-        auth: {
-          user: process.env.EMAIL_SERVER_USER ?? "",
-          pass: process.env.EMAIL_SERVER_PASSWORD ?? "",
-        },
-      },
       from: process.env.EMAIL_FROM ?? "noreply@conduitscore.com",
+      async sendVerificationRequest({ identifier: email, url, provider }) {
+        const apiKey = process.env.RESEND_API_KEY;
+        if (!apiKey) throw new Error("RESEND_API_KEY is not set");
+
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: provider.from,
+            to: email,
+            subject: "Sign in to ConduitScore",
+            html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:40px 24px;"><h1 style="font-size:24px;font-weight:700;color:#0f0f0f;margin-bottom:8px;">Sign in to ConduitScore</h1><p style="color:#555;margin-bottom:32px;">Click the button below to sign in. This link expires in 24 hours.</p><a href="${url}" style="display:inline-block;background:#6c3bff;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;">Sign in</a><p style="color:#999;font-size:12px;margin-top:32px;">If you didn't request this, you can ignore this email.</p></div>`,
+            text: `Sign in to ConduitScore\n\nClick this link: ${url}\n\nIf you didn't request this, ignore this email.`,
+          }),
+        });
+
+        if (!res.ok) {
+          const body = await res.text();
+          throw new Error(`Resend error ${res.status}: ${body}`);
+        }
+      },
     }),
   ],
   session: {

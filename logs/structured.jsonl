@@ -1,0 +1,6 @@
+{"timestamp": "2026-03-13T15:30:47.970444+00:00", "script": "neon_provisioner", "phase": 4, "event": "script_start", "exit_code": null, "error_message": null, "business": "phase_5_output"}
+{"timestamp": "2026-03-13T15:30:49.106127+00:00", "script": "neon_provisioner", "phase": 4, "event": "script_exit", "exit_code": 0, "error_message": null, "business": "phase_5_output"}
+{"timestamp": "2026-03-13T18:45:37.626224+00:00", "script": "vercel_deployer", "phase": 7, "event": "script_start", "exit_code": null, "error_message": null, "business": "phase_5_output"}
+{"timestamp": "2026-03-13T18:45:46.633221+00:00", "script": "vercel_deployer", "phase": 7, "event": "script_exit", "exit_code": 0, "error_message": null, "business": "phase_5_output"}
+{"timestamp": "2026-03-13T18:45:53.155333+00:00", "script": "vercel_deployer", "phase": 7, "event": "script_start", "exit_code": null, "error_message": null, "business": "phase_5_output"}
+{"timestamp": "2026-03-13T18:46:02.663517+00:00", "script": "vercel_deployer", "phase": 7, "event": "script_exit", "exit_code": 0, "error_message": null, "business": "phase_5_output"}

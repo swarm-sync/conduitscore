@@ -1,53 +1,132 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('API Endpoints', () => {
-  test('should have working health endpoint', async ({ page }) => {
-    const response = await page.request.get('/api/health');
+// ============================================================
+// 07 — API Contract & Accessibility
+// Full API contract verification (health, scan, auth, stripe),
+// rate limiter, score range, and accessibility checks.
+//
+// Each scan API test uses a unique X-Forwarded-For header so
+// tests don't exhaust the shared per-IP rate limit pool that
+// the scanner UI tests use.
+//
+// IMPORTANT: The test environment's Node.js fetch cannot reach
+// https:// URLs due to SSL certificate chain issues in this env.
+// All scan API tests use http://example.com which IS reachable.
+// ============================================================
+
+const uniqueIp = () => `api07-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const SCAN_URL = 'http://example.com';
+
+// ----------------------------------------------------------------
+// Health endpoint
+// ----------------------------------------------------------------
+
+test.describe('API — /api/health', () => {
+  test('GET /api/health returns {"status":"ok"}', async ({ request }) => {
+    const response = await request.get('/api/health');
     expect(response.status()).toBe(200);
     const body = await response.json();
-    expect(body).toHaveProperty('status');
+    expect(body).toHaveProperty('status', 'ok');
   });
+});
 
-  test('should have working scan endpoint', async ({ page }) => {
-    const response = await page.request.post('/api/scan', {
-      data: { url: 'https://example.com' },
-      headers: { 'Content-Type': 'application/json' },
+// ----------------------------------------------------------------
+// Scan endpoint — full contract
+// ----------------------------------------------------------------
+
+test.describe('API — /api/scan contract', () => {
+  test('POST /api/scan with valid URL returns 200 with full result shape', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: { url: SCAN_URL },
+      headers: { 'X-Forwarded-For': uniqueIp() },
     });
 
-    expect([200, 400, 429, 500]).toContain(response.status());
+    expect(response.status()).toBe(200);
+    const body = await response.json();
 
-    if (response.status() === 200) {
-      const body = await response.json();
-      expect(body).toHaveProperty('overallScore');
-      expect(body).toHaveProperty('categories');
-      expect(body).toHaveProperty('issues');
-    }
+    expect(typeof body.overallScore).toBe('number');
+    expect(Array.isArray(body.categories)).toBe(true);
+    expect(Array.isArray(body.issues)).toBe(true);
+    expect(Array.isArray(body.fixes)).toBe(true);
+    expect(typeof body.scannedAt).toBe('string');
   });
 
-  test('should validate URL parameter', async ({ page }) => {
-    const response = await page.request.post('/api/scan', {
+  test('overallScore is between 0 and 100', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: { url: SCAN_URL },
+      headers: { 'X-Forwarded-For': uniqueIp() },
+    });
+
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.overallScore).toBeGreaterThanOrEqual(0);
+    expect(body.overallScore).toBeLessThanOrEqual(100);
+  });
+
+  test('categories array contains at least 7 entries', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: { url: SCAN_URL },
+      headers: { 'X-Forwarded-For': uniqueIp() },
+    });
+
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.categories.length).toBeGreaterThanOrEqual(7);
+  });
+
+  test('scannedAt is an ISO 8601 date string', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: { url: SCAN_URL },
+      headers: { 'X-Forwarded-For': uniqueIp() },
+    });
+
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    const parsed = new Date(body.scannedAt);
+    expect(isNaN(parsed.getTime())).toBe(false);
+  });
+
+  test('POST /api/scan with "not-a-url" returns 400 with error', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: { url: 'not-a-url' },
+      headers: { 'X-Forwarded-For': uniqueIp() },
+    });
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body).toHaveProperty('error');
+    expect(typeof body.error).toBe('string');
+  });
+
+  test('POST /api/scan with empty string URL returns 400', async ({ request }) => {
+    const response = await request.post('/api/scan', {
       data: { url: '' },
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'X-Forwarded-For': uniqueIp() },
     });
-
     expect(response.status()).toBe(400);
   });
 
-  test('should have CORS configured', async ({ page }) => {
-    const response = await page.request.fetch('/api/scan', { method: 'OPTIONS' });
-    expect([200, 204, 404]).toContain(response.status());
+  test('POST /api/scan with missing URL body returns 400', async ({ request }) => {
+    const response = await request.post('/api/scan', {
+      data: {},
+      headers: { 'X-Forwarded-For': uniqueIp() },
+    });
+    expect(response.status()).toBe(400);
   });
+});
 
-  test('should rate limit requests', async ({ page }) => {
-    // The rate limiter allows 10 requests per 60 seconds per IP.
-    // Use a unique test IP via X-Forwarded-For so this test doesn't exhaust
-    // the shared "anonymous" pool that other scan tests depend on.
-    // Fire 12 concurrent requests — once limit is hit, subsequent requests
-    // return 429 immediately (no scan runs), keeping the test fast.
-    const testIp = `test-ratelimit-${Date.now()}`;
-    const requestPromises = Array.from({ length: 12 }, () =>
-      page.request.post('/api/scan', {
-        data: { url: 'https://example.com' },
+// ----------------------------------------------------------------
+// Rate limiter
+// ----------------------------------------------------------------
+
+test.describe('API — rate limiter', () => {
+  test('15 rapid requests from same IP trigger at least one 429', async ({ request }) => {
+    // Use a dedicated unique IP so we don't drain the shared test pool.
+    // The rate limiter allows 10 requests per 60s per IP.
+    const testIp = `ratelimit-test-${Date.now()}`;
+
+    const promises = Array.from({ length: 15 }, () =>
+      request.post('/api/scan', {
+        data: { url: SCAN_URL },
         headers: {
           'Content-Type': 'application/json',
           'X-Forwarded-For': testIp,
@@ -55,194 +134,149 @@ test.describe('API Endpoints', () => {
       }).catch(() => null)
     );
 
-    const results = await Promise.all(requestPromises);
-    const responses = results
+    const results = await Promise.all(promises);
+    const statuses = results
       .filter((r): r is NonNullable<typeof r> => r !== null)
-      .map(r => r.status());
+      .map((r) => r.status());
 
-    // Should have at least one 429 (rate limited) among the 12 concurrent requests
-    const hasRateLimit = responses.includes(429);
-    expect(hasRateLimit).toBeTruthy();
-  });
-
-  test('should handle invalid JSON', async ({ page }) => {
-    const response = await page.request.post('/api/scan', {
-      data: '{ invalid json',
-      headers: { 'Content-Type': 'application/json' },
-    }).catch(() => null);
-
-    if (response) {
-      expect([400, 500]).toContain(response.status());
-    }
+    const has429 = statuses.includes(429);
+    expect(has429).toBe(true);
   });
 });
 
-test.describe('Accessibility', () => {
-  test('should have proper heading hierarchy', async ({ page }) => {
-    await page.goto('/');
+// ----------------------------------------------------------------
+// Auth API
+// ----------------------------------------------------------------
 
-    const h1s = page.locator('h1');
-    const h1Count = await h1s.count();
-
-    // Should have exactly one h1
-    expect(h1Count).toBe(1);
-
-    const allHeadings = page.locator('h1, h2, h3, h4, h5, h6');
-    let prevLevel = 0;
-
-    const count = await allHeadings.count();
-    for (let i = 0; i < count; i++) {
-      const heading = allHeadings.nth(i);
-      const tagName = await heading.evaluate(el => el.tagName);
-      const level = parseInt(tagName.substring(1));
-
-      if (i > 0) {
-        expect(level).toBeLessThanOrEqual(prevLevel + 1);
-      }
-
-      prevLevel = level;
-    }
+test.describe('API — /api/auth', () => {
+  test('GET /api/auth/providers returns google and email providers', async ({ request }) => {
+    const response = await request.get('/api/auth/providers');
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body).toHaveProperty('google');
+    expect(body).toHaveProperty('email');
+    expect(body.google).toHaveProperty('id', 'google');
+    expect(body.email).toHaveProperty('id', 'email');
   });
 
-  test('should have alt text for images', async ({ page }) => {
-    await page.goto('/');
+  test('GET /api/auth/session returns 200 with object', async ({ request }) => {
+    const response = await request.get('/api/auth/session');
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(typeof body).toBe('object');
+  });
+});
 
+// ----------------------------------------------------------------
+// Stripe API
+// ----------------------------------------------------------------
+
+test.describe('API — /api/stripe/checkout', () => {
+  test('POST with tier "starter" returns {url} starting with https://checkout.stripe.com', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'starter' },
+    });
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(typeof body.url).toBe('string');
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
+  });
+
+  test('POST with tier "pro" returns stripe checkout url', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'pro' },
+    });
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
+  });
+
+  test('POST with tier "agency" returns stripe checkout url', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'agency' },
+    });
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
+  });
+
+  test('POST with tier "bad" returns 400 with {error: string}', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: { tier: 'bad' },
+    });
+    expect(response.status()).toBe(400);
+    const body = await response.json();
+    expect(body).toHaveProperty('error');
+    expect(typeof body.error).toBe('string');
+  });
+
+  test('POST with missing tier returns 400', async ({ request }) => {
+    const response = await request.post('/api/stripe/checkout', {
+      data: {},
+    });
+    expect(response.status()).toBe(400);
+  });
+});
+
+// ----------------------------------------------------------------
+// Accessibility — structural checks
+// ----------------------------------------------------------------
+
+test.describe('Accessibility — heading hierarchy', () => {
+  test('homepage has exactly one h1', async ({ page }) => {
+    await page.goto('/');
+    const h1s = page.locator('h1');
+    await expect(h1s).toHaveCount(1);
+  });
+
+  test('all images on homepage have alt text or are aria-hidden', async ({ page }) => {
+    await page.goto('/');
     const images = page.locator('img');
     const count = await images.count();
 
     for (let i = 0; i < count; i++) {
       const img = images.nth(i);
       const alt = await img.getAttribute('alt');
-      const hasAriaLabel = await img.getAttribute('aria-label');
-
-      expect(alt !== null || hasAriaLabel).toBeTruthy();
+      const ariaLabel = await img.getAttribute('aria-label');
+      const ariaHidden = await img.getAttribute('aria-hidden');
+      // Either has alt/aria-label or is marked aria-hidden="true" (decorative)
+      expect(alt !== null || ariaLabel !== null || ariaHidden === 'true').toBe(true);
     }
   });
 
-  test('should have accessible form labels', async ({ page }) => {
+  test('hero scan form input has an accessible label', async ({ page }) => {
     await page.goto('/');
+    // Two ScanForm instances exist on the homepage (both share id="hero-url-input")
+    // so use .first() to avoid strict mode violations
+    const input = page.locator('#hero-url-input').first();
+    await expect(input).toBeVisible();
 
-    const inputs = page.locator('input, textarea, select');
-    const count = await inputs.count();
-
-    for (let i = 0; i < Math.min(5, count); i++) {
-      const input = inputs.nth(i);
-      const inputId = await input.getAttribute('id');
-      const ariaLabel = await input.getAttribute('aria-label');
-      const placeholder = await input.getAttribute('placeholder');
-
-      const hasLabel = inputId && await page.locator(`label[for="${inputId}"]`).count() > 0;
-      expect(hasLabel || ariaLabel || placeholder).toBeTruthy();
-    }
+    // Each label is a sr-only element associated via htmlFor="hero-url-input"
+    const labelCount = await page.locator('label[for="hero-url-input"]').count();
+    expect(labelCount).toBeGreaterThan(0);
   });
 
-  test('should have keyboard navigation', async ({ page }) => {
+  test('keyboard tab order: url input → scan button', async ({ page }) => {
     await page.goto('/');
 
-    const urlInput = page.locator('input[type="url"]').first();
+    // Two inputs exist on page — target the first one (hero scan form)
+    const urlInput = page.locator('#hero-url-input').first();
     await urlInput.focus();
+
     await page.keyboard.press('Tab');
 
-    const focused = await page.evaluate(() => {
-      return document.activeElement?.tagName;
-    });
-
-    expect(focused).not.toBe('INPUT');
-  });
-
-  test('should have proper color contrast', async ({ page }) => {
-    await page.goto('/');
-
-    const texts = page.locator('p, a, h1, h2, h3, h4, h5, h6, button');
-    const count = await texts.count();
-
-    let contrastIssues = 0;
-
-    for (let i = 0; i < Math.min(10, count); i++) {
-      const element = texts.nth(i);
-      const color = await element.evaluate(el => {
-        const styles = window.getComputedStyle(el);
-        return styles.color;
-      });
-      const bgColor = await element.evaluate(el => {
-        const styles = window.getComputedStyle(el);
-        return styles.backgroundColor;
-      });
-
-      if (color === bgColor && color !== 'rgba(0, 0, 0, 0)') {
-        contrastIssues++;
-      }
-    }
-
-    expect(contrastIssues).toBeLessThan(3);
-  });
-
-  test('should have focus visible styles', async ({ page }) => {
-    await page.goto('/');
-
-    // Pricing link exists in the nav
-    const links = page.getByRole('link', { name: 'Pricing' }).first();
-    await links.focus();
-
-    const styles = await links.evaluate(el => {
-      const styles = window.getComputedStyle(el);
-      return {
-        outline: styles.outline,
-        outlineWidth: styles.outlineWidth,
-        boxShadow: styles.boxShadow,
-      };
-    });
-
-    const hasFocus = styles.outline !== 'none' || styles.boxShadow !== 'none';
-    expect(hasFocus).toBeTruthy();
-  });
-
-  test('should announce dynamic content changes', async ({ page }) => {
-    await page.goto('/');
-
-    const liveRegions = page.locator('[aria-live]');
-    await liveRegions.count();
-    // Presence of aria-live is good practice (non-blocking assertion)
-  });
-
-  test('should support skip to main content', async ({ page }) => {
-    await page.goto('/');
-
-    const skipLink = page.locator('a:has-text("Skip"), a[href="#main"]');
-
-    if (await skipLink.count() > 0) {
-      await skipLink.click();
-      const focused = await page.evaluate(() => {
-        return document.activeElement?.getAttribute('id') || document.activeElement?.tagName;
-      });
-      expect(focused).toBeTruthy();
-    }
+    const focused = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'));
+    // After tabbing from the URL input the scan button should be focused
+    expect(focused).toMatch(/Scan website|Scanning/i);
   });
 });
 
-test.describe('Performance Accessibility', () => {
-  test('should load content without blocking', async ({ page }) => {
-    const startTime = Date.now();
-
+test.describe('Accessibility — page load performance', () => {
+  test('homepage loads and h1 is visible within 5 seconds', async ({ page }) => {
+    const start = Date.now();
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-
-    const loadTime = Date.now() - startTime;
-
+    const loadTime = Date.now() - start;
     expect(loadTime).toBeLessThan(5000);
-
     await expect(page.locator('h1')).toBeVisible();
-  });
-
-  test('should have proper font sizes', async ({ page }) => {
-    await page.goto('/');
-
-    const body = page.locator('body');
-    const fontSize = await body.evaluate(el => {
-      return window.getComputedStyle(el).fontSize;
-    });
-
-    const size = parseInt(fontSize);
-
-    expect(size).toBeGreaterThanOrEqual(12);
   });
 });

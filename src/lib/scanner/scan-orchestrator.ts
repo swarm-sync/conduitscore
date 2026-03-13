@@ -1,132 +1,129 @@
-import { execFile } from "node:child_process";
-import path from "node:path";
-import { promisify } from "node:util";
 import { normalizeUrl } from "./url-normalizer";
-import type { ScanResult } from "./types";
+import type { ScanResult, CategoryScore } from "./types";
+import { analyzeCrawlerAccess } from "./analyzers/crawler-access";
+import { analyzeStructuredData } from "./analyzers/structured-data";
+import { analyzeContentStructure } from "./analyzers/content-structure";
+import { analyzeLlmsTxt } from "./analyzers/llms-txt";
+import { analyzeTechnicalHealth } from "./analyzers/technical-health";
+import { analyzeCitationSignals } from "./analyzers/citation-signals";
+import { analyzeContentQuality } from "./analyzers/content-quality";
 
-const execFileAsync = promisify(execFile);
-
-interface WorkerCategoryScore {
-  name: string;
-  score: number;
-  max_score: number;
-  issues: Array<{
-    id: string;
-    category: string;
-    severity: "critical" | "warning" | "info";
-    title: string;
-    description: string;
-  }>;
-  fixes: Array<{
-    issue_id: string;
-    title: string;
-    description: string;
-    code: string;
-    language: string;
-  }>;
+interface FetchedPageData {
+  html: string;
+  robotsTxt: string | null;
+  llmsTxt: string | null;
+  statusCode: number;
+  headers: Record<string, string>;
+  loadTimeMs: number;
+  finalUrl: string;
 }
 
-interface WorkerScanResult {
-  url: string;
-  overall_score: number;
-  categories: WorkerCategoryScore[];
-  issues: Array<{
-    id: string;
-    category: string;
-    severity: "critical" | "warning" | "info";
-    title: string;
-    description: string;
-  }>;
-  fixes: Array<{
-    issue_id: string;
-    title: string;
-    description: string;
-    code: string;
-    language: string;
-  }>;
-  scanned_at: string;
-  metadata: Record<string, unknown>;
-  proof?: Record<string, unknown> | null;
-  error?: string;
-}
+async function fetchPageData(url: string): Promise<FetchedPageData> {
+  const start = Date.now();
 
-function mapWorkerResult(result: WorkerScanResult): ScanResult {
+  const [pageRes, robotsRes, llmsRes] = await Promise.allSettled([
+    fetch(url, {
+      headers: { "User-Agent": "ConduitScore/1.0 (+https://conduitscore.com/bot)" },
+      redirect: "follow",
+      signal: AbortSignal.timeout(20000),
+    }),
+    fetch(new URL("/robots.txt", url).href, {
+      headers: { "User-Agent": "ConduitScore/1.0" },
+      signal: AbortSignal.timeout(8000),
+    }),
+    fetch(new URL("/llms.txt", url).href, {
+      headers: { "User-Agent": "ConduitScore/1.0" },
+      signal: AbortSignal.timeout(8000),
+    }),
+  ]);
+
+  const loadTimeMs = Date.now() - start;
+
+  if (pageRes.status === "rejected") {
+    throw new Error(`Could not reach ${url}: ${pageRes.reason}`);
+  }
+
+  const pageResponse = pageRes.value;
+  const html = await pageResponse.text();
+
+  const headers: Record<string, string> = {};
+  pageResponse.headers.forEach((value, key) => {
+    headers[key] = value;
+  });
+
+  let robotsTxt: string | null = null;
+  if (robotsRes.status === "fulfilled" && robotsRes.value.ok) {
+    robotsTxt = await robotsRes.value.text();
+  }
+
+  let llmsTxt: string | null = null;
+  if (llmsRes.status === "fulfilled" && llmsRes.value.ok) {
+    llmsTxt = await llmsRes.value.text();
+  }
+
   return {
-    url: result.url,
-    overallScore: result.overall_score,
-    categories: result.categories.map((category) => ({
-      name: category.name,
-      score: category.score,
-      maxScore: category.max_score,
-      issues: category.issues,
-      fixes: category.fixes.map((fix) => ({
-        issueId: fix.issue_id,
-        title: fix.title,
-        description: fix.description,
-        code: fix.code,
-        language: fix.language,
-      })),
-    })),
-    issues: result.issues,
-    fixes: result.fixes.map((fix) => ({
-      issueId: fix.issue_id,
-      title: fix.title,
-      description: fix.description,
-      code: fix.code,
-      language: fix.language,
-    })),
-    scannedAt: result.scanned_at,
-    metadata: result.metadata ?? {},
-    proof: result.proof ?? null,
+    html,
+    robotsTxt,
+    llmsTxt,
+    statusCode: pageResponse.status,
+    headers,
+    loadTimeMs,
+    finalUrl: pageResponse.url || url,
   };
 }
 
 export async function runScan(rawUrl: string, scanId: string): Promise<ScanResult> {
   const url = normalizeUrl(rawUrl);
-  const workerScript = path.join(process.cwd(), "scan-worker", "scripts", "run_scan.py");
-  const conduitRoot = process.env.CONDUIT_ROOT ?? "C:\\Users\\Administrator\\Desktop\\Conduit";
-  const conduitDataDir = process.env.CONDUIT_DATA_DIR ?? path.join(process.cwd(), "scan-worker", ".conduit-runtime");
-  const pythonBin = process.env.PYTHON_BIN ?? "python";
-  const workerMode =
-    process.env.SCAN_WORKER_MODE ??
-    (process.env.NODE_ENV === "test" ? "mock" : "conduit");
 
-  let stdout = "";
-  let stderr = "";
+  const pageData = await fetchPageData(url);
 
-  try {
-    const result = await execFileAsync(
-      pythonBin,
-      [workerScript, "--url", url, "--scan-id", scanId],
-      {
-        cwd: process.cwd(),
-        timeout: 120000,
-        maxBuffer: 10 * 1024 * 1024,
-        env: {
-          ...process.env,
-          WORKER_MODE: workerMode,
-          CONDUIT_ROOT: conduitRoot,
-          CONDUIT_DATA_DIR: conduitDataDir,
-        },
-      },
-    );
-    stdout = result.stdout;
-    stderr = result.stderr;
-  } catch (error) {
-    const processError = error as Error & { stdout?: string; stderr?: string };
-    stdout = processError.stdout ?? "";
-    stderr = processError.stderr ?? processError.message;
-  }
+  const [
+    crawlerAccess,
+    structuredData,
+    contentStructure,
+    llmsTxt,
+    technicalHealth,
+    citationSignals,
+    contentQuality,
+  ] = await Promise.all([
+    analyzeCrawlerAccess(url, pageData.robotsTxt),
+    Promise.resolve(analyzeStructuredData(pageData.html)),
+    Promise.resolve(analyzeContentStructure(pageData.html)),
+    analyzeLlmsTxt(url),
+    Promise.resolve(analyzeTechnicalHealth(pageData.html, pageData.loadTimeMs)),
+    Promise.resolve(analyzeCitationSignals(pageData.html, url)),
+    Promise.resolve(analyzeContentQuality(pageData.html)),
+  ]);
 
-  const rawOutput = stdout.trim() || stderr.trim();
-  if (!rawOutput) {
-    throw new Error("Scan worker returned no output.");
-  }
+  const categories: CategoryScore[] = [
+    crawlerAccess,
+    structuredData,
+    contentStructure,
+    llmsTxt,
+    technicalHealth,
+    citationSignals,
+    contentQuality,
+  ];
 
-  const parsed = JSON.parse(rawOutput) as WorkerScanResult;
-  if (parsed.error) {
-    throw new Error(parsed.error);
-  }
+  const overallScore = categories.reduce((sum, c) => sum + c.score, 0);
+  const allIssues = categories.flatMap((c) => c.issues);
+  const allFixes = categories.flatMap((c) => c.fixes);
 
-  return mapWorkerResult(parsed);
+  return {
+    url,
+    overallScore,
+    categories,
+    issues: allIssues,
+    fixes: allFixes,
+    scannedAt: new Date().toISOString(),
+    metadata: {
+      scanId,
+      statusCode: pageData.statusCode,
+      loadTimeMs: pageData.loadTimeMs,
+      finalUrl: pageData.finalUrl,
+      hasRobotsTxt: pageData.robotsTxt !== null,
+      hasLlmsTxt: pageData.llmsTxt !== null,
+    },
+    proof: null,
+  };
 }
