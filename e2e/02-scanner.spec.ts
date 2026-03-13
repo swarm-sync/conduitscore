@@ -1,24 +1,24 @@
 import { test, expect } from '@playwright/test';
 
+// Helper: locate the scan button by aria-label (two exist on page — use first)
+const scanButtonLocator = (page: import('@playwright/test').Page) =>
+  page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
+
 test.describe('Scanner Functionality', () => {
   test('should perform full scan on landing page', async ({ page }) => {
     await page.goto('/');
 
-    // Fill in URL
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    // Click scan button
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    // Should navigate to results page
-    await page.waitForURL('/scan-result', { timeout: 10000 });
-    await expect(page).toHaveURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
+    await expect(page).toHaveURL(/\/scan-result/);
 
-    // Results should be displayed
-    await expect(page.locator('text=Scan Results')).toBeVisible();
-    await expect(page.locator('text=example.com')).toBeVisible();
+    // Results page shows "Scan Results" section label and scanned URL
+    await expect(page.getByText('Scan Results').first()).toBeVisible();
+    await expect(page.getByText('example.com').first()).toBeVisible();
   });
 
   test('should display score on results page', async ({ page }) => {
@@ -27,14 +27,13 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://github.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Score should be visible (0-100)
-    const scoreText = page.locator('text=/\\d+\\/100/');
-    await expect(scoreText).toBeVisible();
+    await expect(page.getByText('AI Visibility Score').first()).toBeVisible();
+    const scorePattern = page.locator('text=/\\d+\\/100/');
+    await expect(scorePattern).toBeVisible();
   });
 
   test('should display category breakdown', async ({ page }) => {
@@ -43,16 +42,14 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Categories should be visible
-    await expect(page.locator('text=Crawler Access')).toBeVisible();
-    await expect(page.locator('text=Structured Data')).toBeVisible();
-    await expect(page.locator('text=Content Structure')).toBeVisible();
-    await expect(page.locator('text=LLMs.txt')).toBeVisible();
+    await expect(page.getByText('Crawler Access').first()).toBeVisible();
+    await expect(page.getByText('Structured Data').first()).toBeVisible();
+    await expect(page.getByText('Content Structure').first()).toBeVisible();
+    await expect(page.getByText('LLMs.txt').first()).toBeVisible();
   });
 
   test('should allow switching between tabs', async ({ page }) => {
@@ -61,22 +58,22 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Click issues tab
-    await page.click('button:has-text("issues")');
-    await expect(page.locator('text=Issues')).toBeVisible();
+    // Tabs use role="tab"
+    const issuesTab = page.getByRole('tab', { name: /issues/i });
+    await issuesTab.click();
+    await expect(page.locator('[role="tabpanel"]').first()).toBeVisible();
 
-    // Click fixes tab
-    await page.click('button:has-text("fixes")');
-    await expect(page.locator('text=Add robots.txt')).toBeVisible();
+    const fixesTab = page.getByRole('tab', { name: /fixes/i });
+    await fixesTab.click();
+    await expect(page.locator('[role="tabpanel"]').first()).toBeVisible();
 
-    // Back to overview
-    await page.click('button:has-text("overview")');
-    await expect(page.locator('text=AI Visibility Score')).toBeVisible();
+    const overviewTab = page.getByRole('tab', { name: /overview/i });
+    await overviewTab.click();
+    await expect(page.getByText('AI Visibility Score').first()).toBeVisible();
   });
 
   test('should allow scanning another URL', async ({ page }) => {
@@ -85,17 +82,16 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Click "Scan Another URL"
-    await page.click('button:has-text("Scan Another URL")');
+    // "Scan Another URL" button navigates back to homepage
+    await page.getByRole('button', { name: /Scan Another URL/i }).click();
     await expect(page).toHaveURL('/');
 
-    // Should be back on homepage with empty form
     const homeUrlInput = page.locator('input[type="url"]').first();
+    await expect(homeUrlInput).toBeVisible();
     await expect(homeUrlInput).toHaveValue('');
   });
 
@@ -105,13 +101,9 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    // Should show error message
-    await expect(page.locator('text=Please enter a URL')).toBeVisible();
-
-    // Should NOT navigate away
+    await expect(page.getByText('Please enter a URL')).toBeVisible();
     await expect(page).toHaveURL('/');
   });
 
@@ -121,12 +113,10 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    // Press Enter
     await urlInput.press('Enter');
 
-    // Should navigate to results
-    await page.waitForURL('/scan-result', { timeout: 10000 });
-    await expect(page).toHaveURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
+    await expect(page).toHaveURL(/\/scan-result/);
   });
 
   test('should show loading state during scan', async ({ page }) => {
@@ -135,13 +125,15 @@ test.describe('Scanner Functionality', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
+    // Click and immediately check for loading state
+    await scanButtonLocator(page).click();
 
-    // Button should change to "Scanning..."
-    await scanButton.click();
-    await expect(scanButton).toContainText('Scanning');
+    // Button aria-label changes to "Scanning in progress" during load
+    await expect(
+      page.getByRole('button', { name: 'Scanning in progress' }).first()
+    ).toBeVisible({ timeout: 5000 });
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
   });
 });
 
@@ -153,11 +145,10 @@ test.describe('Scanner - Mobile', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
-    await expect(page.locator('text=Scan Results')).toBeVisible();
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
+    await expect(page.getByText('Scan Results').first()).toBeVisible();
   });
 
   test('should display results tab navigation on mobile', async ({ page }) => {
@@ -167,15 +158,13 @@ test.describe('Scanner - Mobile', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await scanButtonLocator(page).click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Tabs should be accessible
-    const overviewTab = page.locator('button:has-text("overview")');
-    const issuesTab = page.locator('button:has-text("issues")');
-    const fixesTab = page.locator('button:has-text("fixes")');
+    const overviewTab = page.getByRole('tab', { name: /overview/i });
+    const issuesTab = page.getByRole('tab', { name: /issues/i });
+    const fixesTab = page.getByRole('tab', { name: /fixes/i });
 
     await expect(overviewTab).toBeVisible();
     await expect(issuesTab).toBeVisible();

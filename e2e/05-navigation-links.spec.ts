@@ -4,31 +4,33 @@ test.describe('Navigation & Links', () => {
   test('should have valid header navigation', async ({ page }) => {
     await page.goto('/');
 
-    // Logo should link to home
-    await page.click('[class*="logo"], text=ConduitScore');
+    // Logo link has aria-label="ConduitScore home" — use first() for strict mode
+    const logoLink = page.getByRole('link', { name: 'ConduitScore home' }).first();
+    await logoLink.click();
     await expect(page).toHaveURL('/');
   });
 
-  test('should have working features link', async ({ page }) => {
+  test('should have working Scanner link', async ({ page }) => {
     await page.goto('/');
 
-    await page.click('a:has-text("Features")');
-    // Should scroll to features or navigate
+    // Nav has "Scanner" (not "Features") pointing to /#features — use first() for desktop nav
+    await page.getByRole('link', { name: 'Scanner' }).first().click();
+    // Anchor link — should stay on homepage
     const url = page.url();
-    expect(url === '/' || url.includes('#')).toBeTruthy();
+    expect(url === 'http://localhost:3000/' || url.includes('#') || url === '/').toBeTruthy();
   });
 
   test('should have working pricing navigation', async ({ page }) => {
     await page.goto('/');
 
-    await page.click('a:has-text("Pricing")');
+    await page.getByRole('link', { name: 'Pricing' }).first().click();
     await expect(page).toHaveURL('/pricing');
   });
 
   test('should have working signin link', async ({ page }) => {
     await page.goto('/');
 
-    await page.click('text=Sign In');
+    await page.getByRole('link', { name: 'Sign In' }).first().click();
     await expect(page).toHaveURL(/\/signin/);
   });
 
@@ -38,26 +40,22 @@ test.describe('Navigation & Links', () => {
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill('https://example.com');
 
-    const scanButton = page.locator('button:has-text("Scan Free")').first();
-    await scanButton.click();
+    await page.getByRole('button', { name: 'Scan website for AI visibility' }).first().click();
 
-    await page.waitForURL('/scan-result');
+    await page.waitForURL(/\/scan-result/, { timeout: 30000 });
 
-    // Click home/logo
-    await page.click('[class*="logo"], text=ConduitScore');
+    // Logo link on results page — navigate home
+    await page.getByRole('link', { name: 'ConduitScore home' }).first().click();
     await expect(page).toHaveURL('/');
   });
 
   test('should have footer links', async ({ page }) => {
     await page.goto('/');
 
-    // Scroll to footer
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 
-    // Look for footer content
     const footer = page.locator('footer, [role="contentinfo"]');
     if (await footer.isVisible().catch(() => false)) {
-      // Footer exists and should have links
       const footerLinks = footer.locator('a');
       const linkCount = await footerLinks.count();
       expect(linkCount).toBeGreaterThan(0);
@@ -67,18 +65,15 @@ test.describe('Navigation & Links', () => {
   test('should not have broken links', async ({ page }) => {
     await page.goto('/');
 
-    // Get all links
     const links = page.locator('a[href]');
     const linkCount = await links.count();
 
-    // Sample links and check they don't 404
     const samplesToCheck = Math.min(5, linkCount);
     for (let i = 0; i < samplesToCheck; i++) {
       const href = await links.nth(i).getAttribute('href');
 
       if (href && !href.startsWith('http') && !href.includes('mailto')) {
         const response = await page.request.head(href).catch(async () => {
-          // Try GET if HEAD fails
           return page.request.get(href);
         });
 
@@ -90,11 +85,11 @@ test.describe('Navigation & Links', () => {
   test('should handle anchor links', async ({ page }) => {
     await page.goto('/');
 
-    // Look for anchor link
-    const featureLinkBtn = page.locator('a:has-text("Features")');
-    if (await featureLinkBtn.isVisible()) {
-      await featureLinkBtn.click();
-      // Should be on same page (possibly scrolled)
+    // "Scanner" nav link points to /#features anchor
+    const scannerLink = page.getByRole('link', { name: 'Scanner' }).first();
+    if (await scannerLink.isVisible()) {
+      await scannerLink.click();
+      // Should still be on homepage
       await expect(page).toHaveURL('/');
     }
   });
@@ -111,7 +106,6 @@ test.describe('Link Validation', () => {
       const link = links.nth(i);
       const href = await link.getAttribute('href');
 
-      // href should not be empty or just #
       expect(href?.length).toBeGreaterThan(0);
       if (href !== '#') {
         expect(href).not.toBe(null);
@@ -134,7 +128,6 @@ test.describe('Link Validation', () => {
   test('should have proper link text', async ({ page }) => {
     await page.goto('/');
 
-    // Links should have descriptive text, not empty
     const links = page.locator('a[href]');
     const count = await links.count();
 
@@ -149,7 +142,6 @@ test.describe('Link Validation', () => {
       }
     }
 
-    // Most links should have text or aria-label
     expect(emptyLinkCount).toBeLessThan(Math.min(20, count) / 2);
   });
 });
@@ -158,7 +150,6 @@ test.describe('External Links', () => {
   test('should open external links in new tab', async ({ page }) => {
     await page.goto('/');
 
-    // Look for external links
     const externalLinks = page.locator('a[href^="http"], a[href^="https"]').filter({
       has: page.locator('[target="_blank"], [rel*="external"]'),
     });
@@ -166,7 +157,6 @@ test.describe('External Links', () => {
     const count = await externalLinks.count();
 
     if (count > 0) {
-      // External links should have target=_blank or rel=external
       for (let i = 0; i < Math.min(3, count); i++) {
         const link = externalLinks.nth(i);
         const target = await link.getAttribute('target');

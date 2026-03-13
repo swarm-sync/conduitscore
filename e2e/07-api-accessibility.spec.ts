@@ -35,25 +35,32 @@ test.describe('API Endpoints', () => {
 
   test('should have CORS configured', async ({ page }) => {
     const response = await page.request.fetch('/api/scan', { method: 'OPTIONS' });
-    // Should allow CORS
     expect([200, 204, 404]).toContain(response.status());
   });
 
   test('should rate limit requests', async ({ page }) => {
-    // Make multiple rapid requests
-    const responses = [];
-    for (let i = 0; i < 15; i++) {
-      const response = await page.request.post('/api/scan', {
+    // The rate limiter allows 10 requests per 60 seconds per IP.
+    // Use a unique test IP via X-Forwarded-For so this test doesn't exhaust
+    // the shared "anonymous" pool that other scan tests depend on.
+    // Fire 12 concurrent requests — once limit is hit, subsequent requests
+    // return 429 immediately (no scan runs), keeping the test fast.
+    const testIp = `test-ratelimit-${Date.now()}`;
+    const requestPromises = Array.from({ length: 12 }, () =>
+      page.request.post('/api/scan', {
         data: { url: 'https://example.com' },
-        headers: { 'Content-Type': 'application/json' },
-      }).catch(() => null);
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-For': testIp,
+        },
+      }).catch(() => null)
+    );
 
-      if (response) {
-        responses.push(response.status());
-      }
-    }
+    const results = await Promise.all(requestPromises);
+    const responses = results
+      .filter((r): r is NonNullable<typeof r> => r !== null)
+      .map(r => r.status());
 
-    // Should have at least one 429 (rate limited)
+    // Should have at least one 429 (rate limited) among the 12 concurrent requests
     const hasRateLimit = responses.includes(429);
     expect(hasRateLimit).toBeTruthy();
   });
@@ -80,7 +87,6 @@ test.describe('Accessibility', () => {
     // Should have exactly one h1
     expect(h1Count).toBe(1);
 
-    // Headings should be in order (h1, h2, h3...)
     const allHeadings = page.locator('h1, h2, h3, h4, h5, h6');
     let prevLevel = 0;
 
@@ -90,7 +96,6 @@ test.describe('Accessibility', () => {
       const tagName = await heading.evaluate(el => el.tagName);
       const level = parseInt(tagName.substring(1));
 
-      // Level should not skip (2 after 1, not 3)
       if (i > 0) {
         expect(level).toBeLessThanOrEqual(prevLevel + 1);
       }
@@ -110,7 +115,6 @@ test.describe('Accessibility', () => {
       const alt = await img.getAttribute('alt');
       const hasAriaLabel = await img.getAttribute('aria-label');
 
-      // Decorative images can be empty, but should have explicit alt=""
       expect(alt !== null || hasAriaLabel).toBeTruthy();
     }
   });
@@ -127,7 +131,6 @@ test.describe('Accessibility', () => {
       const ariaLabel = await input.getAttribute('aria-label');
       const placeholder = await input.getAttribute('placeholder');
 
-      // Should have label, aria-label, or placeholder
       const hasLabel = inputId && await page.locator(`label[for="${inputId}"]`).count() > 0;
       expect(hasLabel || ariaLabel || placeholder).toBeTruthy();
     }
@@ -136,12 +139,10 @@ test.describe('Accessibility', () => {
   test('should have keyboard navigation', async ({ page }) => {
     await page.goto('/');
 
-    // Should be able to tab through links
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.focus();
     await page.keyboard.press('Tab');
 
-    // Next focused element should be different
     const focused = await page.evaluate(() => {
       return document.activeElement?.tagName;
     });
@@ -152,7 +153,6 @@ test.describe('Accessibility', () => {
   test('should have proper color contrast', async ({ page }) => {
     await page.goto('/');
 
-    // Check text elements have sufficient contrast
     const texts = page.locator('p, a, h1, h2, h3, h4, h5, h6, button');
     const count = await texts.count();
 
@@ -169,23 +169,21 @@ test.describe('Accessibility', () => {
         return styles.backgroundColor;
       });
 
-      // Very basic check - colors shouldn't be identical
       if (color === bgColor && color !== 'rgba(0, 0, 0, 0)') {
         contrastIssues++;
       }
     }
 
-    // Should not have widespread contrast issues
     expect(contrastIssues).toBeLessThan(3);
   });
 
   test('should have focus visible styles', async ({ page }) => {
     await page.goto('/');
 
-    const links = page.locator('a:has-text("Pricing")').first();
+    // Pricing link exists in the nav
+    const links = page.getByRole('link', { name: 'Pricing' }).first();
     await links.focus();
 
-    // Should have visible focus indicator
     const styles = await links.evaluate(el => {
       const styles = window.getComputedStyle(el);
       return {
@@ -195,7 +193,6 @@ test.describe('Accessibility', () => {
       };
     });
 
-    // Should have some visual focus indicator
     const hasFocus = styles.outline !== 'none' || styles.boxShadow !== 'none';
     expect(hasFocus).toBeTruthy();
   });
@@ -203,23 +200,18 @@ test.describe('Accessibility', () => {
   test('should announce dynamic content changes', async ({ page }) => {
     await page.goto('/');
 
-    // Check for aria-live regions
     const liveRegions = page.locator('[aria-live]');
     await liveRegions.count();
-
-    // Having aria-live regions is good practice for dynamic updates
-    // (Not strictly required but helpful)
+    // Presence of aria-live is good practice (non-blocking assertion)
   });
 
   test('should support skip to main content', async ({ page }) => {
     await page.goto('/');
 
-    // Look for skip link
     const skipLink = page.locator('a:has-text("Skip"), a[href="#main"]');
 
     if (await skipLink.count() > 0) {
       await skipLink.click();
-      // Should focus main content or heading
       const focused = await page.evaluate(() => {
         return document.activeElement?.getAttribute('id') || document.activeElement?.tagName;
       });
@@ -236,10 +228,8 @@ test.describe('Performance Accessibility', () => {
 
     const loadTime = Date.now() - startTime;
 
-    // Should load reasonably fast
     expect(loadTime).toBeLessThan(5000);
 
-    // Content should be visible immediately
     await expect(page.locator('h1')).toBeVisible();
   });
 
@@ -253,7 +243,6 @@ test.describe('Performance Accessibility', () => {
 
     const size = parseInt(fontSize);
 
-    // Base font should be readable (at least 12px)
     expect(size).toBeGreaterThanOrEqual(12);
   });
 });
