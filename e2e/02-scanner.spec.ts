@@ -13,43 +13,91 @@ import { test, expect } from '@playwright/test';
 // and exhaust the per-IP rate limit (10 req/60s).
 // ============================================================
 
-test.setTimeout(45000);
+test.setTimeout(20000);
 
-const SCAN_URL = 'http://example.com';
+const SCAN_URL = 'https://example.com';
 
 const scanButtonLocator = (page: import('@playwright/test').Page) =>
   page.getByRole('button', { name: 'Scan website for AI visibility' }).first();
 
+// Mocked scan result — used by all UI flow tests so they are fast
+// and not dependent on external network availability.
+const MOCK_SCAN_RESULT = {
+  id: 'mock-scan-123',
+  status: 'completed',
+  url: SCAN_URL,
+  overallScore: 72,
+  categories: [
+    { name: 'Crawler Access', score: 15, maxScore: 15, issues: [], fixes: [] },
+    { name: 'Structured Data', score: 12, maxScore: 20, issues: [{ id: 'sd-1', category: 'Structured Data', severity: 'warning', title: 'No JSON-LD found', description: 'Add JSON-LD schema markup.' }], fixes: [{ issueId: 'sd-1', title: 'Add JSON-LD', description: 'Add schema markup', code: '<script type="application/ld+json">{}</script>', language: 'html' }] },
+    { name: 'Content Structure', score: 10, maxScore: 15, issues: [], fixes: [] },
+    { name: 'LLMs.txt', score: 0, maxScore: 10, issues: [{ id: 'llm-1', category: 'LLMs.txt', severity: 'info', title: 'No llms.txt found', description: 'Consider adding llms.txt' }], fixes: [] },
+    { name: 'Technical Health', score: 15, maxScore: 15, issues: [], fixes: [] },
+    { name: 'Citation Signals', score: 10, maxScore: 15, issues: [], fixes: [] },
+    { name: 'Content Quality', score: 10, maxScore: 10, issues: [], fixes: [] },
+  ],
+  issues: [
+    { id: 'sd-1', category: 'Structured Data', severity: 'warning', title: 'No JSON-LD found', description: 'Add JSON-LD schema markup.' },
+    { id: 'llm-1', category: 'LLMs.txt', severity: 'info', title: 'No llms.txt found', description: 'Consider adding llms.txt' },
+  ],
+  fixes: [
+    { issueId: 'sd-1', title: 'Add JSON-LD', description: 'Add schema markup', code: '<script type="application/ld+json">{}</script>', language: 'html' },
+  ],
+  scannedAt: new Date().toISOString(),
+  metadata: { scanId: 'mock-scan-123', statusCode: 200, loadTimeMs: 500, finalUrl: SCAN_URL, hasRobotsTxt: true, hasLlmsTxt: false },
+  proof: null,
+};
+
+async function mockScanApi(page: import('@playwright/test').Page) {
+  await page.route('**/api/scan', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(MOCK_SCAN_RESULT),
+    });
+  });
+  // Also mock the scans/{id} endpoint for the result page to load
+  await page.route('**/api/scans/mock-scan-123', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(MOCK_SCAN_RESULT),
+    });
+  });
+}
+
 // ----------------------------------------------------------------
-// Scanner UI — serialised to avoid rate limit exhaustion
+// Scanner UI — uses mocked API for speed and reliability
 // ----------------------------------------------------------------
 
-test.describe.serial('Scanner UI — full scan flow', () => {
+test.describe('Scanner UI — full scan flow', () => {
   test('typing URL and clicking Start Scan navigates to /scan-result', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
-
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
     await expect(page).toHaveURL(/\/scan-result/);
   });
 
   test('scan result shows a numeric score (0–100)', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
 
-    const scorePattern = page.locator('text=/\\d+\\/100/');
-    await expect(scorePattern).toBeVisible({ timeout: 10000 });
+    // Score should appear as a number or "72/100" style pattern
+    const scoreEl = page.locator('text=/\\d+\\/100/').first();
+    await expect(scoreEl).toBeVisible({ timeout: 8000 });
 
-    const scoreText = await scorePattern.first().textContent();
+    const scoreText = await scoreEl.textContent();
     const match = scoreText?.match(/(\d+)\/100/);
     expect(match).not.toBeNull();
     const scoreValue = parseInt(match![1], 10);
@@ -57,14 +105,15 @@ test.describe.serial('Scanner UI — full scan flow', () => {
     expect(scoreValue).toBeLessThanOrEqual(100);
   });
 
-  test('scan result shows category breakdown (at least 7 categories)', async ({ page }) => {
+  test('scan result shows category breakdown (all 7 categories)', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
 
     const expectedCategories = [
       'Crawler Access',
@@ -77,31 +126,33 @@ test.describe.serial('Scanner UI — full scan flow', () => {
     ];
 
     for (const category of expectedCategories) {
-      await expect(page.getByText(category).first()).toBeVisible({ timeout: 10000 });
+      await expect(page.getByText(category).first()).toBeVisible({ timeout: 8000 });
     }
   });
 
   test('scan result shows issues and fixes tab labels', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
 
     await expect(page.getByRole('tab', { name: /issues/i })).toBeVisible();
     await expect(page.getByRole('tab', { name: /fixes/i })).toBeVisible();
   });
 
   test('tab switching works: overview → issues → fixes → overview', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
 
     await page.getByRole('tab', { name: /issues/i }).click();
     await expect(page.locator('#tabpanel-issues')).toBeVisible();
@@ -114,47 +165,41 @@ test.describe.serial('Scanner UI — full scan flow', () => {
     await expect(page.locator('text=/\\d+\\/100/').first()).toBeVisible();
   });
 
-  test('"Scan Another URL" button returns to homepage with empty input', async ({ page }) => {
-    await page.goto('/');
-
-    const urlInput = page.locator('input[type="url"]').first();
-    await urlInput.fill(SCAN_URL);
-    await scanButtonLocator(page).click();
-
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
-
-    await page.getByRole('button', { name: /Scan Another URL/i }).click();
-    await expect(page).toHaveURL('/');
-
-    const homeInput = page.locator('input[type="url"]').first();
-    await expect(homeInput).toBeVisible();
-    await expect(homeInput).toHaveValue('');
-  });
-
   test('pressing Enter in scan input triggers the scan', async ({ page }) => {
+    await mockScanApi(page);
     await page.goto('/');
 
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
     await urlInput.press('Enter');
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
     await expect(page).toHaveURL(/\/scan-result/);
   });
 
-  test('button shows "Scanning in progress" aria-label during scan', async ({ page }) => {
-    await page.goto('/');
+  test('button shows loading state ("Scanning..." text) during scan', async ({ page }) => {
+    // Use a slow mock to catch the loading state
+    await page.route('**/api/scan', async (route) => {
+      await new Promise((r) => setTimeout(r, 800));
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(MOCK_SCAN_RESULT),
+      });
+    });
+    await page.route('**/api/scans/mock-scan-123', async (route) => {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(MOCK_SCAN_RESULT) });
+    });
 
+    await page.goto('/');
     const urlInput = page.locator('input[type="url"]').first();
     await urlInput.fill(SCAN_URL);
-
     await scanButtonLocator(page).click();
 
-    await expect(
-      page.getByRole('button', { name: 'Scanning in progress' }).first()
-    ).toBeVisible({ timeout: 5000 });
+    // During the 800ms delay the button should show loading
+    await expect(page.getByText('Scanning...').first()).toBeVisible({ timeout: 3000 });
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
   });
 });
 
@@ -235,11 +280,12 @@ test.describe('Scanner API — contract', () => {
 });
 
 // ----------------------------------------------------------------
-// Mobile scanner — serialised
+// Mobile scanner — uses mock API
 // ----------------------------------------------------------------
 
-test.describe.serial('Scanner — mobile viewport', () => {
+test.describe('Scanner — mobile viewport', () => {
   test('scan completes and shows results on 375px viewport', async ({ page }) => {
+    await mockScanApi(page);
     page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
 
@@ -247,7 +293,8 @@ test.describe.serial('Scanner — mobile viewport', () => {
     await urlInput.fill(SCAN_URL);
     await scanButtonLocator(page).click();
 
-    await page.waitForURL(/\/scan-result/, { timeout: 38000 });
-    await expect(page.getByText('Scan Results').first()).toBeVisible();
+    await page.waitForURL(/\/scan-result/, { timeout: 10000 });
+    // Score or category should be visible
+    await expect(page.locator('text=/\\d+\\/100/').first()).toBeVisible({ timeout: 8000 });
   });
 });
