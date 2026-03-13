@@ -72,10 +72,10 @@ export default function DashboardLayout({
           className="flex h-[60px] items-center px-5"
           style={{ borderBottom: "1px solid var(--border-subtle)" }}
         >
-          <Link href="/" aria-label="AI Agent SEO home">
+          <Link href="/" aria-label="ConduitScore home">
             <Image
               src="/logo.png"
-              alt="AI Agent SEO"
+              alt="ConduitScore"
               width={120}
               height={40}
               className="h-8 w-auto"

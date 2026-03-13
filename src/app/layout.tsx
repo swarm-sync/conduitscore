@@ -69,21 +69,21 @@ export const metadata: Metadata = {
       "Check how AI agents see your website in 30 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini.",
     images: [
       {
-        url: `${SITE_URL}/og-image.svg`,
+        url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "AI Agent SEO - AI Visibility Score Scanner",
-        type: "image/svg+xml",
+        alt: "ConduitScore - AI Visibility Score Scanner",
+        type: "image/png",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "AI Agent SEO - AI Visibility Score Scanner",
+    title: "ConduitScore - AI Visibility Score Scanner",
     description:
       "Check how AI agents see your website in 30 seconds. Get your AI visibility score with copy-paste fixes.",
-    images: [`${SITE_URL}/og-image.svg`],
+    images: [`${SITE_URL}/og-image.png`],
     creator: "@conduitscore",
     site: "@conduitscore",
   },
@@ -242,8 +242,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <OrganizationJsonLd />
         <SoftwareApplicationJsonLd />

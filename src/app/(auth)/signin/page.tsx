@@ -57,7 +57,7 @@ export default function SignInPage() {
           <div className="flex justify-center mb-4">
             <Image
               src="/logo.png"
-              alt="AI Agent SEO"
+              alt="ConduitScore"
               width={160}
               height={52}
               className="h-12 w-auto"

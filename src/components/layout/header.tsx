@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export function Header() {
@@ -33,16 +34,15 @@ export function Header() {
       <div className="container-wide mx-auto flex h-[62px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
-          <span
-            className="text-xl font-extrabold transition-opacity duration-200 group-hover:opacity-90"
-            style={{
-              color: "var(--text-primary)",
-              fontFamily: "var(--font-display)",
-              letterSpacing: "-0.08em",
-            }}
-          >
-            AGENT<span style={{ color: "var(--brand-red)" }}>OPTIMIZE</span>
-          </span>
+          <Image
+            src="/logo.png"
+            alt="ConduitScore"
+            width={160}
+            height={36}
+            priority
+            className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-85"
+            style={{ objectFit: "contain" }}
+          />
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
