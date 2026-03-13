@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
+
+# scan worker runtime (browser cache, session data)
+/scan-worker/.conduit-runtime/
 
 # next.js
 /.next/
