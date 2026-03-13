@@ -56,7 +56,7 @@ test.describe('Authentication Flow', () => {
 test.describe('Protected Routes', () => {
   test('should block access to dashboard without auth', async ({ page }) => {
     // Try to access dashboard
-    const response = await page.goto('/dashboard');
+    await page.goto('/dashboard');
 
     // Should either redirect or show signin
     const url = page.url();
@@ -64,14 +64,14 @@ test.describe('Protected Routes', () => {
   });
 
   test('should block access to projects without auth', async ({ page }) => {
-    const response = await page.goto('/projects');
+    await page.goto('/projects');
 
     const url = page.url();
     expect(url).toMatch(/signin|auth/i);
   });
 
   test('should block access to settings without auth', async ({ page }) => {
-    const response = await page.goto('/settings/billing');
+    await page.goto('/settings/billing');
 
     const url = page.url();
     expect(url).toMatch(/signin|auth/i);

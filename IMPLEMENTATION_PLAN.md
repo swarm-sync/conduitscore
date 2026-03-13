@@ -1,4 +1,4 @@
-# Implementation Plan — AgentOptimize
+# Implementation Plan — ConduitScore
 
 ## Chunk Order
 1. Setup → 2. Auth → 3. Core → 4. UI → 5. Payments → 6. Final

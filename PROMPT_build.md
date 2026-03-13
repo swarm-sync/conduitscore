@@ -1,6 +1,6 @@
 # Build Prompt
 
-You are building AgentOptimize, an AI visibility scanner SaaS.
+You are building ConduitScore, an AI visibility scanner SaaS.
 
 ## Context
 Read AGENTS.md for project rules. Read IMPLEMENTATION_PLAN.md for current tasks. Read the current chunk spec in specs/ for detailed requirements.

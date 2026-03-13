@@ -38,7 +38,7 @@ test.describe('Landing Page - Desktop', () => {
     await page.goto('/');
 
     // Header links
-    await expect(page.getByRole('link', { name: /AgentOptimize/ }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /ConduitScore/ }).first()).toBeVisible();
     await expect(page.getByRole('link', { name: /Features/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /Pricing/ })).toBeVisible();
   });

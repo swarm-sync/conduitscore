@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-describe("AgentOptimize Setup", () => {
+describe("ConduitScore Setup", () => {
   it("app configuration is valid", () => {
     expect(true).toBe(true);
   });

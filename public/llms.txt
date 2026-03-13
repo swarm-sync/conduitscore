@@ -1,0 +1,47 @@
+# ConduitScore
+
+> AI Visibility Score Scanner - Check how AI agents see your website
+
+ConduitScore is a SaaS tool that scans websites and produces an AI visibility score (0-100) measuring how well AI agents like ChatGPT, Perplexity, Claude, and Gemini can discover, read, and cite the website content.
+
+## What ConduitScore Does
+
+- Scans any URL and returns an AI visibility score across 7 categories
+- Checks crawler access (robots.txt rules for GPTBot, PerplexityBot, ClaudeBot, etc.)
+- Detects structured data (JSON-LD, schema.org markup)
+- Analyzes content structure (heading hierarchy, semantic HTML)
+- Validates LLMs.txt presence and configuration
+- Evaluates technical health (meta tags, load times, Open Graph)
+- Measures citation signals (external links, authority indicators)
+- Assesses content quality (word count, freshness, readability)
+- Provides copy-paste code fixes for every issue found
+
+## Key Pages
+
+- [Home](https://conduitscore.com/): Free AI visibility scanner - enter any URL
+- [Pricing](https://conduitscore.com/pricing): Plans from free to $499/month
+- [Blog](https://conduitscore.com/blog): Guides on AI SEO, GEO, and AEO
+- [Dashboard](https://conduitscore.com/dashboard): Scan history and monitoring (authenticated)
+
+## Pricing
+
+- Free: 3 scans/month, no sign-up required
+- Starter ($29/month): 50 scans, dashboard access, email alerts
+- Pro ($199/month): 500 scans, site-wide crawling, competitor tracking, PDF reports
+- Agency ($499/month): Unlimited scans, REST API, white-label branding
+
+## Topics Covered
+
+- AI SEO (Search Engine Optimization for AI agents)
+- GEO (Generative Engine Optimization)
+- AEO (Answer Engine Optimization)
+- AI crawler access and robots.txt configuration
+- Structured data and JSON-LD for AI readability
+- LLMs.txt standard and implementation
+- Content optimization for ChatGPT, Perplexity, Claude, and Gemini
+- AI visibility scoring and benchmarking
+
+## Contact
+
+- Website: https://conduitscore.com
+- Email: support@conduitscore.com

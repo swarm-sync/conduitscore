@@ -5,7 +5,7 @@ test.describe('Navigation & Links', () => {
     await page.goto('/');
 
     // Logo should link to home
-    await page.click('[class*="logo"], text=AgentOptimize');
+    await page.click('[class*="logo"], text=ConduitScore');
     await expect(page).toHaveURL('/');
   });
 
@@ -44,7 +44,7 @@ test.describe('Navigation & Links', () => {
     await page.waitForURL('/scan-result');
 
     // Click home/logo
-    await page.click('[class*="logo"], text=AgentOptimize');
+    await page.click('[class*="logo"], text=ConduitScore');
     await expect(page).toHaveURL('/');
   });
 
@@ -155,7 +155,7 @@ test.describe('Link Validation', () => {
 });
 
 test.describe('External Links', () => {
-  test('should open external links in new tab', async ({ page, context }) => {
+  test('should open external links in new tab', async ({ page }) => {
     await page.goto('/');
 
     // Look for external links

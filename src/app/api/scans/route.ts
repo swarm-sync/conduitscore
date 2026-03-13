@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+
+async function getOptionalSession() {
+  try {
+    const [{ getServerSession }, { authOptions }] = await Promise.all([
+      import("next-auth"),
+      import("@/lib/auth"),
+    ]);
+    return await getServerSession(authOptions);
+  } catch {
+    return null;
+  }
+}
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getOptionalSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

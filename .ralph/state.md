@@ -1,14 +1,12 @@
 # Ralph Loop State
 
-## Current Chunk: 6
-## Current Iteration: 1
-## Status: COMPLETE
-## All Chunks: COMPLETE
+## Current Chunk: 1
+## Current Iteration: 0
+## Status: IN_PROGRESS
+## Mission: Design Rebuild — Spectral Audit theme
 
 ## Chunks
-- [x] Chunk 1: Setup (Foundation) ✅
-- [x] Chunk 2: Auth (Authentication) ✅
-- [x] Chunk 3: Core Feature (Scanner + Scoring) ✅
-- [x] Chunk 4: UI (All Pages) ✅
-- [x] Chunk 5: Payments (Stripe) ✅
-- [x] Chunk 6: Final (Reports + Polish) ✅
+- [ ] Chunk 1: Design Foundation (globals.css, layout, shared components)
+- [ ] Chunk 2: Landing Page (hero, features, pricing, CTA)
+- [ ] Chunk 3: Dashboard + Scan Detail pages
+- [ ] Chunk 4: Polish, mobile, accessibility

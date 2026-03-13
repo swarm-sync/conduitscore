@@ -1,7 +1,7 @@
-# AgentOptimize - Agents
+# ConduitScore - Agents
 
 ## Project
-AgentOptimize — AI Visibility Score scanner with copy-paste fixes
+ConduitScore — AI Visibility Score scanner with copy-paste fixes
 
 ## Stack
 Next.js 15, React 19, TypeScript, Tailwind CSS, Prisma, Neon PostgreSQL, NextAuth.js, Stripe, Playwright (scanner), Vitest, Vercel

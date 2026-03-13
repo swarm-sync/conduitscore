@@ -1,6 +1,6 @@
 # Plan Prompt
 
-Review the current state of AgentOptimize and plan the next iteration.
+Review the current state of ConduitScore and plan the next iteration.
 
 1. Read .ralph/state.md for current chunk and iteration
 2. Read .ralph/progress.md for what's been done

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" fill="none">
+  <defs>
+    <linearGradient id="bg4" x1="24" y1="24" x2="224" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#131317"/>
+      <stop offset="100%" stop-color="#080809"/>
+    </linearGradient>
+    <linearGradient id="grad4" x1="64" y1="64" x2="190" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF2D55"/>
+      <stop offset="62%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#D9FF00"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="280" rx="32" fill="#080809"/>
+  <rect x="24" y="24" width="200" height="200" rx="60" fill="url(#bg4)"/>
+  <rect x="25" y="25" width="198" height="198" rx="59" stroke="white" stroke-opacity=".08"/>
+  <path d="M170 76C154 66 138 62 120 62C81 62 50 94 50 132C50 170 81 202 120 202C138 202 154 198 170 188" stroke="url(#grad4)" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="120" cy="132" r="32" stroke="#6366F1" stroke-opacity=".75" stroke-width="10"/>
+  <circle cx="120" cy="132" r="10" fill="#D9FF00"/>
+  <path d="M120 66V90" stroke="#FF2D55" stroke-width="8" stroke-linecap="round"/>
+  <path d="M120 174V198" stroke="#6366F1" stroke-width="8" stroke-linecap="round"/>
+  <text x="276" y="134" fill="#FFFFFF" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Conduit</text>
+  <text x="666" y="134" fill="url(#grad4)" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Score</text>
+  <text x="280" y="184" fill="#8B8B94" font-family="Inter, sans-serif" font-size="28" letter-spacing="1.4">TARGET CUT · audit precision with a memorable center point</text>
+</svg>

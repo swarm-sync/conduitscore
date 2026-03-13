@@ -77,8 +77,8 @@ test.describe('Stripe Integration', () => {
       // Check if we're at checkout URL or Stripe modal opened
       await page.waitForTimeout(2000);
       const url = page.url();
-      const hasCheckout = url.includes('checkout') || url.includes('stripe');
-      // If not navigated, Stripe might be handling it client-side
+      // If not navigated to checkout URL, Stripe might be handling it client-side
+      void url;
     }
   });
 
@@ -92,7 +92,7 @@ test.describe('Stripe Integration', () => {
     // Stripe might be loaded via client JS
     // Check for Stripe in window
     const hasWindow = await page.evaluate(() => {
-      return typeof (window as any).Stripe !== 'undefined';
+      return typeof (window as unknown as Record<string, unknown>).Stripe !== 'undefined';
     }).catch(() => false);
 
     expect(hasStripe || hasWindow).toBeTruthy();

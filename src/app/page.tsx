@@ -1,90 +1,368 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ScanForm } from "@/components/scan/scan-form";
+import { HomePageCards } from "@/components/home/home-page-cards";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+
+export const metadata: Metadata = {
+  title: "The Spectral Audit for AI Visibility",
+  description:
+    "Scan your site through the lens of ChatGPT, Claude, Gemini, and Perplexity. ConduitScore turns crawler visibility into a spectral audit with proof-backed fixes.",
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: "ConduitScore | The Spectral Audit for AI Visibility",
+    description:
+      "Stop optimizing for keywords alone. Audit how AI systems actually perceive your site and get proof-backed fixes.",
+    url: SITE_URL,
+    type: "website",
+  },
+};
+
+const faqs = [
+  {
+    question: "What is a spectral audit?",
+    answer:
+      "A spectral audit is ConduitScore's AI visibility scan. It measures how machine crawlers, retrieval systems, and answer engines interpret your site instead of only checking traditional search signals.",
+  },
+  {
+    question: "What does ConduitScore scan?",
+    answer:
+      "Each scan reviews seven areas that matter to AI systems: crawler access, structured data, content structure, LLMs.txt, technical health, citation signals, and content quality.",
+  },
+  {
+    question: "Does ConduitScore use a real browser?",
+    answer:
+      "Yes. ConduitScore now runs scans through Conduit, a real audited browser pipeline, so the results reflect rendered pages instead of only static HTML fetches.",
+  },
+  {
+    question: "What do I get back?",
+    answer:
+      "You get an overall AI visibility score, category breakdowns, concrete issues, copy-paste fixes, and a proof artifact showing what was observed during the scan.",
+  },
+];
+
+const stats = [
+  { value: "7", label: "Signal layers" },
+  { value: "30s", label: "Typical scan" },
+  { value: "Proof", label: "Built into every run" },
+  { value: "Live", label: "Rendered browser audit" },
+];
+
+const auditSignals = [
+  { label: "Crawler Visibility", value: "GPTBot / ClaudeBot / Gemini" },
+  { label: "Structured Memory", value: "JSON-LD + machine-readable surfaces" },
+  { label: "Render Integrity", value: "JS delta + proof export" },
+];
+
+function HomePageJsonLd() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to run an AI visibility scan with ConduitScore",
+    totalTime: "PT1M",
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Enter a URL",
+        text: "Paste any public website URL into the ConduitScore scan aperture.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Run the spectral audit",
+        text: "ConduitScore uses a real Conduit browser session to inspect rendered page signals and crawler visibility.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Apply the fixes",
+        text: "Review the score, issues, fixes, and proof artifacts to improve how AI systems can read and cite the site.",
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
+    </>
+  );
+}
 
 export default function Home() {
   return (
     <>
+      <HomePageJsonLd />
       <Header />
       <main>
-        <section className="relative overflow-hidden bg-[#0A1628] py-24 sm:py-32">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="h-[600px] w-[600px] rounded-full border border-[#4A7DAC]/20 animate-pulse" />
-              <div className="absolute inset-4 rounded-full border border-[#4A7DAC]/15" />
-              <div className="absolute inset-12 rounded-full border border-[#4A7DAC]/10" />
-            </div>
-          </div>
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl text-center">
-              <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Your AI Visibility Score in{" "}
-                <span className="text-[#00D9FF]">30 Seconds</span>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-[#4A7DAC]">
-                SEO was for Google. AgentOptimize is for the agent economy.
-                Check how ChatGPT, Claude, and Perplexity see your website.
-              </p>
-              <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <ScanForm variant="hero" />
+        <section className="relative overflow-hidden pt-18" aria-labelledby="hero-heading">
+          <div className="container-wide mx-auto py-20 md:py-28">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.18fr_0.82fr]">
+              <div className="animate-fade-up">
+                <span className="section-label">Est. 2026 // AI Readiness</span>
+                <h1 id="hero-heading" className="mt-5 max-w-4xl uppercase">
+                  The <span style={{ WebkitTextStroke: "1px rgba(255,255,255,0.26)", color: "transparent" }}>Spectral</span> Site Audit
+                </h1>
+                <p className="mt-6 max-w-xl text-lg">
+                  Stop optimizing for keywords alone. Start optimizing for intelligence. ConduitScore shows how ChatGPT, Claude, Gemini, and Perplexity actually perceive your site.
+                </p>
+
+                <div id="scan" className="mt-10 max-w-2xl">
+                  <ScanForm variant="hero" />
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {["ChatGPT", "Claude", "Gemini", "Perplexity", "Copilot"].map((agent) => (
+                    <span
+                      key={agent}
+                      className="rounded-full px-3 py-1 text-xs"
+                      style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid var(--border-subtle)",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      {agent}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <p className="mt-4 text-sm text-[#4A7DAC]/60">
-                No sign-up required. Get your score instantly.
-              </p>
+
+              <div className="animate-fade-up" style={{ animationDelay: "120ms" }}>
+                <div
+                  className="relative overflow-hidden rounded-[32px] p-6 md:p-8"
+                  style={{
+                    background: "var(--gradient-card)",
+                    border: "1px solid var(--border-subtle)",
+                    boxShadow: "var(--shadow-raised)",
+                  }}
+                >
+                  <div
+                    className="absolute inset-x-0 top-0 h-px"
+                    style={{ background: "linear-gradient(90deg, transparent, var(--brand-red), transparent)" }}
+                    aria-hidden="true"
+                  />
+                  <div className="flex items-center justify-between">
+                    <span className="section-label">Live Aperture</span>
+                    <span
+                      className="rounded-full px-3 py-1 text-[11px]"
+                      style={{
+                        background: "rgba(217,255,0,0.1)",
+                        border: "1px solid rgba(217,255,0,0.2)",
+                        color: "var(--brand-lime)",
+                        fontFamily: "var(--font-mono)",
+                      }}
+                    >
+                      Conduit Active
+                    </span>
+                  </div>
+
+                  <div className="mt-6 grid gap-4 md:grid-cols-2">
+                    <div
+                      className="rounded-[24px] p-5"
+                      style={{
+                        background: "rgba(8,8,9,0.66)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                      }}
+                    >
+                      <p className="text-xs" style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-mono)" }}>
+                        STATUS // ANALYZING
+                      </p>
+                      <p
+                        className="mt-3 text-6xl leading-none"
+                        style={{
+                          color: "var(--text-primary)",
+                          fontFamily: "var(--font-display)",
+                          letterSpacing: "-0.08em",
+                        }}
+                      >
+                        82
+                      </p>
+                      <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                        Visibility score from rendered browser evidence, not just a raw HTML fetch.
+                      </p>
+                    </div>
+
+                    <div className="space-y-3">
+                      {auditSignals.map((signal) => (
+                        <div
+                          key={signal.label}
+                          className="rounded-[24px] p-4"
+                          style={{
+                            background: "rgba(8,8,9,0.5)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                          }}
+                        >
+                          <p className="text-[11px] uppercase tracking-[0.24em]" style={{ color: "var(--text-tertiary)" }}>
+                            {signal.label}
+                          </p>
+                          <p className="mt-2 text-sm" style={{ color: "var(--text-primary)" }}>
+                            {signal.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 rounded-[24px] p-5" style={{ background: "rgba(0,0,0,0.48)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="text-[11px] uppercase tracking-[0.24em]" style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-mono)" }}>
+                      Micro Proof
+                    </p>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                      <div>
+                        <p className="text-[11px]" style={{ color: "var(--text-tertiary)" }}>DOM hash</p>
+                        <p style={{ color: "var(--brand-lime)", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>sha256:5945...</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px]" style={{ color: "var(--text-tertiary)" }}>Signature</p>
+                        <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>ed25519 verified</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px]" style={{ color: "var(--text-tertiary)" }}>Scan origin</p>
+                        <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>conduitscore_worker</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="features" className="py-24 bg-[#F9FAFB]">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-[#0A1628] sm:text-4xl">
-                7 Categories. One Score.
-              </h2>
-              <p className="mt-4 text-lg text-[#475569]">
-                We analyze everything AI agents look at when crawling your site.
-              </p>
-            </div>
-            <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { title: "Crawler Access", desc: "Are AI bots allowed to read your content?", pts: "15pts" },
-                { title: "Structured Data", desc: "JSON-LD and schema.org markup detection", pts: "20pts" },
-                { title: "Content Structure", desc: "Heading hierarchy and answer-ready sections", pts: "15pts" },
-                { title: "LLMs.txt", desc: "Machine-readable site summary for AI agents", pts: "10pts" },
-              ].map((f) => (
-                <div key={f.title} className="rounded-xl border border-[#E5E7EB] bg-white p-6">
-                  <div className="inline-flex items-center rounded-full bg-[#2E5C8A]/10 px-3 py-1 text-xs font-medium text-[#2E5C8A]">
-                    {f.pts}
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-[#0A1628]">{f.title}</h3>
-                  <p className="mt-2 text-sm text-[#475569]">{f.desc}</p>
+        <section
+          className="border-y"
+          style={{ borderColor: "var(--border-subtle)", background: "rgba(18,18,20,0.72)" }}
+        >
+          <div className="container-wide mx-auto py-8">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p
+                    className="text-4xl"
+                    style={{
+                      color: "var(--brand-lime)",
+                      fontFamily: "var(--font-display)",
+                      letterSpacing: "-0.08em",
+                    }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.22em]" style={{ color: "var(--text-tertiary)" }}>
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-[#0A1628] sm:text-4xl">
-                How It Works
-              </h2>
+        <HomePageCards />
+
+        <section id="theory" className="border-t py-24" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-wide mx-auto grid gap-10 lg:grid-cols-2">
+            <div>
+              <span className="section-label">Technical Depth</span>
+              <h2 className="mt-4 uppercase">Crawlable intelligence, not cosmetic SEO</h2>
+              <p className="mt-6 max-w-xl">
+                AI systems need more than keywords. They need explicit crawler access, structured surfaces, rendered answer blocks, and proof that the page can be understood by non-human readers.
+              </p>
+              <p className="mt-4 max-w-xl">
+                ConduitScore checks the static layer, the rendered layer, and the machine-readable layer in one pass, then turns the gaps into fixes your team can ship immediately.
+              </p>
             </div>
-            <div className="mt-16 grid gap-12 md:grid-cols-3">
-              {[
-                { step: "1", title: "Enter Your URL", desc: "Paste any website URL into our scanner. No sign-up needed." },
-                { step: "2", title: "Get Your Score", desc: "Our engine checks 7 categories that AI agents care about." },
-                { step: "3", title: "Copy-Paste Fixes", desc: "Get actionable code snippets you can drop right into your site." },
-              ].map((s) => (
-                <div key={s.step} className="text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#2E5C8A] text-xl font-bold text-white">
-                    {s.step}
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-[#0A1628]">{s.title}</h3>
-                  <p className="mt-2 text-sm text-[#475569]">{s.desc}</p>
-                </div>
+
+            <div className="code-block">
+              <span style={{ color: "var(--brand-purple)" }}>{"// llms.txt surface"}</span>
+              {"\n"}User-agent: *{"\n"}
+              Allow: /guides/{"\n"}
+              Allow: /pricing/{"\n"}
+              Disallow: /checkout/{"\n"}
+              {"\n"}
+              <span style={{ color: "var(--brand-red)" }}>[Rendered proof exported]</span>
+              {"\n"}schema.detected = true{"\n"}
+              {'dom_hash = "sha256:..."'}{"\n"}
+              js_dependency_ratio = 0.031
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="faq"
+          className="border-y py-24"
+          style={{ borderColor: "var(--border-subtle)", background: "rgba(18,18,20,0.68)" }}
+        >
+          <div className="container-base mx-auto px-6 md:px-0">
+            <div className="text-center">
+              <span className="section-label">FAQ</span>
+              <h2 className="mt-4">Questions about the audit</h2>
+            </div>
+
+            <div className="mt-12 space-y-3">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  className="rounded-[24px]"
+                  style={{
+                    background: "var(--surface-overlay)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <summary
+                    className="flex cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left"
+                    style={{ listStyle: "none", color: "var(--text-primary)" }}
+                  >
+                    <span style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem" }}>{faq.question}</span>
+                    <span
+                      className="flex h-9 w-9 items-center justify-center rounded-full"
+                      style={{
+                        background: "rgba(255,45,85,0.08)",
+                        border: "1px solid rgba(255,45,85,0.18)",
+                        color: "var(--brand-red)",
+                      }}
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="px-6 pb-6 text-sm">{faq.answer}</p>
+                </details>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24">
+          <div className="container-base mx-auto px-6 text-center md:px-0">
+            <span className="section-label">Begin Scan</span>
+            <h2 className="mt-4 uppercase">Run the site through the aperture</h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg">
+              The fastest way to see whether your site is visible to AI systems is to inspect it the same way they do: rendered, measured, and proof-backed.
+            </p>
+            <div className="mt-10 flex justify-center">
+              <ScanForm variant="hero" />
             </div>
           </div>
         </section>

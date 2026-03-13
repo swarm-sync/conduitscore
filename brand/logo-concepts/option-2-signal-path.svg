@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" fill="none">
+  <defs>
+    <linearGradient id="bg2" x1="24" y1="24" x2="224" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#131317"/>
+      <stop offset="100%" stop-color="#09090B"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="54" y1="80" x2="194" y2="172" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF2D55"/>
+      <stop offset="62%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#D9FF00"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="280" rx="32" fill="#080809"/>
+  <rect x="24" y="24" width="200" height="200" rx="60" fill="url(#bg2)"/>
+  <rect x="25" y="25" width="198" height="198" rx="59" stroke="white" stroke-opacity=".08"/>
+  <path d="M64 154H110L138 126L168 156L188 136" stroke="url(#grad2)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M176 136H188V148" stroke="#D9FF00" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M172 76H114L78 112V168L114 172" stroke="url(#grad2)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="138" cy="126" r="10" fill="#FFFFFF"/>
+  <circle cx="168" cy="156" r="8" fill="#D9FF00"/>
+  <text x="276" y="134" fill="#FFFFFF" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Conduit</text>
+  <text x="666" y="134" fill="url(#grad2)" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Score</text>
+  <text x="280" y="184" fill="#8B8B94" font-family="Inter, sans-serif" font-size="28" letter-spacing="1.4">SIGNAL PATH · the conduit becomes upward proof</text>
+</svg>

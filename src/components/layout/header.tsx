@@ -1,27 +1,170 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E5E7EB] bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2E5C8A]">
-            <span className="text-sm font-bold text-white">AO</span>
-          </div>
-          <span className="text-lg font-bold text-[#0A1628]">AgentOptimize</span>
+    <header
+      className="sticky top-0 z-50 transition-all duration-300"
+      style={{
+        background: scrolled
+          ? "rgba(8, 8, 9, 0.9)"
+          : "rgba(8, 8, 9, 0.72)",
+        backdropFilter: "blur(22px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(22px) saturate(1.4)",
+        borderBottom: scrolled
+          ? "1px solid rgba(255, 255, 255, 0.08)"
+          : "1px solid rgba(255, 255, 255, 0.04)",
+        boxShadow: scrolled
+          ? "0 12px 36px rgba(0,0,0,0.32)"
+          : "none",
+      }}
+    >
+      <div className="container-wide mx-auto flex h-[62px] items-center justify-between">
+
+        <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
+          <span
+            className="text-xl font-extrabold transition-opacity duration-200 group-hover:opacity-90"
+            style={{
+              color: "var(--text-primary)",
+              fontFamily: "var(--font-display)",
+              letterSpacing: "-0.08em",
+            }}
+          >
+            AGENT<span style={{ color: "var(--brand-red)" }}>OPTIMIZE</span>
+          </span>
         </Link>
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link href="/pricing" className="text-sm text-[#475569] hover:text-[#2E5C8A] transition-colors">
-            Pricing
-          </Link>
-          <Link href="/signin" className="text-sm text-[#475569] hover:text-[#2E5C8A] transition-colors">
+
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
+          {[
+            { href: "/#features", label: "Scanner" },
+            { href: "/#theory", label: "Theory" },
+            { href: "/pricing",       label: "Pricing" },
+            { href: "/dashboard", label: "Scans" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+            >
+              {link.label}
+              <span
+                className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+                style={{
+                  background: "var(--brand-red)",
+                  transformOrigin: "left",
+                }}
+                aria-hidden="true"
+              />
+            </Link>
+          ))}
+
+          <Link
+            href="/signin"
+            className="rounded-full px-3.5 py-2 text-sm font-medium transition-colors"
+            style={{ color: "var(--text-secondary)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+          >
             Sign In
           </Link>
-          <Link href="/pricing" className="rounded-lg bg-[#2E5C8A] px-4 py-2 text-sm font-medium text-white hover:bg-[#1E3A5F] transition-colors">
-            Get Started
-          </Link>
+
+          <div className="ml-1.5">
+            <Link
+              href="/#scan"
+              className="btn btn-primary btn-sm inline-flex items-center gap-1.5"
+            >
+              Run Audit
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
         </nav>
+
+        {/* Mobile menu button */}
+        <button
+          className="flex md:hidden items-center justify-center w-9 h-9 rounded-md transition-colors"
+          style={{
+            color: "var(--text-secondary)",
+            background: mobileOpen ? "rgba(255,45,85,0.12)" : "transparent",
+            border: "1px solid",
+            borderColor: mobileOpen ? "var(--border-default)" : "transparent",
+          }}
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav"
+        >
+          {mobileOpen ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+            </svg>
+          )}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <nav
+          id="mobile-nav"
+          className="md:hidden px-4 pb-5 pt-2 space-y-0.5"
+          style={{ borderTop: "1px solid var(--border-subtle)" }}
+          aria-label="Mobile navigation"
+        >
+          {[
+            { href: "/#features", label: "Scanner" },
+            { href: "/#theory", label: "Theory" },
+            { href: "/pricing",       label: "Pricing" },
+            { href: "/dashboard", label: "Scans" },
+            { href: "/signin",        label: "Sign In" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="block px-3.5 py-2.5 text-sm font-medium rounded-md transition-colors"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+              }}
+              onClick={() => setMobileOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <div className="pt-3">
+            <Link
+              href="/#scan"
+              className="btn btn-primary w-full justify-center text-sm"
+              onClick={() => setMobileOpen(false)}
+            >
+              Run Audit
+            </Link>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

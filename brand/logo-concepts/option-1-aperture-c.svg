@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" fill="none">
+  <defs>
+    <linearGradient id="bg1" x1="28" y1="28" x2="220" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#16161A"/>
+      <stop offset="100%" stop-color="#09090B"/>
+    </linearGradient>
+    <linearGradient id="grad1" x1="52" y1="46" x2="190" y2="188" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF2D55"/>
+      <stop offset="62%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#D9FF00"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="280" rx="32" fill="#080809"/>
+  <rect x="24" y="24" width="200" height="200" rx="60" fill="url(#bg1)"/>
+  <rect x="25" y="25" width="198" height="198" rx="59" stroke="white" stroke-opacity=".08"/>
+  <path d="M174 70H114L76 108V140L114 178H174" stroke="url(#grad1)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="150" cy="124" r="12" fill="#D9FF00"/>
+  <path d="M148 124H186" stroke="#D9FF00" stroke-width="8" stroke-linecap="round"/>
+  <path d="M148 152H176" stroke="#6366F1" stroke-opacity=".95" stroke-width="8" stroke-linecap="round"/>
+  <path d="M148 96H170" stroke="#FF2D55" stroke-opacity=".95" stroke-width="8" stroke-linecap="round"/>
+  <text x="276" y="134" fill="#FFFFFF" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Conduit</text>
+  <text x="666" y="134" fill="url(#grad1)" font-family="Syne, Inter, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">Score</text>
+  <text x="280" y="184" fill="#8B8B94" font-family="Inter, sans-serif" font-size="28" letter-spacing="1.4">APERTURE C · score reads inside the conduit</text>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "name": "AI Agent SEO - AI Visibility Score Scanner",
+  "short_name": "AI Agent SEO",
+  "description": "Check how AI agents see your website. Get your AI visibility score in 30 seconds.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080B14",
+  "theme_color": "#6C3BFF",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

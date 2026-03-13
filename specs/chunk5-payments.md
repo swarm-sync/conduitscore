@@ -4,39 +4,39 @@
 Users subscribe to Starter/Pro/Agency via Stripe Checkout. Subscription management via Customer Portal. Plan limits enforced.
 
 ## CRITICAL: Stripe Product Names (Business-Specific)
-All Stripe products MUST use the AgentOptimize_ prefix:
-- AgentOptimize_Starter ($29/month)
-- AgentOptimize_Pro ($79/month)
-- AgentOptimize_Agency ($149/month)
+All Stripe products MUST use the ConduitScore_ prefix:
+- ConduitScore_Starter ($29/month)
+- ConduitScore_Pro ($79/month)
+- ConduitScore_Agency ($149/month)
 
 ## Stripe API Commands (run these to create products)
 ```bash
 # Create Starter product
 curl https://api.stripe.com/v1/products -u "$STRIPE_SECRET_KEY:" \
-  -d "name=AgentOptimize_Starter" -d "description=Starter Plan - 5 pages, dashboard, PDF reports"
+  -d "name=ConduitScore_Starter" -d "description=Starter Plan - 5 pages, dashboard, PDF reports"
 
 # Create Starter price
 curl https://api.stripe.com/v1/prices -u "$STRIPE_SECRET_KEY:" \
   -d "product={starter_product_id}" -d "unit_amount=2900" -d "currency=usd" \
-  -d "recurring[interval]=month" -d "nickname=AgentOptimize_Price_Starter"
+  -d "recurring[interval]=month" -d "nickname=ConduitScore_Price_Starter"
 
 # Create Pro product
 curl https://api.stripe.com/v1/products -u "$STRIPE_SECRET_KEY:" \
-  -d "name=AgentOptimize_Pro" -d "description=Pro Plan - 50 pages, monitoring, alerts"
+  -d "name=ConduitScore_Pro" -d "description=Pro Plan - 50 pages, monitoring, alerts"
 
 # Create Pro price
 curl https://api.stripe.com/v1/prices -u "$STRIPE_SECRET_KEY:" \
   -d "product={pro_product_id}" -d "unit_amount=7900" -d "currency=usd" \
-  -d "recurring[interval]=month" -d "nickname=AgentOptimize_Price_Pro"
+  -d "recurring[interval]=month" -d "nickname=ConduitScore_Price_Pro"
 
 # Create Agency product
 curl https://api.stripe.com/v1/products -u "$STRIPE_SECRET_KEY:" \
-  -d "name=AgentOptimize_Agency" -d "description=Agency Plan - Unlimited, white-label, API"
+  -d "name=ConduitScore_Agency" -d "description=Agency Plan - Unlimited, white-label, API"
 
 # Create Agency price
 curl https://api.stripe.com/v1/prices -u "$STRIPE_SECRET_KEY:" \
   -d "product={agency_product_id}" -d "unit_amount=14900" -d "currency=usd" \
-  -d "recurring[interval]=month" -d "nickname=AgentOptimize_Price_Agency"
+  -d "recurring[interval]=month" -d "nickname=ConduitScore_Price_Agency"
 ```
 
 ## Required Environment Variables

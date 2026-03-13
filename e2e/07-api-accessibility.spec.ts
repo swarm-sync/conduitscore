@@ -34,7 +34,7 @@ test.describe('API Endpoints', () => {
   });
 
   test('should have CORS configured', async ({ page }) => {
-    const response = await page.request.options('/api/scan');
+    const response = await page.request.fetch('/api/scan', { method: 'OPTIONS' });
     // Should allow CORS
     expect([200, 204, 404]).toContain(response.status());
   });
@@ -62,7 +62,7 @@ test.describe('API Endpoints', () => {
     const response = await page.request.post('/api/scan', {
       data: '{ invalid json',
       headers: { 'Content-Type': 'application/json' },
-    }).catch(err => null);
+    }).catch(() => null);
 
     if (response) {
       expect([400, 500]).toContain(response.status());
@@ -203,12 +203,9 @@ test.describe('Accessibility', () => {
   test('should announce dynamic content changes', async ({ page }) => {
     await page.goto('/');
 
-    const urlInput = page.locator('input[type="url"]').first();
-    const button = page.locator('button:has-text("Scan Free")').first();
-
     // Check for aria-live regions
     const liveRegions = page.locator('[aria-live]');
-    const count = await liveRegions.count();
+    await liveRegions.count();
 
     // Having aria-live regions is good practice for dynamic updates
     // (Not strictly required but helpful)

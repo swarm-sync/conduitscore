@@ -23,6 +23,8 @@ export interface Fix {
 }
 
 export interface ScanResult {
+  id?: string;
+  status?: string;
   url: string;
   overallScore: number;
   categories: CategoryScore[];
@@ -30,6 +32,7 @@ export interface ScanResult {
   fixes: Fix[];
   scannedAt: string;
   metadata: Record<string, unknown>;
+  proof?: Record<string, unknown> | null;
 }
 
 export const CATEGORIES = {

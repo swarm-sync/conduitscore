@@ -2,34 +2,138 @@
 
 import type { CategoryScore } from "@/lib/scanner/types";
 
-function getBarColor(score: number, max: number): string {
+function getBarConfig(score: number, max: number): {
+  color: string;
+  glow: string;
+  bg: string;
+  gradient: string;
+} {
   const pct = (score / max) * 100;
-  if (pct >= 80) return "bg-[#10B981]";
-  if (pct >= 60) return "bg-[#00C9A7]";
-  if (pct >= 40) return "bg-[#F59E0B]";
-  return "bg-[#EF4444]";
+  if (pct >= 80) return {
+    color: "var(--success-400)",
+    glow: "rgba(217,255,0,0.35)",
+    bg: "rgba(217,255,0,0.08)",
+    gradient: "linear-gradient(90deg, #C1E400, #D9FF00)",
+  };
+  if (pct >= 60) return {
+    color: "var(--success-500)",
+    glow: "rgba(217,255,0,0.26)",
+    bg: "rgba(217,255,0,0.08)",
+    gradient: "linear-gradient(90deg, #A6C600, #D9FF00)",
+  };
+  if (pct >= 40) return {
+    color: "var(--warning-400)",
+    glow: "rgba(255,184,0,0.30)",
+    bg: "rgba(255,184,0,0.08)",
+    gradient: "linear-gradient(90deg, #CC8800, #FFB800)",
+  };
+  return {
+    color: "var(--error-400)",
+    glow: "rgba(255,45,85,0.3)",
+    bg: "rgba(255,45,85,0.08)",
+    gradient: "linear-gradient(90deg, #D52248, #FF2D55)",
+  };
 }
 
 export function CategoryBreakdown({ categories }: { categories: CategoryScore[] }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {categories.map((cat) => (
-        <div key={cat.name} className="rounded-xl border border-[#E5E7EB] bg-white p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-[#0A1628]">{cat.name}</span>
-            <span className="text-sm font-bold text-[#0A1628]">{cat.score}/{cat.maxScore}</span>
-          </div>
-          <div className="mt-2 h-2 rounded-full bg-[#E5E7EB]">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {categories.map((cat) => {
+        const pct = (cat.score / cat.maxScore) * 100;
+        const conf = getBarConfig(cat.score, cat.maxScore);
+
+        return (
+          <div
+            key={cat.name}
+            className="rounded-xl p-4 transition-all duration-200"
+            style={{
+              background: "var(--surface-overlay)",
+              border: "1px solid var(--border-subtle)",
+              transition: "border-color 0.2s, box-shadow 0.2s, transform 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.borderColor = "rgba(255,45,85,0.3)";
+              el.style.transform = "translateY(-2px)";
+              el.style.boxShadow = `0 6px 24px rgba(0,0,0,0.3), 0 0 20px ${conf.glow.replace("0.35", "0.12").replace("0.30", "0.10")}`;
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.borderColor = "var(--border-subtle)";
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "none";
+            }}
+          >
+            {/* Header row */}
+            <div className="flex items-start justify-between mb-3 gap-2">
+              <span
+                className="text-xs font-semibold leading-tight"
+                style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+              >
+                {cat.name}
+              </span>
+              <span
+                className="text-xs font-bold tabular-nums flex-shrink-0"
+                style={{
+                  color: conf.color,
+                  fontFamily: "var(--font-mono)",
+                  background: conf.bg,
+                  border: `1px solid ${conf.color}30`,
+                  borderRadius: "var(--radius-full)",
+                  padding: "1px 7px",
+                }}
+              >
+                {cat.score}/{cat.maxScore}
+              </span>
+            </div>
+
+            {/* Progress bar */}
             <div
-              className={`h-2 rounded-full transition-all ${getBarColor(cat.score, cat.maxScore)}`}
-              style={{ width: `${(cat.score / cat.maxScore) * 100}%` }}
-            />
+              className="rounded-full overflow-hidden mb-2.5"
+              style={{ height: "4px", background: "rgba(255,255,255,0.05)" }}
+              role="progressbar"
+              aria-valuenow={cat.score}
+              aria-valuemin={0}
+              aria-valuemax={cat.maxScore}
+              aria-label={`${cat.name}: ${cat.score} out of ${cat.maxScore}`}
+            >
+              <div
+                className="h-full rounded-full"
+                style={{
+                  width: `${pct}%`,
+                  background: conf.gradient,
+                  boxShadow: `0 0 8px ${conf.glow}`,
+                  transition: "width 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+              />
+            </div>
+
+            {/* Issue count */}
+            <p
+              className="text-xs flex items-center gap-1.5"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              {cat.issues.length === 0 ? (
+                <>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M2 5l2.5 2.5 3.5-4" stroke="var(--success-400)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span style={{ color: "var(--success-400)" }}>All checks passed</span>
+                </>
+              ) : (
+                <>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <circle cx="5" cy="5" r="4" stroke={conf.color} strokeWidth="1.25" />
+                    <path d="M5 3.5v2" stroke={conf.color} strokeWidth="1.25" strokeLinecap="round" />
+                    <circle cx="5" cy="7" r="0.6" fill={conf.color} />
+                  </svg>
+                  {cat.issues.length} issue{cat.issues.length > 1 ? "s" : ""} found
+                </>
+              )}
+            </p>
           </div>
-          <p className="mt-2 text-xs text-[#475569]">
-            {cat.issues.length === 0 ? "All checks passed" : `${cat.issues.length} issue${cat.issues.length > 1 ? "s" : ""} found`}
-          </p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

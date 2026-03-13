@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { scanRecordToResult } from "@/lib/scanner/scan-record";
+
+async function getOptionalSession() {
+  try {
+    const [{ getServerSession }, { authOptions }] = await Promise.all([
+      import("next-auth"),
+      import("@/lib/auth"),
+    ]);
+    return await getServerSession(authOptions);
+  } catch {
+    return null;
+  }
+}
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await getServerSession(authOptions);
+    const session = await getOptionalSession();
 
     const scan = await prisma.scan.findUnique({
       where: { id },
@@ -24,7 +35,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
       }
     }
 
-    return NextResponse.json(scan);
+    return NextResponse.json(scanRecordToResult(scan));
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to fetch scan";
     return NextResponse.json({ error: message }, { status: 500 });
@@ -34,7 +45,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await getServerSession(authOptions);
+    const session = await getOptionalSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

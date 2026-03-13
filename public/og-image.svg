@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#080B14"/>
+      <stop offset="100%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#080B14"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6C3BFF"/>
+      <stop offset="100%" stop-color="#00D9FF"/>
+    </linearGradient>
+    <linearGradient id="icon-grad" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6C3BFF"/>
+      <stop offset="100%" stop-color="#00D9FF"/>
+    </linearGradient>
+    <!-- Grid pattern -->
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(108,59,255,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Glow effects -->
+  <ellipse cx="600" cy="250" rx="500" ry="200" fill="rgba(108,59,255,0.08)"/>
+  <ellipse cx="700" cy="350" rx="300" ry="150" fill="rgba(0,217,255,0.04)"/>
+
+  <!-- Logo icon -->
+  <g transform="translate(520, 160)">
+    <rect width="80" height="80" rx="18" fill="url(#icon-grad)"/>
+    <circle cx="40" cy="40" r="24" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none"/>
+    <circle cx="40" cy="40" r="9" fill="white" fill-opacity="0.95"/>
+    <line x1="40" y1="8" x2="40" y2="20" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="40" y1="60" x2="40" y2="72" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="8" y1="40" x2="20" y2="40" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="60" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <rect x="608" y="173" width="72" height="54" rx="12" fill="url(#icon-grad)"/>
+
+  <!-- Brand name -->
+  <text x="600" y="310" text-anchor="middle" font-family="'Space Grotesk', system-ui, sans-serif" font-size="52" font-weight="800" fill="#F0F4FF" letter-spacing="-1">
+    Agent<tspan fill="url(#brand)">Optimize</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="370" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="24" fill="#8892A4">
+    AI Visibility Score Scanner
+  </text>
+
+  <!-- Sub-tagline -->
+  <text x="600" y="420" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-size="18" fill="#4E5873">
+    Check how ChatGPT, Perplexity, Claude &amp; Gemini see your website
+  </text>
+
+  <!-- Bottom accent line -->
+  <rect x="400" y="480" width="400" height="2" rx="1" fill="url(#brand)" opacity="0.5"/>
+
+  <!-- URL -->
+  <text x="600" y="540" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="16" fill="#6C3BFF" letter-spacing="2">
+    agentoptimize.com
+  </text>
+</svg>
