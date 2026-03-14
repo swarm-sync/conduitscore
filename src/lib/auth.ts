@@ -9,14 +9,14 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      clientId: (process.env.GOOGLE_CLIENT_ID ?? "").trim(),
+      clientSecret: (process.env.GOOGLE_CLIENT_SECRET ?? "").trim(),
     }),
     EmailProvider({
-      from: process.env.EMAIL_FROM ?? "noreply@conduitscore.com",
+      from: (process.env.EMAIL_FROM ?? "noreply@conduitscore.com").trim(),
       async sendVerificationRequest({ identifier: email, url, provider }) {
-        const apiKey = process.env.RESEND_API_KEY;
-        if (!apiKey) throw new Error("RESEND_API_KEY is not set");
+        const apiKey = (process.env.RESEND_API_KEY ?? "").trim();
+        if (!apiKey) throw new Error("RESEND_API_KEY is not set or is empty");
 
         const res = await fetch("https://api.resend.com/emails", {
           method: "POST",
