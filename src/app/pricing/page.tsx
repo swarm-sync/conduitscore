@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 export const metadata: Metadata = {
   title: "Pricing - AI Visibility Scanner Plans",
   description:
-    "ConduitScore pricing: Free (3 scans/month), Starter ($29/mo, 50 scans), Pro ($79/mo, 500 scans + monitoring), Agency ($199/mo, unlimited + API). Start free, upgrade when you need more.",
+    "ConduitScore pricing: Free (3 scans/month), Starter ($19/mo, 50 scans), Pro ($49/mo, 500 scans + monitoring), Agency ($99/mo, unlimited + API). Start free, upgrade when you need more.",
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
@@ -25,7 +25,7 @@ const plans = [
   {
     name: "Free",
     price: "$0",
-    description: "Try it out, no commitment",
+    description: "See your AI visibility score instantly",
     features: [
       "3 scans per month",
       "Single URL analysis",
@@ -38,9 +38,10 @@ const plans = [
   },
   {
     name: "Starter",
-    price: "$29",
+    price: "$19",
     period: "/mo",
-    description: "For individual site owners",
+    annualNote: "$15/mo billed annually",
+    description: "For indie hackers & site owners",
     features: [
       "50 scans per month",
       "Single URL analysis",
@@ -54,8 +55,9 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "$79",
+    price: "$49",
     period: "/mo",
+    annualNote: "$39/mo billed annually",
     description: "For growing businesses",
     features: [
       "500 scans per month",
@@ -70,9 +72,10 @@ const plans = [
   },
   {
     name: "Agency",
-    price: "$199",
+    price: "$99",
     period: "/mo",
-    description: "For agencies & enterprises",
+    annualNote: "$79/mo billed annually",
+    description: "For agencies managing client sites",
     features: [
       "Unlimited scans",
       "REST API access",
@@ -169,7 +172,8 @@ function PricingFaqJsonLd() {
 }
 
 const comparisonRows = [
-  { feature: "Scans per month",       free: "3",     starter: "50",   pro: "500",    agency: "Unlimited" },
+  { feature: "Monthly price",          free: "$0",    starter: "$19",  pro: "$49",    agency: "$99" },
+  { feature: "Scans per month",        free: "3",     starter: "50",   pro: "500",    agency: "Unlimited" },
   { feature: "AI visibility score",   free: "Yes",   starter: "Yes",  pro: "Yes",    agency: "Yes" },
   { feature: "Copy-paste fixes",      free: "Yes",   starter: "Yes",  pro: "Yes",    agency: "Yes" },
   { feature: "Dashboard & history",   free: "—",     starter: "Yes",  pro: "Yes",    agency: "Yes" },

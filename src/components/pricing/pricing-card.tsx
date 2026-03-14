@@ -5,13 +5,15 @@ import { useState } from "react";
 interface PricingCardProps {
   name: string;
   price: string;
+  period?: string;
+  annualNote?: string;
   description: string;
   features: string[];
   cta: string;
   popular: boolean;
 }
 
-export function PricingCard({ name, price, description, features, cta, popular }: PricingCardProps) {
+export function PricingCard({ name, price, period, annualNote, description, features, cta, popular }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe() {
@@ -146,8 +148,18 @@ export function PricingCard({ name, price, description, features, cta, popular }
             >
               {price}
             </span>
-            <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>/mo</span>
+            {period && (
+              <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>{period}</span>
+            )}
           </div>
+          {annualNote && (
+            <p
+              className="mt-1.5 text-xs"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              {annualNote} — save 20%
+            </p>
+          )}
         </div>
 
         {/* CTA Button */}
