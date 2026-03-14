@@ -31,16 +31,16 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="container-wide mx-auto flex h-[62px] items-center justify-between">
+      <div className="container-wide mx-auto flex h-[68px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           <Image
             src="/logo.png"
             alt="ConduitScore"
-            width={160}
-            height={36}
+            width={200}
+            height={45}
             priority
-            className="h-9 w-auto transition-opacity duration-200 group-hover:opacity-85"
+            className="h-[45px] w-auto transition-opacity duration-200 group-hover:opacity-85"
             style={{ objectFit: "contain" }}
           />
         </Link>
@@ -48,8 +48,9 @@ export function Header() {
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
           {[
             { href: "/#features", label: "Scanner" },
-            { href: "/#theory", label: "Theory" },
             { href: "/pricing",       label: "Pricing" },
+            { href: "/blog",          label: "Blog" },
+            { href: "/about",         label: "About" },
             { href: "/dashboard", label: "Scans" },
           ].map((link) => (
             <Link
@@ -131,8 +132,9 @@ export function Header() {
         >
           {[
             { href: "/#features", label: "Scanner" },
-            { href: "/#theory", label: "Theory" },
             { href: "/pricing",       label: "Pricing" },
+            { href: "/blog",          label: "Blog" },
+            { href: "/about",         label: "About" },
             { href: "/dashboard", label: "Scans" },
             { href: "/signin",        label: "Sign In" },
           ].map((link) => (

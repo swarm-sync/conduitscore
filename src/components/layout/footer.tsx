@@ -38,10 +38,10 @@ export function Footer() {
                 style={{
                   color: "var(--text-primary)",
                   fontFamily: "var(--font-display)",
-                  letterSpacing: "-0.08em",
+                  letterSpacing: "-0.06em",
                 }}
               >
-                AGENT<span style={{ color: "var(--brand-red)" }}>OPTIMIZE</span>
+                Conduit<span style={{ color: "var(--brand-red)" }}>Score</span>
               </span>
             </Link>
 
@@ -117,6 +117,7 @@ export function Footer() {
               {[
                 { label: "Scanner Spec", href: "/#theory" },
                 { label: "Blog", href: "/blog" },
+                { label: "About", href: "/about" },
                 { label: "API Reference", href: "/#theory" },
                 { label: "Status",        href: "https://status.conduitscore.com" },
               ].map((link) => (
@@ -137,7 +138,7 @@ export function Footer() {
                 { label: "Privacy Policy",  href: "/#" },
                 { label: "Terms of Service", href: "/#" },
                 { label: "Cookie Policy",   href: "/#" },
-                { label: "Contact",         href: "mailto:hello@conduitscore.com" },
+                { label: "Contact",         href: "/contact" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">
