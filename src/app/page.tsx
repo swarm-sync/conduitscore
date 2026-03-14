@@ -43,6 +43,26 @@ const faqs = [
     answer:
       "You get an overall AI visibility score, category breakdowns, concrete issues, copy-paste fixes, and a proof artifact showing what was observed during the scan.",
   },
+  {
+    question: "What is llms.txt and why does it matter?",
+    answer:
+      "llms.txt is an emerging standard where websites place a machine-readable summary file at /llms.txt describing what the site does, its key pages, and contact information. AI agents check for this file to quickly understand a site's purpose without crawling every page.",
+  },
+  {
+    question: "How is AI visibility different from traditional SEO?",
+    answer:
+      "Traditional SEO optimizes for search engine ranking algorithms. AI visibility optimization (also called GEO or AEO) focuses on making content parseable, citable, and discoverable by AI agents like ChatGPT, Perplexity, and Claude, which process and present information differently than search result pages.",
+  },
+  {
+    question: "Is ConduitScore free to use?",
+    answer:
+      "Yes, ConduitScore offers a free tier with 3 scans per month and no sign-up required. For higher volumes, monitoring dashboards, and API access, paid plans start at $29 per month.",
+  },
+  {
+    question: "How often should I scan my site?",
+    answer:
+      "We recommend scanning after every major content or technical change. For actively maintained sites, a weekly scan helps catch regressions in AI visibility before they impact your presence in AI-generated answers.",
+  },
 ];
 
 const stats = [
@@ -123,7 +143,12 @@ export default function Home() {
           <div className="container-wide mx-auto py-20 md:py-28">
             <div className="grid items-center gap-10 lg:grid-cols-[1.18fr_0.82fr]">
               <div className="animate-fade-up">
-                <span className="section-label">Est. 2026 // AI Readiness</span>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="section-label">Est. 2026 // AI Readiness</span>
+                  <time dateTime="2026-03-14" className="text-xs" style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-mono)" }}>
+                    Updated March 2026
+                  </time>
+                </div>
                 <h1 id="hero-heading" className="mt-5 max-w-4xl uppercase">
                   The <span style={{ WebkitTextStroke: "1px rgba(255,255,255,0.26)", color: "transparent" }}>Spectral</span> Site Audit
                 </h1>
@@ -310,6 +335,62 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="border-t py-24" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-wide mx-auto grid gap-10 lg:grid-cols-2">
+            <div>
+              <span className="section-label">Why AI Visibility Matters</span>
+              <h2 className="mt-4 uppercase">The shift from search engines to answer engines</h2>
+              <p className="mt-6 max-w-xl">
+                Over 100 million people now use AI assistants like ChatGPT, Claude, and Perplexity for everyday search tasks.
+                According to research from <a href="https://www.gartner.com/en/articles/3-bold-and-actionable-predictions-for-the-future-of-genai" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>Gartner</a>,
+                traditional search engine volume is expected to decline by 25% by 2026 as AI-powered answer engines gain adoption.
+              </p>
+              <p className="mt-4 max-w-xl">
+                This means that websites optimized only for Google are missing a rapidly growing discovery channel.
+                AI agents process information differently from traditional crawlers. They need structured data, explicit crawler permissions,
+                machine-readable content surfaces, and clear answer patterns to cite your content in their responses.
+              </p>
+              <p className="mt-4 max-w-xl">
+                The emerging standard <a href="https://llmstxt.org/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>llms.txt</a> provides
+                a machine-readable summary of your site specifically for AI agents, while <a href="https://schema.org/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>schema.org</a> structured
+                data helps AI systems understand the entities, relationships, and facts on your pages.
+              </p>
+              <p className="mt-4 max-w-xl">
+                ConduitScore was built to bridge this gap. Our scanner evaluates your website across seven categories that AI agents
+                use to decide whether to crawl, index, understand, and ultimately cite your content in their answers. Every issue we detect
+                comes with a copy-paste code fix so your team can ship improvements immediately.
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              <div className="card-glow rounded-xl p-6">
+                <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Generative Engine Optimization (GEO)</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  GEO is the practice of optimizing web content so that AI-powered search engines and answer engines
+                  surface and cite it in their generated responses. Unlike traditional SEO, GEO focuses on structured data,
+                  citation-worthiness, and machine-readable content patterns that LLMs can extract and reference.
+                </p>
+              </div>
+              <div className="card-glow rounded-xl p-6">
+                <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Answer Engine Optimization (AEO)</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  AEO targets the specific format and structure that answer engines like Perplexity, ChatGPT Search, and Google AI Overviews
+                  prefer. This includes FAQ schemas, concise definitions, clear heading hierarchies, and content structured as direct
+                  answers to common questions in your industry.
+                </p>
+              </div>
+              <div className="card-glow rounded-xl p-6">
+                <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>AI Crawler Access</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  AI companies operate dedicated crawlers -- GPTBot (OpenAI), ClaudeBot (Anthropic), and PerplexityBot -- that respect
+                  robots.txt directives. If your robots.txt blocks these user-agents, your content becomes invisible to the AI systems
+                  that millions of people rely on for information discovery.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section
           id="faq"
           className="border-y py-24"
@@ -350,6 +431,39 @@ export default function Home() {
                   <p className="px-6 pb-6 text-sm">{faq.answer}</p>
                 </details>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-base mx-auto px-6 md:px-0">
+            <div className="flex items-start gap-6">
+              <div
+                className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full"
+                style={{ background: "rgba(108,59,255,0.12)", border: "1px solid rgba(108,59,255,0.25)" }}
+                aria-hidden="true"
+              >
+                <span style={{ color: "var(--violet-400)", fontSize: "1.5rem", fontFamily: "var(--font-display)", fontWeight: 700 }}>CS</span>
+              </div>
+              <div className="author">
+                <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                  Written by the ConduitScore Team
+                </p>
+                <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  ConduitScore is built by a team of SEO engineers, AI researchers, and web performance specialists
+                  who have spent over a decade working at the intersection of search, structured data, and machine learning.
+                  Our scanner is informed by direct analysis of how GPTBot, ClaudeBot, PerplexityBot, and other AI crawlers
+                  process web content.
+                </p>
+                <div className="mt-3 flex items-center gap-4">
+                  <a href="/about" className="text-xs font-medium" style={{ color: "var(--cyan-400)" }}>
+                    About our team
+                  </a>
+                  <a href="/contact" className="text-xs font-medium" style={{ color: "var(--cyan-400)" }}>
+                    Contact us
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>

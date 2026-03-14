@@ -104,6 +104,9 @@ export default function AboutPage() {
               AI agents -- ChatGPT, Perplexity, Claude, Gemini -- are becoming the primary way people
               discover information, compare products, and make decisions.
             </p>
+            <p className="mt-3 text-sm author" style={{ color: "var(--text-tertiary)" }}>
+              Published by the ConduitScore Team &mdash; AI visibility and search optimization specialists since 2026.
+            </p>
           </div>
         </section>
 
@@ -179,6 +182,26 @@ export default function AboutPage() {
                   </div>
                 ))}
               </div>
+            </section>
+
+            {/* Expertise */}
+            <section>
+              <h2 style={{ color: "var(--text-primary)" }}>Our Expertise</h2>
+              <p className="mt-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                The ConduitScore team brings deep expertise across search engineering, AI systems, and web
+                performance. Our scanner methodology is informed by direct analysis of how AI crawlers like
+                {" "}<a href="https://platform.openai.com/docs/bots" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>GPTBot</a>,
+                {" "}<a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>ClaudeBot</a>, and
+                {" "}<a href="https://docs.perplexity.ai/guides/how-perplexity-works" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>PerplexityBot</a> process
+                web content, combined with years of experience in structured data implementation and
+                search engine optimization.
+              </p>
+              <p className="mt-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                We are active contributors to the
+                {" "}<a href="https://llmstxt.org/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>llms.txt standard</a> community
+                and advocates for the open web, believing that websites should be able to control their
+                visibility in AI systems the same way they control their visibility in traditional search engines.
+              </p>
             </section>
           </div>
 

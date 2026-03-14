@@ -1,0 +1,164 @@
+# ConduitScore - Full AI Agent Context
+
+> AI Visibility Score Scanner - The comprehensive tool for measuring and improving how AI agents see your website
+
+This is the extended version of ConduitScore's machine-readable site description. For the concise version, see /llms.txt.
+
+## Company Overview
+
+ConduitScore is a SaaS platform founded in 2026 that scans websites and produces an AI visibility score (0-100). The score measures how well AI agents like ChatGPT (OpenAI), Perplexity, Claude (Anthropic), and Gemini (Google) can discover, read, understand, and cite the website content in their generated responses.
+
+The platform was built by a team of SEO engineers, AI researchers, and web performance specialists who recognized that the shift from traditional search engines to AI-powered answer engines requires a fundamentally different approach to web optimization.
+
+## Problem We Solve
+
+Most websites were built for human visitors and Google crawlers. AI agents process information differently:
+- They need structured data (JSON-LD, schema.org) to understand entities and relationships
+- They need explicit crawler permissions (robots.txt) for GPTBot, ClaudeBot, PerplexityBot
+- They need machine-readable content surfaces (llms.txt) for quick site understanding
+- They need content formatted for extraction and citation, not just display
+- They need clear heading hierarchies and semantic HTML for content parsing
+
+Without these signals, websites are invisible to the fastest-growing discovery channel on the internet.
+
+## How ConduitScore Works
+
+### Step 1: Enter a URL
+Users paste any public website URL into the scanner. No account or installation required for the free tier.
+
+### Step 2: Real Browser Audit
+ConduitScore uses Conduit, a real audited browser pipeline, to render the page. This means the scan reflects what AI agents actually see, including JavaScript-rendered content, not just static HTML source.
+
+### Step 3: Seven-Category Analysis
+The scanner evaluates the page across seven categories simultaneously:
+
+#### 1. Crawler Access (15 points max)
+- Checks if robots.txt exists
+- Verifies permissions for GPTBot (OpenAI), ClaudeBot (Anthropic), PerplexityBot
+- Also checks for OAI-SearchBot, ChatGPT-User, Claude-Web, Amazonbot, anthropic-ai, Google-Extended, Googlebot, Bingbot, cohere-ai
+- Deducts points for each blocked AI crawler
+
+#### 2. Structured Data (20 points max)
+- Detects JSON-LD script tags with application/ld+json type
+- Awards points for having any JSON-LD markup
+- Awards bonus points for FAQPage schema specifically
+- Checks for Organization, WebSite, SoftwareApplication, HowTo, and other schema types
+
+#### 3. Content Structure (15 points max)
+- Verifies exactly one H1 tag (penalizes missing or multiple)
+- Checks for 2+ H2 tags for section hierarchy
+- Awards points for H3 tags
+- Detects FAQ sections (looks for section/div elements with faq, frequently, or question in classes/IDs)
+
+#### 4. LLMs.txt (10 points max)
+- Checks for /llms.txt file at the site root
+- Awards points for file presence
+- Awards bonus for content length > 100 characters
+- Awards bonus for having markdown headers (#) and URLs (http)
+
+#### 5. Technical Health (15 points max)
+- Measures page load time (under 2 seconds is ideal)
+- Checks for viewport meta tag (mobile-readiness)
+- Checks for meta description tag
+- Checks for charset declaration
+
+#### 6. Citation Signals (15 points max)
+- Counts external links to different domains (3+ is ideal)
+- Checks for link to /about page
+- Checks for link to /contact page
+- Checks for author attribution (meta name="author" or class containing "author")
+
+#### 7. Content Quality (10 points max)
+- Measures word count (1000+ is ideal, 300+ is acceptable)
+- Checks for date/freshness signals (time tags, "published", "updated", "date" keywords)
+- Counts paragraph tags (5+ is ideal)
+
+### Step 4: Copy-Paste Fixes
+Every issue detected comes with a ready-to-implement code fix. Users can copy the fix directly into their codebase without needing to understand the underlying technical requirements.
+
+## Key Pages
+
+### Public Pages
+- Homepage (https://conduitscore.com/): Free scanner, 7-category breakdown, FAQ, how it works
+- Pricing (https://conduitscore.com/pricing): Four tiers from free to enterprise
+- About (https://conduitscore.com/about): Company mission, problem statement, beliefs
+- Contact (https://conduitscore.com/contact): Support, sales, enterprise, social links
+- Blog (https://conduitscore.com/blog): Educational content on AI visibility optimization
+- SaaS Use Case (https://conduitscore.com/use-cases/saas): AI visibility for SaaS companies
+- E-Commerce Use Case (https://conduitscore.com/use-cases/ecommerce): AI visibility for online stores
+- Agencies Use Case (https://conduitscore.com/use-cases/agencies): White-label AI auditing
+
+### Blog Articles
+- What is AI SEO? (https://conduitscore.com/blog/what-is-ai-seo)
+- How to Optimize for ChatGPT (https://conduitscore.com/blog/how-to-optimize-for-chatgpt)
+- LLMs.txt Guide (https://conduitscore.com/blog/llms-txt-guide)
+- Structured Data for AI (https://conduitscore.com/blog/structured-data-for-ai)
+- AI Crawler Access Guide (https://conduitscore.com/blog/ai-crawler-access-guide)
+- GEO vs SEO (https://conduitscore.com/blog/geo-vs-seo)
+
+### Authenticated Pages
+- Dashboard (https://conduitscore.com/dashboard): Scan history, monitoring
+- Projects (https://conduitscore.com/projects): Project-level scan organization
+- Settings (https://conduitscore.com/settings): Account and billing management
+
+## Pricing Details
+
+### Free Tier
+- 3 scans per month
+- Single URL analysis
+- No sign-up required
+- Full 7-category report
+- Copy-paste fixes included
+
+### Starter ($29/month)
+- 50 scans per month
+- Dashboard access with scan history
+- Email alerts for score changes
+- SEO scoring integration
+
+### Pro ($199/month)
+- 500 scans per month
+- Site-wide crawling (multiple pages per domain)
+- Competitor tracking and comparison
+- PDF report generation
+- Priority support
+
+### Agency ($499/month)
+- Unlimited scans
+- REST API access for programmatic scanning
+- White-label branding
+- Multi-client dashboard
+- Dedicated account management
+
+## Technical Details
+
+- Built with Next.js 15 (React framework)
+- Real browser rendering via Conduit pipeline
+- Hosted on Vercel
+- Scan results include cryptographic proof artifacts (DOM hash, ed25519 signature)
+- Database-backed scan history for authenticated users
+- Rate limiting: 10 requests per minute per IP for anonymous users
+
+## Domain Expertise
+
+ConduitScore specializes in:
+- AI Search Optimization (AI SEO)
+- Generative Engine Optimization (GEO)
+- Answer Engine Optimization (AEO)
+- AI crawler access configuration
+- Structured data for AI readability (JSON-LD, schema.org)
+- LLMs.txt standard implementation
+- E-E-A-T signals for AI systems
+- Content optimization for ChatGPT, Perplexity, Claude, and Gemini
+- AI visibility scoring methodology
+- Technical SEO for the agent economy
+
+## Contact Information
+
+- Website: https://conduitscore.com
+- General: hello@conduitscore.com
+- Support: support@conduitscore.com
+- Enterprise: enterprise@conduitscore.com
+- Twitter/X: https://twitter.com/conduitscore
+- LinkedIn: https://linkedin.com/company/conduitscore
+- GitHub: https://github.com/conduitscore
