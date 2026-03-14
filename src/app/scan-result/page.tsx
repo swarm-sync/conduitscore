@@ -10,10 +10,58 @@ import { IssueList } from "@/components/scan/issue-list";
 import { FixPanel } from "@/components/scan/fix-panel";
 import type { ScanResult } from "@/lib/scanner/types";
 
+function ShareButton({ scanId }: { scanId?: string }) {
+  const [copied, setCopied] = useState(false);
+  if (!scanId) return null;
+
+  const shareUrl = `${typeof window !== "undefined" ? window.location.origin : "https://conduitscore.com"}/scans/${scanId}`;
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // clipboard not available
+    }
+  }
+
+  return (
+    <button
+      onClick={() => void handleCopy()}
+      className="inline-flex items-center gap-2 rounded-[var(--radius-md)] px-4 py-2.5 text-sm font-medium transition-all"
+      style={{
+        background: copied ? "rgba(0,229,160,0.10)" : "rgba(255,255,255,0.03)",
+        border: copied ? "1px solid rgba(0,229,160,0.30)" : "1px solid var(--border-default)",
+        color: copied ? "var(--success-400)" : "var(--text-secondary)",
+      }}
+    >
+      {copied ? (
+        <>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Link copied!
+        </>
+      ) : (
+        <>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M8.5 1h-6a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V4.5L8.5 1z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M8.5 1v3.5H12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+            <path d="M4 7.5h6M4 9.5h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+          </svg>
+          Share Report
+        </>
+      )}
+    </button>
+  );
+}
+
 export default function ScanResultPage() {
   const [result, setResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [currentScanId, setCurrentScanId] = useState<string | undefined>(undefined);
   const [tab, setTab] = useState<"overview" | "issues" | "fixes">("overview");
   const router = useRouter();
 
@@ -31,6 +79,7 @@ export default function ScanResultPage() {
             throw new Error(data.error || "Failed to load scan result");
           }
 
+          setCurrentScanId(scanId);
           startTransition(() => {
             setResult(data as ScanResult);
           });
@@ -43,7 +92,8 @@ export default function ScanResultPage() {
           return;
         }
 
-        const parsed = JSON.parse(stored) as ScanResult;
+        const parsed = JSON.parse(stored) as ScanResult & { id?: string };
+        if (parsed.id) setCurrentScanId(parsed.id);
         startTransition(() => {
           setResult(parsed);
         });
@@ -375,6 +425,8 @@ export default function ScanResultPage() {
 
           {/* Action buttons */}
           <div className="mt-10 flex flex-wrap gap-3">
+            <ShareButton scanId={currentScanId} />
+
             <button
               onClick={() => router.push("/")}
               className="inline-flex items-center gap-2 rounded-[var(--radius-md)] px-4 py-2.5 text-sm font-medium transition-all"

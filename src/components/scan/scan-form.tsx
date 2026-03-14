@@ -11,6 +11,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [upgradeRequired, setUpgradeRequired] = useState(false);
   const router = useRouter();
 
   async function handleScan() {
@@ -20,6 +21,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
     }
 
     setError(null);
+    setUpgradeRequired(false);
     setLoading(true);
 
     try {
@@ -32,7 +34,12 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Scan failed");
+        if (res.status === 402 && data.upgradeRequired) {
+          setError(`Scan limit reached (${String(data.used)}/${String(data.limit)} this month). Upgrade your plan for more scans.`);
+          setUpgradeRequired(true);
+        } else {
+          setError(data.error || "Scan failed");
+        }
         return;
       }
 
@@ -169,19 +176,29 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
         </div>
 
         {error && (
-          <p
+          <div
             id="hero-scan-error"
-            className="mt-3 flex items-center gap-1.5 text-sm"
-            style={{ color: "var(--error-400)" }}
+            className="mt-3 flex flex-col gap-2"
             role="alert"
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.25" />
-              <path d="M7 4.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <circle cx="7" cy="9.5" r="0.75" fill="currentColor" />
-            </svg>
-            {error}
-          </p>
+            <p className="flex items-center gap-1.5 text-sm" style={{ color: "var(--error-400)" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.25" />
+                <path d="M7 4.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="7" cy="9.5" r="0.75" fill="currentColor" />
+              </svg>
+              {error}
+            </p>
+            {upgradeRequired && (
+              <a
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1.5 self-start"
+                style={{ background: "var(--gradient-primary)", color: "#fff" }}
+              >
+                Upgrade Plan →
+              </a>
+            )}
+          </div>
         )}
       </div>
     );
@@ -254,14 +271,25 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
         </button>
       </div>
       {error && (
-        <p className="mt-2 text-xs flex items-center gap-1.5" style={{ color: "var(--error-400)" }} role="alert">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.25" />
-            <path d="M6 3.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="6" cy="8.5" r="0.75" fill="currentColor" />
-          </svg>
-          {error}
-        </p>
+        <div className="mt-2 flex flex-col gap-1.5" role="alert">
+          <p className="text-xs flex items-center gap-1.5" style={{ color: "var(--error-400)" }}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.25" />
+              <path d="M6 3.5v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <circle cx="6" cy="8.5" r="0.75" fill="currentColor" />
+            </svg>
+            {error}
+          </p>
+          {upgradeRequired && (
+            <a
+              href="/pricing"
+              className="inline-flex items-center gap-1 text-xs font-semibold"
+              style={{ color: "var(--violet-400)" }}
+            >
+              Upgrade Plan →
+            </a>
+          )}
+        </div>
       )}
     </div>
   );

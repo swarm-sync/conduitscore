@@ -5,6 +5,14 @@ import { runScan } from "@/lib/scanner/scan-orchestrator";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { normalizeUrl } from "@/lib/scanner/url-normalizer";
 
+// Monthly scan limits per tier
+const TIER_LIMITS: Record<string, number> = {
+  free: 3,
+  starter: 50,
+  pro: 500,
+  agency: Infinity,
+};
+
 async function getOptionalSession() {
   try {
     const [{ getServerSession }, { authOptions }] = await Promise.all([
@@ -49,9 +57,54 @@ export async function POST(request: NextRequest) {
     if (session?.user?.email) {
       const user = await prisma.user.findUnique({
         where: { email: session.user.email },
-        select: { id: true },
+        select: { id: true, subscriptionTier: true, scanCountMonth: true, scanResetAt: true },
       });
-      userId = user?.id;
+
+      if (user) {
+        userId = user.id;
+
+        // Reset monthly count if new billing period has started
+        const now = new Date();
+        const resetAt = new Date(user.scanResetAt);
+        const monthsElapsed =
+          (now.getFullYear() - resetAt.getFullYear()) * 12 +
+          (now.getMonth() - resetAt.getMonth());
+
+        let scanCount = user.scanCountMonth;
+        if (monthsElapsed >= 1) {
+          // Reset counter for new month
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { scanCountMonth: 0, scanResetAt: now },
+          });
+          scanCount = 0;
+        }
+
+        const tier = user.subscriptionTier ?? "free";
+        const limit = TIER_LIMITS[tier] ?? TIER_LIMITS.free;
+
+        if (scanCount >= limit) {
+          return NextResponse.json(
+            {
+              error: `You've used all ${limit} scans for this month on the ${tier} plan.`,
+              upgradeRequired: true,
+              tier,
+              limit,
+              used: scanCount,
+            },
+            { status: 402 }
+          );
+        }
+
+        // Increment scan count
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { scanCountMonth: { increment: 1 } },
+        });
+      }
+    } else {
+      // Anonymous users: use IP-based rate limit (already applied above, 10/min)
+      // No monthly DB tracking for anonymous — they get 3 free scans via IP rate limit
     }
 
     const scan = await prisma.scan.create({
