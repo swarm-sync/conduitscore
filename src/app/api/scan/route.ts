@@ -26,9 +26,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });
     }
 
-    // Validate URL format
+    // Normalize first (prepends https:// if missing), then validate
+    let normalizedUrl: string;
     try {
-      new URL(url);
+      normalizedUrl = normalizeUrl(url);
     } catch {
       return NextResponse.json({ error: "Invalid URL format" }, { status: 400 });
     }
@@ -37,8 +38,6 @@ export async function POST(request: NextRequest) {
     if (!checkRateLimit(ip, 10, 60000)) {
       return NextResponse.json({ error: "Rate limit exceeded. Try again in a minute." }, { status: 429 });
     }
-
-    const normalizedUrl = normalizeUrl(url);
     if (!process.env.DATABASE_URL) {
       const result = await runScan(normalizedUrl, `ephemeral_${Date.now()}`);
       return NextResponse.json({ status: "completed", ...result });
