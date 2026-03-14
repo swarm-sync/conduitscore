@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { Providers } from "@/components/providers";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
@@ -259,7 +260,7 @@ export default function RootLayout({
           fontFamily: "var(--font-body)",
         }}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { UserMenu } from "@/components/layout/user-menu";
 
 const navItems = [
   {
@@ -159,17 +160,7 @@ export default function DashboardLayout({
             >
               Upgrade Plan
             </Link>
-            <div
-              className="h-7 w-7 rounded-full flex items-center justify-center text-xs font-bold"
-              style={{
-                background: "var(--violet-800)",
-                color: "var(--violet-200)",
-                border: "1px solid var(--border-default)",
-              }}
-              aria-label="User menu"
-            >
-              U
-            </div>
+            <UserMenu />
           </div>
         </header>
 
