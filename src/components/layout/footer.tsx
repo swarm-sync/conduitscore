@@ -37,10 +37,10 @@ export function Footer() {
               <Image
                 src="/logo-wide.png"
                 alt="ConduitScore"
-                width={180}
-                height={38}
-                className="h-[38px] w-auto transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain" }}
+                width={220}
+                height={46}
+                className="h-[46px] w-auto transition-opacity duration-200 group-hover:opacity-80"
+                style={{ objectFit: "contain", mixBlendMode: "screen" }}
               />
             </Link>
 

@@ -31,17 +31,17 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="container-wide mx-auto flex h-[68px] items-center justify-between">
+      <div className="container-wide mx-auto flex h-[76px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           <Image
             src="/logo-wide.png"
             alt="ConduitScore"
-            width={260}
-            height={55}
+            width={300}
+            height={64}
             priority
-            className="h-[55px] w-auto transition-opacity duration-200 group-hover:opacity-85"
-            style={{ objectFit: "contain" }}
+            className="h-[64px] w-auto transition-opacity duration-200 group-hover:opacity-90"
+            style={{ objectFit: "contain", mixBlendMode: "screen" }}
           />
         </Link>
 

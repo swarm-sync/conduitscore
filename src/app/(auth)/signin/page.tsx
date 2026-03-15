@@ -58,10 +58,11 @@ export default function SignInPage() {
             <Image
               src="/logo-wide.png"
               alt="ConduitScore"
-              width={200}
-              height={65}
-              className="h-16 w-auto"
+              width={240}
+              height={78}
+              className="h-20 w-auto"
               priority
+              style={{ mixBlendMode: "screen" }}
             />
           </div>
           <h1

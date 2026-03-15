@@ -77,9 +77,10 @@ export default function DashboardLayout({
             <Image
               src="/logo-wide.png"
               alt="ConduitScore"
-              width={150}
-              height={42}
-              className="h-9 w-auto"
+              width={170}
+              height={48}
+              className="h-11 w-auto"
+              style={{ mixBlendMode: "screen" }}
             />
           </Link>
         </div>
