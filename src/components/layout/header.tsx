@@ -35,12 +35,12 @@ export function Header() {
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           <Image
-            src="/logo.png"
+            src="/logo-wide.png"
             alt="ConduitScore"
-            width={200}
-            height={45}
+            width={260}
+            height={55}
             priority
-            className="h-[45px] w-auto transition-opacity duration-200 group-hover:opacity-85"
+            className="h-[55px] w-auto transition-opacity duration-200 group-hover:opacity-85"
             style={{ objectFit: "contain" }}
           />
         </Link>

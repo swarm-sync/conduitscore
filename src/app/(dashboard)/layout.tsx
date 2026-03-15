@@ -75,12 +75,11 @@ export default function DashboardLayout({
         >
           <Link href="/" aria-label="ConduitScore home">
             <Image
-              src="/logo.png"
+              src="/logo-wide.png"
               alt="ConduitScore"
-              width={120}
-              height={40}
-              className="h-8 w-auto"
-              style={{ mixBlendMode: "screen" }}
+              width={150}
+              height={42}
+              className="h-9 w-auto"
             />
           </Link>
         </div>

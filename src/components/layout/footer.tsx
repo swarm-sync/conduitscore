@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   const currentYear = 2026;
@@ -32,17 +33,15 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="md:col-span-1">
-            <Link href="/" className="inline-flex items-center" aria-label="ConduitScore home">
-              <span
-                className="text-xl font-extrabold"
-                style={{
-                  color: "var(--text-primary)",
-                  fontFamily: "var(--font-display)",
-                  letterSpacing: "-0.06em",
-                }}
-              >
-                Conduit<span style={{ color: "var(--brand-red)" }}>Score</span>
-              </span>
+            <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
+              <Image
+                src="/logo-wide.png"
+                alt="ConduitScore"
+                width={180}
+                height={38}
+                className="h-[38px] w-auto transition-opacity duration-200 group-hover:opacity-80"
+                style={{ objectFit: "contain" }}
+              />
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>
@@ -135,10 +134,10 @@ export function Footer() {
             <h3 className="section-label mb-4">Legal</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Privacy Policy",  href: "/#" },
-                { label: "Terms of Service", href: "/#" },
-                { label: "Cookie Policy",   href: "/#" },
-                { label: "Contact",         href: "/contact" },
+                { label: "Privacy Policy",   href: "/privacy" },
+                { label: "Terms of Service", href: "/terms" },
+                { label: "Cookie Policy",    href: "/cookies" },
+                { label: "Contact",          href: "/contact" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">

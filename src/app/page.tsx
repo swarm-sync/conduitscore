@@ -149,7 +149,11 @@ export default function Home() {
                     Updated March 2026
                   </time>
                 </div>
-                <h1 id="hero-heading" className="mt-5 max-w-4xl uppercase">
+                <h1
+                  id="hero-heading"
+                  className="mt-5 max-w-4xl uppercase"
+                  style={{ fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)", lineHeight: 1.04, letterSpacing: "-0.03em" }}
+                >
                   The <span style={{ WebkitTextStroke: "1px rgba(255,255,255,0.26)", color: "transparent" }}>Spectral</span> Site Audit
                 </h1>
                 <p className="mt-6 max-w-xl text-lg">
