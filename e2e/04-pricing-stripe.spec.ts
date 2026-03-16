@@ -15,29 +15,31 @@ test.describe('Pricing page — tier display', () => {
     expect(text).toMatch(/pricing/i);
   });
 
-  test('all 4 pricing tiers are visible (Free, Starter, Pro, Agency)', async ({ page }) => {
+  test('all 5 pricing tiers are visible (Free, Starter, Pro, Growth, Agency)', async ({ page }) => {
     await page.goto('/pricing');
-    for (const planName of ['Free', 'Starter', 'Pro', 'Agency']) {
+    for (const planName of ['Free', 'Starter', 'Pro', 'Growth', 'Agency']) {
       await expect(page.getByRole('heading', { name: planName }).first()).toBeVisible();
     }
   });
 
   test('Starter tier shows price "$29"', async ({ page }) => {
     await page.goto('/pricing');
-    // Find the Starter heading, then assert $29 appears nearby
-    const starterCard = page.locator('[aria-label*="Starter"], h3:has-text("Starter")').first();
-    await expect(starterCard).toBeVisible();
     await expect(page.getByText('$29').first()).toBeVisible();
   });
 
-  test('Pro tier shows price "$199"', async ({ page }) => {
+  test('Pro tier shows price "$49"', async ({ page }) => {
     await page.goto('/pricing');
-    await expect(page.getByText('$199').first()).toBeVisible();
+    await expect(page.getByText('$49').first()).toBeVisible();
   });
 
-  test('Agency tier shows price "$499"', async ({ page }) => {
+  test('Growth tier shows price "$79"', async ({ page }) => {
     await page.goto('/pricing');
-    await expect(page.getByText('$499').first()).toBeVisible();
+    await expect(page.getByText('$79').first()).toBeVisible();
+  });
+
+  test('Agency tier shows price "$149"', async ({ page }) => {
+    await page.goto('/pricing');
+    await expect(page.getByText('$149').first()).toBeVisible();
   });
 
   test('each paid tier has a CTA button with correct label', async ({ page }) => {
@@ -118,13 +120,13 @@ test.describe('Stripe checkout API — contract', () => {
     expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
   });
 
-  test('POST /api/stripe/checkout with tier "agency" returns 200 with stripe url', async ({ request }) => {
+  test('POST /api/stripe/checkout with tier "agency" returns 400 (Contact Us only)', async ({ request }) => {
     const response = await request.post('/api/stripe/checkout', {
       data: { tier: 'agency' },
     });
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(400);
     const body = await response.json();
-    expect(body.url).toMatch(/^https:\/\/checkout\.stripe\.com/);
+    expect(body).toHaveProperty('error');
   });
 
   test('POST /api/stripe/checkout with invalid tier returns 400', async ({ request }) => {
@@ -147,12 +149,12 @@ test.describe('Stripe checkout API — contract', () => {
 });
 
 test.describe('Pricing page — mobile', () => {
-  test('all 4 tiers visible on 375px mobile', async ({ page }) => {
+  test('all 5 tiers visible on 375px mobile', async ({ page }) => {
     page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/pricing');
     await expect(page.locator('h1')).toBeVisible();
 
-    for (const planName of ['Free', 'Starter', 'Pro', 'Agency']) {
+    for (const planName of ['Free', 'Starter', 'Pro', 'Growth', 'Agency']) {
       await expect(page.getByRole('heading', { name: planName }).first()).toBeVisible();
     }
   });

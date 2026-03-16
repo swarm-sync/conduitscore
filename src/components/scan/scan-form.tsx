@@ -112,6 +112,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
               aria-invalid={!!error}
               aria-describedby={error ? "hero-scan-error" : undefined}
               autoComplete="url"
+              autoFocus
             />
 
             <div className="p-2 flex items-center flex-shrink-0">
@@ -164,7 +165,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
                   </>
                 ) : (
                   <>
-                    Start Scan
+                    Scan My Site
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                       <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

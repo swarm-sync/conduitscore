@@ -8,14 +8,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 export const metadata: Metadata = {
   title: "Pricing - AI Visibility Scanner Plans",
   description:
-    "ConduitScore pricing: Free (3 scans/month), Starter ($19/mo, 50 scans), Pro ($49/mo, 500 scans + monitoring), Agency ($99/mo, unlimited + API). Start free, upgrade when you need more.",
+    "ConduitScore pricing: Free (3 scans/month), Starter ($29/mo, 50 scans), Pro ($49/mo, 100 scans), Growth ($79/mo, 500 scans), Agency ($149/mo, unlimited). Start free, upgrade when you need more.",
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
   openGraph: {
     title: "ConduitScore Pricing - AI Visibility Scanner Plans",
     description:
-      "Start free with 3 AI visibility scans per month. Upgrade for site-wide crawling, competitor tracking, and white-label options.",
+      "Start free with 3 AI visibility scans per month. Upgrade for code fixes, issue descriptions, score trends, and more.",
     url: `${SITE_URL}/pricing`,
     type: "website",
   },
@@ -30,7 +30,7 @@ const plans = [
       "3 scans per month",
       "Single URL analysis",
       "7-category AI scoring",
-      "Copy-paste code fixes",
+      "1 free sample code fix",
       "No sign-up required",
     ],
     cta: "Scan Free",
@@ -38,14 +38,14 @@ const plans = [
   },
   {
     name: "Starter",
-    price: "$19",
+    price: "$29",
     period: "/mo",
-    annualNote: "$15/mo billed annually",
+    annualNote: "$23/mo billed annually",
     description: "For indie hackers & site owners",
     features: [
       "50 scans per month",
-      "Single URL analysis",
-      "7-category AI scoring",
+      "All code fixes unlocked",
+      "Full issue descriptions",
       "Dashboard & scan history",
       "Shareable report links",
       "Email sign-in",
@@ -60,32 +60,48 @@ const plans = [
     annualNote: "$39/mo billed annually",
     description: "For growing businesses",
     features: [
-      "500 scans per month",
+      "100 scans per month",
+      "Everything in Starter",
       "Projects & site monitoring",
       "Weekly auto-rescan",
       "Score trend history",
-      "Scheduled scanning",
       "Priority support",
     ],
     cta: "Get Started",
     popular: true,
   },
   {
-    name: "Agency",
-    price: "$99",
+    name: "Growth",
+    price: "$79",
     period: "/mo",
-    annualNote: "$79/mo billed annually",
-    description: "For agencies managing client sites",
+    annualNote: "$63/mo billed annually",
+    description: "For scaling teams",
     features: [
-      "Unlimited scans",
-      "REST API access",
-      "White-label reports",
-      "Bulk scan (50 URLs)",
-      "Unlimited projects",
-      "Dedicated account manager",
+      "500 scans per month",
+      "Everything in Pro",
+      "Score trend history chart",
+      "Scheduled weekly re-scans",
+      "Email alerts on score drop",
+      "Priority support",
     ],
     cta: "Get Started",
     popular: false,
+  },
+  {
+    name: "Agency",
+    price: "$149",
+    description: "For agencies managing client sites",
+    features: [
+      "Unlimited scans",
+      "Everything in Growth",
+      "Bulk scan (CSV upload)",
+      "REST API access",
+      "Dedicated account manager",
+      "Custom onboarding",
+    ],
+    cta: "Contact Us",
+    popular: false,
+    contactOnly: true,
   },
 ];
 
@@ -148,7 +164,7 @@ const pricingFaqs = [
   {
     question: "Do you offer annual billing discounts?",
     answer:
-      "Yes, annual billing saves you 20% compared to monthly pricing. Contact our sales team for custom enterprise pricing.",
+      "Yes, annual billing saves you 20% compared to monthly pricing. Contact our team for Agency or custom enterprise pricing.",
   },
 ];
 
@@ -172,17 +188,17 @@ function PricingFaqJsonLd() {
 }
 
 const comparisonRows = [
-  { feature: "Monthly price",          free: "$0",    starter: "$19",  pro: "$49",    agency: "$99" },
-  { feature: "Scans per month",        free: "3",     starter: "50",   pro: "500",    agency: "Unlimited" },
-  { feature: "AI visibility score",   free: "Yes",   starter: "Yes",  pro: "Yes",    agency: "Yes" },
-  { feature: "Copy-paste fixes",      free: "Yes",   starter: "Yes",  pro: "Yes",    agency: "Yes" },
-  { feature: "Dashboard & history",   free: "—",     starter: "Yes",  pro: "Yes",    agency: "Yes" },
-  { feature: "Shareable reports",     free: "—",     starter: "Yes",  pro: "Yes",    agency: "Yes" },
-  { feature: "Projects & monitoring", free: "—",     starter: "—",    pro: "Yes",    agency: "Yes" },
-  { feature: "Weekly auto-rescan",    free: "—",     starter: "—",    pro: "Yes",    agency: "Yes" },
-  { feature: "Bulk scan",             free: "—",     starter: "—",    pro: "—",      agency: "50 URLs" },
-  { feature: "REST API access",       free: "—",     starter: "—",    pro: "—",      agency: "Yes" },
-  { feature: "White-label reports",   free: "—",     starter: "—",    pro: "—",      agency: "Yes" },
+  { feature: "Monthly price",          free: "$0",         starter: "$29",  pro: "$49",    growth: "$79",      agency: "$149" },
+  { feature: "Scans per month",        free: "3",          starter: "50",   pro: "100",    growth: "500",      agency: "Unlimited" },
+  { feature: "AI visibility score",   free: "Yes",        starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
+  { feature: "Code fixes unlocked",   free: "1 sample",   starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
+  { feature: "Issue descriptions",    free: "Titles only", starter: "Yes", pro: "Yes",    growth: "Yes",      agency: "Yes" },
+  { feature: "Dashboard & history",   free: "—",          starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
+  { feature: "Score trend chart",     free: "—",          starter: "—",    pro: "—",      growth: "Yes",      agency: "Yes" },
+  { feature: "Scheduled re-scans",    free: "—",          starter: "—",    pro: "Yes",    growth: "Yes",      agency: "Yes" },
+  { feature: "Email alerts",          free: "—",          starter: "—",    pro: "—",      growth: "Yes",      agency: "Yes" },
+  { feature: "Bulk scan",             free: "—",          starter: "—",    pro: "—",      growth: "—",        agency: "CSV upload" },
+  { feature: "REST API access",       free: "—",          starter: "—",    pro: "—",      growth: "—",        agency: "Yes" },
 ];
 
 export default function PricingPage() {
@@ -205,7 +221,7 @@ export default function PricingPage() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(108,59,255,0.22) 0%, rgba(0,217,255,0.06) 50%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(108,59,255,0.22) 0%, rgba(217,255,0,0.04) 50%, transparent 70%)",
             }}
             aria-hidden="true"
           />
@@ -253,7 +269,7 @@ export default function PricingPage() {
         {/* ===== PLANS GRID ===== */}
         <section className="py-20">
           <div className="container-wide mx-auto">
-            <div className="grid gap-5 lg:grid-cols-4 items-start">
+            <div className="grid gap-5 lg:grid-cols-5 items-start">
               {plans.map((plan) => (
                 <PricingCard key={plan.name} {...plan} />
               ))}
@@ -289,16 +305,16 @@ export default function PricingPage() {
                   <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                     <th
                       className="py-4 px-6 text-left font-semibold"
-                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)", width: "30%" }}
+                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)", width: "25%" }}
                     >
                       Feature
                     </th>
-                    {["Free", "Starter", "Pro", "Agency"].map((plan) => (
+                    {["Free", "Starter", "Pro", "Growth", "Agency"].map((plan) => (
                       <th
                         key={plan}
                         className="py-4 px-4 text-center font-semibold"
                         style={{
-                          color: plan === "Pro" ? "var(--cyan-400)" : "var(--text-secondary)",
+                          color: plan === "Pro" ? "var(--brand-red)" : "var(--text-secondary)",
                           fontFamily: "var(--font-display)",
                         }}
                       >
@@ -327,7 +343,7 @@ export default function PricingPage() {
                       <td className="py-3.5 px-6" style={{ color: "var(--text-secondary)" }}>
                         {row.feature}
                       </td>
-                      {[row.free, row.starter, row.pro, row.agency].map((val, vi) => (
+                      {[row.free, row.starter, row.pro, row.growth, row.agency].map((val, vi) => (
                         <td key={vi} className="py-3.5 px-4 text-center">
                           {val === "Yes" ? (
                             <div className="flex justify-center">
@@ -335,17 +351,17 @@ export default function PricingPage() {
                                 className="flex h-5 w-5 items-center justify-center rounded-full"
                                 style={{
                                   background: vi === 2
-                                    ? "rgba(0,217,255,0.10)"
+                                    ? "rgba(255,45,85,0.10)"
                                     : "rgba(0,229,160,0.08)",
                                   border: vi === 2
-                                    ? "1px solid rgba(0,217,255,0.22)"
+                                    ? "1px solid rgba(255,45,85,0.22)"
                                     : "1px solid rgba(0,229,160,0.20)",
                                 }}
                               >
                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-label="Included">
                                   <path
                                     d="M2 5l2.5 2.5 3.5-4"
-                                    stroke={vi === 2 ? "var(--cyan-400)" : "var(--success-400)"}
+                                    stroke={vi === 2 ? "var(--brand-red)" : "var(--success-400)"}
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -358,7 +374,7 @@ export default function PricingPage() {
                           ) : (
                             <span
                               style={{
-                                color: vi === 2 ? "var(--cyan-400)" : "var(--text-secondary)",
+                                color: vi === 2 ? "var(--brand-red)" : "var(--text-secondary)",
                                 fontWeight: vi === 2 ? 600 : 400,
                                 fontFamily: vi === 2 ? "var(--font-mono)" : "inherit",
                                 fontSize: vi === 2 ? "0.8125rem" : "inherit",
@@ -406,7 +422,7 @@ export default function PricingPage() {
                       style={{
                         background: "rgba(108,59,255,0.08)",
                         border: "1px solid var(--border-subtle)",
-                        color: "var(--cyan-400)",
+                        color: "var(--brand-red)",
                       }}
                       aria-hidden="true"
                     >

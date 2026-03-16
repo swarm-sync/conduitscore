@@ -36,9 +36,9 @@ const severityConfig: Record<string, {
     ),
   },
   info: {
-    bg:     "rgba(0, 217, 255, 0.06)",
-    color:  "var(--cyan-400)",
-    border: "rgba(0, 217, 255, 0.18)",
+    bg:     "rgba(108, 59, 255, 0.06)",
+    color:  "var(--violet-400)",
+    border: "rgba(108, 59, 255, 0.18)",
     label:  "Info",
     icon: (
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -49,6 +49,8 @@ const severityConfig: Record<string, {
     ),
   },
 };
+
+const DESCRIPTION_TRUNCATE_LENGTH = 120;
 
 export function IssueList({ issues }: { issues: Issue[] }) {
   if (issues.length === 0) {
@@ -88,6 +90,21 @@ export function IssueList({ issues }: { issues: Issue[] }) {
       {issues.map((issue) => {
         const conf = severityConfig[issue.severity] || severityConfig.info;
 
+        // Null/empty description means gated (free tier shows titles only)
+        const isDescriptionGated =
+          issue.description === null ||
+          issue.description === undefined ||
+          issue.description === "";
+
+        const descriptionText = issue.description ?? "";
+        const isTruncated =
+          !isDescriptionGated &&
+          descriptionText.length > DESCRIPTION_TRUNCATE_LENGTH;
+
+        const displayDescription = isTruncated
+          ? descriptionText.slice(0, DESCRIPTION_TRUNCATE_LENGTH)
+          : descriptionText;
+
         return (
           <div
             key={issue.id}
@@ -122,22 +139,71 @@ export function IssueList({ issues }: { issues: Issue[] }) {
               </span>
 
               <div className="min-w-0 flex-1">
+                {/* Issue title — always fully visible */}
                 <h4
                   className="text-sm font-semibold"
                   style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
                 >
                   {issue.title}
                 </h4>
-                <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
-                  {issue.description}
-                </p>
+
+                {/* Impact line — visible to ALL users */}
+                {issue.impact && (
+                  <p
+                    style={{
+                      color: "var(--text-tertiary)",
+                      fontStyle: "italic",
+                      fontSize: "0.8125rem",
+                      marginTop: "4px",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {issue.impact}
+                  </p>
+                )}
+
+                {/* Description — may be gated or truncated */}
+                {!isDescriptionGated && (
+                  <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
+                    {displayDescription}
+                    {isTruncated && (
+                      <>
+                        {"... "}
+                        <a
+                          href="/pricing"
+                          className="text-xs font-medium"
+                          style={{ color: "var(--brand-red)" }}
+                          aria-label="Upgrade to read the full issue description"
+                        >
+                          Upgrade to read
+                        </a>
+                      </>
+                    )}
+                  </p>
+                )}
+
+                {/* Fully gated description — free tier, show upgrade link only */}
+                {isDescriptionGated && (
+                  <p className="mt-1 text-xs" style={{ color: "var(--text-tertiary)" }}>
+                    <a
+                      href="/pricing"
+                      className="text-xs font-medium"
+                      style={{ color: "var(--brand-red)" }}
+                      aria-label="Upgrade to read the full issue description"
+                    >
+                      Upgrade to read
+                    </a>
+                  </p>
+                )}
+
+                {/* Category badge */}
                 <div className="mt-2 flex items-center gap-1.5">
                   <span
                     className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
                     style={{
-                      background: "rgba(0,217,255,0.06)",
-                      color: "var(--cyan-400)",
-                      border: "1px solid rgba(0,217,255,0.15)",
+                      background: "rgba(108,59,255,0.06)",
+                      color: "var(--violet-400)",
+                      border: "1px solid rgba(108,59,255,0.15)",
                       fontFamily: "var(--font-body)",
                     }}
                   >

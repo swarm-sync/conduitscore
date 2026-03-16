@@ -11,15 +11,22 @@ interface PricingCardProps {
   features: string[];
   cta: string;
   popular: boolean;
+  contactOnly?: boolean;
 }
 
-export function PricingCard({ name, price, period, annualNote, description, features, cta, popular }: PricingCardProps) {
+export function PricingCard({ name, price, period, annualNote, description, features, cta, popular, contactOnly }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe() {
-    if (name === "Agency") {
-      window.location.href = "mailto:sales@conduitscore.com";
+    if (name === "Agency" || contactOnly) {
+      window.location.href = "mailto:benstone@conduitscore.com";
       return;
+    }
+
+    const tier = name.toLowerCase();
+    if (tier === "agency") {
+      // Safety guard — should not reach Stripe for agency tier
+      throw new Error("Agency plan is not a self-serve purchase");
     }
 
     setLoading(true);
@@ -27,7 +34,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier: name.toLowerCase() }),
+        body: JSON.stringify({ tier }),
       });
 
       if (!res.ok) throw new Error("Checkout failed");
@@ -41,6 +48,8 @@ export function PricingCard({ name, price, period, annualNote, description, feat
       setLoading(false);
     }
   }
+
+  const isContactOnly = contactOnly || name === "Agency";
 
   return (
     /* Popular card gets animated gradient border wrapper */
@@ -167,21 +176,33 @@ export function PricingCard({ name, price, period, annualNote, description, feat
           onClick={handleSubscribe}
           disabled={loading}
           className="w-full rounded-[var(--radius-md)] py-3 text-sm font-semibold transition-all mb-8 disabled:opacity-40 disabled:cursor-not-allowed"
-          style={{
-            background: popular
-              ? "var(--brand-red)"
-              : "rgba(255, 45, 85, 0.08)",
-            color: popular ? "#fff" : "var(--text-primary)",
-            border: popular ? "none" : "1px solid var(--border-default)",
-            boxShadow: popular ? "var(--shadow-btn)" : "none",
-            fontFamily: "var(--font-display)",
-            cursor: loading ? "not-allowed" : "pointer",
-            letterSpacing: "0.005em",
-          }}
+          style={
+            isContactOnly
+              ? {
+                  background: "transparent",
+                  color: "var(--text-secondary)",
+                  border: "1px solid var(--border-default)",
+                  fontFamily: "var(--font-display)",
+                  cursor: "pointer",
+                  letterSpacing: "0.005em",
+                }
+              : {
+                  background: popular ? "var(--brand-red)" : "rgba(255, 45, 85, 0.08)",
+                  color: popular ? "#fff" : "var(--text-primary)",
+                  border: popular ? "none" : "1px solid var(--border-default)",
+                  boxShadow: popular ? "var(--shadow-btn)" : "none",
+                  fontFamily: "var(--font-display)",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  letterSpacing: "0.005em",
+                }
+          }
           onMouseEnter={(e) => {
             if (!loading) {
               const el = e.currentTarget;
-              if (popular) {
+              if (isContactOnly) {
+                el.style.borderColor = "rgba(108,59,255,0.5)";
+                el.style.color = "var(--text-primary)";
+              } else if (popular) {
                 el.style.boxShadow = "var(--shadow-btn-hover)";
                 el.style.transform = "translateY(-1px)";
               } else {
@@ -194,7 +215,10 @@ export function PricingCard({ name, price, period, annualNote, description, feat
           onMouseLeave={(e) => {
             const el = e.currentTarget;
             el.style.transform = "translateY(0)";
-            if (popular) {
+            if (isContactOnly) {
+              el.style.borderColor = "var(--border-default)";
+              el.style.color = "var(--text-secondary)";
+            } else if (popular) {
               el.style.boxShadow = "var(--shadow-btn)";
             } else {
               el.style.background = "rgba(255, 45, 85, 0.08)";
@@ -202,7 +226,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
               el.style.color = "var(--text-primary)";
             }
           }}
-          aria-label={`${cta} for ${name} plan at ${price} per month`}
+          aria-label={isContactOnly ? `Contact us about the ${name} plan at ${price}` : `${cta} for ${name} plan at ${price} per month`}
         >
           {loading ? (
             <span className="inline-flex items-center gap-2 justify-center">
@@ -213,7 +237,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
               Loading...
             </span>
           ) : (
-            cta
+            isContactOnly ? "Contact Us" : cta
           )}
         </button>
 

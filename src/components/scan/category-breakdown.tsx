@@ -66,12 +66,30 @@ export function CategoryBreakdown({ categories }: { categories: CategoryScore[] 
           >
             {/* Header row */}
             <div className="flex items-start justify-between mb-3 gap-2">
-              <span
-                className="text-xs font-semibold leading-tight"
-                style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
-              >
-                {cat.name}
-              </span>
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span
+                  className="text-xs font-semibold leading-tight truncate"
+                  style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+                >
+                  {cat.name}
+                </span>
+                {/* Issue count badge — visible to all tiers */}
+                {cat.issues.length > 0 && (
+                  <span
+                    className="flex-shrink-0 inline-flex items-center rounded-full px-1.5 py-0.5 text-xs font-semibold"
+                    style={{
+                      background: "rgba(255,45,85,0.08)",
+                      border: "1px solid rgba(255,45,85,0.2)",
+                      color: "var(--brand-red)",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.6875rem",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {cat.issues.length}
+                  </span>
+                )}
+              </div>
               <span
                 className="text-xs font-bold tabular-nums flex-shrink-0"
                 style={{

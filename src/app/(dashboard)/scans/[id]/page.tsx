@@ -54,6 +54,132 @@ function ShareButton({ scanId }: { scanId: string }) {
   );
 }
 
+function BadgeEmbedSection({ scanId, score }: { scanId: string; score: number }) {
+  const [copied, setCopied] = useState(false);
+  const siteUrl = typeof window !== "undefined" ? window.location.origin : "https://conduitscore.com";
+
+  const embedSnippet = `<a href="${siteUrl}/?ref=badge" target="_blank">\n  <img src="${siteUrl}/api/badge/${scanId}" alt="ConduitScore Verified: ${score}/100 AI-Visible" />\n</a>`;
+
+  async function handleCopyEmbed() {
+    try {
+      await navigator.clipboard.writeText(embedSnippet);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = embedSnippet;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  }
+
+  return (
+    <section
+      className="rounded-xl p-6"
+      style={{
+        background: "var(--surface-overlay)",
+        border: "1px solid var(--border-subtle)",
+      }}
+      aria-labelledby="badge-section-heading"
+    >
+      <h2
+        id="badge-section-heading"
+        className="text-base font-semibold mb-1"
+        style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+      >
+        Your site is AI-visible — show it off
+      </h2>
+      <p className="text-xs mb-5" style={{ color: "var(--text-tertiary)" }}>
+        Embed this badge on your site to signal AI-readiness to visitors.
+      </p>
+
+      {/* Live badge preview */}
+      <div className="flex items-center gap-4 mb-5">
+        <div
+          className="rounded-lg p-3 flex items-center justify-center"
+          style={{
+            background: "var(--surface-sunken)",
+            border: "1px solid var(--border-subtle)",
+            minWidth: "80px",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/badge/${scanId}`}
+            alt={`ConduitScore badge: ${score}/100 AI-Visible`}
+            style={{ display: "block", maxHeight: "28px", width: "auto" }}
+          />
+        </div>
+        <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+          Live badge — updates automatically when you re-scan.
+        </p>
+      </div>
+
+      {/* Embed snippet */}
+      <div className="mb-3">
+        <label
+          htmlFor="badge-embed-code"
+          className="block text-xs font-medium mb-1.5"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          Embed code
+        </label>
+        <textarea
+          id="badge-embed-code"
+          readOnly
+          value={embedSnippet}
+          rows={3}
+          className="w-full rounded-lg text-xs resize-none outline-none"
+          style={{
+            background: "var(--surface-sunken)",
+            border: "1px solid var(--border-subtle)",
+            color: "var(--brand-lime)",
+            fontFamily: "var(--font-mono)",
+            padding: "12px",
+            lineHeight: 1.6,
+          }}
+          onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+          aria-label="Badge embed HTML code"
+        />
+      </div>
+
+      <button
+        onClick={() => void handleCopyEmbed()}
+        className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all"
+        style={{
+          background: copied ? "rgba(0,229,160,0.10)" : "var(--brand-red)",
+          color: copied ? "var(--success-400)" : "#fff",
+          border: copied ? "1px solid rgba(0,229,160,0.30)" : "none",
+          fontFamily: "var(--font-display)",
+          cursor: "pointer",
+        }}
+        aria-label={copied ? "Embed code copied" : "Copy badge embed code to clipboard"}
+      >
+        {copied ? (
+          <>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7l3 3 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Copied!
+          </>
+        ) : (
+          <>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M9 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2" stroke="currentColor" strokeWidth="1.2" />
+            </svg>
+            Copy embed code
+          </>
+        )}
+      </button>
+    </section>
+  );
+}
+
 export default function DashboardScanResultPage() {
   const params = useParams<{ id: string }>();
   const [tab, setTab] = useState<"overview" | "issues" | "fixes">("overview");
@@ -108,6 +234,14 @@ export default function DashboardScanResultPage() {
     );
   }
 
+  // Extract domain from scan URL for fix panel display
+  let scanDomain = scan.url;
+  try {
+    scanDomain = new URL(scan.url.startsWith("http") ? scan.url : `https://${scan.url}`).hostname;
+  } catch {
+    scanDomain = scan.url;
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-6 rounded-[28px] p-6 lg:flex-row lg:items-center" style={{ background: "var(--gradient-card)", border: "1px solid var(--border-subtle)" }}>
@@ -145,7 +279,17 @@ export default function DashboardScanResultPage() {
 
       {tab === "overview" && <CategoryBreakdown categories={scan.categories} />}
       {tab === "issues" && <IssueList issues={scan.issues} />}
-      {tab === "fixes" && <FixPanel fixes={scan.fixes} />}
+      {tab === "fixes" && (
+        <FixPanel
+          fixes={scan.fixes}
+          scanDomain={scanDomain}
+        />
+      )}
+
+      {/* Share Your Score badge section — only shown when score >= 70 */}
+      {scan.overallScore >= 70 && params.id && (
+        <BadgeEmbedSection scanId={params.id} score={scan.overallScore} />
+      )}
     </div>
   );
 }

@@ -7,10 +7,11 @@ import { normalizeUrl } from "@/lib/scanner/url-normalizer";
 
 // Monthly scan limits per tier
 const TIER_LIMITS: Record<string, number> = {
-  free: 3,
+  free:    3,
   starter: 50,
-  pro: 500,
-  agency: Infinity,
+  pro:     100,
+  growth:  500,
+  agency:  Infinity,
 };
 
 async function getOptionalSession() {

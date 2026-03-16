@@ -7,18 +7,18 @@ import { test, expect } from '@playwright/test';
 // ============================================================
 
 test.describe('Landing Page — page title and hero', () => {
-  test('page title contains "ConduitScore" or "Spectral"', async ({ page }) => {
+  test('page title contains "ConduitScore"', async ({ page }) => {
     await page.goto('/');
     const title = await page.title();
-    expect(title).toMatch(/ConduitScore|Spectral/i);
+    expect(title).toMatch(/ConduitScore/i);
   });
 
-  test('h1 is visible and contains "Spectral"', async ({ page }) => {
+  test('h1 is visible and contains "AI visibility score"', async ({ page }) => {
     await page.goto('/');
     const h1 = page.locator('h1').first();
     await expect(h1).toBeVisible();
     const text = await h1.innerText();
-    expect(text).toMatch(/Spectral/i);
+    expect(text).toMatch(/AI visibility score/i);
   });
 
   test('no JS console errors on load (ignoring 404s for assets)', async ({ page }) => {
@@ -63,9 +63,9 @@ test.describe('Landing Page — How It Works section', () => {
     // "How It Works" label is visible
     await expect(page.getByText('How It Works').first()).toBeVisible();
     // The three step texts exist
-    await expect(page.getByText('Enter any URL').first()).toBeVisible();
+    await expect(page.getByText('Enter your URL').first()).toBeVisible();
     await expect(page.getByText('Score in 30 seconds').first()).toBeVisible();
-    await expect(page.getByText('Copy-paste fixes').first()).toBeVisible();
+    await expect(page.getByText('Copy-paste the fixes').first()).toBeVisible();
   });
 });
 
@@ -162,9 +162,11 @@ test.describe('Landing Page — navigation header', () => {
     await expect(page).toHaveURL(/\/signin/);
   });
 
-  test('Scanner nav link stays on homepage (anchor link)', async ({ page }) => {
+  test('header has exactly Pricing and Sign In nav links', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('link', { name: 'Scanner' }).first().click();
-    await expect(page).toHaveURL(/\//);
+    // The redesigned nav has only Pricing and Sign In — no Scanner link
+    await expect(page.getByRole('link', { name: 'Pricing' }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Sign In' }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Scanner' })).toHaveCount(0);
   });
 });

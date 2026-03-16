@@ -114,6 +114,7 @@ export function Footer() {
             <h3 className="section-label mb-4">Resources</h3>
             <ul className="space-y-2.5">
               {[
+                { label: "Documentation", href: "/docs" },
                 { label: "Scanner Spec", href: "/#theory" },
                 { label: "Blog", href: "/blog" },
                 { label: "About", href: "/about" },

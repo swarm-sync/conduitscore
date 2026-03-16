@@ -12,6 +12,8 @@ export interface Issue {
   severity: "critical" | "warning" | "info";
   title: string;
   description: string;
+  /** Plain-English consequence statement — present for all tiers in API responses. */
+  impact?: string;
 }
 
 export interface Fix {
@@ -20,6 +22,16 @@ export interface Fix {
   description: string;
   code: string;
   language: string;
+  /** Estimated score improvement when this fix is applied (all tiers in API responses). */
+  scoreImpact?: number;
+  /** Estimated implementation time in minutes (all tiers in API responses). */
+  effortMinutes?: number;
+  /** true when code/description have been stripped for free-tier users. */
+  locked?: boolean;
+  /** Character count of the original code string — present only on locked fixes. */
+  charCount?: number;
+  /** Present on the one sample fix shown to free-tier users. */
+  sampleLabel?: string;
 }
 
 export interface ScanResult {

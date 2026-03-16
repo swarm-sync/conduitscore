@@ -46,32 +46,23 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
-          {[
-            { href: "/#features", label: "Scanner" },
-            { href: "/pricing",       label: "Pricing" },
-            { href: "/blog",          label: "Blog" },
-            { href: "/about",         label: "About" },
-            { href: "/dashboard", label: "Scans" },
-          ].map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
-              style={{ color: "var(--text-secondary)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
-            >
-              {link.label}
-              <span
-                className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
-                style={{
-                  background: "var(--brand-red)",
-                  transformOrigin: "left",
-                }}
-                aria-hidden="true"
-              />
-            </Link>
-          ))}
+          <Link
+            href="/pricing"
+            className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
+            style={{ color: "var(--text-secondary)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+          >
+            Pricing
+            <span
+              className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+              style={{
+                background: "var(--brand-red)",
+                transformOrigin: "left",
+              }}
+              aria-hidden="true"
+            />
+          </Link>
 
           <Link
             href="/signin"
@@ -82,18 +73,6 @@ export function Header() {
           >
             Sign In
           </Link>
-
-          <div className="ml-1.5">
-            <Link
-              href="/#scan"
-              className="btn btn-primary btn-sm inline-flex items-center gap-1.5"
-            >
-              Run Audit
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
         </nav>
 
         {/* Mobile menu button */}
@@ -131,12 +110,8 @@ export function Header() {
           aria-label="Mobile navigation"
         >
           {[
-            { href: "/#features", label: "Scanner" },
-            { href: "/pricing",       label: "Pricing" },
-            { href: "/blog",          label: "Blog" },
-            { href: "/about",         label: "About" },
-            { href: "/dashboard", label: "Scans" },
-            { href: "/signin",        label: "Sign In" },
+            { href: "/pricing", label: "Pricing" },
+            { href: "/signin",  label: "Sign In" },
           ].map((link) => (
             <Link
               key={link.href}
@@ -156,15 +131,6 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <div className="pt-3">
-            <Link
-              href="/#scan"
-              className="btn btn-primary w-full justify-center text-sm"
-              onClick={() => setMobileOpen(false)}
-            >
-              Run Audit
-            </Link>
-          </div>
         </nav>
       )}
     </header>
