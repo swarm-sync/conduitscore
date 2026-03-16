@@ -99,7 +99,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleScan()}
-              placeholder="https://yourwebsite.com"
+              placeholder="https://yoursite.com"
               className="flex-1 bg-transparent text-sm outline-none"
               style={{
                 padding: "18px 14px 18px 10px",

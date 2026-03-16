@@ -45,8 +45,7 @@ export function Footer() {
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>
-              Visibility beyond the visible.<br />
-              Spectral audits for the agent economy.
+              AI visibility scoring for the agent economy.
             </p>
 
             {/* Social links */}
@@ -95,10 +94,9 @@ export function Footer() {
             <h3 className="section-label mb-4">Product</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Spectral Audit", href: "/#features" },
+                { label: "Run a Scan", href: "/#scan" },
                 { label: "Pricing",       href: "/pricing" },
                 { label: "Dashboard",     href: "/dashboard" },
-                { label: "Run a Scan", href: "/#scan" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">
@@ -115,10 +113,8 @@ export function Footer() {
             <ul className="space-y-2.5">
               {[
                 { label: "Documentation", href: "/docs" },
-                { label: "Scanner Spec", href: "/#theory" },
                 { label: "Blog", href: "/blog" },
                 { label: "About", href: "/about" },
-                { label: "API Reference", href: "/#theory" },
                 { label: "Status",        href: "https://status.conduitscore.com" },
               ].map((link) => (
                 <li key={link.label}>

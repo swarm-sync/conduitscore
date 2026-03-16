@@ -295,24 +295,39 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           })}
         </div>
 
-        {/* Issues line — amber warning icon + text */}
+        {/* Top 3 issues listed per spec */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
             marginTop: "12px",
-            fontSize: "0.8125rem",
-            fontFamily: "var(--font-body)",
-            color: "var(--text-tertiary)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
           }}
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M6 1.5L11 10.5H1L6 1.5Z" stroke="#f59e0b" strokeWidth="1.25" strokeLinejoin="round"/>
-            <path d="M6 5v2.5" stroke="#f59e0b" strokeWidth="1.25" strokeLinecap="round"/>
-            <circle cx="6" cy="9" r="0.5" fill="#f59e0b"/>
-          </svg>
-          3 issues found
+          {[
+            "Missing /llms.txt",
+            "No Organization schema",
+            "Open Graph og:description missing",
+          ].map((issue) => (
+            <div
+              key={issue}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "0.8125rem",
+                fontFamily: "var(--font-body)",
+                color: "var(--text-tertiary)",
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M6 1.5L11 10.5H1L6 1.5Z" stroke="#f59e0b" strokeWidth="1.25" strokeLinejoin="round"/>
+                <path d="M6 5v2.5" stroke="#f59e0b" strokeWidth="1.25" strokeLinecap="round"/>
+                <circle cx="6" cy="9" r="0.5" fill="#f59e0b"/>
+              </svg>
+              {issue}
+            </div>
+          ))}
         </div>
 
         {/* Blurred fix teaser — height 72px, blur 4px, overlay text */}
@@ -380,7 +395,7 @@ Allow: /`}</div>
           marginTop: "12px",
         }}
       >
-        Live example — scan yours
+        Live example — scan your site to see yours
       </p>
     </>
   );

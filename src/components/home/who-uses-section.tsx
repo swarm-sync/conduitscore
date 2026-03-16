@@ -35,7 +35,6 @@ export function WhoUsesSection() {
     >
       <div className="container-wide mx-auto">
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
-          <span className="section-label">Who Uses ConduitScore</span>
           <h2
             id="who-uses-heading"
             style={{

@@ -67,7 +67,6 @@ export function SignalsSection() {
     >
       <div className="container-wide mx-auto">
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <span className="section-label">The Seven Signals</span>
           <h2
             id="signals-heading"
             style={{

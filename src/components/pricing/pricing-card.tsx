@@ -145,14 +145,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
                 fontFamily: "var(--font-display)",
                 fontSize: "3rem",
                 letterSpacing: "-0.04em",
-                ...(popular
-                  ? {
-                      background: "linear-gradient(135deg, #FF2D55 0%, #6366F1 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }
-                  : { color: "var(--text-primary)" }),
+                color: "var(--text-primary)",
               }}
             >
               {price}

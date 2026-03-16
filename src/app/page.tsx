@@ -152,10 +152,6 @@ export default async function Home() {
             >
               {/* Left column */}
               <div className="animate-fade-up">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="section-label">AI Visibility Score</span>
-                </div>
-
                 <h1
                   id="hero-heading"
                   className="mt-5 uppercase"
@@ -305,7 +301,6 @@ export default async function Home() {
           }}
         >
           <div className="container-wide mx-auto" style={{ textAlign: "center" }}>
-            <span className="section-label">See It In Action</span>
             <h2
               id="proof-heading"
               style={{
@@ -355,7 +350,6 @@ export default async function Home() {
         >
           <div className="container-wide mx-auto">
             <div style={{ textAlign: "center", marginBottom: "56px" }}>
-              <span className="section-label">How It Works</span>
               <h2
                 id="how-it-works-heading"
                 style={{
@@ -505,7 +499,6 @@ export default async function Home() {
         >
           <div className="container-base mx-auto px-6 md:px-0">
             <div className="text-center">
-              <span className="section-label">FAQ</span>
               <h2
                 className="mt-4"
                 style={{
@@ -591,7 +584,7 @@ export default async function Home() {
                 color: "var(--text-tertiary)",
               }}
             >
-              3 scans free. No signup.
+              {weeklyScanCount} sites scanned this week.
             </p>
           </div>
         </section>
