@@ -458,6 +458,104 @@ code, pre {
 .animate-gradient-shift { animation: gradient-shift 6s ease infinite; }
 .animate-spin-slow { animation: spin-slow 3s linear infinite; }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   HOMEPAGE LAYOUT UTILITIES
+   These named classes give the responsive grid rules a single source of truth.
+   The JSX applies classNames; breakpoints live here.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Hero 2-column grid */
+.hero-two-col {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Trust Band row */
+.trust-band-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Who Uses 2-col grid — already has inline style, but ensure class is defined */
+.who-uses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* How It Works steps row */
+.how-it-works-steps {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Tablet: 768px–1023px */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero-two-col {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+/* Mobile: < 768px */
+@media (max-width: 767px) {
+  .container-wide { padding-inline: 16px; }
+  h1 { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+  h2 { font-size: clamp(1.8rem, 10vw, 3rem); }
+
+  /* Hero stacks: right column (score card) moves below left column */
+  .hero-two-col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Hero score card column — 40px top margin, centered, capped at 420px */
+  .hero-score-card-col {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  /* Trust Band stacks vertically */
+  .trust-band-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .trust-band-item {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .trust-band-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Who Uses grid collapses to single column */
+  .who-uses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* How It Works steps stack vertically */
+  .how-it-works-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+}
+
+/* Legacy ≤768px override kept for any existing usage */
 @media (max-width: 768px) {
   .container-wide { padding-inline: 16px; }
   h1 { font-size: clamp(2.8rem, 14vw, 4.5rem); }

@@ -80,7 +80,8 @@ export async function POST(request: NextRequest) {
         // price ID reverse-lookup.  Both paths produce the canonical tier name.
         const tier = resolveTierFromSession(session, priceId);
 
-        await prisma.user.upsert({
+        // Upsert returns the full record — capture it to avoid a second round-trip.
+        const user = await prisma.user.upsert({
           where: { email },
           update: {
             subscriptionTier: tier,
@@ -92,9 +93,6 @@ export async function POST(request: NextRequest) {
             stripeCustomerId: session.customer as string,
           },
         });
-
-        // Resolve the user ID for the Subscription record upsert.
-        const user = await prisma.user.findUnique({ where: { email } });
         if (!user) break;
 
         await prisma.subscription.upsert({

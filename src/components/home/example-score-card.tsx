@@ -3,20 +3,21 @@
 import { useEffect, useRef, useState } from "react";
 
 const EXAMPLE_SCORE = 74;
+const EXAMPLE_DOMAIN = "example.com";
 
 const CATEGORIES = [
-  { name: "Crawler Access",    score: 80 },
-  { name: "Structured Data",   score: 55 },
+  { name: "Crawler Access",    score: 82 },
+  { name: "Structured Data",   score: 61 },
+  { name: "LLMs.txt",          score: 40 },
   { name: "Content Structure", score: 90 },
-  { name: "LLMs.txt",          score: 30 },
-  { name: "Technical Health",  score: 75 },
-  { name: "Citation Signals",  score: 62 },
-  { name: "Content Quality",   score: 85 },
+  { name: "Technical Health",  score: 78 },
+  { name: "Citation Signals",  score: 55 },
+  { name: "Content Quality",   score: 71 },
 ];
 
 function getBarColor(score: number): string {
-  if (score >= 70) return "var(--success-500)";
-  if (score >= 40) return "var(--warning-400)";
+  if (score >= 70) return "var(--cyan-400)";
+  if (score >= 40) return "#f59e0b";
   return "var(--brand-red)";
 }
 
@@ -30,9 +31,9 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
   const animationStarted = useRef(false);
   const rafRef = useRef<number | null>(null);
 
-  // Responsive size
+  // SVG ring geometry — 160px diameter, 4px stroke per spec
   const size = 160;
-  const strokeWidth = 8;
+  const strokeWidth = 4;
   const radius = (size - strokeWidth * 2) / 2;
   const circumference = 2 * Math.PI * radius;
 
@@ -40,7 +41,6 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     if (animationStarted.current) return;
     animationStarted.current = true;
 
-    // Check reduced motion preference
     const prefersReduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -51,7 +51,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
       return;
     }
 
-    const totalFrames = 80;
+    // 1200ms total at 60fps = ~72 frames
+    const totalFrames = 72;
     let frame = 0;
 
     function tick() {
@@ -65,7 +66,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
         rafRef.current = requestAnimationFrame(tick);
       } else {
         setDisplayScore(EXAMPLE_SCORE);
-        // Trigger bar fills 200ms after circle finishes
+        // Bar fills start 200ms after circle finishes
         setTimeout(() => setBarsVisible(true), 200);
       }
     }
@@ -83,7 +84,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animateOnMount]);
 
-  // For non-mount animation: expose a trigger via IntersectionObserver
+  // When animateOnMount=false, trigger on scroll into view — fires ONCE
   const cardRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -108,20 +109,19 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
 
   const dashOffset = circumference - (displayScore / 100) * circumference;
 
-  const gradeLabel = displayScore >= 90 ? "Excellent" : displayScore >= 70 ? "Good" : displayScore >= 40 ? "Fair" : "Poor";
-
   return (
     <>
       <article
         ref={cardRef}
         role="img"
-        aria-label="Example ConduitScore scan result: example.com scores 74 out of 100 with 3 issues found"
+        aria-label={`Example ConduitScore scan result: ${EXAMPLE_DOMAIN} scores ${EXAMPLE_SCORE} out of 100 with 3 issues found`}
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-subtle)",
           borderRadius: "var(--radius-xl)",
           padding: "24px",
-          boxShadow: "0 0 60px rgba(217,255,0,0.06), 0 18px 60px rgba(0,0,0,0.45), 0 0 0 1px var(--border-subtle)",
+          // Spec: 0 0 60px rgba(0,217,255,0.08) glow + shadow-card
+          boxShadow: "0 0 60px rgba(255,45,85,0.08), var(--shadow-card)",
           position: "relative",
           overflow: "hidden",
         }}
@@ -138,7 +138,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           }}
         />
 
-        {/* Domain label */}
+        {/* Domain label with external-link icon */}
         <div
           style={{
             display: "flex",
@@ -150,31 +150,24 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
             color: "var(--text-tertiary)",
           }}
         >
-          <span>example.com</span>
+          <span>{EXAMPLE_DOMAIN}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M5 2H2v8h8V7M7 2h3m0 0v3M7 5l3-3" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
 
-        {/* Score circle — centered */}
+        {/* Score circle — 160px, centered */}
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-          <div style={{ position: "relative", width: size, height: size, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            {/* Ambient glow */}
-            <div
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                width: size * 0.75,
-                height: size * 0.75,
-                borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(217,255,0,0.18) 0%, transparent 70%)",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-              }}
-            />
-
+          <div
+            style={{
+              position: "relative",
+              width: size,
+              height: size,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {/* SVG ring */}
             <svg
               width={size}
@@ -189,82 +182,91 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                 cy={size / 2}
                 r={radius}
                 fill="none"
-                stroke="rgba(255,255,255,0.05)"
+                stroke="rgba(255,255,255,0.06)"
                 strokeWidth={strokeWidth}
               />
-              {/* Score arc */}
+              {/* Score arc — stroke: var(--cyan-400), 4px */}
               <circle
                 cx={size / 2}
                 cy={size / 2}
                 r={radius}
                 fill="none"
-                stroke="var(--success-500)"
+                stroke="var(--cyan-400)"
                 strokeWidth={strokeWidth}
                 strokeLinecap="round"
                 strokeDasharray={circumference}
                 strokeDashoffset={dashOffset}
-                style={{ filter: "drop-shadow(0 0 6px rgba(217,255,0,0.18))" }}
+                style={{ filter: "drop-shadow(0 0 6px rgba(255,45,85,0.35))" }}
               />
             </svg>
 
-            {/* Center content */}
+            {/* Center content — spec: font-display, 3.5rem, 800, text-primary */}
             <div style={{ position: "relative", textAlign: "center", zIndex: 1 }}>
               <div
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "2.75rem",
-                  fontWeight: 600,
-                  letterSpacing: "-0.03em",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "3.5rem",
+                  fontWeight: 800,
+                  letterSpacing: "-0.04em",
                   lineHeight: 1,
-                  background: "linear-gradient(135deg, #FF2D55 0%, #FFFFFF 40%, #D9FF00 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+                  color: "var(--text-primary)",
                 }}
                 aria-hidden="true"
               >
                 {displayScore}
               </div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", fontFamily: "var(--font-body)", lineHeight: 1.2 }}>
-                / 100
-              </div>
-              {/* Grade pill */}
+              {/* Sub-label: "/ 100" */}
               <div
                 style={{
-                  display: "inline-flex",
-                  marginTop: "4px",
-                  fontSize: "0.6875rem",
-                  fontWeight: 600,
+                  fontSize: "1rem",
+                  color: "var(--text-tertiary)",
                   fontFamily: "var(--font-body)",
-                  color: "var(--success-500)",
-                  background: "rgba(217,255,0,0.10)",
-                  border: "1px solid rgba(193,228,0,0.20)",
-                  borderRadius: "var(--radius-full)",
-                  padding: "1px 10px",
+                  lineHeight: 1.2,
+                  marginTop: "2px",
                 }}
               >
-                {gradeLabel}
+                / 100
               </div>
             </div>
           </div>
         </div>
 
-        {/* Category bars */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {/* Category bars — 7 rows */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {CATEGORIES.map((cat) => {
             const barColor = getBarColor(cat.score);
             return (
-              <div key={cat.name}>
+              <div key={cat.name} style={{ minHeight: "32px" }}>
                 {/* Name + score row */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                  <span style={{ fontSize: "0.8125rem", fontFamily: "var(--font-body)", color: "var(--text-secondary)" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "4px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "0.8125rem",
+                      fontFamily: "var(--font-body)",
+                      color: "var(--text-secondary)",
+                    }}
+                  >
                     {cat.name}
                   </span>
-                  <span style={{ fontSize: "0.8125rem", fontFamily: "var(--font-mono)", color: barColor }}>
+                  <span
+                    style={{
+                      fontSize: "0.8125rem",
+                      fontFamily: "var(--font-mono)",
+                      color: barColor,
+                      textAlign: "right",
+                    }}
+                  >
                     {cat.score}
                   </span>
                 </div>
-                {/* Progress bar */}
+                {/* Progress bar — 3px height */}
                 <div
                   role="progressbar"
                   aria-valuenow={cat.score}
@@ -273,7 +275,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                   aria-label={`${cat.name}: ${cat.score} out of 100`}
                   style={{
                     height: "3px",
-                    borderRadius: "9999px",
+                    borderRadius: "2px",
                     background: "rgba(255,255,255,0.06)",
                     overflow: "hidden",
                   }}
@@ -281,7 +283,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                   <div
                     style={{
                       height: "100%",
-                      borderRadius: "9999px",
+                      borderRadius: "2px",
                       background: barColor,
                       width: barsVisible ? `${cat.score}%` : "0%",
                       transition: "width 800ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -293,7 +295,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           })}
         </div>
 
-        {/* Issues line */}
+        {/* Issues line — amber warning icon + text */}
         <div
           style={{
             display: "flex",
@@ -306,14 +308,14 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           }}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M6 1.5L11 10.5H1L6 1.5Z" stroke="#ffbc4a" strokeWidth="1.25" strokeLinejoin="round"/>
-            <path d="M6 5v2.5" stroke="#ffbc4a" strokeWidth="1.25" strokeLinecap="round"/>
-            <circle cx="6" cy="9" r="0.5" fill="#ffbc4a"/>
+            <path d="M6 1.5L11 10.5H1L6 1.5Z" stroke="#f59e0b" strokeWidth="1.25" strokeLinejoin="round"/>
+            <path d="M6 5v2.5" stroke="#f59e0b" strokeWidth="1.25" strokeLinecap="round"/>
+            <circle cx="6" cy="9" r="0.5" fill="#f59e0b"/>
           </svg>
           3 issues found
         </div>
 
-        {/* Blurred fix teaser */}
+        {/* Blurred fix teaser — height 72px, blur 4px, overlay text */}
         <div
           style={{
             position: "relative",
@@ -328,7 +330,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
             overflow: "hidden",
           }}
         >
-          {/* Blurred fake code */}
+          {/* Blurred fake code — not accessible, intentionally hidden */}
           <div
             aria-hidden="true"
             style={{
@@ -346,7 +348,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
 User-agent: GPTBot
 Allow: /`}</div>
 
-          {/* Overlay text */}
+          {/* Overlay — "preview is locked" signal */}
           <div
             aria-hidden="true"
             style={{

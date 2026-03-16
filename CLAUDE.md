@@ -50,7 +50,7 @@ phase_5_output/               ← project root (always cd here)
         cron/weekly-scan/     ← GET: Vercel cron (Mondays 9am UTC)
         health/               ← GET: health check
       scan-result/            ← public scan result page (Share button)
-      pricing/                ← plan comparison ($0/$29/$79/$199)
+      pricing/                ← plan comparison ($0/$29/$49/$79/$149)
       signin/                 ← auth page
     lib/
       auth.ts                 ← NextAuth config (Google + Resend email)
@@ -102,13 +102,18 @@ Each analyzer returns category scores, issues, and fixes:
 |------|-------|----------|------------|
 | free | $0 | 3 | 1 |
 | starter | $29/mo | 50 | 5 |
-| pro | $79/mo | 500 | 50 |
-| agency | $199/mo | Unlimited | Unlimited |
+| pro | $49/mo | 100 | 50 |
+| growth | $79/mo | 500 | 100 |
+| agency | $149 (Contact Us) | Unlimited | Unlimited |
 
-**Stripe Price IDs** (live):
-- Starter: `STRIPE_PRICE_STARTER` env var
-- Pro: `price_1TAtIfPQdMywmVkHygVS8A77`
-- Agency: `price_1TAtIoPQdMywmVkHDaGiA9Kd`
+**Stripe Price IDs** (env vars — must be set in Vercel):
+- Starter monthly: `STRIPE_PRICE_STARTER`
+- Starter annual: `STRIPE_PRICE_STARTER_ANNUAL`
+- Pro monthly: `STRIPE_PRICE_PRO`
+- Pro annual: `STRIPE_PRICE_PRO_ANNUAL`
+- Growth monthly: `STRIPE_PRICE_GROWTH`
+- Growth annual: `STRIPE_PRICE_GROWTH_ANNUAL`
+- Agency: no Stripe price — Contact Us only (mailto:benstone@conduitscore.com)
 
 ---
 
@@ -133,9 +138,13 @@ EMAIL_FROM=noreply@conduitscore.com  # domain must be verified in Resend
 # Payments
 STRIPE_SECRET_KEY         # sk_live_... from Stripe dashboard
 STRIPE_WEBHOOK_SECRET     # whsec_... from Stripe webhook endpoint
-STRIPE_PRICE_STARTER      # Stripe price ID for $29 plan
-STRIPE_PRICE_PRO          # price_1TAtIfPQdMywmVkHygVS8A77
-STRIPE_PRICE_AGENCY       # price_1TAtIoPQdMywmVkHDaGiA9Kd
+STRIPE_PRICE_STARTER        # Stripe price ID for Starter $29/mo
+STRIPE_PRICE_STARTER_ANNUAL # Stripe price ID for Starter $23/mo annual
+STRIPE_PRICE_PRO            # Stripe price ID for Pro $49/mo
+STRIPE_PRICE_PRO_ANNUAL     # Stripe price ID for Pro $39/mo annual
+STRIPE_PRICE_GROWTH         # Stripe price ID for Growth $79/mo
+STRIPE_PRICE_GROWTH_ANNUAL  # Stripe price ID for Growth $63/mo annual
+# STRIPE_PRICE_AGENCY removed — Agency is Contact Us only, no Stripe price
 
 # App
 NEXT_PUBLIC_APP_URL=https://conduitscore.com
@@ -179,7 +188,7 @@ export const stripe = new Stripe(key);
 ```
 
 ### 4. Scan Limit Enforcement (api/scan/route.ts)
-- Free=3, Starter=50, Pro=500, Agency=Infinity per month
+- Free=3, Starter=50, Pro=100, Growth=500, Agency=Infinity per month
 - Monthly counter resets automatically when `scanResetAt` is >1 month old
 - Returns HTTP 402 with `{ upgradeRequired: true, tier, limit, used }` when limit hit
 - `scan-form.tsx` shows "Upgrade Plan →" link on 402 response
@@ -302,7 +311,7 @@ Every scan result has a shareable URL:
 | Bare domains rejected ("swarmsync.ai") | `normalizeUrl()` now runs BEFORE `new URL()` validation |
 | Dashboard stats showing 0 | Rewritten to fetch `/api/scans?limit=5` from real DB |
 | Projects page stub | Full CRUD with API-backed create/delete |
-| Pricing too steep ($29→$199→$499) | Updated to $0/$29/$79/$199 with new Stripe prices |
+| Pricing too steep (old: $19/$99 2-tier) | Updated to 5-tier: $0/$29/$49/$79/$149 (Agency = Contact Us) |
 
 ---
 

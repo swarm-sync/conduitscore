@@ -39,7 +39,7 @@ function AgenciesUseCaseJsonLd() {
         name: "Does ConduitScore offer white-label or co-branded reports?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. The Agency plan ($499/month) includes full white-label capabilities. You can generate client-facing AI visibility reports with your agency branding, use the REST API to integrate scanning into your own tools, and embed scan results in custom dashboards.",
+          text: "Yes. The Agency plan ($149/month, contact us) includes full white-label capabilities. You can generate client-facing AI visibility reports with your agency branding, use the REST API to integrate scanning into your own tools, and embed scan results in custom dashboards.",
         },
       },
       {

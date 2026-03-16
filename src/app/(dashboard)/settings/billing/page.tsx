@@ -1,6 +1,41 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+const PLAN_DETAILS: Record<string, { label: string; scans: string; pages: string }> = {
+  free:    { label: "Free",    scans: "3",         pages: "1" },
+  starter: { label: "Starter", scans: "50",        pages: "5" },
+  pro:     { label: "Pro",     scans: "100",       pages: "50" },
+  growth:  { label: "Growth",  scans: "500",       pages: "100" },
+  agency:  { label: "Agency",  scans: "Unlimited", pages: "Unlimited" },
+};
+
 export default function BillingPage() {
+  const { data: session } = useSession();
+  const [tier, setTier] = useState("free");
+  const [scanCount, setScanCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchBilling() {
+      try {
+        const res = await fetch("/api/user/billing");
+        if (res.ok) {
+          const data = await res.json();
+          setTier(data.tier || "free");
+          setScanCount(data.scanCountMonth || 0);
+        }
+      } catch {
+        // Fall back to free tier display
+      }
+    }
+    if (session?.user) fetchBilling();
+  }, [session]);
+
+  const plan = PLAN_DETAILS[tier] || PLAN_DETAILS.free;
+  const scanLimit = plan.scans === "Unlimited" ? Infinity : parseInt(plan.scans);
+  const usagePct = scanLimit === Infinity ? 0 : Math.min((scanCount / scanLimit) * 100, 100);
+
   return (
     <div className="space-y-6">
       <div>
@@ -11,9 +46,9 @@ export default function BillingPage() {
         <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>Current Plan</h2>
         <div className="mt-4 flex items-center gap-4">
           <span className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium" style={{ background: "rgba(99,102,241,0.12)", color: "var(--brand-purple)" }}>
-            Free
+            {plan.label}
           </span>
-          <span className="text-sm" style={{ color: "var(--text-secondary)" }}>3 scans/month, 1 page per scan</span>
+          <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{plan.scans} scans/month, {plan.pages} {parseInt(plan.pages) === 1 ? "page" : "pages"} per scan</span>
         </div>
         <div className="mt-6 flex gap-3">
           <a
@@ -21,19 +56,21 @@ export default function BillingPage() {
             className="rounded-lg px-4 py-2 text-sm font-medium text-white transition-all"
             style={{ background: "var(--gradient-primary)" }}
           >
-            Upgrade Plan
+            {tier === "free" ? "Upgrade Plan" : "Change Plan"}
           </a>
-          <button
-            onClick={async () => {
-              const res = await fetch("/api/stripe/portal");
-              const data = await res.json();
-              if (data.url) window.location.href = data.url;
-            }}
-            className="rounded-lg px-4 py-2 text-sm font-medium transition-all"
-            style={{ border: "1px solid var(--border-default)", color: "var(--text-secondary)", background: "transparent" }}
-          >
-            Manage Billing
-          </button>
+          {tier !== "free" && (
+            <button
+              onClick={async () => {
+                const res = await fetch("/api/stripe/portal");
+                const data = await res.json();
+                if (data.url) window.location.href = data.url;
+              }}
+              className="rounded-lg px-4 py-2 text-sm font-medium transition-all"
+              style={{ border: "1px solid var(--border-default)", color: "var(--text-secondary)", background: "transparent" }}
+            >
+              Manage Billing
+            </button>
+          )}
         </div>
       </div>
       <div className="rounded-xl p-6" style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-raised)" }}>
@@ -41,10 +78,12 @@ export default function BillingPage() {
         <div className="mt-4">
           <div className="flex justify-between text-sm">
             <span style={{ color: "var(--text-tertiary)" }}>Scans this month</span>
-            <span className="font-medium" style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)" }}>0 / 3</span>
+            <span className="font-medium" style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)" }}>
+              {scanCount} / {plan.scans}
+            </span>
           </div>
           <div className="mt-2 h-1.5 rounded-full" style={{ background: "var(--border-subtle)" }}>
-            <div className="h-1.5 rounded-full" style={{ width: "0%", background: "var(--brand-purple)" }} />
+            <div className="h-1.5 rounded-full transition-all" style={{ width: `${usagePct}%`, background: "var(--brand-purple)" }} />
           </div>
         </div>
       </div>

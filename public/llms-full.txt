@@ -80,7 +80,7 @@ Every issue detected comes with a ready-to-implement code fix. Users can copy th
 
 ### Public Pages
 - Homepage (https://conduitscore.com/): Free scanner, 7-category breakdown, FAQ, how it works
-- Pricing (https://conduitscore.com/pricing): Four tiers from free to enterprise
+- Pricing (https://conduitscore.com/pricing): Five tiers from free to Agency (contact only)
 - About (https://conduitscore.com/about): Company mission, problem statement, beliefs
 - Contact (https://conduitscore.com/contact): Support, sales, enterprise, social links
 - Blog (https://conduitscore.com/blog): Educational content on AI visibility optimization
@@ -112,23 +112,35 @@ Every issue detected comes with a ready-to-implement code fix. Users can copy th
 
 ### Starter ($29/month)
 - 50 scans per month
-- Dashboard access with scan history
-- Email alerts for score changes
-- SEO scoring integration
+- All code fixes unlocked
+- Full issue descriptions
+- Dashboard & scan history
+- Shareable report links
+- Email sign-in
 
-### Pro ($199/month)
-- 500 scans per month
-- Site-wide crawling (multiple pages per domain)
-- Competitor tracking and comparison
-- PDF report generation
+### Pro ($49/month)
+- 100 scans per month
+- Everything in Starter
+- Projects & site monitoring
+- Weekly auto-rescan
+- Score trend history
 - Priority support
 
-### Agency ($499/month)
+### Growth ($79/month)
+- 500 scans per month
+- Everything in Pro
+- Score trend history chart
+- Scheduled weekly re-scans
+- Email alerts on score drop
+- Priority support
+
+### Agency ($149/month — Contact Us only)
 - Unlimited scans
-- REST API access for programmatic scanning
-- White-label branding
-- Multi-client dashboard
-- Dedicated account management
+- Everything in Growth
+- Bulk scan (CSV upload)
+- REST API access
+- Dedicated account manager
+- Custom onboarding
 
 ## Technical Details
 

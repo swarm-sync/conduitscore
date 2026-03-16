@@ -20,7 +20,7 @@ ConduitScore is a SaaS platform that scans websites and produces an AI visibilit
 ## Key Pages
 
 - [Home / Scanner](https://conduitscore.com/): Free AI visibility scanner - enter any URL to get scored
-- [Pricing](https://conduitscore.com/pricing): Plans from free (3 scans/month) to Agency ($499/month)
+- [Pricing](https://conduitscore.com/pricing): Plans from free (3 scans/month) to Agency ($149/month, contact only)
 - [About](https://conduitscore.com/about): Our mission, team, and approach to AI visibility
 - [Contact](https://conduitscore.com/contact): Support, partnerships, and enterprise inquiries
 - [Blog](https://conduitscore.com/blog): Guides on AI SEO, GEO, AEO, and AI visibility optimization
@@ -38,9 +38,10 @@ ConduitScore is a SaaS platform that scans websites and produces an AI visibilit
 ## Pricing
 
 - Free: 3 scans/month, single URL, no sign-up required
-- Starter ($29/month): 50 scans, dashboard access, email alerts, SEO scoring
-- Pro ($199/month): 500 scans, site-wide crawling, competitor tracking, PDF reports
-- Agency ($499/month): Unlimited scans, REST API access, white-label branding
+- Starter ($29/month): 50 scans, dashboard access, all code fixes, shareable reports
+- Pro ($49/month): 100 scans, projects & site monitoring, weekly auto-rescan, priority support
+- Growth ($79/month): 500 scans, score trend history, scheduled re-scans, email alerts
+- Agency ($149/month — Contact Us only): Unlimited scans, REST API access, bulk scan, dedicated account manager
 
 ## The 7 Scan Categories
 

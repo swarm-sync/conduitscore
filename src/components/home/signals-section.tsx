@@ -16,16 +16,16 @@ const SIGNALS = [
     example: "Issue: No Organization schema on homepage",
   },
   {
-    id: "content-structure",
-    label: "Content Structure",
-    description: "Semantic heading hierarchy and answer-ready sections help AI extract information.",
-    example: "Issue: Multiple H1 tags detected, heading order broken",
-  },
-  {
     id: "llms-txt",
     label: "LLMs.txt",
     description: "A machine-readable summary file at /llms.txt lets AI agents understand your site without crawling every page.",
     example: "Issue: /llms.txt not found",
+  },
+  {
+    id: "content-structure",
+    label: "Content Structure",
+    description: "Semantic heading hierarchy and answer-ready sections help AI extract information.",
+    example: "Issue: Multiple H1 tags detected, heading order broken",
   },
   {
     id: "technical-health",
@@ -104,10 +104,10 @@ export function SignalsSection() {
                 aria-expanded={isActive}
                 aria-controls={`signal-panel-${signal.id}`}
                 style={{
-                  background: isActive ? "rgba(217,255,0,0.06)" : "var(--surface-overlay)",
-                  border: isActive ? "1px solid var(--brand-lime)" : "1px solid var(--border-subtle)",
+                  background: isActive ? "rgba(0,217,255,0.06)" : "var(--surface-overlay)",
+                  border: isActive ? "1px solid var(--cyan-400)" : "1px solid var(--border-subtle)",
                   borderRadius: "9999px",
-                  padding: "8px 20px",
+                  padding: "8px 16px",
                   fontSize: "0.9375rem",
                   fontFamily: "var(--font-body)",
                   color: isActive ? "var(--text-primary)" : "var(--text-secondary)",

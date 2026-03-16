@@ -1,5 +1,6 @@
 import { normalizeUrl } from "./url-normalizer";
 import type { ScanResult, CategoryScore } from "./types";
+import { IMPACT_MAP } from "./fix-meta";
 import { analyzeCrawlerAccess } from "./analyzers/crawler-access";
 import { analyzeStructuredData } from "./analyzers/structured-data";
 import { analyzeContentStructure } from "./analyzers/content-structure";
@@ -7,6 +8,34 @@ import { analyzeLlmsTxt } from "./analyzers/llms-txt";
 import { analyzeTechnicalHealth } from "./analyzers/technical-health";
 import { analyzeCitationSignals } from "./analyzers/citation-signals";
 import { analyzeContentQuality } from "./analyzers/content-quality";
+
+/**
+ * Resolves an impact string for a given issue id.
+ * Falls back to a prefix lookup for dynamic ids (e.g. "ca-blocked-gptbot").
+ */
+function resolveImpact(issueId: string): string {
+  if (IMPACT_MAP[issueId]) return IMPACT_MAP[issueId];
+  // Dynamic "ca-blocked-*" ids share the same impact description.
+  if (issueId.startsWith("ca-blocked-")) {
+    const bot = issueId.replace("ca-blocked-", "");
+    return `${bot} is blocked by your robots.txt — this AI crawler cannot index or cite any content from your site.`;
+  }
+  return "";
+}
+
+/**
+ * Injects impact statements into every issue produced by the analyzers.
+ * This must run after all analyzers complete so the full issue list is available.
+ */
+function attachImpacts(categories: CategoryScore[]): void {
+  for (const category of categories) {
+    for (const issue of category.issues) {
+      if (!issue.impact) {
+        issue.impact = resolveImpact(issue.id);
+      }
+    }
+  }
+}
 
 interface FetchedPageData {
   html: string;
@@ -104,6 +133,9 @@ export async function runScan(rawUrl: string, scanId: string): Promise<ScanResul
     citationSignals,
     contentQuality,
   ];
+
+  // Inject plain-English impact statements into every issue — visible to all tiers.
+  attachImpacts(categories);
 
   const overallScore = categories.reduce((sum, c) => sum + c.score, 0);
   const allIssues = categories.flatMap((c) => c.issues);

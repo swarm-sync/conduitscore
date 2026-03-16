@@ -3,16 +3,30 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isAuthed = status === "authenticated" && !!session?.user;
+
+  const navLinks = isAuthed
+    ? [
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/pricing", label: "Pricing" },
+      ]
+    : [
+        { href: "/pricing", label: "Pricing" },
+        { href: "/signin", label: "Sign In" },
+      ];
 
   return (
     <header
@@ -46,33 +60,26 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
-          <Link
-            href="/pricing"
-            className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
-            style={{ color: "var(--text-secondary)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
-          >
-            Pricing
-            <span
-              className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
-              style={{
-                background: "var(--brand-red)",
-                transformOrigin: "left",
-              }}
-              aria-hidden="true"
-            />
-          </Link>
-
-          <Link
-            href="/signin"
-            className="rounded-full px-3.5 py-2 text-sm font-medium transition-colors"
-            style={{ color: "var(--text-secondary)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
-          >
-            Sign In
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+            >
+              {link.label}
+              <span
+                className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+                style={{
+                  background: "var(--brand-red)",
+                  transformOrigin: "left",
+                }}
+                aria-hidden="true"
+              />
+            </Link>
+          ))}
         </nav>
 
         {/* Mobile menu button */}
@@ -109,10 +116,7 @@ export function Header() {
           style={{ borderTop: "1px solid var(--border-subtle)" }}
           aria-label="Mobile navigation"
         >
-          {[
-            { href: "/pricing", label: "Pricing" },
-            { href: "/signin",  label: "Sign In" },
-          ].map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

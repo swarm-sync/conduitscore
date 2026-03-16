@@ -5,8 +5,11 @@ import { ScanForm } from "@/components/scan/scan-form";
 import { ExampleScoreCard } from "@/components/home/example-score-card";
 import { SignalsSection } from "@/components/home/signals-section";
 import { WhoUsesSection } from "@/components/home/who-uses-section";
+import prisma from "@/lib/prisma";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+
+const FALLBACK_WEEKLY_COUNT = "4,000+";
 
 export const metadata: Metadata = {
   title: "ConduitScore — AI Visibility Score in 30 Seconds",
@@ -106,7 +109,24 @@ function HomePageJsonLd() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  // Fetch live weekly scan count directly via Prisma (Server Component — no extra HTTP hop).
+  // Falls back to static placeholder if the DB is unavailable during render.
+  let weeklyScanCount: string = FALLBACK_WEEKLY_COUNT;
+  try {
+    const count = await prisma.scan.count({
+      where: {
+        status: "completed",
+        completedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+      },
+    });
+    if (count > 0) {
+      weeklyScanCount = count.toLocaleString();
+    }
+  } catch {
+    // DB unavailable — keep the fallback; never crash the homepage.
+  }
+
   return (
     <>
       <HomePageJsonLd />
@@ -179,7 +199,7 @@ export default function Home() {
                     marginTop: "12px",
                   }}
                 >
-                  No signup required. 4,000+ sites scanned — average score: 41/100.
+                  No signup required. {weeklyScanCount} sites scanned — average score: 41/100.
                 </p>
 
                 {/* AI chips row */}
@@ -206,7 +226,7 @@ export default function Home() {
 
               {/* Right column */}
               <div
-                className="animate-fade-up"
+                className="animate-fade-up hero-score-card-col"
                 style={{
                   animationDelay: "120ms",
                   display: "flex",
@@ -215,7 +235,7 @@ export default function Home() {
                   justifyContent: "center",
                 }}
               >
-                <div style={{ width: "100%", maxWidth: "400px" }}>
+                <div style={{ width: "100%", maxWidth: "420px" }}>
                   <ExampleScoreCard animateOnMount={true} />
                 </div>
               </div>
@@ -234,7 +254,7 @@ export default function Home() {
         >
           <div className="container-wide mx-auto trust-band-inner">
             {[
-              { stat: "4,000+", label: "sites scanned this week" },
+              { stat: weeklyScanCount, label: "sites scanned this week" },
               { stat: "41/100", label: "average score — most sites have significant room to improve" },
               { stat: "30s", label: "results in under 30 seconds. No signup required." },
             ].map((item, i) => (
@@ -300,7 +320,7 @@ export default function Home() {
               This is what AI crawlers actually see.
             </h2>
 
-            <div style={{ maxWidth: "480px", margin: "40px auto 0" }}>
+            <div style={{ maxWidth: "560px", margin: "40px auto 0" }}>
               <ExampleScoreCard animateOnMount={false} />
             </div>
 
@@ -314,7 +334,7 @@ export default function Home() {
                 marginTop: "12px",
                 fontSize: "0.9375rem",
                 fontFamily: "var(--font-body)",
-                color: "var(--violet-400)",
+                color: "var(--cyan-400)",
                 textDecoration: "none",
               }}
             >
@@ -364,21 +384,21 @@ export default function Home() {
               {[
                 {
                   num: "1",
-                  label: "Enter your URL",
+                  label: "Paste your URL",
                   iconBg: "rgba(108,59,255,0.10)",
                   iconBorder: "1px solid rgba(108,59,255,0.22)",
                   color: "var(--violet-400)",
                 },
                 {
                   num: "2",
-                  label: "Score in 30 seconds",
+                  label: "We scan 7 AI visibility signals",
                   iconBg: "rgba(255,45,85,0.10)",
                   iconBorder: "1px solid rgba(255,45,85,0.22)",
                   color: "var(--brand-red)",
                 },
                 {
                   num: "3",
-                  label: "Copy-paste the fixes",
+                  label: "Get your score + copy-paste fixes",
                   iconBg: "rgba(217,255,0,0.08)",
                   iconBorder: "1px solid rgba(217,255,0,0.18)",
                   color: "var(--brand-lime)",

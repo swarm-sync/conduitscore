@@ -3,23 +3,23 @@
 const TILES = [
   {
     dot: "var(--brand-red)",
-    title: "SEO Teams",
-    body: "Your Google rankings still matter. But prospects are now finding products through AI answers. ConduitScore shows you what you\u2019re missing in that channel.",
+    title: "SEO professionals and agencies",
+    body: "Show clients the signal gap competitors are already exploiting.",
   },
   {
     dot: "var(--violet-400)",
-    title: "SaaS Founders",
-    body: "When someone asks an AI assistant for a recommendation in your category, is your product visible? Find out \u2014 and fix it \u2014 before your competitors do.",
+    title: "SaaS marketing and growth teams",
+    body: "Find out why ChatGPT recommends your competitor \u2014 not you.",
   },
   {
     dot: "var(--brand-lime)",
-    title: "Content Teams",
-    body: "You\u2019ve done the work. ConduitScore makes sure AI systems can read, understand, and cite it. Structured data gaps are the silent killer of AI-era reach.",
+    title: "E-commerce brands",
+    body: "Get into AI product recommendations before your category is locked.",
   },
   {
     dot: "var(--warning-400)",
-    title: "Agencies",
-    body: "Offer AI visibility auditing as a premium service. The score is tangible, the fixes are client-ready, and the gap is real for almost every site you manage.",
+    title: "Website owners",
+    body: "If ChatGPT can\u2019t find you, a growing share of your audience can\u2019t either.",
   },
 ];
 
@@ -132,7 +132,7 @@ export function WhoUsesSection() {
             style={{
               fontSize: "0.9375rem",
               fontFamily: "var(--font-body)",
-              color: "var(--violet-400)",
+              color: "var(--cyan-400)",
               textDecoration: "none",
             }}
           >
