@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { runScan } from "@/lib/scanner/scan-orchestrator";
 import { Prisma } from "@prisma/client";
 
+export const maxDuration = 300;
+
 // Vercel Cron invokes GET — runs every Monday at 9am UTC
 export async function GET(request: NextRequest) {
   // Verify the request is from Vercel Cron
