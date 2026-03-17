@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface ScanFormProps {
@@ -13,6 +13,11 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [upgradeRequired, setUpgradeRequired] = useState(false);
   const router = useRouter();
+  // useId() generates a unique ID per component instance, preventing duplicate
+  // ARIA IDs when ScanForm is rendered more than once on the same page (A6).
+  const uid = useId();
+  const inputId = `scan-url-input-${uid}`;
+  const errorId = `scan-error-${uid}`;
 
   async function handleScan() {
     if (!url.trim()) {
@@ -74,8 +79,10 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
               borderRadius: "999px",
             }}
           >
-            <label htmlFor="hero-url-input" className="sr-only">
-              Enter your website URL to scan
+            {/* sr-only label gives the input an accessible name (A7: single label,
+                no aria-label duplication). The label is associated via htmlFor/id. */}
+            <label htmlFor={inputId} className="sr-only">
+              Enter your website URL to scan for AI visibility
             </label>
 
             {/* Globe icon */}
@@ -94,7 +101,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
             </div>
 
             <input
-              id="hero-url-input"
+              id={inputId}
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -110,7 +117,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
               disabled={loading}
               aria-busy={loading}
               aria-invalid={!!error}
-              aria-describedby={error ? "hero-scan-error" : undefined}
+              aria-describedby={error ? errorId : undefined}
               autoComplete="url"
               autoFocus
             />
@@ -165,7 +172,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
                   </>
                 ) : (
                   <>
-                    Scan My Site
+                    Scan My Site Free
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                       <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -178,7 +185,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
 
         {error && (
           <div
-            id="hero-scan-error"
+            id={errorId}
             className="mt-3 flex flex-col gap-2"
             role="alert"
           >
@@ -209,11 +216,11 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
   return (
     <div role="search" aria-label="AI visibility scanner">
       <div className="flex gap-3">
-        <label htmlFor="dashboard-url-input" className="sr-only">
-          Enter website URL
+        <label htmlFor={inputId} className="sr-only">
+          Enter website URL to scan for AI visibility
         </label>
         <input
-          id="dashboard-url-input"
+          id={inputId}
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
@@ -241,6 +248,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
           disabled={loading}
           aria-busy={loading}
           aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
         />
         <button
           onClick={handleScan}
@@ -272,7 +280,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
         </button>
       </div>
       {error && (
-        <div className="mt-2 flex flex-col gap-1.5" role="alert">
+        <div id={errorId} className="mt-2 flex flex-col gap-1.5" role="alert">
           <p className="text-xs flex items-center gap-1.5" style={{ color: "var(--error-400)" }}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.25" />

@@ -14,14 +14,14 @@ const FALLBACK_WEEKLY_COUNT = "4,000+";
 export const metadata: Metadata = {
   title: "ConduitScore — AI Visibility Score in 30 Seconds",
   description:
-    "Paste your URL. Get a 0-100 score and copy-paste fixes for 7 AI visibility signals. Free, no signup required.",
+    "Paste your URL to see how visible your site is to AI tools, what's hurting you, and what to fix first. No signup required.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     title: "ConduitScore — See Your AI Visibility Score in 30 Seconds",
     description:
-      "Paste your URL. Get a 0-100 score and copy-paste fixes for 7 AI visibility signals. ChatGPT, Claude, Gemini, Perplexity, Copilot.",
+      "Paste your URL to see how visible your site is to AI tools, what's hurting you, and what to fix first. No signup required.",
     url: SITE_URL,
     type: "website",
   },
@@ -45,7 +45,7 @@ const faqs = [
   {
     question: "How is this different from a regular SEO audit?",
     answer:
-      "Traditional tools optimize for ranking algorithms. ConduitScore measures what ChatGPT, Perplexity, Claude, and Gemini actually look for.",
+      "SEO tools tell you how you rank. ConduitScore shows whether AI systems can read, understand, and surface your site.",
   },
   {
     question: "How do I fix a low score?",
@@ -112,12 +112,18 @@ function HomePageJsonLd() {
 export default async function Home() {
   // Fetch live weekly scan count directly via Prisma (Server Component — no extra HTTP hop).
   // Falls back to static placeholder if the DB is unavailable during render.
+  // This is a Next.js async Server Component — it runs once per request on the server
+  // and is NEVER re-rendered by React. Date.now() is therefore deterministic per request.
+  // The react-hooks/purity rule does not distinguish server components from client render
+  // functions, so we suppress it here with an explicit explanation.
+  // eslint-disable-next-line react-hooks/purity
+  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   let weeklyScanCount: string = FALLBACK_WEEKLY_COUNT;
   try {
     const count = await prisma.scan.count({
       where: {
         status: "completed",
-        completedAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        completedAt: { gte: oneWeekAgo },
       },
     });
     if (count > 0) {
@@ -130,6 +136,11 @@ export default async function Home() {
   return (
     <>
       <HomePageJsonLd />
+      {/* Responsive hero padding — Tailwind v4 strips custom :root vars, so we inline a <style> */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hero-inner { padding-top: 56px; padding-bottom: 80px; }
+        @media (max-width: 767px) { .hero-inner { padding-top: 40px; padding-bottom: 56px; } }
+      ` }} />
       <Header />
       <main>
 
@@ -140,21 +151,15 @@ export default async function Home() {
           aria-labelledby="hero-heading"
           style={{ paddingTop: "72px" }}
         >
-          <div className="container-wide mx-auto" style={{ paddingTop: "80px", paddingBottom: "112px" }}>
+          <div className="container-wide hero-inner mx-auto">
             <div
               className="hero-two-col"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "55fr 45fr",
-                gap: "48px",
-                alignItems: "center",
-              }}
             >
               {/* Left column */}
               <div className="animate-fade-up">
                 <h1
                   id="hero-heading"
-                  className="mt-5 uppercase"
+                  className="mt-5"
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
@@ -165,7 +170,7 @@ export default async function Home() {
                     maxWidth: "20ch",
                   }}
                 >
-                  See your AI visibility score in 30 seconds.
+                  Get your website&apos;s AI visibility score.
                 </h1>
 
                 <p
@@ -178,7 +183,7 @@ export default async function Home() {
                     lineHeight: 1.75,
                   }}
                 >
-                  Paste your URL. Get a 0-100 score and copy-paste fixes for 7 AI visibility signals.
+                  Paste your URL to see how visible your site is to AI tools, what&apos;s hurting you, and what to fix first.
                 </p>
 
                 {/* Scan form */}
@@ -195,29 +200,8 @@ export default async function Home() {
                     marginTop: "12px",
                   }}
                 >
-                  No signup required. {weeklyScanCount} sites scanned — average score: 41/100.
+                  No signup required. Most sites we scan score lower than they should.
                 </p>
-
-                {/* AI chips row */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "20px" }}>
-                  {["ChatGPT", "Claude", "Gemini", "Perplexity", "Copilot"].map((agent) => (
-                    <span
-                      key={agent}
-                      style={{
-                        background: "rgba(255,255,255,0.03)",
-                        border: "1px solid var(--border-subtle)",
-                        borderRadius: "9999px",
-                        padding: "6px 14px",
-                        fontSize: "0.8125rem",
-                        fontFamily: "var(--font-body)",
-                        color: "var(--text-secondary)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {agent}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               {/* Right column */}
@@ -251,7 +235,7 @@ export default async function Home() {
           <div className="container-wide mx-auto trust-band-inner">
             {[
               { stat: weeklyScanCount, label: "sites scanned this week" },
-              { stat: "41/100", label: "average score — most sites have significant room to improve" },
+              { stat: "41/100", label: "Average score: 41/100 — most sites are missing basic AI-readability signals" },
               { stat: "30s", label: "results in under 30 seconds. No signup required." },
             ].map((item, i) => (
               <div
@@ -288,53 +272,6 @@ export default async function Home() {
                 </p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ===== PROOF BY EXAMPLE ===== */}
-        <section
-          aria-labelledby="proof-heading"
-          style={{
-            padding: "80px 0",
-            background: "var(--surface-raised)",
-            borderTop: "1px solid var(--border-subtle)",
-          }}
-        >
-          <div className="container-wide mx-auto" style={{ textAlign: "center" }}>
-            <h2
-              id="proof-heading"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
-                color: "var(--text-primary)",
-                fontWeight: 700,
-                letterSpacing: "-0.04em",
-                marginTop: "12px",
-              }}
-            >
-              This is what AI crawlers actually see.
-            </h2>
-
-            <div style={{ maxWidth: "560px", margin: "40px auto 0" }}>
-              <ExampleScoreCard animateOnMount={false} />
-            </div>
-
-            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "24px" }}>
-              Yours might look different. Find out in 30 seconds.
-            </p>
-            <a
-              href="#scan"
-              style={{
-                display: "inline-block",
-                marginTop: "12px",
-                fontSize: "0.9375rem",
-                fontFamily: "var(--font-body)",
-                color: "var(--cyan-400)",
-                textDecoration: "none",
-              }}
-            >
-              See your score &#8594;
-            </a>
           </div>
         </section>
 
@@ -375,7 +312,7 @@ export default async function Home() {
                 position: "relative",
               }}
             >
-              {[
+              {[ 
                 {
                   num: "1",
                   label: "Paste your URL",
@@ -385,14 +322,14 @@ export default async function Home() {
                 },
                 {
                   num: "2",
-                  label: "We scan 7 AI visibility signals",
+                  label: "We scan your site for AI visibility issues",
                   iconBg: "rgba(255,45,85,0.10)",
                   iconBorder: "1px solid rgba(255,45,85,0.22)",
                   color: "var(--brand-red)",
                 },
                 {
                   num: "3",
-                  label: "Get your score + copy-paste fixes",
+                  label: "Get your score and your first fixes",
                   iconBg: "rgba(217,255,0,0.08)",
                   iconBorder: "1px solid rgba(217,255,0,0.18)",
                   color: "var(--brand-lime)",
@@ -475,7 +412,7 @@ export default async function Home() {
                 fontFamily: "var(--font-body)",
                 marginTop: "40px",
               }}
-            >
+              >
               No signup. No credit card. Results in 30 seconds.
             </p>
           </div>
@@ -540,10 +477,10 @@ export default async function Home() {
                       +
                     </span>
                   </summary>
-                  <p className="px-6 pb-6 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>{faq.answer}</p>
-                </details>
-              ))}
-            </div>
+                <p className="px-6 pb-6 text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>{faq.answer}</p>
+              </details>
+            ))}
+          </div>
           </div>
         </section>
 
@@ -569,7 +506,7 @@ export default async function Home() {
                 letterSpacing: "-0.04em",
               }}
             >
-              You&apos;ve read enough. See your number.
+              Run your free AI visibility scan
             </h2>
 
             <div style={{ marginTop: "32px" }}>
@@ -584,7 +521,7 @@ export default async function Home() {
                 color: "var(--text-tertiary)",
               }}
             >
-              {weeklyScanCount} sites scanned this week.
+              No signup required. Results in under 30 seconds.
             </p>
           </div>
         </section>

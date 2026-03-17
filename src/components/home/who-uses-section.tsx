@@ -3,23 +3,18 @@
 const TILES = [
   {
     dot: "var(--brand-red)",
-    title: "SEO professionals and agencies",
-    body: "Show clients the signal gap competitors are already exploiting.",
+    title: "SEO teams and agencies",
+    body: "Show clients what is stopping AI tools from reading and recommending their content.",
   },
   {
     dot: "var(--violet-400)",
-    title: "SaaS marketing and growth teams",
-    body: "Find out why ChatGPT recommends your competitor \u2014 not you.",
+    title: "SaaS marketing teams",
+    body: "Find the technical and content issues that make your site harder for AI tools to surface.",
   },
   {
     dot: "var(--brand-lime)",
     title: "E-commerce brands",
-    body: "Get into AI product recommendations before your category is locked.",
-  },
-  {
-    dot: "var(--warning-400)",
-    title: "Website owners",
-    body: "If ChatGPT can\u2019t find you, a growing share of your audience can\u2019t either.",
+    body: "Make product and category pages easier for AI systems to understand and recommend.",
   },
 ];
 
@@ -47,7 +42,7 @@ export function WhoUsesSection() {
               marginTop: "12px",
             }}
           >
-            Built for the people who care about search.
+            Who this is for
           </h2>
         </div>
 
@@ -56,7 +51,7 @@ export function WhoUsesSection() {
             maxWidth: "800px",
             marginInline: "auto",
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
             gap: "20px",
           }}
           className="who-uses-grid"
@@ -135,7 +130,7 @@ export function WhoUsesSection() {
               textDecoration: "none",
             }}
           >
-            Find out which of these applies to you &#8212; scan your site
+            See how your site scores
           </a>
         </div>
       </div>

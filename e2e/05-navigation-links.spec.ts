@@ -113,8 +113,6 @@ test.describe('Scan result page — navigation', () => {
   test.setTimeout(45000);
 
   test('logo link on /scan-result page returns to homepage', async ({ page }) => {
-    const uniqueIp = `nav-scan-${Date.now()}`;
-
     await page.goto('/');
 
     // Intercept and mock the scan API response so this test doesn't depend on

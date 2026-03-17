@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 /**
@@ -13,7 +13,7 @@ import prisma from "@/lib/prisma";
  *   Cache-Control: public, s-maxage=300
  *     — 5-minute shared cache prevents hammering the DB on every homepage load.
  */
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 

@@ -39,7 +39,7 @@ describe("IMPACT_MAP", () => {
   });
 
   it("all values are non-empty strings", () => {
-    for (const [key, value] of Object.entries(IMPACT_MAP)) {
+    for (const [, value] of Object.entries(IMPACT_MAP)) {
       expect(typeof value).toBe("string");
       expect(value.length).toBeGreaterThan(0);
     }

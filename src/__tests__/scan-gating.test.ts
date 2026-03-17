@@ -6,7 +6,7 @@
  * All Prisma + next-auth calls are mocked.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 
 // ── Pure helpers extracted from route — test them directly via fix-meta ─────
 import {

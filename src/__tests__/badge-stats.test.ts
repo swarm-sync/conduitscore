@@ -144,8 +144,7 @@ describe("GET /api/stats", () => {
   it("returns JSON with weeklyScanCount as a number", async () => {
     mockScanCount.mockResolvedValue(42);
 
-    const req = new NextRequest("http://localhost/api/stats");
-    const res = await statsGET(req);
+    const res = await statsGET();
     const data = await res.json();
 
     expect(res.status).toBe(200);
@@ -156,8 +155,7 @@ describe("GET /api/stats", () => {
   it("weeklyScanCount is non-negative", async () => {
     mockScanCount.mockResolvedValue(0);
 
-    const req = new NextRequest("http://localhost/api/stats");
-    const res = await statsGET(req);
+    const res = await statsGET();
     const data = await res.json();
 
     expect(data.weeklyScanCount).toBeGreaterThanOrEqual(0);
@@ -166,8 +164,7 @@ describe("GET /api/stats", () => {
   it("response has Cache-Control with s-maxage", async () => {
     mockScanCount.mockResolvedValue(10);
 
-    const req = new NextRequest("http://localhost/api/stats");
-    const res = await statsGET(req);
+    const res = await statsGET();
 
     const cc = res.headers.get("Cache-Control");
     expect(cc).toContain("s-maxage");
@@ -176,8 +173,7 @@ describe("GET /api/stats", () => {
   it("returns integer count, not a float", async () => {
     mockScanCount.mockResolvedValue(7);
 
-    const req = new NextRequest("http://localhost/api/stats");
-    const res = await statsGET(req);
+    const res = await statsGET();
     const data = await res.json();
 
     expect(Number.isInteger(data.weeklyScanCount)).toBe(true);

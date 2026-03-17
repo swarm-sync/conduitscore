@@ -81,11 +81,10 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animateOnMount]);
 
   // When animateOnMount=false, trigger on scroll into view — fires ONCE
-  const cardRef = useRef<HTMLElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (animateOnMount) return;
@@ -104,17 +103,14 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     );
     observer.observe(node);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animateOnMount]);
 
   const dashOffset = circumference - (displayScore / 100) * circumference;
 
   return (
     <>
-      <article
+      <div
         ref={cardRef}
-        role="img"
-        aria-label={`Example ConduitScore scan result: ${EXAMPLE_DOMAIN} scores ${EXAMPLE_SCORE} out of 100 with top issues: Missing /llms.txt, No Organization schema, Open Graph og:description missing`}
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-subtle)",
@@ -231,7 +227,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           </div>
         </div>
 
-        {/* Category bars — 7 rows */}
+        {/* Category bars — keep the text visible to AT, hide only the visual fills. */}
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {CATEGORIES.map((cat) => {
             const barColor = getBarColor(cat.score);
@@ -266,13 +262,9 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                     {cat.score}
                   </span>
                 </div>
-                {/* Progress bar — 3px height */}
+                {/* Progress bar — 3px height, presentational within role=img */}
                 <div
-                  role="progressbar"
-                  aria-valuenow={cat.score}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label={`${cat.name}: ${cat.score} out of 100`}
+                  aria-hidden="true"
                   style={{
                     height: "3px",
                     borderRadius: "2px",
@@ -280,13 +272,16 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                     overflow: "hidden",
                   }}
                 >
+                  {/* B9: GPU-composited animation — scaleX instead of width */}
                   <div
                     style={{
                       height: "100%",
                       borderRadius: "2px",
                       background: barColor,
-                      width: barsVisible ? `${cat.score}%` : "0%",
-                      transition: "width 800ms cubic-bezier(0.16, 1, 0.3, 1)",
+                      transformOrigin: "left",
+                      transform: barsVisible ? `scaleX(${cat.score / 100})` : "scaleX(0)",
+                      transition: "transform 800ms cubic-bezier(0.16, 1, 0.3, 1)",
+                      willChange: "transform",
                     }}
                   />
                 </div>
@@ -330,60 +325,91 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           ))}
         </div>
 
-        {/* Blurred fix teaser — height 72px, blur 4px, overlay text */}
-        <div
-          style={{
-            position: "relative",
-            marginTop: "16px",
-            background: "rgba(0,0,0,0.4)",
-            border: "1px solid var(--border-subtle)",
-            borderRadius: "var(--radius-md)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.75rem",
-            padding: "12px",
-            height: "72px",
-            overflow: "hidden",
-          }}
-        >
-          {/* Blurred fake code — not accessible, intentionally hidden */}
+        {/* Fix teaser section — one visible fix + blurred previews */}
+        <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+
+          {/* ONE unblurred fix — real value demonstration */}
           <div
-            aria-hidden="true"
             style={{
+              background: "rgba(0,0,0,0.5)",
+              border: "1px solid rgba(217,255,0,0.18)",
+              borderLeft: "3px solid var(--brand-lime)",
+              borderRadius: "var(--radius-md)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.75rem",
+              padding: "10px 12px",
               color: "var(--brand-lime)",
-              filter: "blur(4px)",
-              pointerEvents: "none",
-              userSelect: "none",
-              lineHeight: 1.6,
+              lineHeight: 1.7,
               whiteSpace: "pre",
             }}
-          >{`<meta name="description" content="AI-read...
-{
-  "@type": "WebSite",
-  "url": "https://exa
+          >{`# Add to robots.txt
 User-agent: GPTBot
 Allow: /`}</div>
 
-          {/* Overlay — "preview is locked" signal */}
+          {/* Blurred previews — 2 more snippets with overlay CTA */}
           <div
-            aria-hidden="true"
             style={{
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "0.8125rem",
-              fontWeight: 500,
-              fontFamily: "var(--font-body)",
-              color: "var(--text-secondary)",
-              background: "rgba(0,0,0,0.1)",
-              pointerEvents: "none",
+              position: "relative",
+              background: "rgba(0,0,0,0.4)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.75rem",
+              padding: "10px 12px",
+              overflow: "hidden",
             }}
           >
-            Scan your site to see all fixes
+            {/* Blurred code snippets — intentionally unreadable */}
+            <div
+              aria-hidden="true"
+              style={{
+                color: "var(--brand-lime)",
+                filter: "blur(4px)",
+                pointerEvents: "none",
+                userSelect: "none",
+                lineHeight: 1.7,
+                whiteSpace: "pre",
+              }}
+            >{`<script type="application/ld+json">
+{
+  "@type": "WebSite",
+  "url": "https://example.com"
+}
+</script>
+---
+<meta name="description" content="AI-optimized...`}</div>
+
+            {/* Overlay CTA */}
+            <a
+              href="#scan"
+              aria-label="Run your scan to unlock the rest of the fixes"
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(8,8,9,0.72)",
+                backdropFilter: "blur(2px)",
+                textDecoration: "none",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  fontFamily: "var(--font-body)",
+                  color: "var(--text-primary)",
+                  textAlign: "center",
+                  padding: "0 12px",
+                }}
+              >
+                Unlock the rest of the fixes
+              </span>
+            </a>
           </div>
         </div>
-      </article>
+      </div>
 
       {/* Caption below card */}
       <p
@@ -395,7 +421,7 @@ Allow: /`}</div>
           marginTop: "12px",
         }}
       >
-        Live example — scan your site to see yours
+        Example scan — run yours to see the full report
       </p>
     </>
   );

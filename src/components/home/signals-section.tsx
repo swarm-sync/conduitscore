@@ -78,7 +78,7 @@ export function SignalsSection() {
               marginTop: "12px",
             }}
           >
-            Seven signals. One score.
+            What ConduitScore checks
           </h2>
         </div>
 
@@ -101,7 +101,7 @@ export function SignalsSection() {
                 type="button"
                 onClick={() => toggleSignal(signal.id)}
                 aria-expanded={isActive}
-                aria-controls={`signal-panel-${signal.id}`}
+                aria-controls="signals-expansion-panel"
                 style={{
                   background: isActive ? "rgba(0,217,255,0.06)" : "var(--surface-overlay)",
                   border: isActive ? "1px solid var(--cyan-400)" : "1px solid var(--border-subtle)",
@@ -132,7 +132,7 @@ export function SignalsSection() {
             transition: "max-height 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease, margin-top 200ms ease",
           }}
           role="region"
-          id={activeId ? `signal-panel-${activeId}` : undefined}
+          id="signals-expansion-panel"
           aria-live="polite"
         >
           {activeSignal && (
@@ -194,7 +194,7 @@ export function SignalsSection() {
             marginTop: "20px",
           }}
         >
-          Each category returns a score, a list of issues, and a copy-paste fix.
+          Your report shows the issues hurting AI visibility and the fixes to tackle first.
         </p>
       </div>
     </section>

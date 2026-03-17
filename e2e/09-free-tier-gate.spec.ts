@@ -42,7 +42,6 @@ test.describe('Free Tier Gate — scan result page shows gate UI', () => {
     await page.goto('/');
     // No scan → page loads without error
     await expect(page.locator('body')).toBeVisible();
-    const statusCode = await page.evaluate(() => window.performance.getEntriesByType('navigation')[0]);
     // Page is accessible
     expect(page.url()).toContain('localhost');
   });

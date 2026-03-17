@@ -183,7 +183,7 @@ describe("POST /api/stripe/checkout", () => {
     // When tier is undefined, key lookup produces PRICE_MAP["undefined"] = undefined → 400
     const req = makeRequest({});
     const res = await POST(req);
-    const data = await res.json();
+    await res.json();
 
     expect(res.status).toBe(400);
   });
