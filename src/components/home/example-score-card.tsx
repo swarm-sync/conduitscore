@@ -114,7 +114,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
       <article
         ref={cardRef}
         role="img"
-        aria-label={`Example ConduitScore scan result: ${EXAMPLE_DOMAIN} scores ${EXAMPLE_SCORE} out of 100. Top issues: Missing /llms.txt, No Organization schema, Open Graph og:description missing`}
+        aria-label={`Example ConduitScore scan result: ${EXAMPLE_DOMAIN} scores ${EXAMPLE_SCORE} out of 100 with top issues: Missing /llms.txt, No Organization schema, Open Graph og:description missing`}
         style={{
           background: "var(--surface-overlay)",
           border: "1px solid var(--border-subtle)",
