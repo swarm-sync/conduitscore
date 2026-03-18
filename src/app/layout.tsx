@@ -3,6 +3,8 @@ import { Inter, JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 
+export const dynamic = "force-dynamic";
+
 /* ──────────────────────────────────────────────────────────────────────
    B1: Self-host Google Fonts via next/font/google
    Eliminates render-blocking external CSS (~116 KiB), the

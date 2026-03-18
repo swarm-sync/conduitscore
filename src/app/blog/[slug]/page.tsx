@@ -6,8 +6,7 @@ import { Footer } from "@/components/layout/footer";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
+export const dynamic = "force-dynamic";
 
 interface BlogPost {
   slug: string;
@@ -339,10 +338,6 @@ ConduitScore provides a unified AI visibility score that covers all 7 categories
     readTime: "9 min read",
   },
 };
-
-export async function generateStaticParams() {
-  return Object.keys(posts).map((slug) => ({ slug }));
-}
 
 export async function generateMetadata({
   params,
