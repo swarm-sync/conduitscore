@@ -136,10 +136,10 @@ export default async function Home() {
   return (
     <>
       <HomePageJsonLd />
-      {/* Responsive hero padding — Tailwind v4 strips custom :root vars, so we inline a <style> */}
+      {/* Responsive hero padding - Tailwind v4 strips custom :root vars, so we inline a <style> */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .hero-inner { padding-top: 56px; padding-bottom: 80px; }
-        @media (max-width: 767px) { .hero-inner { padding-top: 40px; padding-bottom: 56px; } }
+        .hero-inner { padding-top: 24px; padding-bottom: 80px; }
+        @media (max-width: 767px) { .hero-inner { padding-top: 20px; padding-bottom: 56px; } }
       ` }} />
       <Header />
       <main>
@@ -149,7 +149,6 @@ export default async function Home() {
           id="scan"
           className="relative overflow-hidden"
           aria-labelledby="hero-heading"
-          style={{ paddingTop: "72px" }}
         >
           <div className="container-wide hero-inner mx-auto">
             <div
@@ -159,7 +158,6 @@ export default async function Home() {
               <div className="animate-fade-up">
                 <h1
                   id="hero-heading"
-                  className="mt-5"
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
@@ -196,7 +194,15 @@ export default async function Home() {
                     lineHeight: 1.7,
                   }}
                 >
-                  Paste your URL. Find out if ChatGPT can see your site.
+                  <span>Paste your URL. </span>
+                  <span
+                    style={{
+                      color: "var(--text-primary)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Find out if ChatGPT can see your site.
+                  </span>
                 </p>
 
                 {/* Scan form */}
