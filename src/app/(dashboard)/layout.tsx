@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserMenu } from "@/components/layout/user-menu";
 
+export const dynamic = "force-dynamic";
+
 const navItems = [
   {
     href: "/dashboard",

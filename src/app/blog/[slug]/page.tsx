@@ -6,6 +6,9 @@ import { Footer } from "@/components/layout/footer";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 interface BlogPost {
   slug: string;
   title: string;
