@@ -95,9 +95,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "ConduitScore",
-    title: "ConduitScore - AI Visibility Score Scanner",
+    title: "ConduitScore - AI Visibility Score Scanner | Optimize for ChatGPT, Perplexity & Claude",
     description:
-      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini.",
+      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
     images: [
       {
         url: `${SITE_URL}/og-image.png`,
@@ -111,9 +111,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "ConduitScore - AI Visibility Score Scanner",
+    title: "ConduitScore - AI Visibility Score Scanner | Optimize for ChatGPT, Perplexity & Claude",
     description:
-      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes.",
+      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
     images: [`${SITE_URL}/og-image.png`],
     creator: "@conduitscore",
     site: "@conduitscore",
@@ -271,11 +271,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <OrganizationJsonLd />
         <SoftwareApplicationJsonLd />
         <WebSiteJsonLd />

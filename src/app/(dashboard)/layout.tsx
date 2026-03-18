@@ -77,7 +77,7 @@ export default function DashboardLayout({
         >
           <Link href="/" aria-label="ConduitScore home">
             <Image
-              src="/logo-wide.png"
+              src="/logo-wide.webp"
               alt="ConduitScore"
               width={170}
               height={48}

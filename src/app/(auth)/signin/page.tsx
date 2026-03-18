@@ -56,7 +56,7 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/logo-wide.png"
+              src="/logo-wide.webp"
               alt="ConduitScore"
               width={240}
               height={78}
