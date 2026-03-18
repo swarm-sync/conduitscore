@@ -48,6 +48,9 @@
     "typescript": "^5",
     "vitest": "^4.0.18"
   },
+  "engines": {
+    "node": ">=20 <21"
+  },
   "description": "ConduitScore - AI Visibility Score Scanner",
   "browserslist": [
     "chrome >= 90",
