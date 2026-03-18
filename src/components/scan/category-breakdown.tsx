@@ -115,13 +115,16 @@ export function CategoryBreakdown({ categories }: { categories: CategoryScore[] 
               aria-valuemax={cat.maxScore}
               aria-label={`${cat.name}: ${cat.score} out of ${cat.maxScore}`}
             >
+              {/* B9: GPU-composited animation — scaleX instead of width */}
               <div
                 className="h-full rounded-full"
                 style={{
-                  width: `${pct}%`,
+                  transformOrigin: "left",
+                  transform: `scaleX(${pct / 100})`,
                   background: conf.gradient,
                   boxShadow: `0 0 8px ${conf.glow}`,
-                  transition: "width 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transition: "transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+                  willChange: "transform",
                 }}
               />
             </div>

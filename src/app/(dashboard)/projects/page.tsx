@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { ProjectTrendChart } from "@/components/dashboard/project-trend-chart";
+import { PLAN_FEATURES } from "@/lib/plan-limits";
 
 interface Project {
   id: string;
@@ -10,21 +11,89 @@ interface Project {
   createdAt: string;
 }
 
+interface ScanSummary {
+  id: string;
+  overallScore: number | null;
+  createdAt: string;
+  status: string;
+}
+
+interface ScheduledScan {
+  id: string;
+  enabled: boolean;
+  nextRun: string | null;
+}
+
+interface ProjectDetail extends Project {
+  scans: ScanSummary[];
+  scheduledScans: ScheduledScan[];
+}
+
+function parseCsvRows(input: string): Array<{ name?: string; url: string }> {
+  const lines = input
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (lines.length === 0) return [];
+
+  const firstLine = lines[0].toLowerCase();
+  const hasHeader = firstLine.includes("url");
+  const rows = hasHeader ? lines.slice(1) : lines;
+
+  return rows
+    .map((line) => line.split(",").map((cell) => cell.trim()))
+    .filter((cells) => cells.some(Boolean))
+    .map((cells) => {
+      if (cells.length === 1) {
+        return { url: cells[0] };
+      }
+      return {
+        name: cells[0] || undefined,
+        url: cells[1] ?? cells[0],
+      };
+    })
+    .filter((row) => row.url);
+}
+
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null);
+  const [tier, setTier] = useState("free");
   const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [newName, setNewName] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [saving, setSaving] = useState(false);
+  const [scheduleSaving, setScheduleSaving] = useState(false);
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkResult, setBulkResult] = useState<string | null>(null);
+
+  const canSchedule = PLAN_FEATURES.scheduledRescans(tier);
+  const canSeeTrendChart = PLAN_FEATURES.scoreTrendChart(tier);
+  const canReceiveAlerts = PLAN_FEATURES.emailAlerts(tier);
+  const canBulkUpload = PLAN_FEATURES.bulkScan(tier);
 
   async function loadProjects() {
     try {
-      const res = await fetch("/api/projects", { cache: "no-store" });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to load projects");
-      setProjects(data);
+      const [projectsRes, billingRes] = await Promise.all([
+        fetch("/api/projects", { cache: "no-store" }),
+        fetch("/api/user/billing", { cache: "no-store" }),
+      ]);
+
+      const projectsData = await projectsRes.json();
+      if (!projectsRes.ok) throw new Error(projectsData.error || "Failed to load projects");
+      setProjects(projectsData);
+
+      if (billingRes.ok) {
+        const billingData = await billingRes.json();
+        setTier(billingData.tier || "free");
+      }
+
+      setSelectedProjectId((current) => current ?? projectsData[0]?.id ?? null);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load projects");
     } finally {
@@ -32,12 +101,38 @@ export default function ProjectsPage() {
     }
   }
 
-  useEffect(() => { void loadProjects(); }, []);
+  async function loadProjectDetail(projectId: string) {
+    setDetailLoading(true);
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to load project");
+      setSelectedProject(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to load project");
+      setSelectedProject(null);
+    } finally {
+      setDetailLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void loadProjects();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedProjectId) {
+      setSelectedProject(null);
+      return;
+    }
+    void loadProjectDetail(selectedProjectId);
+  }, [selectedProjectId]);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!newName.trim() || !newUrl.trim()) return;
     setSaving(true);
+    setError(null);
     try {
       const res = await fetch("/api/projects", {
         method: "POST",
@@ -47,6 +142,7 @@ export default function ProjectsPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to create project");
       setProjects((prev) => [data, ...prev]);
+      setSelectedProjectId(data.id);
       setNewName("");
       setNewUrl("");
       setShowForm(false);
@@ -60,12 +156,87 @@ export default function ProjectsPage() {
   async function handleDelete(id: string) {
     if (!confirm("Delete this project?")) return;
     try {
-      await fetch(`/api/projects/${id}`, { method: "DELETE" });
-      setProjects((prev) => prev.filter((p) => p.id !== id));
+      const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete project");
+      const nextProjects = projects.filter((project) => project.id !== id);
+      setProjects(nextProjects);
+      setSelectedProjectId((current) =>
+        current === id ? nextProjects[0]?.id ?? null : current
+      );
     } catch {
       setError("Failed to delete project");
     }
   }
+
+  async function handleScheduleToggle(enabled: boolean) {
+    if (!selectedProject) return;
+    setScheduleSaving(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/projects/${selectedProject.id}/schedule`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ enabled }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update schedule");
+      setSelectedProject((current) =>
+        current
+          ? {
+              ...current,
+              scheduledScans: data.id ? [data] : [],
+            }
+          : current
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to update schedule");
+    } finally {
+      setScheduleSaving(false);
+    }
+  }
+
+  async function handleBulkFile(file: File) {
+    setBulkRunning(true);
+    setBulkResult(null);
+    setError(null);
+    try {
+      const text = await file.text();
+      const rows = parseCsvRows(text);
+      if (rows.length === 0) {
+        throw new Error("No valid rows found. Use CSV columns `name,url` or `url`.");
+      }
+
+      const res = await fetch("/api/projects/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rows, runInitialScans: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Bulk upload failed");
+
+      setBulkResult(
+        `Processed ${data.processed} rows. Created ${data.created} projects and started ${data.scanned} scans.`
+      );
+      await loadProjects();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Bulk upload failed");
+    } finally {
+      setBulkRunning(false);
+    }
+  }
+
+  const chartPoints = useMemo(() => {
+    if (!selectedProject) return [];
+    return [...selectedProject.scans]
+      .filter((scan) => typeof scan.overallScore === "number")
+      .reverse()
+      .map((scan) => ({
+        date: new Date(scan.createdAt).toLocaleDateString(),
+        score: scan.overallScore as number,
+      }));
+  }, [selectedProject]);
+
+  const schedule = selectedProject?.scheduledScans[0] ?? null;
 
   return (
     <div className="space-y-6 py-2">
@@ -76,11 +247,11 @@ export default function ProjectsPage() {
             Projects
           </h1>
           <p className="mt-1 text-sm" style={{ color: "var(--text-tertiary)" }}>
-            Track websites over time with weekly auto-rescans.
+            Track site history, monitor trend lines, and automate rescans.
           </p>
         </div>
         <button
-          onClick={() => setShowForm((v) => !v)}
+          onClick={() => setShowForm((value) => !value)}
           className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all"
           style={{ background: "var(--gradient-primary)", boxShadow: "0 2px 12px rgba(108,59,255,0.3)" }}
         >
@@ -88,7 +259,6 @@ export default function ProjectsPage() {
         </button>
       </div>
 
-      {/* New project form */}
       {showForm && (
         <form
           onSubmit={(e) => void handleCreate(e)}
@@ -101,7 +271,7 @@ export default function ProjectsPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             <input
               type="text"
-              placeholder="Project name (e.g. My Blog)"
+              placeholder="Project name"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               required
@@ -110,7 +280,7 @@ export default function ProjectsPage() {
             />
             <input
               type="text"
-              placeholder="URL (e.g. myblog.com)"
+              placeholder="https://example.com"
               value={newUrl}
               onChange={(e) => setNewUrl(e.target.value)}
               required
@@ -139,66 +309,235 @@ export default function ProjectsPage() {
         </form>
       )}
 
+      {canBulkUpload && (
+        <div
+          className="rounded-xl p-5"
+          style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-default)" }}
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+                Agency bulk scan
+              </h2>
+              <p className="mt-1 text-sm" style={{ color: "var(--text-tertiary)" }}>
+                Upload a CSV with `name,url` or just `url` to create projects and launch initial scans.
+              </p>
+            </div>
+            <label
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-white cursor-pointer"
+              style={{ background: "var(--brand-red)" }}
+            >
+              {bulkRunning ? "Processing…" : "Upload CSV"}
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                className="sr-only"
+                disabled={bulkRunning}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) {
+                    void handleBulkFile(file);
+                  }
+                  event.currentTarget.value = "";
+                }}
+              />
+            </label>
+          </div>
+          {bulkResult && (
+            <p className="mt-3 text-sm" style={{ color: "var(--success-400)" }}>
+              {bulkResult}
+            </p>
+          )}
+        </div>
+      )}
+
       {error && (
         <p className="text-sm px-1" style={{ color: "var(--error-400)" }}>{error}</p>
       )}
 
-      {/* Projects list */}
-      <div className="rounded-xl overflow-hidden" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}>
-        {loading ? (
-          <div className="p-8 text-center text-sm" style={{ color: "var(--text-tertiary)" }}>Loading projects…</div>
-        ) : projects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "rgba(108,59,255,0.08)", border: "1px solid rgba(108,59,255,0.18)" }} aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <rect x="2" y="4" width="16" height="12" rx="2" stroke="var(--violet-400)" strokeWidth="1.5" />
-                <path d="M6 10h8M6 13h5" stroke="var(--violet-400)" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
+      <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
+        <div
+          className="rounded-xl overflow-hidden"
+          style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}
+        >
+          {loading ? (
+            <div className="p-8 text-center text-sm" style={{ color: "var(--text-tertiary)" }}>Loading projects…</div>
+          ) : projects.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+              <p className="text-sm font-medium" style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)" }}>No projects yet</p>
+              <p className="text-xs mt-1.5 max-w-xs" style={{ color: "var(--text-tertiary)" }}>
+                Create a project to start building score history and scheduled monitoring.
+              </p>
             </div>
-            <p className="text-sm font-medium" style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)" }}>No projects yet</p>
-            <p className="text-xs mt-1.5 max-w-xs" style={{ color: "var(--text-tertiary)" }}>
-              Create a project to track a website&apos;s AI visibility score over time with weekly auto-rescans.
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-[2fr_2fr_1fr_auto] gap-4 px-5 py-3 text-xs font-semibold uppercase tracking-widest" style={{ borderBottom: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}>
-              <span>Project</span><span>URL</span><span>Created</span><span />
+          ) : (
+            <>
+              <div className="px-5 py-3 text-xs font-semibold uppercase tracking-widest" style={{ borderBottom: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}>
+                Your projects
+              </div>
+              {projects.map((project) => (
+                <button
+                  key={project.id}
+                  type="button"
+                  onClick={() => setSelectedProjectId(project.id)}
+                  className="w-full px-5 py-4 text-left transition-colors"
+                  style={{
+                    borderTop: "1px solid rgba(255,255,255,0.04)",
+                    background:
+                      selectedProjectId === project.id
+                        ? "rgba(108,59,255,0.08)"
+                        : "transparent",
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium" style={{ color: "var(--text-primary)" }}>{project.name}</p>
+                      <p className="mt-1 truncate text-xs" style={{ color: "var(--cyan-400)", fontFamily: "var(--font-mono)" }}>{project.url}</p>
+                    </div>
+                    <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                      {new Date(project.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </>
+          )}
+        </div>
+
+        <div className="space-y-5">
+          {detailLoading ? (
+            <div className="rounded-xl p-8 text-center text-sm" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}>
+              Loading project details…
             </div>
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className="grid grid-cols-[2fr_2fr_1fr_auto] gap-4 items-center px-5 py-4 text-sm"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.04)", color: "var(--text-secondary)" }}
-              >
-                <span className="font-medium truncate" style={{ color: "var(--text-primary)" }}>{project.name}</span>
-                <span className="truncate" style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--cyan-400)" }}>
-                  {project.url}
-                </span>
-                <span>{new Date(project.createdAt).toLocaleDateString()}</span>
-                <div className="flex items-center gap-2">
-                  <Link
-                    href={`/scan-result?url=${encodeURIComponent(project.url)}`}
-                    className="rounded-md px-2.5 py-1 text-xs font-medium transition-colors"
-                    style={{ background: "rgba(108,59,255,0.12)", color: "var(--violet-400)", border: "1px solid rgba(108,59,255,0.2)" }}
-                  >
-                    Scan
-                  </Link>
-                  <button
-                    onClick={() => void handleDelete(project.id)}
-                    className="rounded-md p-1 transition-colors"
-                    style={{ color: "var(--text-tertiary)" }}
-                    aria-label="Delete project"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 3.5h10M5.5 3.5V2.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1M5.5 6v4M8.5 6v4M3 3.5l.7 7a.5.5 0 00.5.5h5.6a.5.5 0 00.5-.5L11 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
+          ) : !selectedProject ? (
+            <div className="rounded-xl p-8 text-center text-sm" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}>
+              Select a project to view its scan history and monitoring controls.
+            </div>
+          ) : (
+            <>
+              <div className="rounded-xl p-5" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}>
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-lg font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+                      {selectedProject.name}
+                    </h2>
+                    <p className="mt-1 text-sm" style={{ color: "var(--cyan-400)", fontFamily: "var(--font-mono)" }}>
+                      {selectedProject.url}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void handleDelete(selectedProject.id)}
+                      className="rounded-lg px-3 py-2 text-xs font-medium"
+                      style={{ background: "rgba(255,255,255,0.04)", color: "var(--text-secondary)" }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-lg p-4" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="text-xs uppercase tracking-widest" style={{ color: "var(--text-tertiary)" }}>History</p>
+                    <p className="mt-2 text-2xl font-bold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)" }}>
+                      {selectedProject.scans.length}
+                    </p>
+                    <p className="mt-1 text-xs" style={{ color: "var(--text-tertiary)" }}>Recent scans stored</p>
+                  </div>
+                  <div className="rounded-lg p-4" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="text-xs uppercase tracking-widest" style={{ color: "var(--text-tertiary)" }}>Scheduled re-scan</p>
+                    {canSchedule ? (
+                      <>
+                        <p className="mt-2 text-sm font-semibold" style={{ color: schedule?.enabled ? "var(--success-400)" : "var(--text-primary)" }}>
+                          {schedule?.enabled ? "Weekly monitoring on" : "Weekly monitoring off"}
+                        </p>
+                        <button
+                          type="button"
+                          disabled={scheduleSaving}
+                          onClick={() => void handleScheduleToggle(!schedule?.enabled)}
+                          className="mt-3 rounded-lg px-3 py-2 text-xs font-semibold text-white"
+                          style={{ background: "var(--brand-red)" }}
+                        >
+                          {scheduleSaving
+                            ? "Saving…"
+                            : schedule?.enabled
+                            ? "Disable rescans"
+                            : "Enable rescans"}
+                        </button>
+                      </>
+                    ) : (
+                      <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                        Upgrade to Pro to enable scheduled rescans.
+                      </p>
+                    )}
+                  </div>
+                  <div className="rounded-lg p-4" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="text-xs uppercase tracking-widest" style={{ color: "var(--text-tertiary)" }}>Email alerts</p>
+                    {canReceiveAlerts ? (
+                      <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                        Growth and Agency projects receive an email if a scheduled scan drops by 5+ points.
+                      </p>
+                    ) : (
+                      <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                        Upgrade to Growth to receive automatic score-drop alerts.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            ))}
-          </>
-        )}
+
+              <div className="rounded-xl p-5" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}>
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+                      Score trend
+                    </h3>
+                    <p className="mt-1 text-sm" style={{ color: "var(--text-tertiary)" }}>
+                      Visual history of this project&apos;s AI visibility score.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  {canSeeTrendChart ? (
+                    <ProjectTrendChart points={chartPoints} />
+                  ) : (
+                    <div className="rounded-xl p-6 text-sm" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}>
+                      Upgrade to Growth to unlock the score trend chart.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="rounded-xl overflow-hidden" style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}>
+                <div className="px-5 py-3 text-xs font-semibold uppercase tracking-widest" style={{ borderBottom: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}>
+                  Recent scans
+                </div>
+                {selectedProject.scans.length === 0 ? (
+                  <div className="p-6 text-sm" style={{ color: "var(--text-tertiary)" }}>
+                    No scans recorded for this project yet.
+                  </div>
+                ) : (
+                  selectedProject.scans.map((scan) => (
+                    <div
+                      key={scan.id}
+                      className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-3 text-sm"
+                      style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
+                    >
+                      <span style={{ color: "var(--text-secondary)" }}>
+                        {new Date(scan.createdAt).toLocaleString()}
+                      </span>
+                      <span style={{ color: "var(--text-primary)", fontFamily: "var(--font-mono)" }}>
+                        {scan.overallScore ?? "—"}
+                      </span>
+                      <span style={{ color: "var(--text-tertiary)" }}>{scan.status}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

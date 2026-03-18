@@ -48,5 +48,14 @@
     "typescript": "^5",
     "vitest": "^4.0.18"
   },
-  "description": "ConduitScore - AI Visibility Score Scanner"
+  "description": "ConduitScore - AI Visibility Score Scanner",
+  "browserslist": [
+    "chrome >= 90",
+    "edge >= 90",
+    "firefox >= 90",
+    "safari >= 15",
+    "ios >= 15",
+    "not dead",
+    "not op_mini all"
+  ]
 }

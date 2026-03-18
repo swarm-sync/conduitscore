@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { scanRecordToResult } from "@/lib/scanner/scan-record";
 import type { Fix, Issue } from "@/lib/scanner/types";
+import { getRequestUser } from "@/lib/api-auth";
+import { PLAN_FEATURES } from "@/lib/plan-limits";
+import { getSession } from "@/lib/session";
 import {
   IMPACT_MAP,
   SCORE_IMPACT,
@@ -9,18 +12,6 @@ import {
   DEFAULT_SCORE_IMPACT,
   DEFAULT_EFFORT_MINUTES,
 } from "@/lib/scanner/fix-meta";
-
-async function getOptionalSession() {
-  try {
-    const [{ getServerSession }, { authOptions }] = await Promise.all([
-      import("next-auth"),
-      import("@/lib/auth"),
-    ]);
-    return await getServerSession(authOptions);
-  } catch {
-    return null;
-  }
-}
 
 /** Tiers that receive full (unlocked) fix content. */
 const PAID_TIERS = new Set(["starter", "pro", "growth", "agency"]);
@@ -38,6 +29,13 @@ function enrichIssues(issues: Issue[]): Issue[] {
     impact:
       IMPACT_MAP[issue.id] ??
       "Resolving this issue will improve your AI visibility score.",
+  }));
+}
+
+function applyIssueGate(issues: Issue[]): Issue[] {
+  return issues.map((issue) => ({
+    ...issue,
+    description: "",
   }));
 }
 
@@ -115,7 +113,10 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const session = await getOptionalSession();
+    const auth = await getRequestUser(_request);
+    if (auth.error) {
+      return NextResponse.json({ error: auth.error }, { status: 401 });
+    }
 
     const scan = await prisma.scan.findUnique({
       where: { id },
@@ -131,39 +132,35 @@ export async function GET(
     // If the scan has an owner but no session is present, return 403 immediately
     // rather than silently serving the scan to an unauthenticated caller.
     if (scan.userId) {
-      if (!session?.user?.email) {
+      if (!auth.user) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      });
-      if (user?.id !== scan.userId) {
+      if (auth.user.id !== scan.userId) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
     }
 
     // Determine subscription tier for gating decisions.
     let userTier = "free";
-    if (session?.user?.email) {
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: { subscriptionTier: true },
-      });
-      userTier = user?.subscriptionTier ?? "free";
+    if (auth.user) {
+      userTier = auth.user.subscriptionTier ?? "free";
     }
     const isPaid = PAID_TIERS.has(userTier);
 
     const result = scanRecordToResult(scan);
 
     const enrichedIssues = enrichIssues(result.issues);
+    const finalIssues = PLAN_FEATURES.issueDescriptions(userTier)
+      ? enrichedIssues
+      : applyIssueGate(enrichedIssues);
     const enrichedFixes = enrichFixes(result.fixes);
     const finalFixes = isPaid
       ? enrichedFixes
-      : applyFixGate(enrichedFixes, enrichedIssues);
+      : applyFixGate(enrichedFixes, finalIssues);
 
     return NextResponse.json({
       ...result,
-      issues: enrichedIssues,
+      issues: finalIssues,
       fixes: finalFixes,
     });
   } catch (error) {
@@ -178,7 +175,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const session = await getOptionalSession();
+    const session = await getSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

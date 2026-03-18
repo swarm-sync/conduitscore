@@ -14,7 +14,13 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     const { id } = await params;
     const user = await getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const project = await prisma.project.findFirst({ where: { id, userId: user.id }, include: { scans: { orderBy: { createdAt: "desc" }, take: 10 } } });
+    const project = await prisma.project.findFirst({
+      where: { id, userId: user.id },
+      include: {
+        scans: { orderBy: { createdAt: "desc" }, take: 12 },
+        scheduledScans: true,
+      },
+    });
     if (!project) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(project);
   } catch (error) {

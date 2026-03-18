@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata: Metadata = {
-  title: "ConduitScore — Documentation & FAQ",
+  title: "ConduitScore — Docs, FAQ, and API",
   description:
-    "Answers to the most common questions about ConduitScore, AI visibility optimization, llms.txt, structured data, and how to improve your AI readiness score.",
+    "Answers to the most common questions about ConduitScore, AI visibility scans, monitoring, bulk uploads, and Agency API access.",
 };
 
 const faqs = [
@@ -27,7 +28,7 @@ const faqs = [
   {
     question: "What do I get back?",
     answer:
-      "You get an overall AI visibility score, category breakdowns, concrete issues, copy-paste fixes, and a proof artifact showing what was observed during the scan.",
+      "You get an overall AI visibility score, category breakdowns, concrete issues, and fixes. Free scans show one sample fix with the rest locked. Paid plans unlock the full fix set.",
   },
   {
     question: "What is llms.txt and why does it matter?",
@@ -42,7 +43,7 @@ const faqs = [
   {
     question: "Is ConduitScore free to use?",
     answer:
-      "Yes, ConduitScore offers a free tier with 3 scans per month and no sign-up required. For higher volumes, monitoring dashboards, and API access, paid plans start at $29 per month.",
+      "Yes, ConduitScore offers a free tier with 3 scans per month and no sign-up required. Free users get the score, issue titles, and one sample fix. Paid plans unlock monitoring, full fixes, and higher-volume workflows.",
   },
   {
     question: "How often should I scan my site?",
@@ -61,7 +62,7 @@ export default function DocsPage() {
             <span className="section-label">Documentation</span>
             <h1 className="mt-4 uppercase">Frequently Asked Questions</h1>
             <p className="mt-4 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
-              Everything you need to know about AI visibility auditing, ConduitScore&apos;s scan methodology, and how to improve your site&apos;s score.
+              Everything you need to know about AI visibility scans, monitoring, bulk uploads, and Agency API access.
             </p>
           </div>
         </section>
@@ -107,14 +108,126 @@ export default function DocsPage() {
         </section>
 
         <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-base mx-auto grid gap-10 px-6 md:px-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div>
+              <span className="section-label">Monitoring</span>
+              <h2 className="mt-4 uppercase">Feature access by plan</h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                ConduitScore keeps the free scan lightweight, then unlocks operational features as teams move into recurring monitoring and integrations.
+              </p>
+            </div>
+            <div
+              className="rounded-[24px] overflow-hidden"
+              style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}
+            >
+              {[
+                ["AI visibility score", "All plans"],
+                ["Code fixes unlocked", "Starter+"],
+                ["Issue descriptions", "Starter+"],
+                ["Dashboard & history", "Starter+"],
+                ["Scheduled re-scans", "Pro+"],
+                ["Score trend chart", "Growth+"],
+                ["Email alerts", "Growth+"],
+                ["Bulk scan (CSV upload)", "Agency"],
+                ["REST API access", "Agency"],
+              ].map(([label, plan], index) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between gap-4 px-5 py-4 text-sm"
+                  style={{
+                    borderTop: index === 0 ? "none" : "1px solid rgba(255,255,255,0.05)",
+                  }}
+                >
+                  <span style={{ color: "var(--text-primary)" }}>{label}</span>
+                  <span style={{ color: "var(--text-secondary)" }}>{plan}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-base mx-auto grid gap-10 px-6 md:px-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div>
+              <span className="section-label">API</span>
+              <h2 className="mt-4 uppercase">REST API quick start</h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                Agency plans can create API keys from Billing, then authenticate with either the <code>x-api-key</code> header or a Bearer token.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div
+                className="rounded-[24px] p-6"
+                style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}
+              >
+                <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                  Available endpoints
+                </p>
+                <ul className="mt-4 space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                  <li><code>POST /api/scan</code> to start an authenticated scan.</li>
+                  <li><code>GET /api/scans</code> to list scans for the API key owner.</li>
+                  <li><code>GET /api/scans/:id</code> to retrieve a specific scan result.</li>
+                </ul>
+              </div>
+              <pre
+                className="overflow-x-auto rounded-[24px] p-6 text-xs leading-relaxed"
+                style={{ background: "rgba(5,10,18,0.92)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}
+              >
+{`curl -X POST https://conduitscore.com/api/scan \\
+  -H "x-api-key: YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"url":"https://example.com"}'
+
+curl https://conduitscore.com/api/scans \\
+  -H "Authorization: Bearer YOUR_API_KEY"
+
+curl https://conduitscore.com/api/scans/SCAN_ID \\
+  -H "x-api-key: YOUR_API_KEY"`}
+              </pre>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="container-base mx-auto grid gap-10 px-6 md:px-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div>
+              <span className="section-label">Agency</span>
+              <h2 className="mt-4 uppercase">Bulk CSV upload</h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                Agency plans can upload a CSV from the Projects dashboard to create multiple projects and trigger initial scans in one pass.
+              </p>
+            </div>
+            <div
+              className="rounded-[24px] p-6"
+              style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)" }}
+            >
+              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                CSV format
+              </p>
+              <pre
+                className="mt-4 overflow-x-auto rounded-2xl p-4 text-xs"
+                style={{ background: "rgba(5,10,18,0.92)", color: "var(--text-secondary)" }}
+              >
+{`name,url
+Main Site,https://example.com
+Docs,https://docs.example.com`}
+              </pre>
+              <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                You can also upload a one-column file with just URLs. ConduitScore will create missing projects automatically and start the first scan for each row.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
           <div className="container-base mx-auto px-6 text-center md:px-0">
             <span className="section-label">Ready to audit?</span>
             <h2 className="mt-4 uppercase">See how AI systems read your site</h2>
             <p className="mx-auto mt-4 max-w-xl" style={{ color: "var(--text-secondary)" }}>
-              Free scan, no sign-up required. Get your AI visibility score in under 30 seconds.
+              Free scan, no sign-up required. Get your AI visibility score in about 15 seconds.
             </p>
             <div className="mt-8">
-              <a
+              <Link
                 href="/#scan"
                 className="inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition-all"
                 style={{
@@ -125,7 +238,7 @@ export default function DocsPage() {
                 }}
               >
                 Run a free scan
-              </a>
+              </Link>
             </div>
           </div>
         </section>

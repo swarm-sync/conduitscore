@@ -48,12 +48,14 @@ export function Header() {
       <div className="container-wide mx-auto flex h-[76px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
+          {/* B2-B3: LCP image — priority + fetchpriority="high" for fastest load */}
           <Image
-            src="/logo-wide.png"
+            src="/logo-wide.webp"
             alt="ConduitScore"
             width={300}
             height={64}
             priority
+            fetchPriority="high"
             className="h-[64px] w-auto transition-opacity duration-200 group-hover:opacity-90"
             style={{ objectFit: "contain", mixBlendMode: "screen" }}
           />

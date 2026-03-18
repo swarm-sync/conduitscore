@@ -12,14 +12,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 const FALLBACK_WEEKLY_COUNT = "4,000+";
 
 export const metadata: Metadata = {
-  title: "ConduitScore — AI Visibility Score in 30 Seconds",
+  title: "ConduitScore — AI Visibility Score in 15 Seconds",
   description:
     "Paste your URL to see how visible your site is to AI tools, what's hurting you, and what to fix first. No signup required.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "ConduitScore — See Your AI Visibility Score in 30 Seconds",
+    title: "ConduitScore — See Your AI Visibility Score in 15 Seconds",
     description:
       "Paste your URL to see how visible your site is to AI tools, what's hurting you, and what to fix first. No signup required.",
     url: SITE_URL,
@@ -72,7 +72,7 @@ function HomePageJsonLd() {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "How to get your AI visibility score with ConduitScore",
-    totalTime: "PT1M",
+    totalTime: "PT15S",
     step: [
       {
         "@type": "HowToStep",
@@ -83,7 +83,7 @@ function HomePageJsonLd() {
       {
         "@type": "HowToStep",
         position: 2,
-        name: "Score in 30 seconds",
+        name: "Score in 15 seconds",
         text: "ConduitScore checks 7 AI visibility signals and returns a 0-100 score.",
       },
       {
@@ -176,14 +176,27 @@ export default async function Home() {
                 <p
                   className="mt-4"
                   style={{
-                    fontFamily: "var(--font-body)",
+                    fontFamily: "var(--font-display)",
                     fontSize: "1.125rem",
-                    color: "var(--text-secondary)",
-                    maxWidth: "440px",
-                    lineHeight: 1.75,
+                    color: "var(--text-primary)",
+                    maxWidth: "460px",
+                    lineHeight: 1.5,
                   }}
                 >
-                  Paste your URL to see how visible your site is to AI tools, what&apos;s hurting you, and what to fix first.
+                  See your AI visibility score in 15 seconds.
+                </p>
+
+                <p
+                  className="mt-3"
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "1rem",
+                    color: "var(--text-secondary)",
+                    maxWidth: "440px",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Paste your URL. Find out if ChatGPT can see your site.
                 </p>
 
                 {/* Scan form */}
@@ -236,7 +249,7 @@ export default async function Home() {
             {[
               { stat: weeklyScanCount, label: "sites scanned this week" },
               { stat: "41/100", label: "Average score: 41/100 — most sites are missing basic AI-readability signals" },
-              { stat: "30s", label: "results in under 30 seconds. No signup required." },
+              { stat: "15s", label: "results in about 15 seconds. No signup required." },
             ].map((item, i) => (
               <div
                 key={item.stat}
@@ -298,7 +311,7 @@ export default async function Home() {
                   marginTop: "12px",
                 }}
               >
-                Three steps. Thirty seconds.
+                Three steps. Fifteen seconds.
               </h2>
             </div>
 
@@ -413,7 +426,7 @@ export default async function Home() {
                 marginTop: "40px",
               }}
               >
-              No signup. No credit card. Results in 30 seconds.
+              No signup. No credit card. Results in about 15 seconds.
             </p>
           </div>
         </section>
@@ -521,7 +534,7 @@ export default async function Home() {
                 color: "var(--text-tertiary)",
               }}
             >
-              No signup required. Results in under 30 seconds.
+              No signup required. Results in about 15 seconds.
             </p>
           </div>
         </section>

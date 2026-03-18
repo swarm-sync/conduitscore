@@ -1,6 +1,34 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+
+/* ──────────────────────────────────────────────────────────────────────
+   B1: Self-host Google Fonts via next/font/google
+   Eliminates render-blocking external CSS (~116 KiB), the
+   fonts.googleapis.com -> fonts.gstatic.com chain, and adds automatic
+   font-display: swap. Expected mobile savings: ~1,660 ms.
+   ─────────────────────────────────────────────────────────────────── */
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+  variable: "--font-jetbrains-mono",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  display: "swap",
+  variable: "--font-syne",
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
@@ -21,7 +49,7 @@ export const metadata: Metadata = {
     template: "%s | ConduitScore",
   },
   description:
-    "Check how AI agents see your website in 30 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
+    "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
   keywords: [
     "AI SEO",
     "AI visibility score",
@@ -67,7 +95,7 @@ export const metadata: Metadata = {
     siteName: "ConduitScore",
     title: "ConduitScore - AI Visibility Score Scanner",
     description:
-      "Check how AI agents see your website in 30 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini.",
+      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini.",
     images: [
       {
         url: `${SITE_URL}/og-image.png`,
@@ -83,7 +111,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ConduitScore - AI Visibility Score Scanner",
     description:
-      "Check how AI agents see your website in 30 seconds. Get your AI visibility score with copy-paste fixes.",
+      "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes.",
     images: [`${SITE_URL}/og-image.png`],
     creator: "@conduitscore",
     site: "@conduitscore",
@@ -110,7 +138,7 @@ function OrganizationJsonLd() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     description:
-      "ConduitScore is the leading AI visibility scanner that checks how ChatGPT, Perplexity, Claude, and other AI agents see your website. Get your AI readiness score in 30 seconds with actionable fixes.",
+      "ConduitScore is the leading AI visibility scanner that checks how ChatGPT, Perplexity, Claude, and other AI agents see your website. Get your AI readiness score in 15 seconds with actionable fixes.",
     foundingDate: "2026",
     sameAs: [
       "https://twitter.com/conduitscore",
@@ -239,10 +267,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />

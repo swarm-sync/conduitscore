@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = await getToken({ req: request });
   const isAuthPage = request.nextUrl.pathname.startsWith("/signin") || request.nextUrl.pathname.startsWith("/verify");
 
@@ -23,5 +23,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/signin", "/verify"],
+  matcher: [
+    "/dashboard/:path*",
+    "/projects/:path*",
+    "/scans/:path*",
+    "/settings/:path*",
+    "/signin",
+    "/verify",
+  ],
 };

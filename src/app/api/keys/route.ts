@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { randomBytes } from "crypto";
+import { generateApiKey, hashApiKey } from "@/lib/api-keys";
 
 export async function GET() {
   try {
@@ -27,8 +27,10 @@ export async function POST(request: NextRequest) {
     if (user.subscriptionTier !== "agency") return NextResponse.json({ error: "Agency tier required" }, { status: 403 });
     const { name } = await request.json();
     if (!name) return NextResponse.json({ error: "Name required" }, { status: 400 });
-    const key = `ao_${randomBytes(32).toString("hex")}`;
-    const apiKey = await prisma.apiKey.create({ data: { userId: user.id, name, key } });
+    const key = generateApiKey();
+    const apiKey = await prisma.apiKey.create({
+      data: { userId: user.id, name, key: hashApiKey(key) },
+    });
     return NextResponse.json({ id: apiKey.id, name: apiKey.name, key, createdAt: apiKey.createdAt }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Failed" }, { status: 500 });

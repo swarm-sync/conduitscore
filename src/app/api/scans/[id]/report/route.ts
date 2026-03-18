@@ -23,6 +23,13 @@ function enrichIssues(issues: Issue[]): Issue[] {
   }));
 }
 
+function applyIssueGate(issues: Issue[]): Issue[] {
+  return issues.map((issue) => ({
+    ...issue,
+    description: "",
+  }));
+}
+
 /** Enrich fixes with scoreImpact + effortMinutes (all tiers). */
 function enrichFixes(fixes: Fix[]): Fix[] {
   return fixes.map((fix) => ({
@@ -109,7 +116,7 @@ export async function GET(
 
     const result = scanRecordToResult(scan);
 
-    const enrichedIssues = enrichIssues(result.issues);
+    const enrichedIssues = applyIssueGate(enrichIssues(result.issues));
     const enrichedFixes = enrichFixes(result.fixes);
     const gatedFixes = applyFixGate(enrichedFixes, enrichedIssues);
 

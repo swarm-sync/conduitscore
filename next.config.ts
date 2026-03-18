@@ -1,12 +1,24 @@
+import { fileURLToPath } from "url";
 import type { NextConfig } from "next";
+
+const projectRoot = fileURLToPath(new URL("./", import.meta.url));
 
 const nextConfig: NextConfig = {
   // SEO: Enforce trailing slashes for canonical URL consistency
   trailingSlash: false,
 
+  // B11: Ensure gzip compression is enabled for all text responses
+  compress: true,
+
+  turbopack: {
+    root: projectRoot,
+  },
+
   // SEO: Enable image optimization with proper formats
   images: {
     formats: ["image/avif", "image/webp"],
+    // B3/B10: Cache optimized images for 1 year
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",
@@ -40,12 +52,17 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Long-cache static assets for performance (CWV)
-        source: "/(.*)\\.(js|css|woff2|png|jpg|svg|ico)",
+        // B10: Long-cache static assets for performance (CWV)
+        // Added webp, avif, woff for comprehensive coverage
+        source: "/(.*)\\.(js|css|woff|woff2|png|jpg|webp|avif|svg|ico)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+          {
+            key: "Vary",
+            value: "Accept-Encoding",
           },
         ],
       },

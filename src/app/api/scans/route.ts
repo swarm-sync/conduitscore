@@ -1,28 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-
-async function getOptionalSession() {
-  try {
-    const [{ getServerSession }, { authOptions }] = await Promise.all([
-      import("next-auth"),
-      import("@/lib/auth"),
-    ]);
-    return await getServerSession(authOptions);
-  } catch {
-    return null;
-  }
-}
+import { getRequestUser } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getOptionalSession();
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const auth = await getRequestUser(request);
+    if (auth.error) {
+      return NextResponse.json({ error: auth.error }, { status: 401 });
     }
-
-    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    if (!auth.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const page = Number(request.nextUrl.searchParams.get("page") || "1");
@@ -31,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     const [scans, total] = await Promise.all([
       prisma.scan.findMany({
-        where: { userId: user.id },
+        where: { userId: auth.user.id },
         orderBy: { createdAt: "desc" },
         skip,
         take: limit,
@@ -43,7 +30,7 @@ export async function GET(request: NextRequest) {
           createdAt: true,
         },
       }),
-      prisma.scan.count({ where: { userId: user.id } }),
+      prisma.scan.count({ where: { userId: auth.user.id } }),
     ]);
 
     return NextResponse.json({ scans, total, page, limit, pages: Math.ceil(total / limit) });
