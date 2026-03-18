@@ -138,8 +138,8 @@ export default async function Home() {
       <HomePageJsonLd />
       {/* Responsive hero padding - Tailwind v4 strips custom :root vars, so we inline a <style> */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .hero-inner { padding-top: 24px; padding-bottom: 80px; }
-        @media (max-width: 767px) { .hero-inner { padding-top: 20px; padding-bottom: 56px; } }
+        .hero-inner { padding-top: 0px; padding-bottom: 80px; }
+        @media (max-width: 767px) { .hero-inner { padding-top: 0px; padding-bottom: 56px; } }
       ` }} />
       <Header />
       <main>
@@ -155,7 +155,7 @@ export default async function Home() {
               className="hero-two-col"
             >
               {/* Left column */}
-              <div className="animate-fade-up">
+              <div>
                 <h1
                   id="hero-heading"
                   style={{
@@ -225,9 +225,8 @@ export default async function Home() {
 
               {/* Right column */}
               <div
-                className="animate-fade-up hero-score-card-col"
+                className="hero-score-card-col"
                 style={{
-                  animationDelay: "120ms",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",

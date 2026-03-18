@@ -52,12 +52,12 @@ export function Header() {
           <Image
             src="/logo-wide.webp"
             alt="ConduitScore"
-            width={300}
-            height={64}
+            width={180}
+            height={120}
             priority
             fetchPriority="high"
-            className="h-[64px] w-auto transition-opacity duration-200 group-hover:opacity-90"
-            style={{ objectFit: "contain", mixBlendMode: "screen" }}
+            className="transition-opacity duration-200 group-hover:opacity-90"
+            style={{ objectFit: "contain", mixBlendMode: "screen", width: "160px", height: "auto" }}
           />
         </Link>
 

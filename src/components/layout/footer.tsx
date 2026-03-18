@@ -37,10 +37,10 @@ export function Footer() {
               <Image
                 src="/logo-wide.webp"
                 alt="ConduitScore"
-                width={220}
-                height={46}
-                className="h-[46px] w-auto transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain", mixBlendMode: "screen" }}
+                width={150}
+                height={100}
+                className="transition-opacity duration-200 group-hover:opacity-80"
+                style={{ objectFit: "contain", mixBlendMode: "screen", width: "130px", height: "auto" }}
               />
             </Link>
 
