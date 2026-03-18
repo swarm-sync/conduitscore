@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
   // B11: Ensure gzip compression is enabled for all text responses
   compress: true,
 
-  outputFileTracingRoot: projectRoot,
-
   turbopack: {
     root: projectRoot,
   },
