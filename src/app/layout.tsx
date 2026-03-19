@@ -102,7 +102,7 @@ export const metadata: Metadata = {
       {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
-        height: 630,
+        height: 1200,
         alt: "ConduitScore - AI Visibility Score Scanner",
         type: "image/png",
       },
@@ -138,7 +138,7 @@ function OrganizationJsonLd() {
     "@type": "Organization",
     name: "ConduitScore",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo-master.png`,
+    logo: `${SITE_URL}/logo-square.png`,
     description:
       "ConduitScore is the leading AI visibility scanner that checks how ChatGPT, Perplexity, Claude, and other AI agents see your website. Get your AI readiness score in 15 seconds with actionable fixes.",
     foundingDate: "2026",
@@ -244,7 +244,7 @@ function WebSiteJsonLd() {
     name: "ConduitScore",
     url: SITE_URL,
     description:
-      "Check how AI agents see your website. Get your AI visibility score in 30 seconds.",
+      "Check how AI agents see your website. Get your AI visibility score in 15 seconds.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -271,10 +271,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
-        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
-        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <OrganizationJsonLd />
