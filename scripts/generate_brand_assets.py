@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import math
 import re
 from pathlib import Path
 
@@ -132,6 +133,53 @@ def write_ico(image: Image.Image, name: str) -> None:
     image.save(PUBLIC_DIR / name, sizes=[(16, 16), (32, 32), (48, 48)])
 
 
+def hex_points(cx: float, cy: float, radius: float) -> list[tuple[float, float]]:
+    points = []
+    for i in range(6):
+        angle = math.radians(-90 + i * 60)
+        points.append((cx + radius * math.cos(angle), cy + radius * math.sin(angle)))
+    return points
+
+
+def draw_hex(draw: ImageDraw.ImageDraw, cx: float, cy: float, radius: float, color: str, width: int) -> None:
+    points = hex_points(cx, cy, radius)
+    draw.line(points + [points[0]], fill=color, width=width, joint="curve")
+
+
+def make_simple_favicon_png(size: int) -> Image.Image:
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(canvas)
+    cx = cy = size / 2
+
+    draw_hex(draw, cx, cy, size * 0.42, "#6A0D36", max(1, round(size * 0.11)))
+    draw_hex(draw, cx, cy, size * 0.29, "#C51663", max(1, round(size * 0.09)))
+    draw_hex(draw, cx, cy, size * 0.18, "#FF4D8E", max(1, round(size * 0.08)))
+
+    inner = hex_points(cx, cy, size * 0.11)
+    draw.polygon(inner, fill=(15, 7, 18, 235))
+
+    stroke = max(1, round(size * 0.06))
+    arm = size * 0.12
+    for angle in (0, 60, 120):
+        radians = math.radians(angle)
+        dx = math.cos(radians) * arm
+        dy = math.sin(radians) * arm
+        draw.line((cx - dx, cy - dy, cx + dx, cy + dy), fill="#FF6DA5", width=stroke)
+
+    return canvas
+
+
+def simple_favicon_svg() -> str:
+    return """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="ConduitScore favicon mark">
+  <path d="M32 6 L52 17.5 L52 40.5 L32 52 L12 40.5 L12 17.5 Z" stroke="#6A0D36" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M32 16 L44 23 L44 37 L32 44 L20 37 L20 23 Z" stroke="#C51663" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M32 24 L38.5 27.8 L38.5 35.2 L32 39 L25.5 35.2 L25.5 27.8 Z" stroke="#FF4D8E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M32 28 L35.5 30 L35.5 34 L32 36 L28.5 34 L28.5 30 Z" fill="#0F0712"/>
+  <path d="M32 25.5 L32 38.5 M26.5 28.8 L37.5 35.2 M26.5 35.2 L37.5 28.8" stroke="#FF6DA5" stroke-width="3" stroke-linecap="round"/>
+</svg>
+"""
+
+
 def main() -> None:
     base = crop_non_white(load_embedded_png())
 
@@ -158,7 +206,15 @@ def main() -> None:
     write_png(maskable512, "android-chrome-512x512-maskable.png")
     write_png(square512, "icon-512.png")
     write_png(og_square, "og-image.png")
-    write_ico(square512, "favicon.ico")
+    simple16 = make_simple_favicon_png(16)
+    simple32 = make_simple_favicon_png(32)
+    simple48 = make_simple_favicon_png(48)
+    simple256 = make_simple_favicon_png(256)
+    write_png(simple16, "favicon-16x16.png")
+    write_png(simple32, "favicon-32x32.png")
+    write_png(simple48, "favicon-48x48.png")
+    write_ico(simple256, "favicon.ico")
+    (PUBLIC_DIR / "favicon-mark.svg").write_text(simple_favicon_svg(), encoding="utf-8")
 
     manifest = {
         "name": "ConduitScore",
