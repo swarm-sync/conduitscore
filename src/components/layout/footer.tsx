@@ -40,7 +40,7 @@ export function Footer() {
                 width={150}
                 height={100}
                 className="transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain", width: "130px", height: "auto" }}
+                style={{ objectFit: "contain", mixBlendMode: "screen", width: "160px", height: "auto" }}
               />
             </Link>
 
