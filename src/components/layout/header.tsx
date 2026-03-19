@@ -57,7 +57,7 @@ export function Header() {
             priority
             fetchPriority="high"
             className="transition-opacity duration-200 group-hover:opacity-90"
-            style={{ objectFit: "contain", mixBlendMode: "screen", width: "160px", height: "auto" }}
+            style={{ objectFit: "contain", width: "160px", height: "auto" }}
           />
         </Link>
 
