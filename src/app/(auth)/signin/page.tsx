@@ -56,13 +56,13 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/conduitscore_horizontal_logo.svg"
+              src="/logo-temp.png"
               alt="ConduitScore"
-              width={240}
-              height={52}
+              width={360}
+              height={209}
               className="w-auto"
               priority
-              style={{ display: "block", height: "52px", width: "auto" }}
+              style={{ display: "block", height: "48px", width: "auto" }}
             />
           </div>
           <h1

@@ -77,11 +77,11 @@ export default function DashboardLayout({
         >
           <Link href="/" aria-label="ConduitScore home">
             <Image
-              src="/conduitscore_horizontal_logo.svg"
+              src="/logo-temp.png"
               alt="ConduitScore"
-              width={170}
-              height={44}
-              style={{ display: "block", height: "44px", width: "auto" }}
+              width={360}
+              height={209}
+              style={{ display: "block", height: "36px", width: "auto", maxWidth: "160px" }}
             />
           </Link>
         </div>
