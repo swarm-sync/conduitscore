@@ -56,13 +56,12 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/logo-wide.webp"
+              src="/conduitscore_horizontal_logo.svg"
               alt="ConduitScore"
               width={240}
-              height={78}
-              className="h-20 w-auto"
+              height={59}
+              className="h-16 w-auto"
               priority
-              style={{ mixBlendMode: "screen" }}
             />
           </div>
           <h1
