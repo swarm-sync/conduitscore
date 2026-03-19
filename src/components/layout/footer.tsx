@@ -35,12 +35,12 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
               <Image
-                src="/logo-temp.png"
+                src="/logo-wide.webp"
                 alt="ConduitScore"
-                width={360}
-                height={209}
+                width={150}
+                height={100}
                 className="transition-opacity duration-200 group-hover:opacity-80"
-                style={{ display: "block", height: "auto", maxWidth: "220px", width: "100%" }}
+                style={{ objectFit: "contain", mixBlendMode: "screen", width: "130px", height: "auto" }}
               />
             </Link>
 
@@ -95,8 +95,8 @@ export function Footer() {
             <ul className="space-y-2.5">
               {[
                 { label: "Run a Scan", href: "/#scan" },
-                { label: "Pricing",       href: "/pricing" },
-                { label: "Dashboard",     href: "/dashboard" },
+                { label: "Pricing", href: "/pricing" },
+                { label: "Dashboard", href: "/dashboard" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">
@@ -115,7 +115,7 @@ export function Footer() {
                 { label: "Documentation", href: "/docs" },
                 { label: "Blog", href: "/blog" },
                 { label: "About", href: "/about" },
-                { label: "Status",        href: "https://status.conduitscore.com" },
+                { label: "Status", href: "https://status.conduitscore.com" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">
@@ -131,10 +131,10 @@ export function Footer() {
             <h3 className="section-label mb-4">Legal</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Privacy Policy",   href: "/privacy" },
+                { label: "Privacy Policy", href: "/privacy" },
                 { label: "Terms of Service", href: "/terms" },
-                { label: "Cookie Policy",    href: "/cookies" },
-                { label: "Contact",          href: "/contact" },
+                { label: "Cookie Policy", href: "/cookies" },
+                { label: "Contact", href: "/contact" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">

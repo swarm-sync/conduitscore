@@ -20,13 +20,13 @@ export function Header() {
 
   const navLinks = isAuthed
     ? [
-        { href: "/dashboard", label: "Dashboard" },
-        { href: "/pricing", label: "Pricing" },
-      ]
+      { href: "/dashboard", label: "Dashboard" },
+      { href: "/pricing", label: "Pricing" },
+    ]
     : [
-        { href: "/pricing", label: "Pricing" },
-        { href: "/signin", label: "Sign In" },
-      ];
+      { href: "/pricing", label: "Pricing" },
+      { href: "/signin", label: "Sign In" },
+    ];
 
   return (
     <header
@@ -50,14 +50,14 @@ export function Header() {
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           {/* B2-B3: LCP image — priority + fetchpriority="high" for fastest load */}
           <Image
-            src="/logo-temp.png"
+            src="/logo-wide.webp"
             alt="ConduitScore"
-            width={360}
-            height={209}
+            width={180}
+            height={120}
             priority
             fetchPriority="high"
             className="transition-opacity duration-200 group-hover:opacity-90"
-            style={{ display: "block", height: "44px", width: "auto", maxWidth: "240px" }}
+            style={{ objectFit: "contain", mixBlendMode: "screen", width: "160px", height: "auto" }}
           />
         </Link>
 
