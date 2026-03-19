@@ -50,14 +50,20 @@ export function Header() {
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           {/* B2-B3: LCP image — priority + fetchpriority="high" for fastest load */}
           <Image
-            src="/logo-nobg.png"
+            src="/conduitscore_horizontal_logo.svg"
             alt="ConduitScore"
-            width={1264}
-            height={842}
+            width={180}
+            height={44}
             priority
             fetchPriority="high"
             className="transition-opacity duration-200 group-hover:opacity-90"
-            style={{ objectFit: "contain", width: "auto", height: "58px", display: "block" }}
+            style={{ 
+              objectFit: "contain", 
+              width: "auto", 
+              height: "44px", 
+              display: "block", 
+              margin: "auto 0" 
+            }}
           />
         </Link>
 

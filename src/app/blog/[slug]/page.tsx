@@ -391,7 +391,7 @@ function BlogPostJsonLd({ post }: { post: BlogPost }) {
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/logo.png`,
+        url: `${SITE_URL}/conduitscore_horizontal_logo.svg`,
       },
     },
     mainEntityOfPage: {

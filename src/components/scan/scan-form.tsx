@@ -172,7 +172,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
                   </>
                 ) : (
                   <>
-                    Scan My Site Free
+                    Run your free AI visibility scan
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                       <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -275,6 +275,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
             e.currentTarget.style.boxShadow = "var(--shadow-btn)";
             e.currentTarget.style.transform = "translateY(0)";
           }}
+          aria-label={loading ? "Scanning in progress" : "Scan website for AI visibility"}
         >
           {loading ? "Scanning..." : "Scan"}
         </button>

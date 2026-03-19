@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const EXAMPLE_SCORE = 74;
 const EXAMPLE_DOMAIN = "example.com";
@@ -37,7 +37,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
   const radius = (size - strokeWidth * 2) / 2;
   const circumference = 2 * Math.PI * radius;
 
-  function startAnimation() {
+  const startAnimation = useCallback(() => {
     if (animationStarted.current) return;
     animationStarted.current = true;
 
@@ -72,7 +72,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     }
 
     rafRef.current = requestAnimationFrame(tick);
-  }
+  }, []);
 
   useEffect(() => {
     if (animateOnMount) {
@@ -81,7 +81,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [animateOnMount]);
+  }, [animateOnMount, startAnimation]);
 
   // When animateOnMount=false, trigger on scroll into view — fires ONCE
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -103,7 +103,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [animateOnMount]);
+  }, [animateOnMount, startAnimation]);
 
   const dashOffset = circumference - (displayScore / 100) * circumference;
 
@@ -198,6 +198,7 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
 
             {/* Center content — spec: font-display, 3.5rem, 800, text-primary */}
             <div style={{ position: "relative", textAlign: "center", zIndex: 1 }}>
+              <span className="sr-only">AI visibility score: {displayScore} out of 100</span>
               <div
                 style={{
                   fontFamily: "var(--font-display)",
@@ -382,7 +383,6 @@ Allow: /`}</div>
             {/* Overlay CTA */}
             <a
               href="#scan"
-              aria-label="Run your scan to unlock the rest of the fixes"
               style={{
                 position: "absolute",
                 inset: 0,
@@ -404,24 +404,27 @@ Allow: /`}</div>
                   padding: "0 12px",
                 }}
               >
-                Unlock the rest of the fixes
+                See the full issue breakdown and the highest-impact fixes first.
               </span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Caption below card */}
+      {/* Supporting sentence + caption below card */}
       <p
         style={{
           fontSize: "0.8125rem",
           fontFamily: "var(--font-body)",
-          color: "var(--text-tertiary)",
+          color: "var(--text-secondary)",
           textAlign: "center",
-          marginTop: "12px",
+          marginTop: "16px",
+          lineHeight: 1.5,
+          maxWidth: "380px",
+          marginInline: "auto",
         }}
       >
-        Example scan — run yours to see the full report
+        Most sites do not have one big AI visibility problem — they leak visibility through small technical gaps. ConduitScore shows you which issues matter first.
       </p>
     </>
   );

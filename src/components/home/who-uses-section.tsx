@@ -8,7 +8,7 @@ const TILES = [
   },
   {
     dot: "var(--violet-400)",
-    title: "SaaS marketing teams",
+    title: "SaaS marketers",
     body: "Find the technical and content issues that make your site harder for AI tools to surface.",
   },
   {
@@ -130,7 +130,7 @@ export function WhoUsesSection() {
               textDecoration: "none",
             }}
           >
-            See how your site scores
+            How visible is your site to AI systems?
           </a>
         </div>
       </div>

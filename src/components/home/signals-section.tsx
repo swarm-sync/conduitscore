@@ -5,44 +5,44 @@ import { useState } from "react";
 const SIGNALS = [
   {
     id: "crawler-access",
-    label: "Crawler Access",
-    description: "Controls whether GPTBot, ClaudeBot, and PerplexityBot can access your pages.",
+    label: "Crawler access",
+    description: "Can AI and machine crawlers reach your pages?",
     example: "Issue: robots.txt blocks GPTBot for /blog/",
   },
   {
     id: "structured-data",
-    label: "Structured Data",
-    description: "JSON-LD markup enables AI systems to parse entities, relationships, and facts.",
+    label: "Structured data",
+    description: "Are you helping machines understand what your content means?",
     example: "Issue: No Organization schema on homepage",
   },
   {
-    id: "llms-txt",
-    label: "LLMs.txt",
-    description: "A machine-readable summary file at /llms.txt lets AI agents understand your site without crawling every page.",
-    example: "Issue: /llms.txt not found",
-  },
-  {
     id: "content-structure",
-    label: "Content Structure",
-    description: "Semantic heading hierarchy and answer-ready sections help AI extract information.",
+    label: "Content structure",
+    description: "Are your pages organized in a way AI systems can parse?",
     example: "Issue: Multiple H1 tags detected, heading order broken",
   },
   {
+    id: "llms-txt",
+    label: "llms.txt",
+    description: "Are you providing guidance for LLM-focused retrieval?",
+    example: "Issue: /llms.txt not found",
+  },
+  {
     id: "technical-health",
-    label: "Technical Health",
-    description: "Meta tags, Open Graph, load times, and rendering signals affect AI parsing quality.",
+    label: "Technical health",
+    description: "Are there site-level issues hurting machine readability?",
     example: "Issue: Open Graph og:description missing",
   },
   {
     id: "citation-signals",
-    label: "Citation Signals",
-    description: "External authority signals influence whether AI systems cite your content in answers.",
+    label: "Citation signals",
+    description: "Does your site provide strong trust and reference cues?",
     example: "Issue: No canonical tag — duplicate citation risk",
   },
   {
     id: "content-quality",
-    label: "Content Quality",
-    description: "Word count, freshness, and topical depth are authority signals AI systems weigh.",
+    label: "Content quality",
+    description: "Is your content clear, extractable, and useful for AI answers?",
     example: "Issue: 3 pages under 300 words in crawl",
   },
 ];
@@ -66,7 +66,7 @@ export function SignalsSection() {
       }}
     >
       <div className="container-wide mx-auto">
-        <div style={{ textAlign: "center", marginBottom: "36px" }}>
+        <div style={{ textAlign: "center", marginBottom: "16px" }}>
           <h2
             id="signals-heading"
             style={{
@@ -81,6 +81,22 @@ export function SignalsSection() {
             What ConduitScore checks
           </h2>
         </div>
+
+        {/* Intro sentence */}
+        <p
+          style={{
+            textAlign: "center",
+            color: "var(--text-secondary)",
+            fontSize: "0.9375rem",
+            fontFamily: "var(--font-body)",
+            maxWidth: "600px",
+            marginInline: "auto",
+            marginBottom: "36px",
+            lineHeight: 1.6,
+          }}
+        >
+          We scan the technical and content signals that affect whether AI systems can access, understand, and cite your site.
+        </p>
 
         {/* Chips */}
         <div
@@ -184,17 +200,20 @@ export function SignalsSection() {
           )}
         </div>
 
-        {/* Static line below chips */}
+        {/* Trust / credibility line */}
         <p
           style={{
             textAlign: "center",
             color: "var(--text-tertiary)",
-            fontSize: "0.875rem",
+            fontSize: "0.8125rem",
             fontFamily: "var(--font-body)",
-            marginTop: "20px",
+            marginTop: "24px",
+            maxWidth: "540px",
+            marginInline: "auto",
+            lineHeight: 1.5,
           }}
         >
-          Your report shows the issues hurting AI visibility and the fixes to tackle first.
+          ConduitScore evaluates real technical and content signals that influence how AI systems interpret your site — not vanity metrics.
         </p>
       </div>
     </section>

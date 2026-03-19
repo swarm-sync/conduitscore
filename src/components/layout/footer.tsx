@@ -35,12 +35,12 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
               <Image
-                src="/logo-wide.webp"
+                src="/conduitscore_horizontal_logo.svg"
                 alt="ConduitScore"
-                width={150}
-                height={100}
+                width={280}
+                height={60}
                 className="transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain", mixBlendMode: "screen", width: "160px", height: "auto" }}
+                style={{ objectFit: "contain", maxWidth: "280px", width: "100%", height: "auto", display: "block" }}
               />
             </Link>
 
