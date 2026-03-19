@@ -56,7 +56,7 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/conduitscore-logo-horizontal.png"
+              src="/conduitscore-logo-final.png"
               alt="ConduitScore"
               width={1264}
               height={842}

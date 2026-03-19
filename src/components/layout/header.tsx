@@ -50,7 +50,7 @@ export function Header() {
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
           {/* B2-B3: LCP image — priority + fetchpriority="high" for fastest load */}
           <Image
-            src="/conduitscore-logo-horizontal.png"
+            src="/conduitscore-logo-final.png"
             alt="ConduitScore"
             width={1264}
             height={842}

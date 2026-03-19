@@ -35,7 +35,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
               <Image
-                src="/conduitscore-logo-horizontal.png"
+                src="/conduitscore-logo-final.png"
                 alt="ConduitScore"
                 width={1264}
                 height={842}
