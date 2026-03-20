@@ -138,7 +138,7 @@ function OrganizationJsonLd() {
     "@type": "Organization",
     name: "ConduitScore",
     url: SITE_URL,
-    logo: `${SITE_URL}/conduitscore_mark.svg`,
+    logo: `${SITE_URL}/conduitscore.svg`,
     description:
       "ConduitScore is the leading AI visibility scanner that checks how ChatGPT, Perplexity, Claude, and other AI agents see your website. Get your AI readiness score in 15 seconds with actionable fixes.",
     foundingDate: "2026",
@@ -271,7 +271,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
-        <link rel="icon" href="/favicon-mark.svg" type="image/svg+xml" />
+        <link rel="icon" href="/conduitscore.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />

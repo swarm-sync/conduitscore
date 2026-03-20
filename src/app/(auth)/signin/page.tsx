@@ -56,10 +56,10 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/conduitscore_mark.svg"
+              src="/conduitscore.svg"
               alt="ConduitScore"
-              width={240}
-              height={240}
+              width={1008}
+              height={576}
               priority
               style={{ objectFit: "contain", width: "80px", height: "80px", display: "block", marginInline: "auto" }}
             />

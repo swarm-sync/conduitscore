@@ -77,10 +77,10 @@ export default function DashboardLayout({
         >
           <Link href="/" aria-label="ConduitScore home">
             <Image
-              src="/conduitscore_mark.svg"
+              src="/conduitscore.svg"
               alt="ConduitScore"
-              width={240}
-              height={240}
+              width={1008}
+              height={576}
               style={{ objectFit: "contain", width: "40px", height: "40px", display: "block" }}
             />
           </Link>
