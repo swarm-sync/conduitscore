@@ -40,7 +40,7 @@ export function Footer() {
                 width={1008}
                 height={576}
                 className="transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain", width: "auto", height: "32px", display: "block" }}
+                style={{ objectFit: "contain", width: "auto", height: "48px", display: "block", maxWidth: "min(280px, 100%)" }}
               />
             </Link>
 

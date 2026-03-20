@@ -14,7 +14,21 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_DIR = ROOT / "public"
 SOURCE_SVG = PUBLIC_DIR / "conduitscore.svg"
 
+# Some design exports add a full-bleed white <rect> behind the artwork; remove for dark UI.
+_EXPORT_WHITE_PLATE = (
+    '<rect x="-100.8" width="1209.6" fill="#ffffff" y="-57.6" height="691.2" fill-opacity="1"/>'
+)
+
 WHITE_CUTOFF = 242
+
+
+def persist_svg_without_export_plate() -> None:
+    if not SOURCE_SVG.is_file():
+        return
+    raw = SOURCE_SVG.read_text(encoding="utf-8")
+    cleaned = raw.replace(_EXPORT_WHITE_PLATE, "")
+    if cleaned != raw:
+        SOURCE_SVG.write_text(cleaned, encoding="utf-8")
 
 
 def load_embedded_png() -> Image.Image:
@@ -220,7 +234,9 @@ def simple_favicon_svg() -> str:
 
 def main() -> None:
     if not SOURCE_SVG.is_file():
-        raise FileNotFoundError(f"Missing {SOURCE_SVG}; copy ConduitScore.svg to public/conduitscore.svg first.")
+        raise FileNotFoundError(f"Missing {SOURCE_SVG}; place transparent conduitscore.svg in public/.")
+
+    persist_svg_without_export_plate()
 
     base = crop_non_white(load_embedded_png())
     full = trim(transparentize_whites(base))
