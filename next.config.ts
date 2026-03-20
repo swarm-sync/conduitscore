@@ -1,7 +1,7 @@
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import type { NextConfig } from "next";
 
-const projectRoot = fileURLToPath(new URL("./", import.meta.url));
+const projectRoot = resolve(process.cwd());
 
 const nextConfig: NextConfig = {
   // SEO: Enforce trailing slashes for canonical URL consistency
@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
 
   // B11: Ensure gzip compression is enabled for all text responses
   compress: true,
+
+  outputFileTracingRoot: projectRoot,
 
   turbopack: {
     root: projectRoot,
