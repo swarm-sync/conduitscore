@@ -1,6 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const BRAND_LOGO_SRC = "/web-app-manifest-512x512%20-%20Edited.png";
+const BRAND_LOGO_FILTER =
+  "brightness(1.5) saturate(1.28) contrast(1.18) drop-shadow(0 0 18px rgba(255, 45, 85, 0.36))";
+
 export function Footer() {
   const currentYear = 2026;
 
@@ -34,14 +38,18 @@ export function Footer() {
           {/* Brand column */}
           <div className="md:col-span-1">
             <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
-              <Image
-                src="/conduitscore_horizontal_logo.svg"
-                alt="ConduitScore"
-                width={560}
-                height={112}
-                className="transition-opacity duration-200 group-hover:opacity-80"
-                style={{ objectFit: "contain", width: "auto", height: "32px", display: "block" }}
-              />
+              <span
+                className="relative block overflow-hidden transition-opacity duration-200 group-hover:opacity-80"
+                style={{ width: "96px", height: "96px" }}
+              >
+                <Image
+                  src={BRAND_LOGO_SRC}
+                  alt="ConduitScore"
+                  fill
+                  sizes="96px"
+                  style={{ objectFit: "contain", transform: "scale(1.9)", filter: BRAND_LOGO_FILTER }}
+                />
+              </span>
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>

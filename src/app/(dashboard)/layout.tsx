@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserMenu } from "@/components/layout/user-menu";
 
+const BRAND_LOGO_SRC = "/web-app-manifest-512x512%20-%20Edited.png";
+
 export const dynamic = "force-dynamic";
 
 const navItems = [
@@ -77,11 +79,11 @@ export default function DashboardLayout({
         >
           <Link href="/" aria-label="ConduitScore home">
             <Image
-              src="/conduitscore_mark.svg"
+              src={BRAND_LOGO_SRC}
               alt="ConduitScore"
-              width={240}
-              height={240}
-              style={{ objectFit: "contain", width: "40px", height: "40px", display: "block" }}
+              width={512}
+              height={512}
+              style={{ objectFit: "contain", width: "48px", height: "48px", display: "block" }}
             />
           </Link>
         </div>

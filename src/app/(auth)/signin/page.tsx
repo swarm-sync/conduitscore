@@ -5,6 +5,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+const BRAND_LOGO_SRC = "/web-app-manifest-512x512%20-%20Edited.png";
+
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,12 +58,12 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/conduitscore_mark.svg"
+              src={BRAND_LOGO_SRC}
               alt="ConduitScore"
-              width={240}
-              height={240}
+              width={512}
+              height={512}
               priority
-              style={{ objectFit: "contain", width: "80px", height: "80px", display: "block", marginInline: "auto" }}
+              style={{ objectFit: "contain", width: "112px", height: "112px", display: "block", marginInline: "auto" }}
             />
           </div>
           <h1

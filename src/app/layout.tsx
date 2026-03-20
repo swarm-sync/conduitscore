@@ -33,6 +33,10 @@ const syne = Syne({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+const BRAND_LOGO_PATH = "/web-app-manifest-512x512%20-%20Edited.png";
+const APPLE_TOUCH_ICON_PATH = "/apple-touch-icon%20-%20Edited.png";
+const FAVICON_PATH = "/favicon-96x96%20-%20Edited.png";
+const WEB_MANIFEST_192_PATH = "/web-app-manifest-192x192%20-%20Edited.png";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -98,15 +102,7 @@ export const metadata: Metadata = {
     title: "ConduitScore - AI Visibility Score Scanner | Optimize for ChatGPT, Perplexity & Claude",
     description:
       "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
-    images: [
-      {
-        url: `${SITE_URL}/og-image.png`,
-        width: 1200,
-        height: 1200,
-        alt: "ConduitScore - AI Visibility Score Scanner",
-        type: "image/png",
-      },
-    ],
+    images: [`${SITE_URL}${BRAND_LOGO_PATH}`],
   },
 
   twitter: {
@@ -114,7 +110,7 @@ export const metadata: Metadata = {
     title: "ConduitScore - AI Visibility Score Scanner | Optimize for ChatGPT, Perplexity & Claude",
     description:
       "Check how AI agents see your website in 15 seconds. Get your AI visibility score with copy-paste fixes for ChatGPT, Perplexity, Claude, and Gemini optimization. Free AI SEO scanner.",
-    images: [`${SITE_URL}/og-image.png`],
+    images: [`${SITE_URL}${BRAND_LOGO_PATH}`],
     creator: "@conduitscore",
     site: "@conduitscore",
   },
@@ -138,7 +134,7 @@ function OrganizationJsonLd() {
     "@type": "Organization",
     name: "ConduitScore",
     url: SITE_URL,
-    logo: `${SITE_URL}/conduitscore_mark.svg`,
+    logo: `${SITE_URL}${BRAND_LOGO_PATH}`,
     description:
       "ConduitScore is the leading AI visibility scanner that checks how ChatGPT, Perplexity, Claude, and other AI agents see your website. Get your AI readiness score in 15 seconds with actionable fixes.",
     foundingDate: "2026",
@@ -174,7 +170,7 @@ function SoftwareApplicationJsonLd() {
     url: SITE_URL,
     description:
       "AI visibility scanner that analyzes how ChatGPT, Perplexity, Claude, and Gemini see your website across 7 categories: crawler access, structured data, content structure, LLMs.txt, technical health, citation signals, and content quality.",
-    screenshot: `${SITE_URL}/og-image.png`,
+    screenshot: `${SITE_URL}${BRAND_LOGO_PATH}`,
     featureList: [
       "AI Visibility Score (0-100)",
       "7-Category Analysis",
@@ -271,12 +267,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} ${syne.variable}`}>
       <head>
-        <link rel="icon" href="/favicon-mark.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href={FAVICON_PATH} type="image/png" sizes="96x96" />
+        <link rel="apple-touch-icon" href={APPLE_TOUCH_ICON_PATH} />
+        <link rel="shortcut icon" href={FAVICON_PATH} />
+        <link rel="icon" href={WEB_MANIFEST_192_PATH} type="image/png" sizes="192x192" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <OrganizationJsonLd />
         <SoftwareApplicationJsonLd />

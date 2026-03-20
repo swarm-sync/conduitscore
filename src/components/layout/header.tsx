@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
+const BRAND_LOGO_SRC = "/web-app-manifest-512x512%20-%20Edited.png";
+const BRAND_LOGO_FILTER =
+  "brightness(1.5) saturate(1.28) contrast(1.18) drop-shadow(0 0 20px rgba(255, 45, 85, 0.42))";
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -45,20 +49,23 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="container-wide mx-auto flex h-[76px] items-center justify-between">
+      <div className="container-wide mx-auto flex h-[118px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
-          {/* B2-B3: LCP image — priority + fetchpriority="high" for fastest load */}
-          <Image
-            src="/conduitscore_horizontal_logo.svg"
-            alt="ConduitScore"
-            width={560}
-            height={112}
-            priority
-            fetchPriority="high"
-            className="transition-opacity duration-200 group-hover:opacity-90"
-            style={{ objectFit: "contain", width: "auto", height: "42px", display: "block", margin: "auto 0" }}
-          />
+          <span
+            className="relative block overflow-hidden transition-opacity duration-200 group-hover:opacity-90"
+            style={{ width: "112px", height: "112px" }}
+          >
+            <Image
+              src={BRAND_LOGO_SRC}
+              alt="ConduitScore"
+              fill
+              priority
+              fetchPriority="high"
+              sizes="112px"
+              style={{ objectFit: "contain", transform: "scale(1.9)", filter: BRAND_LOGO_FILTER }}
+            />
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
