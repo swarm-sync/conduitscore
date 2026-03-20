@@ -1,10 +1,7 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import type { NextConfig } from "next";
 
-// Anchor to this app folder so Tailwind/PostCSS resolve from phase_5_output/node_modules
-// even if `next dev` is started with cwd = parent (e.g. workspace root ConduitScore).
-const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)));
+const projectRoot = resolve(process.cwd());
 
 const nextConfig: NextConfig = {
   // SEO: Enforce trailing slashes for canonical URL consistency

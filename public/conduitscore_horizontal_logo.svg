@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80" fill="none" role="img" aria-label="ConduitScore">
+  <defs>
+    <radialGradient id="rgh" cx="50%" cy="50%" r="52%">
+      <stop offset="0%"   stop-color="#FF2060"/>
+      <stop offset="30%"  stop-color="#CC0040"/>
+      <stop offset="62%"  stop-color="#8A001E"/>
+      <stop offset="100%" stop-color="#3A0008"/>
+    </radialGradient>
+    <linearGradient id="wgh" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#FF70C8"/>
+      <stop offset="45%"  stop-color="#C040FF"/>
+      <stop offset="100%" stop-color="#8822EE"/>
+    </linearGradient>
+    <filter id="glowh">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ── Mark (scaled ~65px tall, centered vertically in 80px) ── -->
+  <g transform="translate(4, 7) scale(0.27)">
+    <!-- Ring 5 -->
+    <path stroke="#3A0008" stroke-width="13" stroke-linecap="round"
+      d="M120 18 L194.6 61 M194.6 61 L194.6 147 M194.6 147 L120 190 M120 190 L45.4 147 M45.4 147 L45.4 61 M45.4 61 L120 18"/>
+    <path stroke="#3A0008" stroke-width="10" stroke-linecap="round" fill="none"
+      d="M110.3 23.5 A10 10 0 1 0 129.7 23.5
+         M189.5 52.8 A10 10 0 1 0 199.4 69.5
+         M199.4 138.5 A10 10 0 1 0 189.5 155.2
+         M129.7 184.5 A10 10 0 1 0 110.3 184.5
+         M40.6 155.2 A10 10 0 1 0 50.5 138.5
+         M50.5 69.5 A10 10 0 1 0 40.6 52.8"/>
+    <!-- Ring 4 -->
+    <path stroke="#620016" stroke-width="12" stroke-linecap="round"
+      d="M120 38 L182.4 74 M182.4 74 L182.4 146 M182.4 146 L120 182 M120 182 L57.6 146 M57.6 146 L57.6 74 M57.6 74 L120 38"/>
+    <path stroke="#620016" stroke-width="9" stroke-linecap="round" fill="none"
+      d="M111.3 43 A9 9 0 1 0 128.7 43
+         M177.7 66.5 A9 9 0 1 0 186.9 81.8
+         M186.9 138.2 A9 9 0 1 0 177.7 153.5
+         M128.7 177 A9 9 0 1 0 111.3 177
+         M62.3 153.5 A9 9 0 1 0 53.1 138.2
+         M53.1 81.8 A9 9 0 1 0 62.3 66.5"/>
+    <!-- Ring 3 -->
+    <path stroke="#9A0028" stroke-width="11" stroke-linecap="round"
+      d="M120 56 L166.8 83 M166.8 83 L166.8 137 M166.8 137 L120 164 M120 164 L73.2 137 M73.2 137 L73.2 83 M73.2 83 L120 56"/>
+    <path stroke="#9A0028" stroke-width="8.5" stroke-linecap="round" fill="none"
+      d="M112.2 60.5 A8 8 0 1 0 127.8 60.5
+         M162.9 76.8 A8 8 0 1 0 170.7 90.2
+         M170.7 129.8 A8 8 0 1 0 162.9 143.2
+         M127.8 159.5 A8 8 0 1 0 112.2 159.5
+         M77.1 143.2 A8 8 0 1 0 69.3 129.8
+         M69.3 90.2 A8 8 0 1 0 77.1 76.8"/>
+    <!-- Ring 2 -->
+    <path stroke="#CC003C" stroke-width="10" stroke-linecap="round"
+      d="M120 72 L152.9 91 M152.9 91 L152.9 129 M152.9 129 L120 148 M120 148 L87.1 129 M87.1 129 L87.1 91 M87.1 91 L120 72"/>
+    <path stroke="#CC003C" stroke-width="7.5" stroke-linecap="round" fill="none"
+      d="M113 76 A7 7 0 1 0 127 76
+         M149.5 85.5 A7 7 0 1 0 156.4 97.5
+         M156.4 122.5 A7 7 0 1 0 149.5 134.5
+         M127 144 A7 7 0 1 0 113 144
+         M90.5 134.5 A7 7 0 1 0 83.6 122.5
+         M83.6 97.5 A7 7 0 1 0 90.5 85.5"/>
+    <!-- Ring 1 innermost -->
+    <path stroke="#FF1864" stroke-width="9" stroke-linecap="round" fill="#1a000a"
+      d="M120 88 L139.1 99 L139.1 121 L120 132 L100.9 121 L100.9 99 Z"/>
+    <!-- Center -->
+    <circle cx="120" cy="110" r="11" fill="#FF1864" filter="url(#glowh)"/>
+    <g stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" filter="url(#glowh)">
+      <line x1="120" y1="101" x2="120" y2="119"/>
+      <line x1="112.2" y1="105.5" x2="127.8" y2="114.5"/>
+      <line x1="112.2" y1="114.5" x2="127.8" y2="105.5"/>
+    </g>
+    <!-- Top plug -->
+    <rect x="115" y="12" width="10" height="8" rx="1.5" fill="#CC002E" stroke="#FF3060" stroke-width="1"/>
+    <rect x="117.5" y="6" width="5" height="7" rx="1" fill="#FF3060"/>
+    <line x1="117.5" y1="9" x2="117.5" y2="12" stroke="#FF3060" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="122.5" y1="9" x2="122.5" y2="12" stroke="#FF3060" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- ── Wordmark (x starts after ~66px mark) ── -->
+  <text x="78" y="46"
+    font-family="'SF Pro Display','Segoe UI',system-ui,sans-serif"
+    font-weight="700"
+    font-size="33"
+    letter-spacing="-0.4"
+    dominant-baseline="middle"
+    fill="url(#wgh)">ConduitScore</text>
+
+  <!-- ── Tagline ── -->
+  <text x="79" y="65"
+    font-family="'SF Pro Text','Segoe UI',system-ui,sans-serif"
+    font-weight="400"
+    font-size="11"
+    letter-spacing="0.4"
+    fill="#BBAACC">powered by conduit</text>
+</svg>

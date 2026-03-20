@@ -11,24 +11,10 @@ from PIL import Image, ImageChops, ImageColor, ImageDraw
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_SVG = ROOT / "brand" / "ConduitScore.svg"
 PUBLIC_DIR = ROOT / "public"
-SOURCE_SVG = PUBLIC_DIR / "conduitscore.svg"
-
-# Some design exports add a full-bleed white <rect> behind the artwork; remove for dark UI.
-_EXPORT_WHITE_PLATE = (
-    '<rect x="-100.8" width="1209.6" fill="#ffffff" y="-57.6" height="691.2" fill-opacity="1"/>'
-)
 
 WHITE_CUTOFF = 242
-
-
-def persist_svg_without_export_plate() -> None:
-    if not SOURCE_SVG.is_file():
-        return
-    raw = SOURCE_SVG.read_text(encoding="utf-8")
-    cleaned = raw.replace(_EXPORT_WHITE_PLATE, "")
-    if cleaned != raw:
-        SOURCE_SVG.write_text(cleaned, encoding="utf-8")
 
 
 def load_embedded_png() -> Image.Image:
@@ -110,44 +96,6 @@ def make_square_logo(icon: Image.Image, size: int, padding_ratio: float = 0.12) 
     icon_img = contain(icon, target, target)
     offset = ((size - icon_img.width) // 2, (size - icon_img.height) // 2)
     canvas.alpha_composite(icon_img, offset)
-    return canvas
-
-
-def make_square_from_full(image: Image.Image, size: int, padding_ratio: float = 0.12) -> Image.Image:
-    return make_square_logo(image, size, padding_ratio=padding_ratio)
-
-
-def make_maskable_from_full(image: Image.Image, size: int) -> Image.Image:
-    return make_square_from_full(image, size, padding_ratio=0.2)
-
-
-def make_horizontal_from_full(full: Image.Image) -> Image.Image:
-    canvas = Image.new("RGBA", (800, 180), (0, 0, 0, 0))
-    scaled = contain(full, 760, 160)
-    x = (canvas.width - scaled.width) // 2
-    y = (canvas.height - scaled.height) // 2
-    canvas.alpha_composite(scaled, (x, y))
-    return canvas
-
-
-def make_og_from_full(full: Image.Image) -> Image.Image:
-    canvas = Image.new("RGBA", (1200, 1200), ImageColor.getrgb("#080809") + (255,))
-    draw = ImageDraw.Draw(canvas)
-    for i, alpha in enumerate(range(80, 0, -1)):
-        inset = i * 8
-        if inset >= canvas.width // 2 or inset >= canvas.height // 2:
-            break
-        color = (255, 45, 85, alpha // 2)
-        draw.rounded_rectangle(
-            (inset, inset, canvas.width - inset, canvas.height - inset),
-            radius=140,
-            outline=color,
-            width=2,
-        )
-    logo = contain(full, 1000, 620)
-    lx = (canvas.width - logo.width) // 2
-    ly = (canvas.height - logo.height) // 2
-    canvas.alpha_composite(logo, (lx, ly))
     return canvas
 
 
@@ -233,26 +181,40 @@ def simple_favicon_svg() -> str:
 
 
 def main() -> None:
-    if not SOURCE_SVG.is_file():
-        raise FileNotFoundError(f"Missing {SOURCE_SVG}; place transparent conduitscore.svg in public/.")
-
-    persist_svg_without_export_plate()
-
     base = crop_non_white(load_embedded_png())
-    full = trim(transparentize_whites(base))
 
-    write_png(make_horizontal_from_full(full), "logo-horizontal.png")
-    write_png(make_square_from_full(full, 160), "logo-square.png")
-    write_png(make_square_from_full(full, 16), "favicon-16x16.png")
-    write_png(make_square_from_full(full, 32), "favicon-32x32.png")
-    write_png(make_square_from_full(full, 48), "favicon-48x48.png")
-    write_png(make_square_from_full(full, 180), "apple-touch-icon.png")
-    write_png(make_square_from_full(full, 192), "android-chrome-192x192.png")
-    write_png(make_square_from_full(full, 512), "android-chrome-512x512.png")
-    write_png(make_maskable_from_full(full, 512), "android-chrome-512x512-maskable.png")
-    write_png(make_square_from_full(full, 512), "icon-512.png")
-    write_png(make_og_from_full(full), "og-image.png")
-    write_ico(make_square_from_full(full, 256), "favicon.ico")
+    icon = trim(transparentize_whites(base.crop((108, 0, 532, 469))))
+    wordmark = trim(transparentize_whites(base.crop((0, 519, 632, 579))))
+
+    horizontal = make_horizontal(icon, wordmark)
+    square160 = make_square_logo(icon, 160)
+    square48 = make_square_logo(icon, 48)
+    square180 = make_square_logo(icon, 180)
+    square192 = make_square_logo(icon, 192)
+    square512 = make_square_logo(icon, 512)
+    maskable512 = make_square_logo(icon, 512, padding_ratio=0.2)
+    og_square = make_og_square(icon, wordmark)
+
+    write_png(horizontal, "logo-horizontal.png")
+    write_png(square160, "logo-square.png")
+    write_png(make_square_logo(icon, 16), "favicon-16x16.png")
+    write_png(make_square_logo(icon, 32), "favicon-32x32.png")
+    write_png(square48, "favicon-48x48.png")
+    write_png(square180, "apple-touch-icon.png")
+    write_png(square192, "android-chrome-192x192.png")
+    write_png(square512, "android-chrome-512x512.png")
+    write_png(maskable512, "android-chrome-512x512-maskable.png")
+    write_png(square512, "icon-512.png")
+    write_png(og_square, "og-image.png")
+    simple16 = make_simple_favicon_png(16)
+    simple32 = make_simple_favicon_png(32)
+    simple48 = make_simple_favicon_png(48)
+    simple256 = make_simple_favicon_png(256)
+    write_png(simple16, "favicon-16x16.png")
+    write_png(simple32, "favicon-32x32.png")
+    write_png(simple48, "favicon-48x48.png")
+    write_ico(simple256, "favicon.ico")
+    (PUBLIC_DIR / "favicon-mark.svg").write_text(simple_favicon_svg(), encoding="utf-8")
 
     manifest = {
         "name": "ConduitScore",
