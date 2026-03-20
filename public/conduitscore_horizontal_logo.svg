@@ -7,9 +7,9 @@
       <stop offset="100%" stop-color="#3A0008"/>
     </radialGradient>
     <linearGradient id="wgh" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#FF70C8"/>
-      <stop offset="45%"  stop-color="#C040FF"/>
-      <stop offset="100%" stop-color="#8822EE"/>
+      <stop offset="0%"   stop-color="#FF5F96"/>
+      <stop offset="55%"  stop-color="#FF4C89"/>
+      <stop offset="100%" stop-color="#FF3B7A"/>
     </linearGradient>
     <filter id="glowh">
       <feGaussianBlur stdDeviation="1.5" result="blur"/>
@@ -91,5 +91,5 @@
     font-weight="400"
     font-size="11"
     letter-spacing="0.4"
-    fill="#BBAACC">powered by conduit</text>
+    fill="#FFFFFF">powered by conduit</text>
 </svg>
