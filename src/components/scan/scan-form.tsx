@@ -162,7 +162,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
           Enter your email to view your report
         </h2>
         <p className="text-xs mb-5" style={{ color: "var(--text-tertiary)", lineHeight: 1.5 }}>
-          We'll email you a copy and send a 7-day follow-up to show what you've fixed.
+          We&apos;ll email you a copy and send a 7-day follow-up to show what you&apos;ve fixed.
         </p>
 
         <form onSubmit={(e) => void handleEmailSubmit(e)} className="space-y-3">

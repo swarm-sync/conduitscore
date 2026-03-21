@@ -98,7 +98,7 @@ export default function ScansPage() {
             {scans.map((scan) => (
               <Link
                 key={scan.id}
-                href={`/dashboard/scans/${scan.id}`}
+                href={`/scans/${scan.id}`}
                 className="grid grid-cols-[2fr_0.8fr_0.9fr_1fr] gap-4 px-5 py-4 text-sm transition-colors"
                 style={{
                   borderTop: "1px solid rgba(255,255,255,0.04)",

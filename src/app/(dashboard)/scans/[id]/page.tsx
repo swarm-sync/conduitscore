@@ -227,7 +227,7 @@ export default function DashboardScanResultPage() {
         <p className="text-sm" style={{ color: "var(--error-400)" }}>
           {error}
         </p>
-        <Link href="/dashboard/scans" className="footer-link text-sm">
+        <Link href="/scans" className="footer-link text-sm">
           Back to scan history
         </Link>
       </div>

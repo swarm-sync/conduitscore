@@ -57,7 +57,18 @@ export async function GET(
  *   - Right section: "[score]/100 AI-Visible" in cyan (#00d9ff) bold text
  *   - Width: 280px, Height: 28px
  */
+function escapeSvg(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function buildBadgeSvg(score: number): string {
+  // Clamp score to a safe integer in [0, 100] before rendering into SVG.
+  const safeScore = Math.max(0, Math.min(100, Math.round(score)));
   const totalWidth = 280;
   const height = 28;
   const radius = 5;
@@ -68,8 +79,8 @@ function buildBadgeSvg(score: number): string {
   // Right section fills the rest
   const rightWidth = totalWidth - leftWidth;
 
-  const labelText = "ConduitScore";
-  const scoreText = `${score}/100 AI-Visible`;
+  const labelText = escapeSvg("ConduitScore");
+  const scoreText = escapeSvg(`${safeScore}/100 AI-Visible`);
 
   // Label text: centered in left section
   const labelX = leftWidth / 2;
@@ -79,8 +90,10 @@ function buildBadgeSvg(score: number): string {
   const scoreX = leftWidth + rightWidth / 2;
   const scoreY = height / 2 + 1;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="${height}" role="img" aria-label="ConduitScore Verified: ${score}/100 AI-Visible">
-  <title>ConduitScore Verified: ${score}/100 AI-Visible</title>
+  const ariaLabel = escapeSvg(`ConduitScore Verified: ${safeScore}/100 AI-Visible`);
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="${height}" role="img" aria-label="${ariaLabel}">
+  <title>${ariaLabel}</title>
   <defs>
     <linearGradient id="cs-bg-left" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#131320"/>
