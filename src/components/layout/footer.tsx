@@ -35,21 +35,36 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="md:col-span-1">
-            <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
+            <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="ConduitScore home">
               <Image
                 src={FOOTER_LOGO_SRC}
-                alt="ConduitScore"
+                alt=""
                 width={512}
                 height={512}
-                className="transition-opacity duration-200 group-hover:opacity-80"
+                aria-hidden="true"
+                className="transition-opacity duration-200 group-hover:opacity-80 flex-shrink-0"
                 style={{
                   objectFit: "contain",
-                  width: "108px",
-                  height: "108px",
+                  width: "40px",
+                  height: "40px",
                   display: "block",
-                  filter: "brightness(1.08) saturate(1.08) contrast(1.03) drop-shadow(0 0 12px rgba(255,45,85,0.14))",
+                  filter: "brightness(1.15) saturate(1.1) contrast(1.05) drop-shadow(0 0 10px rgba(255,45,85,0.2))",
                 }}
               />
+              <span
+                className="transition-opacity duration-200 group-hover:opacity-80"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "1.125rem",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
+                  userSelect: "none",
+                }}
+              >
+                ConduitScore
+              </span>
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>
@@ -123,7 +138,7 @@ export function Footer() {
                 { label: "Documentation", href: "/docs" },
                 { label: "Blog", href: "/blog" },
                 { label: "About", href: "/about" },
-                { label: "Status", href: "https://status.conduitscore.com" },
+                { label: "Status", href: "/status" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="footer-link text-sm">

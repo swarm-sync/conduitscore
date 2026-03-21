@@ -49,23 +49,38 @@ export function Header() {
     >
       <div className="container-wide mx-auto flex h-[104px] items-center justify-between">
 
-        <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
+        <Link href="/" className="group inline-flex items-center gap-3" aria-label="ConduitScore home">
           <Image
             src={HEADER_LOGO_SRC}
-            alt="ConduitScore"
+            alt=""
             width={512}
             height={512}
             priority
             fetchPriority="high"
-            className="transition-opacity duration-200 group-hover:opacity-90"
+            aria-hidden="true"
+            className="transition-opacity duration-200 group-hover:opacity-90 flex-shrink-0"
             style={{
               objectFit: "contain",
-              width: "94px",
-              height: "94px",
+              width: "48px",
+              height: "48px",
               display: "block",
-              filter: "brightness(1.08) saturate(1.08) contrast(1.03) drop-shadow(0 0 14px rgba(255,45,85,0.16))",
+              filter: "brightness(1.15) saturate(1.1) contrast(1.05) drop-shadow(0 0 10px rgba(255,45,85,0.25))",
             }}
           />
+          <span
+            className="transition-opacity duration-200 group-hover:opacity-90"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              color: "#ffffff",
+              letterSpacing: "-0.03em",
+              lineHeight: 1,
+              userSelect: "none",
+            }}
+          >
+            ConduitScore
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
