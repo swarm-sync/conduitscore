@@ -95,6 +95,42 @@ function HomePageJsonLd() {
     ],
   };
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "ConduitScore",
+    url: "https://conduitscore.com",
+    logo: "https://conduitscore.com/logo.svg",
+    description:
+      "AI visibility scanner that scores any website 0–100 for discoverability by ChatGPT, Perplexity, Claude, Gemini, and other AI agents.",
+    sameAs: [
+      "https://twitter.com/conduitscore",
+      "https://linkedin.com/company/conduitscore",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "benstone@conduitscore.com",
+      contactType: "customer support",
+    },
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "ConduitScore",
+    url: "https://conduitscore.com",
+    description:
+      "Free AI visibility scanner. Check how well ChatGPT, Perplexity, Claude, and other AI agents can find and cite your website.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://conduitscore.com/?url={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <>
       <script
@@ -104,6 +140,14 @@ function HomePageJsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
     </>
   );

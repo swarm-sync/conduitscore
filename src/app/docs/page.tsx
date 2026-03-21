@@ -3,10 +3,15 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+
 export const metadata: Metadata = {
   title: "ConduitScore — Docs, FAQ, and API",
   description:
     "Answers to the most common questions about ConduitScore, AI visibility scans, monitoring, bulk uploads, and Agency API access.",
+  alternates: {
+    canonical: `${SITE_URL}/docs`,
+  },
 };
 
 const faqs = [

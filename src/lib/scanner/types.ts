@@ -45,6 +45,11 @@ export interface ScanResult {
   scannedAt: string;
   metadata: Record<string, unknown>;
   proof?: Record<string, unknown> | null;
+  supplemental?: {
+    aiBotPolicy?: Record<string, "allowed" | "blocked" | "unknown">;
+    answerExtractionReadiness?: { score: number; signals: string[] };
+    publicReportabilityGap?: { hasMethodology: boolean; hasExamples: boolean; hasAbout: boolean };
+  };
 }
 
 export const CATEGORIES = {

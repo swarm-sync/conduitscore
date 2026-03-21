@@ -41,6 +41,7 @@ interface FetchedPageData {
   html: string;
   robotsTxt: string | null;
   llmsTxt: string | null;
+  sitemapXml: string | null;
   statusCode: number;
   headers: Record<string, string>;
   loadTimeMs: number;
@@ -50,7 +51,7 @@ interface FetchedPageData {
 async function fetchPageData(url: string): Promise<FetchedPageData> {
   const start = Date.now();
 
-  const [pageRes, robotsRes, llmsRes] = await Promise.allSettled([
+  const [pageRes, robotsRes, llmsRes, sitemapRes] = await Promise.allSettled([
     fetch(url, {
       headers: { "User-Agent": "ConduitScore/1.0 (+https://conduitscore.com/bot)" },
       redirect: "follow",
@@ -61,6 +62,10 @@ async function fetchPageData(url: string): Promise<FetchedPageData> {
       signal: AbortSignal.timeout(8000),
     }),
     fetch(new URL("/llms.txt", url).href, {
+      headers: { "User-Agent": "ConduitScore/1.0" },
+      signal: AbortSignal.timeout(8000),
+    }),
+    fetch(new URL("/sitemap.xml", url).href, {
       headers: { "User-Agent": "ConduitScore/1.0" },
       signal: AbortSignal.timeout(8000),
     }),
@@ -90,10 +95,16 @@ async function fetchPageData(url: string): Promise<FetchedPageData> {
     llmsTxt = await llmsRes.value.text();
   }
 
+  let sitemapXml: string | null = null;
+  if (sitemapRes.status === "fulfilled" && sitemapRes.value.ok) {
+    sitemapXml = await sitemapRes.value.text();
+  }
+
   return {
     html,
     robotsTxt,
     llmsTxt,
+    sitemapXml,
     statusCode: pageResponse.status,
     headers,
     loadTimeMs,
@@ -115,10 +126,10 @@ export async function runScan(rawUrl: string, scanId: string): Promise<ScanResul
     citationSignals,
     contentQuality,
   ] = await Promise.all([
-    analyzeCrawlerAccess(url, pageData.robotsTxt),
+    analyzeCrawlerAccess(url, pageData.robotsTxt, pageData.sitemapXml),
     Promise.resolve(analyzeStructuredData(pageData.html)),
     Promise.resolve(analyzeContentStructure(pageData.html)),
-    analyzeLlmsTxt(url),
+    analyzeLlmsTxt(url, pageData.llmsTxt),
     Promise.resolve(analyzeTechnicalHealth(pageData.html, pageData.loadTimeMs)),
     Promise.resolve(analyzeCitationSignals(pageData.html, url)),
     Promise.resolve(analyzeContentQuality(pageData.html)),
@@ -141,6 +152,43 @@ export async function runScan(rawUrl: string, scanId: string): Promise<ScanResul
   const allIssues = categories.flatMap((c) => c.issues);
   const allFixes = categories.flatMap((c) => c.fixes);
 
+  // ── Supplemental: AI Bot Policy ──────────────────────────────────────────
+  const aiBotPolicy: Record<string, "allowed" | "blocked" | "unknown"> = {};
+  const botsToCheck = ["GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Googlebot", "Bingbot"];
+  for (const bot of botsToCheck) {
+    if (!pageData.robotsTxt) {
+      aiBotPolicy[bot] = "unknown";
+      continue;
+    }
+    const disallow = new RegExp(`User-agent:\\s*${bot}[\\s\\S]*?Disallow:\\s*/`, "i").test(pageData.robotsTxt);
+    const allow = new RegExp(`User-agent:\\s*${bot}[\\s\\S]*?Allow:\\s*/`, "i").test(pageData.robotsTxt);
+    const globalDisallow = /User-agent:\s*\*[\s\S]*?Disallow:\s*\//i.test(pageData.robotsTxt);
+    const globalAllow = /User-agent:\s*\*[\s\S]*?Allow:\s*\//i.test(pageData.robotsTxt);
+    if (disallow && !allow) {
+      aiBotPolicy[bot] = "blocked";
+    } else if (allow || globalAllow) {
+      aiBotPolicy[bot] = "allowed";
+    } else if (globalDisallow) {
+      aiBotPolicy[bot] = "blocked";
+    } else {
+      aiBotPolicy[bot] = "allowed"; // default open
+    }
+  }
+
+  // ── Supplemental: Answer Extraction Readiness ────────────────────────────
+  const answerSignals: string[] = [];
+  if (/<h[1-3][^>]*>/i.test(pageData.html)) answerSignals.push("heading-hierarchy");
+  if (/<p[^>]*>[\s\S]{80,}?<\/p>/i.test(pageData.html)) answerSignals.push("substantive-paragraphs");
+  if (/<(ol|ul)[^>]*>/i.test(pageData.html)) answerSignals.push("lists");
+  if (/<table[^>]*>/i.test(pageData.html)) answerSignals.push("tables");
+  if ((pageData.html.match(/<p[^>]*>/gi)?.length ?? 0) >= 3) answerSignals.push("multiple-paragraphs");
+  const answerScore = Math.min(10, answerSignals.length * 2);
+
+  // ── Supplemental: Public Reportability Gap ───────────────────────────────
+  const hasMethodology = /href=["'][^"']*method/i.test(pageData.html);
+  const hasExamples = /href=["'][^"']*(?:example|sample|demo)/i.test(pageData.html);
+  const hasAbout = /href=["'][^"']*about/i.test(pageData.html);
+
   return {
     url,
     overallScore,
@@ -155,7 +203,13 @@ export async function runScan(rawUrl: string, scanId: string): Promise<ScanResul
       finalUrl: pageData.finalUrl,
       hasRobotsTxt: pageData.robotsTxt !== null,
       hasLlmsTxt: pageData.llmsTxt !== null,
+      hasSitemapXml: pageData.sitemapXml !== null,
     },
     proof: null,
+    supplemental: {
+      aiBotPolicy,
+      answerExtractionReadiness: { score: answerScore, signals: answerSignals },
+      publicReportabilityGap: { hasMethodology, hasExamples, hasAbout },
+    },
   };
 }

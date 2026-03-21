@@ -71,6 +71,54 @@ export const IMPACT_MAP: Record<string, string> = {
     "Very thin content gives AI systems almost nothing to work with, making citations extremely unlikely.",
   "cq-no-date":
     "Without a publish date, AI systems cannot evaluate content freshness, which can reduce citation priority.",
+
+  // Crawler Access (new)
+  "ca-no-sitemap-ref":
+    "Without a Sitemap directive in robots.txt, AI crawlers may not discover all pages on your site.",
+  "ca-no-sitemap":
+    "A missing sitemap.xml means AI crawlers cannot efficiently discover and index all your pages.",
+  "ca-blocked-oai-searchbot":
+    "OAI-SearchBot is blocked — OpenAI's search crawler cannot index your content for AI-powered search.",
+
+  // Structured Data (new)
+  "sd-no-org":
+    "Without Organization schema, AI systems cannot identify your business entity, reducing citation trustworthiness.",
+  "sd-no-website":
+    "Without WebSite schema, AI agents lack machine-readable site-level context about your domain.",
+  "sd-no-breadcrumb":
+    "Missing BreadcrumbList schema reduces navigational context available to AI systems parsing your content.",
+
+  // LLMs.txt (new)
+  "lt-few-urls":
+    "Your llms.txt lists very few URLs — AI agents may not discover the full scope of your site.",
+  "lt-no-sections":
+    "An unstructured llms.txt is harder for AI agents to parse and prioritize.",
+
+  // Technical Health (new)
+  "th-no-canonical":
+    "Without a canonical tag, AI crawlers may index duplicate or variant URLs, diluting your visibility.",
+  "th-noindex":
+    "A noindex directive explicitly prevents AI crawlers from indexing this page — it will be invisible to AI search.",
+
+  // Citation Signals (new)
+  "cs-no-contact":
+    "Without a contact page link, AI systems cannot establish trust and reachability signals for your organization.",
+  "cs-no-org-entity":
+    "Weak organization identity signals make it harder for AI systems to accurately describe or recommend your business.",
+  "cs-no-trust-pages":
+    "Missing legal/trust pages reduce your credibility signals for AI citation systems.",
+
+  // Content Structure (new)
+  "cs-no-intro":
+    "No introductory paragraph near the top of the page reduces answer extraction quality for AI agents.",
+  "cs-no-semantic":
+    "Lack of semantic HTML makes it harder for AI crawlers to understand your page structure.",
+
+  // Content Quality (new)
+  "cq-no-title":
+    "A missing title tag means AI systems have no primary label to use when citing your page.",
+  "cq-short-desc":
+    "A short meta description gives AI systems an insufficient summary to use in citations.",
 };
 
 /** Estimated score improvement (points) when the fix is applied. */
@@ -110,6 +158,37 @@ export const SCORE_IMPACT: Record<string, number> = {
   "cq-short":              2,
   "cq-very-short":         4,
   "cq-no-date":            2,
+
+  // Crawler Access (new)
+  "ca-no-sitemap-ref":     2,
+  "ca-no-sitemap":         3,
+  "ca-blocked-oai-searchbot": 5,
+
+  // Structured Data (new)
+  "sd-no-org":             4,
+  "sd-no-website":         3,
+  "sd-no-breadcrumb":      2,
+
+  // LLMs.txt (new)
+  "lt-few-urls":           2,
+  "lt-no-sections":        1,
+
+  // Technical Health (new)
+  "th-no-canonical":       3,
+  "th-noindex":            8,
+
+  // Citation Signals (new)
+  "cs-no-contact":         2,
+  "cs-no-org-entity":      2,
+  "cs-no-trust-pages":     2,
+
+  // Content Structure (new)
+  "cs-no-intro":           1,
+  "cs-no-semantic":        1,
+
+  // Content Quality (new)
+  "cq-no-title":           4,
+  "cq-short-desc":         2,
 };
 
 /** Estimated implementation time in minutes per fix. */
@@ -127,9 +206,11 @@ export const EFFORT_MINUTES: Record<string, number> = {
   // Content Structure
   "cs-no-h1":              2,
   "cs-multi-h1":           5,
+  "cs-no-faq":             30,
 
   // LLMs.txt
   "lt-missing":            5,
+  "lt-error":              0,
 
   // Technical Health
   "th-slow":               60,
@@ -147,6 +228,37 @@ export const EFFORT_MINUTES: Record<string, number> = {
   "cq-short":              120,
   "cq-very-short":         240,
   "cq-no-date":            5,
+
+  // Crawler Access (new)
+  "ca-no-sitemap-ref":     2,
+  "ca-no-sitemap":         10,
+  "ca-blocked-oai-searchbot": 2,
+
+  // Structured Data (new)
+  "sd-no-org":             15,
+  "sd-no-website":         10,
+  "sd-no-breadcrumb":      10,
+
+  // LLMs.txt (new)
+  "lt-few-urls":           10,
+  "lt-no-sections":        5,
+
+  // Technical Health (new)
+  "th-no-canonical":       2,
+  "th-noindex":            5,
+
+  // Citation Signals (new)
+  "cs-no-contact":         60,
+  "cs-no-org-entity":      30,
+  "cs-no-trust-pages":     60,
+
+  // Content Structure (new)
+  "cs-no-intro":           15,
+  "cs-no-semantic":        30,
+
+  // Content Quality (new)
+  "cq-no-title":           2,
+  "cq-short-desc":         5,
 };
 
 /** Default score impact when issueId is not in the map. */
