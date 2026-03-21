@@ -64,10 +64,15 @@ interface LockGateProps {
   totalFixCount: number;
   scanDomain: string;
   isAuthenticated: boolean;
+  overallScore?: number;
 }
 
-function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated }: LockGateProps) {
+function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated, overallScore }: LockGateProps) {
   const [upgrading, setUpgrading] = useState(false);
+  const projectedScore =
+    overallScore != null && fix.scoreImpact != null
+      ? Math.min(100, overallScore + fix.scoreImpact)
+      : null;
 
   async function handleUnlock() {
     if (!isAuthenticated) {
@@ -135,6 +140,27 @@ function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated }: LockGateP
           {totalFixCount} fix{totalFixCount !== 1 ? "es" : ""} ready for {scanDomain}. You&apos;ve seen 1. Unlock the remaining {totalFixCount - 1}. — $29/mo, cancel anytime.
         </p>
 
+        {/* Score delta — visible on all locked fixes */}
+        {projectedScore !== null && overallScore != null && (
+          <div
+            className="flex items-center gap-2 mb-4 px-3 py-2 rounded-lg"
+            style={{
+              background: "rgba(217,255,0,0.06)",
+              border: "1px solid rgba(217,255,0,0.15)",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, color: "var(--brand-lime)" }}>
+              <path d="M7 2v10M4 5l3-3 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-xs font-semibold" style={{ color: "var(--brand-lime)", fontFamily: "var(--font-mono)" }}>
+              This fix moves your score{" "}
+              <span style={{ color: "var(--text-secondary)" }}>{overallScore}</span>
+              {" → "}
+              <span style={{ color: "var(--brand-lime)" }}>{projectedScore}</span>
+            </p>
+          </div>
+        )}
+
         <button
           onClick={handleUnlock}
           disabled={upgrading}
@@ -180,9 +206,10 @@ function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated }: LockGateP
 interface FixPanelProps {
   fixes: Fix[];
   scanDomain?: string;
+  overallScore?: number;
 }
 
-export function FixPanel({ fixes, scanDomain = "your site" }: FixPanelProps) {
+export function FixPanel({ fixes, scanDomain = "your site", overallScore }: FixPanelProps) {
   const { status } = useSession();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const isAuthenticated = status === "authenticated";
@@ -363,6 +390,7 @@ export function FixPanel({ fixes, scanDomain = "your site" }: FixPanelProps) {
                       totalFixCount={totalFixCount}
                       scanDomain={scanDomain}
                       isAuthenticated={isAuthenticated}
+                      overallScore={overallScore}
                     />
                   </div>
                 ) : (

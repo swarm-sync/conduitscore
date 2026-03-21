@@ -2,9 +2,15 @@
 
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface ScanFormProps {
   variant?: "hero" | "dashboard";
+}
+
+interface PendingScan {
+  data: Record<string, unknown>;
+  redirectUrl: string;
 }
 
 export function ScanForm({ variant = "hero" }: ScanFormProps) {
@@ -12,9 +18,14 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [upgradeRequired, setUpgradeRequired] = useState(false);
+  // Email gate state — shown after scan completes for anonymous users.
+  const [pendingScan, setPendingScan] = useState<PendingScan | null>(null);
+  const [captureEmail, setCaptureEmail] = useState("");
+  const [captureLoading, setCaptureLoading] = useState(false);
   const router = useRouter();
-  // useId() generates a unique ID per component instance, preventing duplicate
-  // ARIA IDs when ScanForm is rendered more than once on the same page (A6).
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+
   const uid = useId();
   const inputId = `scan-url-input-${uid}`;
   const errorId = `scan-error-${uid}`;
@@ -36,25 +47,176 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
         body: JSON.stringify({ url: url.trim() }),
       });
 
-      const data = await res.json();
+      const data = await res.json() as Record<string, unknown>;
 
       if (!res.ok) {
         if (res.status === 402 && data.upgradeRequired) {
           setError(`Scan limit reached (${String(data.used)}/${String(data.limit)} this month). Upgrade your plan for more scans.`);
           setUpgradeRequired(true);
         } else {
-          setError(data.error || "Scan failed");
+          setError((data.error as string) || "Scan failed");
         }
         return;
       }
 
+      const redirectUrl = data.id ? `/scan-result?id=${encodeURIComponent(String(data.id))}` : "/scan-result";
       sessionStorage.setItem("lastScanResult", JSON.stringify(data));
-      router.push(data.id ? `/scan-result?id=${encodeURIComponent(data.id)}` : "/scan-result");
+
+      // Authenticated users skip the email gate entirely.
+      if (isAuthenticated) {
+        router.push(redirectUrl);
+        return;
+      }
+
+      // Anonymous users see the email gate before viewing results.
+      setPendingScan({ data, redirectUrl });
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleEmailSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!pendingScan) return;
+
+    const trimmed = captureEmail.trim();
+
+    // Fire-and-forget the email capture — don't block the user.
+    if (trimmed && trimmed.includes("@")) {
+      setCaptureLoading(true);
+      void fetch("/api/email-capture", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: trimmed,
+          scanId: pendingScan.data.id ?? null,
+          scanUrl: pendingScan.data.url ?? null,
+          score: pendingScan.data.overallScore ?? null,
+        }),
+      }).finally(() => setCaptureLoading(false));
+    }
+
+    router.push(pendingScan.redirectUrl);
+  }
+
+  function handleSkipEmail() {
+    if (!pendingScan) return;
+    router.push(pendingScan.redirectUrl);
+  }
+
+  // ===== EMAIL GATE SCREEN =====
+  if (pendingScan) {
+    const score = typeof pendingScan.data.overallScore === "number" ? pendingScan.data.overallScore : null;
+    const scannedUrl = typeof pendingScan.data.url === "string" ? pendingScan.data.url : "";
+
+    return (
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "440px",
+          background: "var(--surface-overlay)",
+          border: "1px solid var(--border-default)",
+          borderRadius: "var(--radius-xl, 20px)",
+          padding: "32px 28px",
+          boxShadow: "var(--shadow-card)",
+        }}
+      >
+        {/* Score preview */}
+        {score !== null && (
+          <div className="flex items-center gap-3 mb-5">
+            <div
+              className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full"
+              style={{
+                background: score >= 70 ? "rgba(0,229,160,0.10)" : score >= 40 ? "rgba(255,184,0,0.10)" : "rgba(255,45,85,0.10)",
+                border: `2px solid ${score >= 70 ? "rgba(0,229,160,0.35)" : score >= 40 ? "rgba(255,184,0,0.35)" : "rgba(255,45,85,0.35)"}`,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontWeight: 800,
+                  fontSize: "1.125rem",
+                  color: score >= 70 ? "var(--success-400)" : score >= 40 ? "var(--warning-400)" : "var(--brand-red)",
+                }}
+              >
+                {score}
+              </span>
+            </div>
+            <div>
+              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
+                Your results are ready
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-mono)" }}>
+                {scannedUrl}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <h2
+          className="text-base font-semibold mb-1"
+          style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+        >
+          Enter your email to view your report
+        </h2>
+        <p className="text-xs mb-5" style={{ color: "var(--text-tertiary)", lineHeight: 1.5 }}>
+          We'll email you a copy and send a 7-day follow-up to show what you've fixed.
+        </p>
+
+        <form onSubmit={(e) => void handleEmailSubmit(e)} className="space-y-3">
+          <input
+            type="email"
+            value={captureEmail}
+            onChange={(e) => setCaptureEmail(e.target.value)}
+            placeholder="you@company.com"
+            autoFocus
+            className="w-full text-sm outline-none"
+            style={{
+              background: "var(--surface-sunken)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "999px",
+              padding: "12px 18px",
+              color: "var(--text-primary)",
+              fontFamily: "var(--font-body)",
+              caretColor: "var(--brand-red)",
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "var(--brand-red)";
+              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(255,45,85,0.12)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "var(--border-subtle)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          />
+          <button
+            type="submit"
+            disabled={captureLoading}
+            className="w-full rounded-full py-3 text-sm font-semibold transition-all disabled:opacity-40"
+            style={{
+              background: "var(--brand-red)",
+              color: "#fff",
+              border: "none",
+              fontFamily: "var(--font-display)",
+              cursor: captureLoading ? "not-allowed" : "pointer",
+              boxShadow: "var(--shadow-btn)",
+            }}
+          >
+            {captureLoading ? "Loading..." : "View My Report →"}
+          </button>
+        </form>
+
+        <button
+          onClick={handleSkipEmail}
+          className="mt-3 w-full text-xs text-center"
+          style={{ color: "var(--text-tertiary)", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-body)" }}
+        >
+          Skip — view without saving
+        </button>
+      </div>
+    );
   }
 
   if (variant === "hero") {

@@ -417,7 +417,11 @@ export default function ScanResultPage() {
 
               {tab === "fixes" && (
                 <div id="tabpanel-fixes" role="tabpanel">
-                  <FixPanel fixes={result.fixes} />
+                  <FixPanel
+                    fixes={result.fixes}
+                    scanDomain={(() => { try { return new URL(result.url).hostname; } catch { return result.url; } })()}
+                    overallScore={result.overallScore}
+                  />
                 </div>
               )}
             </div>

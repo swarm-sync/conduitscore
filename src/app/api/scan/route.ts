@@ -5,6 +5,58 @@ import { runScan } from "@/lib/scanner/scan-orchestrator";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { normalizeUrl } from "@/lib/scanner/url-normalizer";
 import { getRequestUser } from "@/lib/api-auth";
+import type { Fix, Issue } from "@/lib/scanner/types";
+import {
+  IMPACT_MAP,
+  SCORE_IMPACT,
+  EFFORT_MINUTES,
+  DEFAULT_SCORE_IMPACT,
+  DEFAULT_EFFORT_MINUTES,
+} from "@/lib/scanner/fix-meta";
+import { PLAN_FEATURES } from "@/lib/plan-limits";
+
+const SEVERITY_ORDER: Record<string, number> = { info: 0, warning: 1, critical: 2 };
+
+function enrichIssues(issues: Issue[]): Issue[] {
+  return issues.map((issue) => ({
+    ...issue,
+    impact: IMPACT_MAP[issue.id] ?? "Resolving this issue will improve your AI visibility score.",
+  }));
+}
+
+function enrichFixes(fixes: Fix[]): Fix[] {
+  return fixes.map((fix) => ({
+    ...fix,
+    scoreImpact: SCORE_IMPACT[fix.issueId] ?? DEFAULT_SCORE_IMPACT,
+    effortMinutes: EFFORT_MINUTES[fix.issueId] ?? DEFAULT_EFFORT_MINUTES,
+    locked: false,
+  }));
+}
+
+function sampleFixIndex(fixes: Fix[], issues: Issue[]): number {
+  if (fixes.length === 0) return 0;
+  const sevByIssueId = new Map<string, string>(issues.map((i) => [i.id, i.severity]));
+  let bestIdx = 0;
+  let bestRank = Infinity;
+  for (let i = 0; i < fixes.length; i++) {
+    const rank = SEVERITY_ORDER[sevByIssueId.get(fixes[i].issueId) ?? "critical"] ?? 2;
+    if (rank < bestRank) { bestRank = rank; bestIdx = i; }
+  }
+  return bestIdx;
+}
+
+function applyFixGate(fixes: Fix[], issues: Issue[]): Fix[] {
+  if (fixes.length === 0) return fixes;
+  const sampleIdx = sampleFixIndex(fixes, issues);
+  return fixes.map((fix, i) => {
+    if (i === sampleIdx) return { ...fix, locked: false, sampleLabel: "Free sample" };
+    return { ...fix, code: "", description: "", locked: true, charCount: fix.code.length };
+  });
+}
+
+function applyIssueGate(issues: Issue[]): Issue[] {
+  return issues.map((issue) => ({ ...issue, description: "" }));
+}
 
 // Monthly scan limits per tier
 const TIER_LIMITS: Record<string, number> = {
@@ -38,7 +90,9 @@ export async function POST(request: NextRequest) {
     }
     if (!process.env.DATABASE_URL) {
       const result = await runScan(normalizedUrl, `ephemeral_${Date.now()}`);
-      return NextResponse.json({ status: "completed", ...result });
+      const enrichedIssues = applyIssueGate(enrichIssues(result.issues));
+      const gatedFixes = applyFixGate(enrichFixes(result.fixes), enrichedIssues);
+      return NextResponse.json({ status: "completed", ...result, issues: enrichedIssues, fixes: gatedFixes });
     }
 
     const auth = await getRequestUser(request);
@@ -119,7 +173,24 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      return NextResponse.json({ id: scan.id, status: "completed", ...result });
+      // Apply free-tier gate before returning — the saved raw data is in DB,
+      // but the client response must match what the gated GET endpoint returns.
+      const tier = auth.user?.subscriptionTier ?? "free";
+      const isPaid = ["starter", "pro", "growth", "agency"].includes(tier);
+      const enrichedIssues = enrichIssues(result.issues);
+      const finalIssues = PLAN_FEATURES.issueDescriptions(tier)
+        ? enrichedIssues
+        : applyIssueGate(enrichedIssues);
+      const enrichedFixes = enrichFixes(result.fixes);
+      const finalFixes = isPaid ? enrichedFixes : applyFixGate(enrichedFixes, finalIssues);
+
+      return NextResponse.json({
+        id: scan.id,
+        status: "completed",
+        ...result,
+        issues: finalIssues,
+        fixes: finalFixes,
+      });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Scan failed";
       await prisma.scan.update({

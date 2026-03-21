@@ -175,3 +175,15 @@ model ScanReport {
   scan Scan @relation(fields: [scanId], references: [id], onDelete: Cascade)
   @@map("scan_reports")
 }
+
+model ScanLead {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  scanId      String?  @map("scan_id")
+  scanUrl     String?  @map("scan_url")
+  score       Int?
+  dripDay     Int      @default(0) @map("drip_day")
+  dripSentAt  DateTime @default(now()) @map("drip_sent_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("scan_leads")
+}
