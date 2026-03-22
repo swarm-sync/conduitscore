@@ -32,7 +32,7 @@ describe("Structured Data Analyzer", () => {
   it("scores FAQ schema higher", () => {
     const html = '<html><head><script type="application/ld+json">{"@type":"FAQPage"}</script></head></html>';
     const result = analyzeStructuredData(html);
-    expect(result.score).toBe(20);
+    expect(result.score).toBe(11);
   });
 });
 

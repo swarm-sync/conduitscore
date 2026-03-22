@@ -210,7 +210,7 @@ export const EFFORT_MINUTES: Record<string, number> = {
 
   // LLMs.txt
   "lt-missing":            5,
-  "lt-error":              0,
+  "lt-error":              2,
 
   // Technical Health
   "th-slow":               60,
