@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const BRAND_LOGO_SRC = "/NEWNEW/nav-logo-512x512.png";
+const BRAND_LOGO_SRC = "/NEWNEW/conduitscore-lockup-transparent.png";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -59,17 +59,16 @@ export default function SignInPage() {
           <div className="flex justify-center mb-4">
             <Image
               src={BRAND_LOGO_SRC}
-              alt="ConduitScore"
-              width={512}
-              height={512}
+              alt="ConduitScore — powered by conduit"
+              width={1300}
+              height={700}
               priority
               style={{
                 objectFit: "contain",
-                width: "142px",
-                height: "142px",
+                width: "220px",
+                height: "auto",
                 display: "block",
                 marginInline: "auto",
-                filter: "brightness(1.08) saturate(1.08) contrast(1.03) drop-shadow(0 0 14px rgba(255,45,85,0.16))",
               }}
             />
           </div>

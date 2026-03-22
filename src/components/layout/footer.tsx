@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const FOOTER_LOGO_SRC = "/NEWNEW/nav-logo-512x512.png";
+const FOOTER_LOGO_SRC = "/NEWNEW/nav-logo-400w.png";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -35,36 +35,20 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="md:col-span-1">
-            <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="ConduitScore home">
+            <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
               <Image
                 src={FOOTER_LOGO_SRC}
-                alt=""
-                width={512}
-                height={512}
-                aria-hidden="true"
-                className="transition-opacity duration-200 group-hover:opacity-80 flex-shrink-0"
-                style={{
-                  objectFit: "contain",
-                  width: "40px",
-                  height: "40px",
-                  display: "block",
-                  filter: "brightness(1.15) saturate(1.1) contrast(1.05) drop-shadow(0 0 10px rgba(255,45,85,0.2))",
-                }}
-              />
-              <span
+                alt="ConduitScore — powered by conduit"
+                width={371}
+                height={200}
                 className="transition-opacity duration-200 group-hover:opacity-80"
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "1.125rem",
-                  fontWeight: 700,
-                  color: "#ffffff",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1,
-                  userSelect: "none",
+                  objectFit: "contain",
+                  width: "auto",
+                  height: "80px",
+                  display: "block",
                 }}
-              >
-                ConduitScore
-              </span>
+              />
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>

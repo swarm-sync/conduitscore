@@ -1,35 +1,35 @@
 {
   "name": "ConduitScore",
   "short_name": "ConduitScore",
-  "description": "AI Visibility Score Scanner \u2014 see how ChatGPT, Perplexity, and Claude find your site.",
+  "description": "AI Visibility Score Scanner — see how ChatGPT, Perplexity, and Claude find your site.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#080809",
   "theme_color": "#080809",
   "icons": [
     {
-      "src": "/NEWNEW/favicon-96x96%20-%20Edited.png",
-      "sizes": "96x96",
+      "src": "/NEWNEW/favicon-48x48.png",
+      "sizes": "48x48",
       "type": "image/png"
     },
     {
-      "src": "/NEWNEW/web-app-manifest-192x192%20-%20Edited.png",
+      "src": "/NEWNEW/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/NEWNEW/web-app-manifest-512x512%20-%20Edited.png",
+      "src": "/NEWNEW/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/NEWNEW/web-app-manifest-512x512%20-%20Edited.png",
+      "src": "/NEWNEW/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/NEWNEW/apple-touch-icon%20-%20Edited.png",
+      "src": "/NEWNEW/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }

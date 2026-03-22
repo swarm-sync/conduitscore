@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserMenu } from "@/components/layout/user-menu";
 
-const BRAND_LOGO_SRC = "/NEWNEW/nav-logo-512x512.png";
+const BRAND_LOGO_SRC = "/NEWNEW/nav-logo-200w.png";
 
 export const dynamic = "force-dynamic";
 
@@ -80,15 +80,14 @@ export default function DashboardLayout({
           <Link href="/" aria-label="ConduitScore home">
             <Image
               src={BRAND_LOGO_SRC}
-              alt="ConduitScore"
-              width={512}
-              height={512}
+              alt="ConduitScore — powered by conduit"
+              width={186}
+              height={100}
               style={{
                 objectFit: "contain",
-                width: "44px",
+                width: "auto",
                 height: "44px",
                 display: "block",
-                filter: "brightness(1.08) saturate(1.08) contrast(1.03)",
               }}
             />
           </Link>
