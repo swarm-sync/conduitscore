@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { runScan } from "@/lib/scanner/scan-orchestrator";
-import { Prisma } from "@prisma/client";
 import { PLAN_FEATURES } from "@/lib/plan-limits";
 import { sendEmail } from "@/lib/email";
+import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 export const maxDuration = 300;
 const EMAIL_ALERT_DROP_THRESHOLD = 5;
@@ -72,14 +72,14 @@ export async function GET(request: NextRequest) {
           data: {
             status: "completed",
             overallScore: result.overallScore,
-            categoryScores: result.categories as unknown as Prisma.InputJsonValue,
-            issues: result.issues as unknown as Prisma.InputJsonValue,
-            fixes: result.fixes as unknown as Prisma.InputJsonValue,
+            categoryScores: result.categories as unknown as InputJsonValue,
+            issues: result.issues as unknown as InputJsonValue,
+            fixes: result.fixes as unknown as InputJsonValue,
             metadata: {
               ...(result.metadata ?? {}),
               proof: result.proof ?? null,
               source: "cron-weekly",
-            } as Prisma.InputJsonValue,
+            } as unknown as InputJsonValue,
             completedAt: new Date(result.scannedAt),
           },
         });

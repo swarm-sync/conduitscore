@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { normalizeUrl } from "@/lib/scanner/url-normalizer";
 import { runScan } from "@/lib/scanner/scan-orchestrator";
 import { PLAN_FEATURES } from "@/lib/plan-limits";
+import type { InputJsonValue } from "@prisma/client/runtime/library";
 
 type BulkRow = {
   name?: string;
@@ -90,14 +90,14 @@ export async function POST(request: NextRequest) {
               data: {
                 status: "completed",
                 overallScore: result.overallScore,
-                categoryScores: result.categories as unknown as Prisma.InputJsonValue,
-                issues: result.issues as unknown as Prisma.InputJsonValue,
-                fixes: result.fixes as unknown as Prisma.InputJsonValue,
+                categoryScores: result.categories as unknown as InputJsonValue,
+                issues: result.issues as unknown as InputJsonValue,
+                fixes: result.fixes as unknown as InputJsonValue,
                 metadata: {
                   ...(result.metadata ?? {}),
                   proof: result.proof ?? null,
                   source: "bulk-csv",
-                } as Prisma.InputJsonValue,
+                } as unknown as InputJsonValue,
                 completedAt: new Date(result.scannedAt),
               },
             });
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
               where: { id: scan.id },
               data: {
                 status: "failed",
-                metadata: { error: message, source: "bulk-csv" } as Prisma.InputJsonValue,
+                metadata: { error: message, source: "bulk-csv" } as unknown as InputJsonValue,
               },
             });
             throw error;
