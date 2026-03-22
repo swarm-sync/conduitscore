@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const FOOTER_LOGO_SRC = "/NEWNEW/nav-logo-400w.png";
+const FOOTER_LOGO_SRC = "/NEWNEW/conduitscore-lockup-white.svg";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -39,13 +39,13 @@ export function Footer() {
               <Image
                 src={FOOTER_LOGO_SRC}
                 alt="ConduitScore — powered by conduit"
-                width={371}
-                height={200}
+                width={1300}
+                height={700}
                 className="transition-opacity duration-200 group-hover:opacity-80"
                 style={{
                   objectFit: "contain",
                   width: "auto",
-                  height: "80px",
+                  height: "96px",
                   display: "block",
                 }}
               />

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const HEADER_LOGO_SRC = "/NEWNEW/nav-logo-400w.png";
+const HEADER_LOGO_SRC = "/NEWNEW/conduitscore-lockup-white.svg";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,15 +53,15 @@ export function Header() {
           <Image
             src={HEADER_LOGO_SRC}
             alt="ConduitScore — powered by conduit"
-            width={371}
-            height={200}
+            width={1300}
+            height={700}
             priority
             fetchPriority="high"
             className="transition-opacity duration-200 group-hover:opacity-90"
             style={{
               objectFit: "contain",
               width: "auto",
-              height: "72px",
+              height: "88px",
               display: "block",
             }}
           />
