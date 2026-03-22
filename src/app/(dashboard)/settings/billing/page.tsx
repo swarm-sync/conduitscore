@@ -19,11 +19,11 @@ type CreatedApiKey = {
 };
 
 const PLAN_DETAILS: Record<string, { label: string }> = {
-  free: { label: "Free" },
-  starter: { label: "Starter" },
-  pro: { label: "Pro" },
-  growth: { label: "Growth" },
-  agency: { label: "Agency" },
+  free: { label: "Diagnose" },
+  starter: { label: "Fix" },
+  pro: { label: "Monitor" },
+  growth: { label: "Alert" },
+  agency: { label: "Scale" },
 };
 
 const FEATURE_ROWS = [
@@ -57,11 +57,11 @@ const FEATURE_ROWS = [
   },
   {
     name: "Bulk scan",
-    value: (tier: string) => (PLAN_FEATURES.bulkScan(tier) ? "CSV upload" : "Agency"),
+    value: (tier: string) => (PLAN_FEATURES.bulkScan(tier) ? "CSV upload" : "Scale"),
   },
   {
     name: "REST API access",
-    value: (tier: string) => (PLAN_FEATURES.restApi(tier) ? "Included" : "Agency"),
+    value: (tier: string) => (PLAN_FEATURES.restApi(tier) ? "Included" : "Scale"),
   },
 ] as const;
 
@@ -315,7 +315,7 @@ export default function BillingPage() {
               REST API access
             </h2>
             <p className="mt-1 text-sm" style={{ color: "var(--text-tertiary)" }}>
-              Agency plans can authenticate scans and scan history requests with API keys.
+              Scale plans can authenticate scans and scan history requests with API keys.
             </p>
           </div>
           <a
@@ -448,7 +448,7 @@ curl https://conduitscore.com/api/scans/SCAN_ID \\
             className="mt-6 rounded-xl p-5 text-sm"
             style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}
           >
-            Upgrade to Agency to create API keys, run authenticated scans, list scans over the API, and connect ConduitScore to your own tooling.
+            Upgrade to Scale to create API keys, run authenticated scans, list scans over the API, and connect ConduitScore to your own tooling.
           </div>
         )}
       </div>

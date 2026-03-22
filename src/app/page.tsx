@@ -525,7 +525,6 @@ export default async function Home() {
         >
           <div className="container-wide mx-auto trust-band-inner">
             {[
-              { stat: weeklyScanCount, label: "sites scanned this week" },
               { stat: "Most score below 50", label: "most sites are missing basic AI visibility signals" },
               { stat: "15s", label: "from URL to full diagnostic report" },
             ].map((item, i) => (
@@ -536,7 +535,7 @@ export default async function Home() {
                   flex: 1,
                   textAlign: "center",
                   padding: "20px 32px",
-                  borderRight: i < 2 ? "1px solid var(--border-subtle)" : "none",
+                  borderRight: i < 1 ? "1px solid var(--border-subtle)" : "none",
                 }}
               >
                 <p

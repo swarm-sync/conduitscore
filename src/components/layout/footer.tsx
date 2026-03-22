@@ -121,6 +121,7 @@ export function Footer() {
               {[
                 { label: "Documentation", href: "/docs" },
                 { label: "Blog", href: "/blog" },
+                { label: "AI Visibility Checklist", href: "/resources/ai-visibility-checklist" },
                 { label: "About", href: "/about" },
                 { label: "Status", href: "/status" },
               ].map((link) => (

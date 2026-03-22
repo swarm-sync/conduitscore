@@ -14,19 +14,28 @@ interface PricingCardProps {
   contactOnly?: boolean;
 }
 
+// Maps outcome-based display names to internal Stripe tier keys
+const DISPLAY_TO_TIER: Record<string, string> = {
+  Diagnose: "free",
+  Fix: "starter",
+  Monitor: "pro",
+  Alert: "growth",
+  Scale: "agency",
+};
+
 export function PricingCard({ name, price, period, annualNote, description, features, cta, popular, contactOnly }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe() {
-    if (name === "Agency" || contactOnly) {
+    if (name === "Scale" || contactOnly) {
       window.location.href = "mailto:benstone@conduitscore.com";
       return;
     }
 
-    const tier = name.toLowerCase();
+    const tier = DISPLAY_TO_TIER[name] ?? name.toLowerCase();
     if (tier === "agency") {
-      // Safety guard — should not reach Stripe for agency tier
-      throw new Error("Agency plan is not a self-serve purchase");
+      // Safety guard — should not reach Stripe for scale/agency tier
+      throw new Error("Scale plan is not a self-serve purchase");
     }
 
     setLoading(true);
@@ -49,7 +58,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
     }
   }
 
-  const isContactOnly = contactOnly || name === "Agency";
+  const isContactOnly = contactOnly || name === "Scale";
 
   return (
     /* Popular card gets animated gradient border wrapper */

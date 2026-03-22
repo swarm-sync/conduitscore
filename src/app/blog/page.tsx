@@ -23,6 +23,15 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "14-point-ai-visibility-checklist",
+    title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
+    description:
+      "Google ranking ≠ AI visibility. Learn the 14 signals LLM crawlers look for—schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
+    category: "Technical Guides",
+    date: "2026-03-22",
+    readTime: "18 min read",
+  },
+  {
     slug: "what-is-ai-seo",
     title: "What Is AI SEO? The Complete Guide to Optimizing for AI Search in 2026",
     description:
@@ -155,6 +164,105 @@ export default function BlogPage() {
             </p>
           </div>
         </section>
+
+        {/* Featured resource — checklist lead magnet */}
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-12 pb-0">
+          <Link
+            href="/resources/ai-visibility-checklist"
+            style={{ textDecoration: "none", display: "block" }}
+          >
+            <div
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(99,102,241,0.10) 0%, rgba(255,45,85,0.08) 60%, rgba(18,18,20,0.95) 100%)",
+                border: "1px solid rgba(99,102,241,0.28)",
+                borderRadius: "var(--radius-xl)",
+                padding: "28px 28px 24px",
+                display: "flex",
+                gap: "20px",
+                alignItems: "flex-start",
+                transition: "border-color 200ms, box-shadow 200ms",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,45,85,0.4)";
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 8px 32px rgba(99,102,241,0.12)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.28)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+              }}
+            >
+              <div
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "var(--radius-md)",
+                  background: "rgba(217,255,0,0.1)",
+                  border: "1px solid rgba(217,255,0,0.22)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  fontSize: "1.3rem",
+                }}
+                aria-hidden="true"
+              >
+                &#10003;
+              </div>
+              <div>
+                <span
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: "var(--brand-lime)",
+                    fontFamily: "var(--font-mono)",
+                    display: "block",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Free Download
+                </span>
+                <p
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    color: "var(--text-primary)",
+                    fontFamily: "var(--font-display)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  The 14-Point AI Visibility Checklist
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.875rem",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Every signal ChatGPT, Claude, and Perplexity use to discover your site — with copy-paste code fixes and a priority ranking.
+                </p>
+              </div>
+              <div
+                style={{
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  color: "var(--brand-red)",
+                  fontSize: "1.2rem",
+                  marginLeft: "auto",
+                  paddingLeft: "8px",
+                }}
+                aria-hidden="true"
+              >
+                &rarr;
+              </div>
+            </div>
+          </Link>
+        </div>
 
         {/* Post list */}
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">

@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 export const metadata: Metadata = {
   title: "Pricing - AI Visibility Scanner Plans",
   description:
-    "ConduitScore pricing: Free (3 scans/month), Starter ($29/mo, 50 scans), Pro ($49/mo, 100 scans), Growth ($79/mo, 500 scans), Agency ($149/mo, unlimited). Start free, upgrade when you need more.",
+    "ConduitScore pricing: Diagnose (3 scans/month), Fix ($29/mo, 50 scans), Monitor ($49/mo, 100 scans), Alert ($79/mo, 500 scans), Scale ($149/mo, unlimited). Start free, upgrade when you need more.",
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 const plans = [
   {
-    name: "Free",
+    name: "Diagnose",
     price: "$0",
     description: "For trying ConduitScore on a single site",
     features: [
@@ -37,7 +37,7 @@ const plans = [
     popular: false,
   },
   {
-    name: "Starter",
+    name: "Fix",
     price: "$29",
     period: "/mo",
     annualNote: "$23/mo billed annually",
@@ -54,14 +54,14 @@ const plans = [
     popular: false,
   },
   {
-    name: "Pro",
+    name: "Monitor",
     price: "$49",
     period: "/mo",
     annualNote: "$39/mo billed annually",
     description: "For teams that need recurring scans",
     features: [
       "100 scans per month",
-      "Everything in Starter",
+      "Everything in Fix",
       "Scheduled weekly re-scans",
       "Dashboard & history",
       "Multi-site monitoring",
@@ -71,14 +71,14 @@ const plans = [
     popular: true,
   },
   {
-    name: "Growth",
+    name: "Alert",
     price: "$79",
     period: "/mo",
     annualNote: "$63/mo billed annually",
     description: "For teams that need monitoring and alerting",
     features: [
       "500 scans per month",
-      "Everything in Pro",
+      "Everything in Monitor",
       "Score trend history chart",
       "Scheduled weekly re-scans",
       "Email alerts on score drop",
@@ -88,12 +88,12 @@ const plans = [
     popular: false,
   },
   {
-    name: "Agency",
+    name: "Scale",
     price: "$149",
     description: "For agencies and multi-client workflows",
     features: [
       "Unlimited scans",
-      "Everything in Growth",
+      "Everything in Alert",
       "Bulk scan via CSV upload",
       "REST API access",
       "Agency-scale delivery",
@@ -421,17 +421,17 @@ export default function PricingPage() {
                     >
                       Feature
                     </th>
-                    {["Free", "Starter", "Pro", "Growth", "Agency"].map((plan) => (
+                    {["Diagnose", "Fix", "Monitor", "Alert", "Scale"].map((plan) => (
                       <th
                         key={plan}
                         className="py-4 px-4 text-center font-semibold"
                         style={{
-                          color: plan === "Pro" ? "var(--brand-red)" : "var(--text-secondary)",
+                          color: plan === "Monitor" ? "var(--brand-red)" : "var(--text-secondary)",
                           fontFamily: "var(--font-display)",
                         }}
                       >
                         {plan}
-                        {plan === "Pro" && (
+                        {plan === "Monitor" && (
                           <span
                             className="block text-xs font-normal mt-0.5"
                             style={{ color: "var(--text-tertiary)" }}

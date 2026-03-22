@@ -189,14 +189,14 @@ function SoftwareApplicationJsonLd() {
     offers: [
       {
         "@type": "Offer",
-        name: "Free",
+        name: "Diagnose",
         price: "0",
         priceCurrency: "USD",
         description: "3 scans per month, single URL analysis",
       },
       {
         "@type": "Offer",
-        name: "Starter",
+        name: "Fix",
         price: "29",
         priceCurrency: "USD",
         billingIncrement: "P1M",
@@ -204,7 +204,7 @@ function SoftwareApplicationJsonLd() {
       },
       {
         "@type": "Offer",
-        name: "Pro",
+        name: "Monitor",
         price: "49",
         priceCurrency: "USD",
         billingIncrement: "P1M",
@@ -212,7 +212,7 @@ function SoftwareApplicationJsonLd() {
       },
       {
         "@type": "Offer",
-        name: "Growth",
+        name: "Alert",
         price: "79",
         priceCurrency: "USD",
         billingIncrement: "P1M",
@@ -220,7 +220,7 @@ function SoftwareApplicationJsonLd() {
       },
       {
         "@type": "Offer",
-        name: "Agency",
+        name: "Scale",
         description: "Unlimited scans, bulk scanning, REST API access — contact us",
       },
     ],

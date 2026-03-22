@@ -406,6 +406,37 @@ code, pre {
   box-shadow: 0 0 18px rgba(217, 255, 0, 0.18) !important;
 }
 
+/* Founder section social links on About page */
+.founder-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.founder-social-link--red:hover {
+  border-color: var(--brand-red);
+  color: var(--text-primary);
+}
+
+.founder-social-link--purple:hover {
+  border-color: var(--brand-purple);
+  color: var(--text-primary);
+}
+
+.founder-social-link--lime:hover {
+  border-color: var(--brand-lime);
+  color: var(--text-primary);
+}
+
 .skeleton {
   position: relative;
   overflow: hidden;

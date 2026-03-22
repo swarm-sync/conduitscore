@@ -127,14 +127,14 @@ export default function DocsPage() {
             >
               {[
                 ["AI visibility score", "All plans"],
-                ["Code fixes unlocked", "Starter+"],
-                ["Issue descriptions", "Starter+"],
-                ["Dashboard & history", "Starter+"],
-                ["Scheduled re-scans", "Pro+"],
-                ["Score trend chart", "Growth+"],
-                ["Email alerts", "Growth+"],
-                ["Bulk scan (CSV upload)", "Agency"],
-                ["REST API access", "Agency"],
+                ["Code fixes unlocked", "Fix+"],
+                ["Issue descriptions", "Fix+"],
+                ["Dashboard & history", "Fix+"],
+                ["Scheduled re-scans", "Monitor+"],
+                ["Score trend chart", "Alert+"],
+                ["Email alerts", "Alert+"],
+                ["Bulk scan (CSV upload)", "Scale"],
+                ["REST API access", "Scale"],
               ].map(([label, plan], index) => (
                 <div
                   key={label}

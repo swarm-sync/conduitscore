@@ -6,16 +6,16 @@ import { Footer } from "@/components/layout/footer";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
 export const metadata: Metadata = {
-  title: "About ConduitScore - AI Visibility Experts",
+  title: "About ConduitScore - Built by Ben Stone",
   description:
-    "ConduitScore is the leading AI visibility scanner built by SEO and AI specialists. Learn about our mission to help every website thrive in the agent economy.",
+    "ConduitScore is built by Ben Stone, a search and AI specialist with 7+ years optimizing websites for discoverability. Learn how we help every website thrive in the agent economy.",
   alternates: {
     canonical: `${SITE_URL}/about`,
   },
   openGraph: {
-    title: "About ConduitScore - AI Visibility Experts",
+    title: "About ConduitScore - Built by Ben Stone",
     description:
-      "Built by SEO and AI specialists for the agent economy. Learn how we help websites optimize for ChatGPT, Perplexity, Claude, and more.",
+      "Built by Ben Stone, a 7+ year search and AI specialist. ConduitScore helps websites optimize for ChatGPT, Perplexity, Claude, and more.",
     url: `${SITE_URL}/about`,
     type: "website",
   },
@@ -27,13 +27,27 @@ function AboutPageJsonLd() {
     "@type": "AboutPage",
     name: "About ConduitScore",
     description:
-      "ConduitScore is the leading AI visibility scanner built to help websites optimize for AI agents.",
+      "ConduitScore is the leading AI visibility scanner built by Ben Stone to help websites optimize for AI agents.",
     url: `${SITE_URL}/about`,
     mainEntity: {
       "@type": "Organization",
       name: "ConduitScore",
       url: SITE_URL,
       foundingDate: "2026",
+      founder: {
+        "@type": "Person",
+        name: "Ben Stone",
+        jobTitle: "Founder & CEO",
+        email: "benstone@conduitscore.com",
+        url: "https://github.com/bkauto3",
+        knowsAbout: [
+          "AI Search Optimization",
+          "Technical SEO",
+          "Structured Data",
+          "Large Language Models",
+          "Search Engine Optimization",
+        ],
+      },
       description:
         "ConduitScore scans websites across 7 categories to measure how well AI agents like ChatGPT, Perplexity, Claude, and Gemini can discover, read, and cite the content.",
       knowsAbout: [
@@ -105,7 +119,7 @@ export default function AboutPage() {
               discover information, compare products, and make decisions.
             </p>
             <p className="mt-3 text-sm author" style={{ color: "var(--text-tertiary)" }}>
-              Built by a team of AI visibility and search optimization experts with deep experience in structured data, LLM systems, and SEO.
+              Built by Ben Stone — 7+ years at the intersection of SEO, AI, and search systems.
             </p>
           </div>
         </section>
@@ -186,42 +200,182 @@ export default function AboutPage() {
 
             {/* Founder */}
             <section>
-              <h2 style={{ color: "var(--text-primary)" }}>Built by Ben Stone</h2>
-              <div style={{ display: "flex", gap: "32px", alignItems: "flex-start", marginTop: "24px" }}>
-                <div style={{ minWidth: "120px" }}>
-                  <div
-                    style={{
-                      width: "120px",
-                      height: "120px",
-                      borderRadius: "8px",
-                      background: "var(--gradient-primary)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontSize: "48px",
-                      fontWeight: 700,
-                    }}
-                  >
-                    BS
+              <h2 style={{ color: "var(--text-primary)" }}>Meet the Founder</h2>
+
+              {/* Founder card */}
+              <div
+                className="card-glow rounded-2xl mt-6 overflow-hidden"
+                style={{ border: "1px solid var(--border-subtle)" }}
+              >
+                {/* Accent bar */}
+                <div
+                  style={{
+                    height: "3px",
+                    background: "var(--gradient-primary)",
+                    width: "100%",
+                  }}
+                />
+
+                <div
+                  style={{
+                    padding: "32px",
+                    display: "flex",
+                    gap: "28px",
+                    alignItems: "flex-start",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {/* Avatar */}
+                  <div style={{ flexShrink: 0 }}>
+                    <div
+                      style={{
+                        width: "120px",
+                        height: "120px",
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        padding: "2px",
+                        background: "var(--gradient-primary)",
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/ben-stone-founder.svg"
+                        alt="Ben Stone, Founder and CEO of ConduitScore"
+                        width={116}
+                        height={116}
+                        style={{
+                          borderRadius: "10px",
+                          display: "block",
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 600, marginBottom: "8px" }}>
-                    Ben Stone — Founder
-                  </h3>
-                  <p style={{ color: "var(--text-secondary)", marginBottom: "12px" }}>
-                    Ben has spent 7+ years building products at the intersection of SEO, AI, and search.
-                    He previously led technical SEO at a leading search optimization agency, where he helped
-                    50+ SaaS companies and e-commerce businesses optimize for discoverability across Google,
-                    Bing, and other search channels.
-                  </p>
-                  <p style={{ color: "var(--text-secondary)" }}>
-                    Frustrated by the gap between traditional SEO tooling and the emerging world of AI-driven
-                    discovery, Ben built ConduitScore to help websites thrive as AI agents become the primary
-                    way people find information. His mission: make AI visibility optimization as accessible
-                    and actionable as traditional SEO.
-                  </p>
+
+                  {/* Bio content */}
+                  <div style={{ flex: 1, minWidth: "220px" }}>
+                    {/* Name + title row */}
+                    <div style={{ marginBottom: "4px" }}>
+                      <h3
+                        style={{
+                          color: "var(--text-primary)",
+                          fontSize: "1.25rem",
+                          fontWeight: 700,
+                          margin: 0,
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        Ben Stone
+                      </h3>
+                      <p
+                        style={{
+                          color: "var(--brand-red)",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          margin: "4px 0 0",
+                          letterSpacing: "0.04em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Founder &amp; CEO
+                      </p>
+                    </div>
+
+                    {/* Divider */}
+                    <div
+                      style={{
+                        height: "1px",
+                        background: "var(--border-subtle)",
+                        margin: "14px 0",
+                      }}
+                    />
+
+                    {/* Bio paragraphs */}
+                    <p
+                      style={{
+                        color: "var(--text-secondary)",
+                        lineHeight: 1.7,
+                        fontSize: "0.95rem",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      Ben has spent 7+ years building products at the intersection of SEO, AI, and search
+                      systems. He previously led technical SEO at a leading search optimization agency, where
+                      he helped 50+ SaaS companies and e-commerce businesses optimize for discoverability
+                      across Google, Bing, and structured data channels.
+                    </p>
+                    <p
+                      style={{
+                        color: "var(--text-secondary)",
+                        lineHeight: 1.7,
+                        fontSize: "0.95rem",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      Frustrated by the gap between traditional SEO tooling and the emerging world of
+                      AI-driven discovery, Ben built ConduitScore to help websites thrive as AI agents
+                      become the primary way people find information. His mission: make AI visibility
+                      optimization as accessible and actionable as traditional SEO.
+                    </p>
+
+                    {/* Tags */}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "20px" }}>
+                      {["Technical SEO", "AI/LLMs", "Structured Data", "Search Systems", "SaaS"].map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            padding: "3px 10px",
+                            borderRadius: "var(--radius-full)",
+                            fontSize: "0.75rem",
+                            fontWeight: 500,
+                            color: "var(--text-secondary)",
+                            background: "rgba(99, 102, 241, 0.12)",
+                            border: "1px solid rgba(99, 102, 241, 0.22)",
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Social links */}
+                    <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                      <a
+                        href="https://dev.to/ben_stone_5608b8e2d9f8973"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="founder-social-link founder-social-link--red"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.29zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/>
+                        </svg>
+                        Dev.to
+                      </a>
+                      <a
+                        href="https://github.com/bkauto3"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="founder-social-link founder-social-link--purple"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        GitHub
+                      </a>
+                      <a
+                        href="mailto:benstone@conduitscore.com"
+                        className="founder-social-link founder-social-link--lime"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <rect width="20" height="16" x="2" y="4" rx="2"/>
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                        Email
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>

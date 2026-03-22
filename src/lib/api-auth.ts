@@ -72,7 +72,7 @@ export async function getRequestUser(
       return {
         user: null,
         source: "api-key",
-        error: "REST API access requires the Agency tier",
+        error: "REST API access requires the Scale tier",
       };
     }
 

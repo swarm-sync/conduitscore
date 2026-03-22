@@ -19,6 +19,214 @@ interface BlogPost {
 }
 
 const posts: Record<string, BlogPost> = {
+  "14-point-ai-visibility-checklist": {
+    slug: "14-point-ai-visibility-checklist",
+    title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
+    description:
+      "Google ranking ≠ AI visibility. Learn the 14 signals LLM crawlers look for—schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
+    content: `Your website ranks #1 on Google. Your organic traffic is solid. But when a prospect asks ChatGPT "what's the best AI visibility tool," your site doesn't appear in the results. That's not an SEO problem — it's an AI visibility problem. And they're completely different.
+
+Google's bots and large language models crawl the web in fundamentally different ways. Google renders JavaScript, learns from user behavior, and uses algorithms refined over 25 years. LLMs like Claude, ChatGPT, and Gemini read raw HTML, parse structured data literally, and have no concept of "bounce rate" or "click-through rate." A site that's invisible to Google would rank poorly. A site that's invisible to LLMs is ignored by AI research tools, even if it's on page 1 of search.
+
+The stakes are highest for SaaS, agencies, and e-commerce. A prospect using AI-powered research — asking ChatGPT to compare solutions, using Claude to build research documents, leveraging Perplexity for competitive analysis — won't find you if your site fails this checklist. You'll lose deals before you know they're possible.
+
+This checklist maps the 14 signals that LLM crawlers look for. Each point has a specific check, a real-world example of failure, and a code fix you can copy-paste today.
+
+## 1. Robots.txt Must Explicitly Allow AI Crawlers
+
+**The signal:** LLM crawlers check \`robots.txt\` to see if they're allowed on your site. If you block them, you don't get indexed.
+
+**The failure:** A common mistake is a permissive robots.txt for Google but restrictive rules for unknown crawlers.
+
+**The fix:** Allow major LLM crawlers explicitly. Add this to \`robots.txt\`:
+
+\`\`\`
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+\`\`\`
+
+GPTBot is OpenAI's crawler. CCBot is Common Crawl (used for LLM training). anthropic-ai is Anthropic's crawler. Allowing them doesn't expose private data — it ensures your public content is crawled.
+
+## 2. Sitemap.xml Must Be Discoverable and Complete
+
+**The signal:** Without a sitemap, LLM crawlers miss pages, especially deeper content.
+
+**The failure:** Your site has a sitemap, but it's incomplete — missing blog posts, use case pages, or documentation.
+
+**The fix:** Generate a complete sitemap and link it from robots.txt. Add this line to \`robots.txt\`:
+
+\`\`\`
+Sitemap: https://yoursite.com/sitemap.xml
+\`\`\`
+
+Then ensure your sitemap includes every important page.
+
+## 3. Organization Schema Markup (JSON-LD)
+
+**The signal:** LLMs parse structured data to understand what your company is. Without it, they infer incorrectly.
+
+**The failure:** Your homepage has no schema markup. Claude or ChatGPT has to guess your business model.
+
+**The fix:** Add Organization schema to your homepage \`<head>\`:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "YourCompany",
+  "url": "https://yoursite.com",
+  "logo": "https://yoursite.com/logo.png",
+  "description": "Brief description of what you do"
+}
+</script>
+\`\`\`
+
+This tells LLMs who you are, what you do, and how to find you elsewhere online.
+
+## 4. Product Schema (If You're an E-Commerce or SaaS)
+
+**The signal:** If you sell anything, product schema tells LLMs about pricing and features.
+
+**The failure:** You describe your plans on the pricing page in plain text. LLMs can read it, but they can't extract structured pricing tiers.
+
+**The fix:** Add Product schema to each plan:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "Pro Plan",
+  "description": "Full access to all features",
+  "offers": {
+    "@type": "Offer",
+    "price": "299",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+\`\`\`
+
+## 5. Breadcrumb Schema for Content Navigation
+
+**The signal:** Breadcrumb schema tells LLMs the hierarchy of your site.
+
+**The failure:** You have a blog with posts in categories, but no breadcrumb schema. LLMs treat each post as isolated.
+
+**The fix:** Add breadcrumb schema to every blog post:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://yoursite.com"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://yoursite.com/blog"}
+  ]
+}
+</script>
+\`\`\`
+
+## 6. Plain Text Content Must Be Real (No Heavy JavaScript Rendering)
+
+**The signal:** LLMs read raw HTML. If your content is rendered entirely by JavaScript, they see an empty page.
+
+**The failure:** Your homepage is a React SPA. When crawled, the HTML contains only \`<div id="root"></div>\`.
+
+**The fix:** Ensure critical content is in HTML, not rendered by JavaScript. Use server-side rendering (SSR).
+
+## 7. H1, H2, H3 Hierarchy (Content Structure)
+
+**The signal:** LLMs parse headings to understand content structure.
+
+**The failure:** Your page has no H1, or multiple H1s, or unrelated H2s.
+
+**The fix:** Structure every page with one H1, 3-5 H2s, and nested H3s under each H2.
+
+## 8. Minimum 300 Words of Original Content Per Page
+
+**The signal:** LLMs value depth. Thin pages are ignored or downranked.
+
+**The failure:** Your product page is 150 words of marketing copy with no detail.
+
+**The fix:** Add depth. Use real examples, data, and explanation. Target 500+ words on key pages.
+
+## 9. Mobile Responsiveness (CSS Media Queries)
+
+**The signal:** Modern LLM crawlers use mobile user agents.
+
+**The failure:** Your site fails on mobile (375px viewport).
+
+**The fix:** Use responsive design. Test on mobile with CSS media queries.
+
+## 10. HTTPS/SSL Certificate (Security)
+
+**The signal:** LLMs prioritize secure sites. Unencrypted HTTP is a red flag.
+
+**The failure:** Your site is on HTTP, not HTTPS.
+
+**The fix:** Install an SSL certificate. Most hosting platforms (Vercel, Netlify) do this automatically.
+
+## 11. Fast Load Time (Core Web Vitals)
+
+**The signal:** LLMs care about performance. Slow pages are harder to crawl.
+
+**The failure:** Your site takes 8 seconds to load.
+
+**The fix:** Optimize images, minify JavaScript/CSS, use caching. Aim for LCP < 2.5s.
+
+## 12. LLMs.txt File (Custom Model Instructions)
+
+**The signal:** Many LLMs now check for an \`llms.txt\` file at the root of your domain.
+
+**The failure:** You don't have \`llms.txt\`. LLMs have to guess what information is most important.
+
+**The fix:** Create \`/public/llms.txt\`:
+
+\`\`\`
+# About Our Company
+We are [Company Name], a [description].
+
+# Key Links
+- Pricing: https://yoursite.com/pricing
+- Documentation: https://yoursite.com/docs
+\`\`\`
+
+## 13. Internal Links (Knowledge Graph Building)
+
+**The signal:** LLMs build a mental graph of your site. Internal links show how topics relate.
+
+**The failure:** Your blog posts are orphaned with no links between related content.
+
+**The fix:** Link liberally between related posts and product pages.
+
+## 14. Freshness & Updates (Recent Content Dates)
+
+**The signal:** LLMs value current information. Stale content is deprioritized.
+
+**The failure:** Your blog's last post was 18 months ago.
+
+**The fix:** Add publish and update dates using Article schema, and keep publishing regularly.
+
+## The Real Cost of Missing These 14 Points
+
+You've seen founders with better SEO traffic lose deals because AI researchers couldn't find them. You've watched competitors with mediocre content beat you because their JSON-LD schema was perfect.
+
+This checklist is the difference between invisible and findable. Implement all 14, and LLMs will represent your site accurately — in ChatGPT conversations, in Claude's web research, in Gemini summaries. Miss even 3-4, and you'll be ghosted by AI-powered buying research.
+
+Audit your site now. Run a free ConduitScore scan to see which signals you're missing. Then copy-paste the fixes above. Most teams complete this in 4 hours. The payoff: being visible to the fastest-growing discovery channel for B2B SaaS — AI-powered research.`,
+    category: "Technical Guides",
+    date: "2026-03-22",
+    readTime: "18 min read",
+  },
   "what-is-ai-seo": {
     slug: "what-is-ai-seo",
     title: "What Is AI SEO? The Complete Guide to Optimizing for AI Search in 2026",
