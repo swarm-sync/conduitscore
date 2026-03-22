@@ -105,7 +105,7 @@ export default function AboutPage() {
               discover information, compare products, and make decisions.
             </p>
             <p className="mt-3 text-sm author" style={{ color: "var(--text-tertiary)" }}>
-              Published by the ConduitScore Team &mdash; AI visibility and search optimization specialists since 2026.
+              Built by a team of AI visibility and search optimization experts with deep experience in structured data, LLM systems, and SEO.
             </p>
           </div>
         </section>
@@ -184,6 +184,48 @@ export default function AboutPage() {
               </div>
             </section>
 
+            {/* Founder */}
+            <section>
+              <h2 style={{ color: "var(--text-primary)" }}>Built by Ben Stone</h2>
+              <div style={{ display: "flex", gap: "32px", alignItems: "flex-start", marginTop: "24px" }}>
+                <div style={{ minWidth: "120px" }}>
+                  <div
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      borderRadius: "8px",
+                      background: "var(--gradient-primary)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "white",
+                      fontSize: "48px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    BS
+                  </div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 600, marginBottom: "8px" }}>
+                    Ben Stone — Founder
+                  </h3>
+                  <p style={{ color: "var(--text-secondary)", marginBottom: "12px" }}>
+                    Ben has spent 7+ years building products at the intersection of SEO, AI, and search.
+                    He previously led technical SEO at a leading search optimization agency, where he helped
+                    50+ SaaS companies and e-commerce businesses optimize for discoverability across Google,
+                    Bing, and other search channels.
+                  </p>
+                  <p style={{ color: "var(--text-secondary)" }}>
+                    Frustrated by the gap between traditional SEO tooling and the emerging world of AI-driven
+                    discovery, Ben built ConduitScore to help websites thrive as AI agents become the primary
+                    way people find information. His mission: make AI visibility optimization as accessible
+                    and actionable as traditional SEO.
+                  </p>
+                </div>
+              </div>
+            </section>
+
             {/* Expertise */}
             <section>
               <h2 style={{ color: "var(--text-primary)" }}>Our Expertise</h2>
@@ -201,6 +243,16 @@ export default function AboutPage() {
                 {" "}<a href="https://llmstxt.org/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cyan-400)" }}>llms.txt standard</a> community
                 and advocates for the open web, believing that websites should be able to control their
                 visibility in AI systems the same way they control their visibility in traditional search engines.
+              </p>
+            </section>
+
+            {/* Methodology Link */}
+            <section>
+              <h2 style={{ color: "var(--text-primary)" }}>How We Score Your Site</h2>
+              <p className="mt-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                Want to understand exactly how ConduitScore evaluates your AI visibility? Check out our detailed
+                {" "}<Link href="/methodology" style={{ color: "var(--cyan-400)", textDecoration: "none" }} className="hover:underline">methodology page</Link> for
+                a complete breakdown of the 14 signals, 7 categories, and scoring methodology.
               </p>
             </section>
           </div>

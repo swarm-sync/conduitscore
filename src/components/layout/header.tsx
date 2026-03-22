@@ -9,6 +9,7 @@ const HEADER_LOGO_SRC = "/NEWNEW/conduitscore-lockup-white.svg";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [useCasesOpen, setUseCasesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { data: session, status } = useSession();
 
@@ -20,13 +21,21 @@ export function Header() {
 
   const isAuthed = status === "authenticated" && !!session?.user;
 
-  const navLinks = isAuthed
+  const useCasesLinks = [
+    { href: "/use-cases/saas", label: "SaaS" },
+    { href: "/use-cases/agencies", label: "Agencies" },
+    { href: "/use-cases/ecommerce", label: "E-commerce" },
+  ];
+
+  const mainNavLinks = isAuthed
     ? [
       { href: "/dashboard", label: "Dashboard" },
       { href: "/pricing", label: "Pricing" },
     ]
     : [
       { href: "/pricing", label: "Pricing" },
+      { href: "/blog", label: "Resources" },
+      { href: "/methodology", label: "Methodology" },
       { href: "/signin", label: "Sign In" },
     ];
 
@@ -68,7 +77,65 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
-          {navLinks.map((link) => (
+          {/* Use Cases Dropdown */}
+          <div className="relative group">
+            <button
+              className="relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors group"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                setUseCasesOpen(true);
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+              }}
+              aria-label="Use Cases"
+              aria-expanded={useCasesOpen}
+              aria-haspopup="menu"
+            >
+              Use Cases
+              <span
+                className="absolute bottom-1 left-3.5 right-3.5 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+                style={{
+                  background: "var(--brand-red)",
+                  transformOrigin: "left",
+                }}
+                aria-hidden="true"
+              />
+            </button>
+
+            {/* Dropdown Menu */}
+            {useCasesOpen && (
+              <div
+                className="absolute top-full left-0 mt-1 rounded-lg shadow-lg min-w-max"
+                style={{
+                  background: "rgba(8, 8, 9, 0.95)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  backdropFilter: "blur(22px)",
+                }}
+                onMouseEnter={() => setUseCasesOpen(true)}
+                onMouseLeave={() => setUseCasesOpen(false)}
+                role="menu"
+              >
+                {useCasesLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block px-4 py-2 text-sm font-medium transition-colors first:rounded-t-lg last:rounded-b-lg"
+                    style={{ color: "var(--text-secondary)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+                    onClick={() => setUseCasesOpen(false)}
+                    role="menuitem"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {mainNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -124,7 +191,42 @@ export function Header() {
           style={{ borderTop: "1px solid var(--border-subtle)" }}
           aria-label="Mobile navigation"
         >
-          {navLinks.map((link) => (
+          {/* Mobile Use Cases */}
+          <div className="space-y-1">
+            <details className="group">
+              <summary
+                className="block px-3.5 py-2.5 text-sm font-medium rounded-md transition-colors cursor-pointer"
+                style={{ color: "var(--text-secondary)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+              >
+                Use Cases
+              </summary>
+              <div className="pl-4 space-y-0.5">
+                {useCasesLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block px-3.5 py-2 text-sm font-medium rounded-md transition-colors"
+                    style={{ color: "var(--text-secondary)" }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                      (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                      (e.currentTarget as HTMLElement).style.background = "transparent";
+                    }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </details>
+          </div>
+
+          {mainNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

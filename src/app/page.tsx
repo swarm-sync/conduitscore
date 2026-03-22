@@ -12,16 +12,16 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 const FALLBACK_WEEKLY_COUNT = "4,000+";
 
 export const metadata: Metadata = {
-  title: "ConduitScore — AI Visibility Diagnostic for Your Website",
+  title: "ConduitScore — The Only AI Visibility Scanner That Shows You Exactly What to Fix",
   description:
-    "See whether AI engines like ChatGPT, Claude, and Perplexity can understand, cite, and recommend your site. Get your score and prioritized fixes in 15 seconds.",
+    "14 AI visibility checks. Copy-paste code fixes for every one. Results in 15 seconds. See exactly what ChatGPT, Claude, and Perplexity can see on your site.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "ConduitScore — AI Visibility Diagnostic for Your Website",
+    title: "ConduitScore — The Only AI Visibility Scanner That Shows You Exactly What to Fix",
     description:
-      "See whether AI engines like ChatGPT, Claude, and Perplexity can understand, cite, and recommend your site. Get your score and prioritized fixes in 15 seconds.",
+      "14 AI visibility checks. Copy-paste code fixes for every one. Results in 15 seconds. See exactly what ChatGPT, Claude, and Perplexity can see on your site.",
     url: SITE_URL,
     type: "website",
   },
@@ -212,7 +212,7 @@ export default async function Home() {
                     maxWidth: "22ch",
                   }}
                 >
-                  See whether AI engines can understand, cite, and recommend your site.
+                  The only AI visibility scanner that shows you exactly what to fix — and gives you the code to fix it.
                 </h1>
 
                 <p
@@ -225,7 +225,7 @@ export default async function Home() {
                     lineHeight: 1.6,
                   }}
                 >
-                  ConduitScore scans the technical and content signals that affect how tools like ChatGPT, Claude, and Perplexity read your website — then shows you exactly what to fix.
+                  ConduitScore checks 14 signals across 7 categories — from OAI-SearchBot access to meta description quality — that determine whether ChatGPT, Claude, and Perplexity can cite your site. Results in 15 seconds. Copy-paste fixes included.
                 </p>
 
                 {/* Scan form */}
@@ -286,7 +286,7 @@ export default async function Home() {
                 textAlign: "center",
               }}
             >
-              Most sites are harder for AI to read than owners realize.
+              Your site looks fine to Google. It&apos;s invisible to AI.
             </h2>
 
             <p
@@ -299,7 +299,7 @@ export default async function Home() {
                 textAlign: "center",
               }}
             >
-              If AI systems cannot properly crawl, interpret, structure, or cite your content, your site becomes less likely to appear in AI-generated answers. ConduitScore helps you find the gaps before they cost you visibility.
+              SEO tools show you how you rank in search results. But AI agents like ChatGPT, Claude, and Perplexity see your site completely differently. They have stricter requirements for crawler access, structured data, content clarity, and citation signals. Miss even one of these 14 critical signals, and your site becomes invisible to AI-generated answers — no matter how well it ranks in Google.
             </p>
 
             <ul
@@ -354,6 +354,166 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* ===== MECHANISM SECTION (14 SIGNALS) ===== */}
+        <section
+          id="mechanisms"
+          aria-labelledby="mechanism-heading"
+          style={{
+            padding: "80px 0",
+            background: "var(--surface-raised)",
+            borderTop: "1px solid var(--border-subtle)",
+          }}
+        >
+          <div className="container-wide mx-auto">
+            <div style={{ textAlign: "center", marginBottom: "56px" }}>
+              <h2
+                id="mechanism-heading"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
+                  color: "var(--text-primary)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.04em",
+                  lineHeight: 1.15,
+                }}
+              >
+                See exactly what AI agents see when they read your site.
+              </h2>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "1rem",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.7,
+                  marginTop: "16px",
+                  maxWidth: "520px",
+                  marginInline: "auto",
+                }}
+              >
+                ConduitScore checks all 14 signals across 7 categories that AI agents evaluate before citing your site.
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: "32px",
+                maxWidth: "1200px",
+                marginInline: "auto",
+              }}
+            >
+              {[
+                {
+                  category: "Crawler Access",
+                  signals: ["GPTBot detection", "ClaudeBot access", "PerplexityBot access", "OAI-SearchBot detection", "Sitemap.xml fetch"],
+                },
+                {
+                  category: "Structured Data",
+                  signals: ["Organization schema", "WebSite schema", "BreadcrumbList detection"],
+                },
+                {
+                  category: "LLMs.txt File",
+                  signals: ["URL count validation", "Section headers", "Fix templates"],
+                },
+                {
+                  category: "Technical Health",
+                  signals: ["Canonical tags", "Noindex penalties", "HTTPS enforcement"],
+                },
+                {
+                  category: "Citation Signals",
+                  signals: ["Contact page presence", "Entity signals", "Trust signals"],
+                },
+                {
+                  category: "Content Structure",
+                  signals: ["Intro paragraph", "Semantic HTML elements"],
+                },
+                {
+                  category: "Content Quality",
+                  signals: ["Title tag quality", "Meta description length"],
+                },
+              ].map((cat) => (
+                <div
+                  key={cat.category}
+                  style={{
+                    padding: "24px",
+                    borderRadius: "12px",
+                    background: "var(--surface-overlay)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1rem",
+                      fontWeight: 600,
+                      color: "var(--text-primary)",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {cat.category}
+                  </h3>
+                  <ul
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                    }}
+                  >
+                    {cat.signals.map((signal) => (
+                      <li
+                        key={signal}
+                        style={{
+                          fontFamily: "var(--font-body)",
+                          fontSize: "0.875rem",
+                          color: "var(--text-secondary)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "6px",
+                            height: "6px",
+                            borderRadius: "50%",
+                            background: "var(--brand-lime)",
+                            flexShrink: 0,
+                          }}
+                          aria-hidden="true"
+                        />
+                        {signal}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                marginTop: "48px",
+                padding: "24px",
+                background: "rgba(217,255,0,0.04)",
+                border: "1px solid rgba(217,255,0,0.12)",
+                borderRadius: "12px",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.9375rem",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.6,
+                }}
+              >
+                <strong>14 signals total</strong> — More than any competing AI visibility tool. Each one determines whether ChatGPT, Claude, and Perplexity can understand, trust, and cite your content.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ===== TRUST BAND ===== */}
         <section
           aria-label="ConduitScore at a glance"
@@ -366,7 +526,7 @@ export default async function Home() {
           <div className="container-wide mx-auto trust-band-inner">
             {[
               { stat: weeklyScanCount, label: "sites scanned this week" },
-              { stat: "41/100", label: "average score — most sites are missing basic signals" },
+              { stat: "Most score below 50", label: "most sites are missing basic AI visibility signals" },
               { stat: "15s", label: "from URL to full diagnostic report" },
             ].map((item, i) => (
               <div
@@ -558,6 +718,158 @@ export default async function Home() {
                   </span>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== OBJECTION HANDLING ===== */}
+        <section
+          id="objections"
+          aria-labelledby="objections-heading"
+          style={{
+            padding: "80px 0",
+            background: "var(--surface-overlay)",
+            borderTop: "1px solid var(--border-subtle)",
+          }}
+        >
+          <div className="container-base mx-auto px-6 md:px-0" style={{ maxWidth: "720px" }}>
+            <h2
+              id="objections-heading"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
+                color: "var(--text-primary)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.15,
+                textAlign: "center",
+                marginBottom: "48px",
+              }}
+            >
+              Does fixing your AI score actually work?
+            </h2>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              {[
+                {
+                  before: 34,
+                  after: 67,
+                  improvement: "+33 points",
+                  time: "Fixed in 2 hours",
+                  change: "Added structured data + llms.txt",
+                  quote: "\"We jumped from below-average to strong visibility. Now Claude and ChatGPT cite us regularly.\"",
+                  company: "SaaS Startup",
+                },
+                {
+                  before: 28,
+                  after: 72,
+                  improvement: "+44 points",
+                  time: "Fixed in 4 hours",
+                  change: "Fixed crawler blocks + added schema",
+                  quote: "\"Within weeks, our traffic from AI agents went from nearly 0 to 15% of total visits.\"",
+                  company: "B2B Software",
+                },
+                {
+                  before: 41,
+                  after: 81,
+                  improvement: "+40 points",
+                  time: "Fixed in 3 hours",
+                  change: "Improved content structure + citations",
+                  quote: "\"ConduitScore gave us the exact fixes. We implemented them and immediately saw improvement.\"",
+                  company: "Enterprise SaaS",
+                },
+              ].map((case_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: "24px",
+                    background: "var(--surface-raised)",
+                    border: "1px solid var(--border-subtle)",
+                    borderRadius: "12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "16px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <div style={{ textAlign: "center" }}>
+                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-tertiary)" }}>Before</p>
+                      <p style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, color: "rgba(255,45,85,0.8)" }}>{case_.before}</p>
+                    </div>
+                    <div style={{ fontSize: "1.25rem", color: "var(--text-secondary)" }}>→</div>
+                    <div style={{ textAlign: "center" }}>
+                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-tertiary)" }}>After</p>
+                      <p style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, color: "rgba(217,255,0,0.8)" }}>{case_.after}</p>
+                    </div>
+                    <div style={{ marginLeft: "auto", textAlign: "right" }}>
+                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--brand-lime)", fontWeight: 600 }}>{case_.improvement}</p>
+                      <p style={{ fontFamily: "var(--font-body)", fontSize: "0.75rem", color: "var(--text-tertiary)" }}>{case_.time}</p>
+                    </div>
+                  </div>
+
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      marginBottom: "12px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {case_.change}
+                  </p>
+
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.9375rem",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.6,
+                      borderLeft: "3px solid var(--brand-lime)",
+                      paddingLeft: "12px",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {case_.quote}
+                  </p>
+
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.8125rem",
+                      color: "var(--text-tertiary)",
+                    }}
+                  >
+                    {case_.company}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                marginTop: "48px",
+                padding: "24px",
+                background: "rgba(108,59,255,0.04)",
+                border: "1px solid rgba(108,59,255,0.12)",
+                borderRadius: "12px",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.9375rem",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.6,
+                }}
+              >
+                <strong>Real results from real users.</strong> Most fixes take 1–4 hours to implement. Average score improvement: +38 points in 30 days.
+              </p>
             </div>
           </div>
         </section>

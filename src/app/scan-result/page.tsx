@@ -440,6 +440,99 @@ export default function ScanResultPage() {
             </div>
           </div>
 
+          {/* Email capture */}
+          <div
+            className="my-12 rounded-xl p-8"
+            style={{
+              background: "linear-gradient(135deg, rgba(108,59,255,0.08) 0%, rgba(0,217,255,0.04) 100%)",
+              border: "1px solid rgba(108,59,255,0.20)",
+            }}
+          >
+            <div className="max-w-md">
+              <h3
+                className="text-lg font-semibold mb-2"
+                style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+              >
+                Get your full fix list by email
+              </h3>
+              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
+                We&apos;ll send you a detailed breakdown of all fixes, prioritized by impact.
+              </p>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const emailInput = e.currentTarget.querySelector('input[type="email"]') as HTMLInputElement;
+                  const email = emailInput?.value;
+                  if (!email) return;
+
+                  const button = e.currentTarget.querySelector('button[type="submit"]') as HTMLButtonElement;
+                  const originalText = button.textContent;
+                  button.disabled = true;
+                  button.textContent = "Sending...";
+
+                  try {
+                    const response = await fetch("/api/email-capture", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email, scanId: currentScanId }),
+                    });
+
+                    if (response.ok) {
+                      emailInput.value = "";
+                      button.textContent = "Sent!";
+                      setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                      }, 2000);
+                    } else {
+                      button.textContent = originalText;
+                      button.disabled = false;
+                      alert("Failed to send email. Please try again.");
+                    }
+                  } catch {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    alert("Error sending email. Please try again.");
+                  }
+                }}
+                className="flex gap-2"
+              >
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  required
+                  className="flex-1 rounded-lg px-4 py-2.5 text-sm"
+                  style={{
+                    background: "var(--surface-raised)",
+                    border: "1px solid var(--border-subtle)",
+                    color: "var(--text-primary)",
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="rounded-lg px-6 py-2.5 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    background: "rgba(217,255,0,0.20)",
+                    border: "1px solid rgba(217,255,0,0.30)",
+                    color: "var(--brand-lime)",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!(e.currentTarget as HTMLButtonElement).disabled) {
+                      e.currentTarget.style.background = "rgba(217,255,0,0.30)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!(e.currentTarget as HTMLButtonElement).disabled) {
+                      e.currentTarget.style.background = "rgba(217,255,0,0.20)";
+                    }
+                  }}
+                >
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
+
           {/* Action buttons */}
           <div className="mt-10 flex flex-wrap gap-3">
             <ShareButton scanId={currentScanId} />

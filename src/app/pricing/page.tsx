@@ -284,6 +284,118 @@ export default function PricingPage() {
           </div>
         </section>
 
+        {/* ===== 14-SIGNAL COMPARISON ===== */}
+        <section
+          className="pb-20"
+          style={{ borderTop: "1px solid var(--border-subtle)" }}
+        >
+          <div className="container-wide mx-auto pt-16">
+            <div className="text-center mb-12">
+              <h2
+                className="text-2xl font-bold mb-3"
+                style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)", letterSpacing: "-0.02em" }}
+              >
+                More signals. More fixes. More visibility.
+              </h2>
+              <p style={{ color: "var(--text-secondary)" }}>
+                ConduitScore checks 14 signals across 7 categories that determine whether ChatGPT, Claude, and Perplexity can cite your site.
+              </p>
+            </div>
+            <div
+              className="overflow-x-auto rounded-xl"
+              style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-overlay)" }}
+            >
+              <table className="w-full text-sm" role="table" aria-label="14-signal AI visibility comparison">
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                    <th
+                      className="py-4 px-6 text-left font-semibold"
+                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)", width: "30%" }}
+                    >
+                      Signal checked
+                    </th>
+                    <th
+                      className="py-4 px-4 text-center font-semibold"
+                      style={{ color: "var(--brand-red)", fontFamily: "var(--font-display)" }}
+                    >
+                      ConduitScore
+                    </th>
+                    <th
+                      className="py-4 px-4 text-center font-semibold"
+                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)" }}
+                    >
+                      Ayzeo
+                    </th>
+                    <th
+                      className="py-4 px-4 text-center font-semibold"
+                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)" }}
+                    >
+                      GEOScore AI
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { signal: "OAI-SearchBot detection", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "GPTBot access", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "ClaudeBot access", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "PerplexityBot access", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "Sitemap.xml fetch", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "Canonical tags", conduitscore: true, ayzeo: false, geoscore: true },
+                    { signal: "Noindex penalty scoring", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "Contact page detection", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "Schema.org markup", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "LLMs.txt file", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "Meta descriptions", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "Structured data quality", conduitscore: true, ayzeo: true, geoscore: true },
+                    { signal: "Copy-paste code fixes", conduitscore: true, ayzeo: false, geoscore: false },
+                    { signal: "No credit card required for free scan", conduitscore: true, ayzeo: false, geoscore: false },
+                  ].map((row, i) => (
+                    <tr
+                      key={row.signal}
+                      style={{
+                        borderBottom: i < 13 ? "1px solid var(--border-subtle)" : "none",
+                        background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)",
+                      }}
+                    >
+                      <td className="py-3.5 px-6" style={{ color: "var(--text-secondary)" }}>
+                        {row.signal}
+                      </td>
+                      {[row.conduitscore, row.ayzeo, row.geoscore].map((included, idx) => (
+                        <td key={idx} className="py-3.5 px-4 text-center">
+                          {included ? (
+                            <div className="flex justify-center">
+                              <div
+                                className="flex h-5 w-5 items-center justify-center rounded-full"
+                                style={{
+                                  background: idx === 0 ? "rgba(255,45,85,0.10)" : "rgba(100,100,120,0.10)",
+                                  border: idx === 0 ? "1px solid rgba(255,45,85,0.22)" : "1px solid rgba(100,100,120,0.22)",
+                                }}
+                              >
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-label="Included">
+                                  <path
+                                    d="M2 5l2.5 2.5 3.5-4"
+                                    stroke={idx === 0 ? "var(--brand-red)" : "var(--text-tertiary)"}
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          ) : (
+                            <span style={{ color: "var(--text-tertiary)" }}>—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         {/* ===== COMPARISON TABLE ===== */}
         <section
           className="pb-20"
