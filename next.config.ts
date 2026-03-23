@@ -1,5 +1,7 @@
 import { resolve } from "path";
 import type { NextConfig } from "next";
+// @ts-ignore - critters types issue with package.json exports
+import Critters from "critters";
 
 const projectRoot = resolve(process.cwd());
 
@@ -14,6 +16,24 @@ const nextConfig: NextConfig = {
 
   turbopack: {
     root: projectRoot,
+  },
+
+  // Performance: Extract critical CSS inline, defer non-critical styles
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.plugins.push(
+        new (Critters as any)({
+          preload: "swap",
+          fonts: false,
+          inlineThreshold: 2000,
+        })
+      );
+    }
+    return config;
   },
 
   // SEO: Enable image optimization with proper formats

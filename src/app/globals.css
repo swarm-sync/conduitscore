@@ -8,7 +8,8 @@
   --surface-elevated: #18181d;
   --surface-sunken: #050506;
 
-  --brand-red: #ff2d55;
+  --brand-red: #e8004d;
+  --brand-red-alt: #ff2d55;
   --brand-purple: #6366f1;
   --brand-lime: #d9ff00;
 
@@ -263,7 +264,7 @@ code, pre {
 }
 
 .btn-primary:hover {
-  background: #ff496d;
+  background: #d00045;
   box-shadow: var(--shadow-btn-hover);
   transform: translateY(-1px) scale(1.01);
 }

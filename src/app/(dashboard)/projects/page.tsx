@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ProjectTrendChart } from "@/components/dashboard/project-trend-chart";
+import { ProjectTrendChartLazy } from "@/components/dashboard/project-trend-chart-lazy";
 import { PLAN_FEATURES } from "@/lib/plan-limits";
 
 interface Project {
@@ -500,7 +500,7 @@ export default function ProjectsPage() {
 
                 <div className="mt-4">
                   {canSeeTrendChart ? (
-                    <ProjectTrendChart points={chartPoints} />
+                    <ProjectTrendChartLazy points={chartPoints} />
                   ) : (
                     <div className="rounded-xl p-6 text-sm" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}>
                       Upgrade to Growth to unlock the score trend chart.

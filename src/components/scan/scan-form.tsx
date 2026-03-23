@@ -328,35 +328,33 @@ export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
             />
 
             <div className="p-2 flex items-center flex-shrink-0">
+              <style>{`
+                .scan-button-cta {
+                  background: var(--brand-red);
+                  box-shadow: var(--shadow-btn);
+                  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                .scan-button-cta:not(:disabled):hover {
+                  box-shadow: var(--shadow-btn-hover);
+                  transform: scale(1.02);
+                }
+                .scan-button-cta:disabled {
+                  background: rgba(99, 102, 241, 0.45);
+                  box-shadow: none;
+                }
+              `}</style>
               <button
                 onClick={handleScan}
                 disabled={loading}
-                className="inline-flex items-center gap-2 font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className="scan-button-cta inline-flex items-center gap-2 font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
-                  background: loading
-                    ? "rgba(99,102,241,0.45)"
-                    : "var(--brand-red)",
                   color: "#fff",
                   borderRadius: "999px",
                   padding: "12px 24px",
-                  boxShadow: loading ? "none" : "var(--shadow-btn)",
                   fontFamily: "var(--font-display)",
                   border: "none",
                   cursor: loading ? "not-allowed" : "pointer",
                   whiteSpace: "nowrap",
-                  transition: "all 0.15s cubic-bezier(0.16,1,0.3,1)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!loading) {
-                    const el = e.currentTarget;
-                    el.style.boxShadow = "var(--shadow-btn-hover)";
-                    el.style.transform = "scale(1.02)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget;
-                  el.style.boxShadow = "var(--shadow-btn)";
-                  el.style.transform = "scale(1)";
                 }}
                 aria-label={loading ? "Scanning in progress" : "Scan website for AI visibility"}
               >
@@ -484,30 +482,32 @@ export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
         />
+        <style>{`
+          .scan-button-dashboard {
+            background: var(--brand-red);
+            box-shadow: var(--shadow-btn);
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .scan-button-dashboard:not(:disabled):hover {
+            box-shadow: var(--shadow-btn-hover);
+            transform: translateY(-1px);
+          }
+          .scan-button-dashboard:disabled {
+            cursor: not-allowed;
+          }
+        `}</style>
         <button
           onClick={handleScan}
           disabled={loading}
-          className="inline-flex items-center gap-2 font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="scan-button-dashboard inline-flex items-center gap-2 font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
-            background: "var(--brand-red)",
             color: "#fff",
             borderRadius: "999px",
             padding: "12px 24px",
-            boxShadow: "var(--shadow-btn)",
             fontFamily: "var(--font-display)",
             border: "none",
             cursor: loading ? "not-allowed" : "pointer",
             whiteSpace: "nowrap",
-          }}
-          onMouseEnter={(e) => {
-            if (!loading) {
-              e.currentTarget.style.boxShadow = "var(--shadow-btn-hover)";
-              e.currentTarget.style.transform = "translateY(-1px)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = "var(--shadow-btn)";
-            e.currentTarget.style.transform = "translateY(0)";
           }}
           aria-label={loading ? "Scanning in progress" : "Scan website for AI visibility"}
         >
