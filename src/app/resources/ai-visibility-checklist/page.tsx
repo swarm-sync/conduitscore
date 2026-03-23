@@ -272,7 +272,7 @@ export default function AIVisibilityChecklistPage() {
 
         // Redirect to free scanner after 3 seconds
         setTimeout(() => {
-          router.push("/scan");
+          router.push("/");
         }, 3000);
       } catch (err) {
         setFormState("error");
@@ -1395,7 +1395,7 @@ export default function AIVisibilityChecklistPage() {
 
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
               <Link
-                href="/scan"
+                href="/"
                 className="btn btn-primary btn-lg"
                 style={{ textDecoration: "none" }}
               >
