@@ -261,10 +261,19 @@ export default function AIVisibilityChecklistPage() {
 
         setFormState("success");
 
-        // Redirect to free scanner after 2 seconds
+        // Trigger immediate browser download — instant gratification before email arrives
+        const anchor = document.createElement("a");
+        anchor.href = "/resources/ai-visibility-checklist.md";
+        anchor.download = "ai-visibility-checklist.md";
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+
+        // Redirect to free scanner after 3 seconds
         setTimeout(() => {
           router.push("/scan");
-        }, 2000);
+        }, 3000);
       } catch (err) {
         setFormState("error");
         setErrorMsg(
@@ -288,7 +297,7 @@ export default function AIVisibilityChecklistPage() {
               "@type": "HowTo",
               name: "The 14-Point AI Visibility Checklist",
               description:
-                "Audit all 14 signals ChatGPT, Claude, and Perplexity use to discover your site. Free PDF guide with code examples.",
+                "Audit all 14 signals ChatGPT, Claude, and Perplexity use to discover your site. Free guide with code examples.",
               tool: "ConduitScore",
               step: CHECKLIST_ITEMS.map((item) => ({
                 "@type": "HowToStep",
@@ -380,7 +389,7 @@ export default function AIVisibilityChecklistPage() {
                 marginBottom: "36px",
               }}
             >
-              Audit all 14 signals your site needs for AI visibility — free PDF guide with code examples
+              Audit all 14 signals your site needs for AI visibility — free guide with code examples
             </p>
 
             {/* CTA anchor */}
@@ -415,7 +424,7 @@ export default function AIVisibilityChecklistPage() {
               {[
                 { label: "14 signals covered" },
                 { label: "Copy-paste code fixes" },
-                { label: "No account required" },
+                { label: "No signup required" },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -807,13 +816,32 @@ export default function AIVisibilityChecklistPage() {
                       marginBottom: "10px",
                     }}
                   >
-                    Check your inbox
+                    Your download has started
                   </h2>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.65 }}>
-                    Your checklist is on its way. Redirecting you to the free scanner in a moment...
+                    The checklist is downloading now. We also sent a copy to your inbox.
                   </p>
-                  <p style={{ marginTop: "16px", fontSize: "0.85rem", color: "var(--text-tertiary)" }}>
-                    Taking you to the scanner now&hellip;
+                  <a
+                    href="/resources/ai-visibility-checklist.md"
+                    download="ai-visibility-checklist.md"
+                    style={{
+                      display: "inline-block",
+                      marginTop: "18px",
+                      marginBottom: "8px",
+                      background: "var(--brand-lime, #d9ff00)",
+                      color: "#0c0c0e",
+                      textDecoration: "none",
+                      padding: "11px 22px",
+                      borderRadius: "999px",
+                      fontSize: "0.88rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    Download again &rarr;
+                  </a>
+                  <p style={{ marginTop: "12px", fontSize: "0.82rem", color: "var(--text-tertiary)" }}>
+                    Taking you to the free scanner in a moment&hellip;
                   </p>
                 </div>
               ) : (
@@ -834,7 +862,7 @@ export default function AIVisibilityChecklistPage() {
                       Get the full 14-point checklist
                     </h2>
                     <p style={{ color: "var(--text-tertiary)", fontSize: "0.9rem", lineHeight: 1.6 }}>
-                      Sent to your inbox instantly. PDF format — easy to print or share with your team.
+                      Sent to your inbox instantly. Easy to save, print, or share with your team.
                     </p>
                   </div>
 
@@ -1064,7 +1092,7 @@ export default function AIVisibilityChecklistPage() {
                 </h2>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.7 }}>
                   The checklist distills what we&apos;ve learned running thousands of AI visibility scans into a
-                  single actionable PDF you can work through in under 30 minutes.
+                  single actionable checklist you can work through in under 30 minutes.
                 </p>
               </div>
 

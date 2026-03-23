@@ -5,23 +5,19 @@ import { ScanForm } from "@/components/scan/scan-form";
 import { ExampleScoreCard } from "@/components/home/example-score-card";
 import { SignalsSection } from "@/components/home/signals-section";
 import { WhoUsesSection } from "@/components/home/who-uses-section";
-import prisma from "@/lib/prisma";
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
-const FALLBACK_WEEKLY_COUNT = "4,000+";
-
 export const metadata: Metadata = {
-  title: "ConduitScore — The Only AI Visibility Scanner That Shows You Exactly What to Fix",
+  title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
   description:
-    "14 AI visibility checks. Copy-paste code fixes for every one. Results in 15 seconds. See exactly what ChatGPT, Claude, and Perplexity can see on your site.",
+    "See why AI ignores your site. ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in about 15 seconds. Free, no signup required.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "ConduitScore — The Only AI Visibility Scanner That Shows You Exactly What to Fix",
+    title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
     description:
-      "14 AI visibility checks. Copy-paste code fixes for every one. Results in 15 seconds. See exactly what ChatGPT, Claude, and Perplexity can see on your site.",
+      "See why AI ignores your site. ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in about 15 seconds. Free, no signup required.",
     url: SITE_URL,
     type: "website",
   },
@@ -153,30 +149,7 @@ function HomePageJsonLd() {
   );
 }
 
-export default async function Home() {
-  // Fetch live weekly scan count directly via Prisma (Server Component — no extra HTTP hop).
-  // Falls back to static placeholder if the DB is unavailable during render.
-  // This is a Next.js async Server Component — it runs once per request on the server
-  // and is NEVER re-rendered by React. Date.now() is therefore deterministic per request.
-  // The react-hooks/purity rule does not distinguish server components from client render
-  // functions, so we suppress it here with an explicit explanation.
-  // eslint-disable-next-line react-hooks/purity
-  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  let weeklyScanCount: string = FALLBACK_WEEKLY_COUNT;
-  try {
-    const count = await prisma.scan.count({
-      where: {
-        status: "completed",
-        completedAt: { gte: oneWeekAgo },
-      },
-    });
-    if (count > 0) {
-      weeklyScanCount = count.toLocaleString();
-    }
-  } catch {
-    // DB unavailable — keep the fallback; never crash the homepage.
-  }
-
+export default function Home() {
   return (
     <>
       <HomePageJsonLd />
@@ -212,7 +185,7 @@ export default async function Home() {
                     maxWidth: "22ch",
                   }}
                 >
-                  The only AI visibility scanner that shows you exactly what to fix — and gives you the code to fix it.
+                  See Why AI Ignores Your Site — Fix It in Minutes
                 </h1>
 
                 <p
@@ -225,25 +198,13 @@ export default async function Home() {
                     lineHeight: 1.6,
                   }}
                 >
-                  ConduitScore checks 14 signals across 7 categories — from OAI-SearchBot access to meta description quality — that determine whether ChatGPT, Claude, and Perplexity can cite your site. Results in 15 seconds. Copy-paste fixes included.
+                  ConduitScore scans 14 real AI visibility signals across 7 categories — from crawler access and structured data to llms.txt and content quality — then shows you the highest-impact fixes first. Results in about 15 seconds. Free, no signup.
                 </p>
 
                 {/* Scan form */}
                 <div style={{ marginTop: "32px", maxWidth: "520px" }}>
                   <ScanForm variant="hero" />
                 </div>
-
-                {/* Support line under CTA */}
-                <p
-                  style={{
-                    fontSize: "0.8125rem",
-                    fontFamily: "var(--font-body)",
-                    color: "var(--text-tertiary)",
-                    marginTop: "12px",
-                  }}
-                >
-                  No signup required. Results in about 15 seconds.
-                </p>
               </div>
 
               {/* Right column */}
@@ -963,7 +924,7 @@ export default async function Home() {
                 letterSpacing: "-0.04em",
               }}
             >
-              Run your free AI visibility scan
+              Scan My Site Now
             </h2>
 
             <p

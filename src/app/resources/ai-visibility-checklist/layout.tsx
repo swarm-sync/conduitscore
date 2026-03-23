@@ -5,7 +5,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 export const metadata: Metadata = {
   title: "Free AI Visibility Checklist - ConduitScore",
   description:
-    "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free PDF checklist with code fixes and examples. Download instantly.",
+    "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free downloadable checklist with code fixes and examples. Download instantly.",
   keywords: [
     "AI visibility checklist",
     "AI SEO checklist",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free AI Visibility Checklist — 14 Signals, Copy-Paste Code Fixes",
     description:
-      "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free PDF checklist with code examples and before/after comparisons.",
+      "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free downloadable checklist with code examples and before/after comparisons.",
     url: `${SITE_URL}/resources/ai-visibility-checklist`,
     type: "website",
     siteName: "ConduitScore",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Free AI Visibility Checklist — 14 Signals, Copy-Paste Code Fixes",
     description:
-      "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free PDF guide, instant download.",
+      "Audit all 14 AI visibility signals ChatGPT, Claude, and Perplexity use to find your site. Free download, instant access.",
     creator: "@conduitscore",
   },
 };

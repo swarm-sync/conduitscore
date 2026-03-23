@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "March 15, 2026";
+const LAST_UPDATED = "March 23, 2026";
 const EMAIL = "privacy@conduitscore.com";
 
 const cookies = [
@@ -51,6 +51,19 @@ const cookies = [
     type: "Functional",
     purpose: "Stores your UI preferences (e.g. theme, table column settings).",
     duration: "1 year",
+  },
+  {
+    name: "_ga",
+    type: "Performance",
+    purpose:
+      "Google Analytics 4 — distinguishes visitors and powers product analytics (including scan success/failure summaries with category labels such as plan limit, API error, or network).",
+    duration: "2 years",
+  },
+  {
+    name: "_ga_*",
+    type: "Performance",
+    purpose: "Google Analytics 4 — session state for measurement (pattern matches GA4 cookie names on your domain).",
+    duration: "2 years",
   },
 ];
 
@@ -200,6 +213,14 @@ export default function CookiesPage() {
                   >
                     Google&apos;s Privacy Policy
                   </a>.
+                </li>
+                <li>
+                  <strong>Google Analytics 4</strong> — when enabled, measures how the site and scanner are used.
+                  See our{" "}
+                  <Link href="/privacy#ga4-analytics" style={{ color: "var(--brand-red)" }}>
+                    Privacy Policy (Google Analytics 4)
+                  </Link>
+                  {" "}for scan-related events and failure categories.
                 </li>
               </ul>
             </LegalSection>

@@ -6,16 +6,16 @@ import { Footer } from "@/components/layout/footer";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
 export const metadata: Metadata = {
-  title: "About ConduitScore - Built by Ben Stone",
+  title: "About ConduitScore — Built by Ben",
   description:
-    "ConduitScore is built by Ben Stone, a search and AI specialist with 7+ years optimizing websites for discoverability. Learn how we help every website thrive in the agent economy.",
+    "ConduitScore is built by Ben, a search and AI specialist with 7+ years optimizing websites for discoverability. Learn how we help every website thrive in the agent economy.",
   alternates: {
     canonical: `${SITE_URL}/about`,
   },
   openGraph: {
-    title: "About ConduitScore - Built by Ben Stone",
+    title: "About ConduitScore — Built by Ben",
     description:
-      "Built by Ben Stone, a 7+ year search and AI specialist. ConduitScore helps websites optimize for ChatGPT, Perplexity, Claude, and more.",
+      "Built by Ben, the founder of ConduitScore — 7+ years at the intersection of SEO, AI, and search systems.",
     url: `${SITE_URL}/about`,
     type: "website",
   },
@@ -27,7 +27,7 @@ function AboutPageJsonLd() {
     "@type": "AboutPage",
     name: "About ConduitScore",
     description:
-      "ConduitScore is the leading AI visibility scanner built by Ben Stone to help websites optimize for AI agents.",
+      "ConduitScore is the leading AI visibility scanner built by Ben to help websites optimize for AI agents.",
     url: `${SITE_URL}/about`,
     mainEntity: {
       "@type": "Organization",
@@ -36,7 +36,7 @@ function AboutPageJsonLd() {
       foundingDate: "2026",
       founder: {
         "@type": "Person",
-        name: "Ben Stone",
+        name: "Ben",
         jobTitle: "Founder & CEO",
         email: "benstone@conduitscore.com",
         url: "https://github.com/bkauto3",
@@ -119,7 +119,7 @@ export default function AboutPage() {
               discover information, compare products, and make decisions.
             </p>
             <p className="mt-3 text-sm author" style={{ color: "var(--text-tertiary)" }}>
-              Built by Ben Stone — 7+ years at the intersection of SEO, AI, and search systems.
+              Built by Ben — 7+ years at the intersection of SEO, AI, and search systems.
             </p>
           </div>
         </section>
@@ -145,8 +145,8 @@ export default function AboutPage() {
               <p className="mt-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 ConduitScore scans any URL across 7 critical categories that AI agents evaluate:
                 Crawler Access, Structured Data, Content Structure, LLMs.txt, Technical Health,
-                Citation Signals, and Content Quality. In 30 seconds, you get a 0-100 AI visibility
-                score plus copy-paste code fixes to improve it.
+                Citation Signals, and Content Quality. In about 15 seconds, you get a 0-100 AI visibility
+                score plus prioritized fixes to improve it.
               </p>
             </section>
 
@@ -240,7 +240,7 @@ export default function AboutPage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/ben-stone-founder.svg"
-                        alt="Ben Stone, Founder and CEO of ConduitScore"
+                        alt="Ben, founder of ConduitScore"
                         width={116}
                         height={116}
                         style={{
@@ -267,7 +267,7 @@ export default function AboutPage() {
                           lineHeight: 1.2,
                         }}
                       >
-                        Ben Stone
+                        Ben
                       </h3>
                       <p
                         style={{
@@ -427,13 +427,13 @@ export default function AboutPage() {
                 Ready to Check Your AI Visibility?
               </h2>
               <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
-                It takes 30 seconds and no sign-up is required.
+                It takes about 15 seconds and no sign-up required.
               </p>
               <Link
                 href="/"
                 className="btn btn-primary btn-lg mt-6 inline-flex"
               >
-                Scan Your Website Free
+                Scan My Site Now
               </Link>
             </div>
           </div>

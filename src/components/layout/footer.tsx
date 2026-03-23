@@ -101,7 +101,7 @@ export function Footer() {
             <h3 className="section-label mb-4">Product</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Run a Scan", href: "/#scan" },
+                { label: "Scan My Site", href: "/#scan" },
                 { label: "Pricing", href: "/pricing" },
                 { label: "Dashboard", href: "/dashboard" },
               ].map((link) => (
@@ -153,6 +153,20 @@ export function Footer() {
             </ul>
           </div>
         </div>
+
+        <p
+          className="mt-10 max-w-3xl text-xs leading-relaxed"
+          style={{ color: "var(--text-tertiary)" }}
+        >
+          <span style={{ color: "var(--text-secondary)", fontWeight: 600 }}>Analytics.</span>{" "}
+          We use Google Analytics 4 to improve the scanner. We record when scans start, finish, or fail, with a short{" "}
+          <em>failure category</em> in GA4 (for example plan limit, server error, or network issue) and whether you used the homepage or
+          dashboard — not the URL you pasted.{" "}
+          <Link href="/privacy#ga4-analytics" className="footer-link">
+            Details in our Privacy Policy
+          </Link>
+          .
+        </p>
 
         {/* Bottom bar */}
         <div

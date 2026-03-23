@@ -17,6 +17,15 @@ import { checkRateLimit } from "@/lib/rate-limit";
 const CHECKLIST_PDF_URL =
   process.env.CHECKLIST_PDF_URL ?? "https://conduitscore.com/resources/ai-visibility-checklist.pdf";
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting — 3 submissions per IP per 15 minutes
@@ -81,7 +90,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const greeting = firstName ? `Hi ${firstName},` : "Hi there,";
+    const greeting = firstName ? `Hi ${escapeHtml(firstName)},` : "Hi there,";
     const scanUrl =
       process.env.NEXT_PUBLIC_APP_URL ?? "https://conduitscore.com";
 
@@ -159,11 +168,21 @@ Once you've worked through the checklist, scan your site free at: ${scanUrl}/sca
 -- The ConduitScore team`,
     });
 
+    // Notify owner — fire-and-forget, never blocks user response
+    try {
+      await sendEmail({
+        to: "benstone@conduitscore.com",
+        subject: `New checklist signup: ${email}`,
+        text: `New checklist signup\n\nSubmitted email: ${email}\nFirst name: ${firstName ?? "not provided"}\nCompany: ${company ?? "not provided"}\nTimestamp: ${new Date().toISOString()}`,
+        html: `<p><strong>New checklist signup</strong></p><ul><li>Email: ${escapeHtml(email)}</li><li>First name: ${escapeHtml(firstName ?? "not provided")}</li><li>Company: ${escapeHtml(company ?? "not provided")}</li><li>Timestamp: ${new Date().toISOString()}</li></ul>`,
+      });
+    } catch (notifyErr) {
+      console.error("[checklist-signup] owner notification failed:", notifyErr);
+    }
+
     return NextResponse.json({ ok: true });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Signup failed";
-    console.error("[checklist-signup]", message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[checklist-signup]", error);
+    return NextResponse.json({ error: "Signup failed. Please try again." }, { status: 500 });
   }
 }

@@ -3,9 +3,13 @@
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { SampleChipRow, DemoResultCard, DEMO_DATA, type DemoScoreData } from "@/components/scan/sample-chip-row";
+import { trackEvent } from "@/lib/analytics";
 
 interface ScanFormProps {
   variant?: "hero" | "dashboard";
+  /** When true, render the SampleChipRow below the hero CTA. Default: true for hero variant. */
+  showChips?: boolean;
 }
 
 interface PendingScan {
@@ -13,7 +17,7 @@ interface PendingScan {
   redirectUrl: string;
 }
 
-export function ScanForm({ variant = "hero" }: ScanFormProps) {
+export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,9 +26,31 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
   const [pendingScan, setPendingScan] = useState<PendingScan | null>(null);
   const [captureEmail, setCaptureEmail] = useState("");
   const [captureLoading, setCaptureLoading] = useState(false);
+  // Demo state — set when a chip is double-clicked. Never triggers a live scan.
+  const [demoData, setDemoData] = useState<DemoScoreData | null>(null);
   const router = useRouter();
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
+
+  // Chip row: visible by default on hero variant only, unless overridden.
+  const chipRowVisible = showChips !== undefined ? showChips : variant === "hero";
+
+  // Called by SampleChipRow on first chip click — fills the URL input only.
+  // IMPORTANT: Only show demo state — never trigger live scan from chip click
+  function handleFillInput(domain: string) {
+    setUrl(`https://${domain}`);
+    setError(null);
+    setUpgradeRequired(false);
+    // Clear any previously open demo card when a new domain is selected
+    setDemoData(null);
+  }
+
+  // Called by SampleChipRow on second chip click — shows the polished pre-rendered result.
+  // IMPORTANT: Only show demo state — never trigger live scan from chip click
+  function handleDemoState(domain: string) {
+    const data = DEMO_DATA[domain] ?? null;
+    if (data) setDemoData(data);
+  }
 
   const uid = useId();
   const inputId = `scan-url-input-${uid}`;
@@ -39,6 +65,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
     setError(null);
     setUpgradeRequired(false);
     setLoading(true);
+    trackEvent("scan_submit_attempt", { source: variant });
 
     try {
       const res = await fetch("/api/scan", {
@@ -53,12 +80,23 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
         if (res.status === 402 && data.upgradeRequired) {
           setError(`Scan limit reached (${String(data.used)}/${String(data.limit)} this month). Upgrade your plan for more scans.`);
           setUpgradeRequired(true);
+          trackEvent("scan_submit_failure", {
+            source: variant,
+            http_status: res.status,
+            reason: "scan_limit",
+          });
         } else {
           setError((data.error as string) || "Scan failed");
+          trackEvent("scan_submit_failure", {
+            source: variant,
+            http_status: res.status,
+            reason: "api_error",
+          });
         }
         return;
       }
 
+      trackEvent("scan_submit_success", { source: variant });
       const redirectUrl = data.id ? `/scan-result?id=${encodeURIComponent(String(data.id))}` : "/scan-result";
       sessionStorage.setItem("lastScanResult", JSON.stringify(data));
 
@@ -71,6 +109,11 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
       // Anonymous users see the email gate before viewing results.
       setPendingScan({ data, redirectUrl });
     } catch {
+      trackEvent("scan_submit_failure", {
+        source: variant,
+        http_status: 0,
+        reason: "network",
+      });
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -244,7 +287,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
             {/* sr-only label gives the input an accessible name (A7: single label,
                 no aria-label duplication). The label is associated via htmlFor/id. */}
             <label htmlFor={inputId} className="sr-only">
-              Enter your website URL to scan for AI visibility
+              Enter your website URL
             </label>
 
             {/* Globe icon */}
@@ -268,7 +311,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleScan()}
-              placeholder="https://yoursite.com"
+              placeholder="your-site.com"
               className="flex-1 bg-transparent text-sm outline-none"
               style={{
                 padding: "18px 14px 18px 10px",
@@ -334,7 +377,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
                   </>
                 ) : (
                   <>
-                    Run your free AI visibility scan
+                    Scan My Site Now
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                       <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -344,6 +387,35 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
             </div>
           </div>
         </div>
+
+        <p
+          style={{
+            fontSize: "0.8125rem",
+            fontFamily: "var(--font-body)",
+            color: "var(--text-tertiary)",
+            marginTop: "12px",
+            marginBottom: 0,
+          }}
+        >
+          Free • No signup • Results in ~15 seconds
+        </p>
+
+        {/* Sample chip row — only in hero variant, only when chipRowVisible */}
+        {chipRowVisible && (
+          <SampleChipRow
+            onFillInput={handleFillInput}
+            onDemoState={handleDemoState}
+          />
+        )}
+
+        {/* Demo result card — shown instantly when a chip is double-clicked.
+            IMPORTANT: Only show demo state — never trigger live scan from chip click */}
+        {demoData && (
+          <DemoResultCard
+            data={demoData}
+            onClose={() => setDemoData(null)}
+          />
+        )}
 
         {error && (
           <div
@@ -379,7 +451,7 @@ export function ScanForm({ variant = "hero" }: ScanFormProps) {
     <div role="search" aria-label="AI visibility scanner">
       <div className="flex gap-3">
         <label htmlFor={inputId} className="sr-only">
-          Enter website URL to scan for AI visibility
+          Enter your website URL
         </label>
         <input
           id={inputId}

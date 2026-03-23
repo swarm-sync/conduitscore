@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "March 15, 2026";
+const LAST_UPDATED = "March 23, 2026";
 const COMPANY = "ConduitScore, Inc.";
 const EMAIL = "privacy@conduitscore.com";
 
@@ -79,6 +79,46 @@ export default function PrivacyPage() {
                 <li><strong>Technical data:</strong> IP address, browser type, operating system, referral URLs, and device identifiers.</li>
                 <li><strong>Cookies and tracking technologies:</strong> See our <Link href="/cookies" style={{ color: "var(--brand-red)" }}>Cookie Policy</Link>.</li>
               </ul>
+              <h3 id="ga4-analytics">2.3 Google Analytics 4 (product analytics)</h3>
+              <p>
+                We use <strong>Google Analytics 4 (GA4)</strong> when our team configures a measurement ID for the site.
+                GA4 helps us understand aggregate usage — for example how many people run scans, use sample URLs on the homepage,
+                or hit errors — so we can improve speed and reliability.
+              </p>
+              <p>
+                For the free scanner we may send <strong>event summaries</strong> such as: a scan was started, completed successfully,
+                or did not complete. If a scan does not complete, we send a <strong>short category label</strong> in GA4
+                (for example: monthly scan limit reached, server or API error, or network error) along with a numeric HTTP status code when
+                the server returns one, and whether you used the scanner from the <strong>homepage</strong> or the <strong>dashboard</strong>.
+                We do <strong>not</strong> send your scan URL or page contents inside these analytics events.
+              </p>
+              <p>
+                In the Google Analytics account we control, those failure details are available in reports once we register matching{" "}
+                <strong>custom dimensions</strong> for the event parameters named{" "}
+                <code style={{ fontSize: "0.85em" }}>reason</code>,{" "}
+                <code style={{ fontSize: "0.85em" }}>http_status</code>, and{" "}
+                <code style={{ fontSize: "0.85em" }}>source</code> (so we can see counts by failure category, not individual URLs).
+              </p>
+              <p>
+                For how Google processes data, see{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--brand-red)" }}
+                >
+                  Google&apos;s Privacy Policy
+                </a>
+                {" "}and{" "}
+                <a
+                  href="https://policies.google.com/technologies/partner-sites"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--brand-red)" }}
+                >
+                  How Google uses information from sites that use our services
+                </a>.
+              </p>
             </LegalSection>
 
             <LegalSection title="3. How We Use Your Information">
@@ -108,7 +148,11 @@ export default function PrivacyPage() {
               <p>We do not sell your personal data. We may share data with:</p>
               <ul>
                 <li><strong>Service providers:</strong> Stripe (payments), Resend (email), Vercel (hosting), Neon (database), Supabase (analytics/state).</li>
-                <li><strong>Analytics providers:</strong> Aggregated, de-identified usage data.</li>
+                <li>
+                  <strong>Analytics providers:</strong> Google LLC (Google Analytics 4) when enabled — see{" "}
+                  <a href="#ga4-analytics" style={{ color: "var(--brand-red)" }}>Google Analytics 4</a>{" "}
+                  above. We may also use other providers for aggregated, de-identified usage data.
+                </li>
                 <li><strong>Law enforcement:</strong> When required by applicable law or court order.</li>
                 <li><strong>Business transfers:</strong> In the event of a merger, acquisition, or asset sale.</li>
               </ul>
