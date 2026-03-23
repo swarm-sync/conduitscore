@@ -682,19 +682,19 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== OBJECTION HANDLING ===== */}
+        {/* ===== WHY SITES SCORE LOWER THAN EXPECTED ===== */}
         <section
-          id="objections"
-          aria-labelledby="objections-heading"
+          id="why-sites-score-low"
+          aria-labelledby="why-sites-score-low-heading"
           style={{
             padding: "80px 0",
             background: "var(--surface-overlay)",
             borderTop: "1px solid var(--border-subtle)",
           }}
         >
-          <div className="container-base mx-auto px-6 md:px-0" style={{ maxWidth: "720px" }}>
+          <div className="container-base mx-auto px-6 md:px-0" style={{ maxWidth: "1000px" }}>
             <h2
-              id="objections-heading"
+              id="why-sites-score-low-heading"
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(1.75rem, 3vw, 2.25rem)",
@@ -703,133 +703,133 @@ export default function Home() {
                 letterSpacing: "-0.04em",
                 lineHeight: 1.15,
                 textAlign: "center",
+                marginBottom: "16px",
+              }}
+            >
+              5 Reasons Most Sites Score Lower Than They Expect
+            </h2>
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                color: "var(--text-secondary)",
+                textAlign: "center",
+                lineHeight: 1.6,
                 marginBottom: "48px",
               }}
             >
-              Does fixing your AI score actually work?
-            </h2>
+              AI visibility problems are rarely obvious. Most of them are invisible to humans but fully measurable.
+            </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+            {/* Card grid — 1 col mobile, 2 col tablet, 3+2 desktop via CSS grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gap: "20px",
+              }}
+            >
               {[
                 {
-                  before: 34,
-                  after: 67,
-                  improvement: "+33 points",
-                  time: "Fixed in 2 hours",
-                  change: "Added structured data + llms.txt",
-                  quote: "\"We jumped from below-average to strong visibility. Now Claude and ChatGPT cite us regularly.\"",
-                  company: "SaaS Startup",
+                  number: "01",
+                  title: "Your robots.txt blocks AI crawlers without you knowing",
+                  body: "GPTBot, ClaudeBot, and PerplexityBot are opt-out crawlers — they respect robots.txt directives meant for other bots. An overly broad Disallow rule added years ago can silently exclude your site from every major AI index. Cloudflare's 2024 data shows over 35% of top sites block at least one major AI crawler.",
                 },
                 {
-                  before: 28,
-                  after: 72,
-                  improvement: "+44 points",
-                  time: "Fixed in 4 hours",
-                  change: "Fixed crawler blocks + added schema",
-                  quote: "\"Within weeks, our traffic from AI agents went from nearly 0 to 15% of total visits.\"",
-                  company: "B2B Software",
+                  number: "02",
+                  title: "You have no llms.txt file",
+                  body: "llms.txt is an emerging open standard (analogous to robots.txt) that tells AI models what your site is about, which pages matter most, and how to attribute your content. The vast majority of sites have never created one, leaving AI models to guess at your content's purpose and authority.",
                 },
                 {
-                  before: 41,
-                  after: 81,
-                  improvement: "+40 points",
-                  time: "Fixed in 3 hours",
-                  change: "Improved content structure + citations",
-                  quote: "\"ConduitScore gave us the exact fixes. We implemented them and immediately saw improvement.\"",
-                  company: "Enterprise SaaS",
+                  number: "03",
+                  title: "Your structured data is missing entity signals",
+                  body: "Organization and WebSite schema markup tell AI systems who you are and what you do — not just what a page contains. Without these entity signals, AI models have no reliable way to connect your content to a named entity, which reduces citation frequency and answer attribution.",
                 },
-              ].map((case_, i) => (
+                {
+                  number: "04",
+                  title: "Your content is readable to humans but not to machines",
+                  body: "Dense JavaScript-rendered text, missing semantic heading hierarchies, and content buried inside complex layouts can all prevent AI crawlers from extracting clean, attributable text. ConduitScore checks for these structural patterns directly — the same patterns that cause AI systems to skip or misinterpret your pages.",
+                },
+                {
+                  number: "05",
+                  title: "You assume Google rankings equal AI visibility",
+                  body: "SEO and AI visibility are related but different optimization targets. Google ranks pages. AI models cite sources they can parse, trust, and attribute. A page can rank on page one and still be invisible to every AI system — because the signals that matter for AI (crawl access, entity markup, llms.txt, structured summaries) are simply not part of traditional SEO.",
+                },
+              ].map((item) => (
                 <div
-                  key={i}
+                  key={item.number}
                   style={{
                     padding: "24px",
                     background: "var(--surface-raised)",
                     border: "1px solid var(--border-subtle)",
                     borderRadius: "12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
                   }}
                 >
-                  <div
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "16px",
-                      marginBottom: "16px",
+                      fontFamily: "var(--font-display)",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.1em",
+                      color: "var(--brand-lime)",
                     }}
                   >
-                    <div style={{ textAlign: "center" }}>
-                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-tertiary)" }}>Before</p>
-                      <p style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, color: "rgba(255,45,85,0.8)" }}>{case_.before}</p>
-                    </div>
-                    <div style={{ fontSize: "1.25rem", color: "var(--text-secondary)" }}>→</div>
-                    <div style={{ textAlign: "center" }}>
-                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-tertiary)" }}>After</p>
-                      <p style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", fontWeight: 700, color: "rgba(217,255,0,0.8)" }}>{case_.after}</p>
-                    </div>
-                    <div style={{ marginLeft: "auto", textAlign: "right" }}>
-                      <p style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--brand-lime)", fontWeight: 600 }}>{case_.improvement}</p>
-                      <p style={{ fontFamily: "var(--font-body)", fontSize: "0.75rem", color: "var(--text-tertiary)" }}>{case_.time}</p>
-                    </div>
-                  </div>
-
+                    {item.number}
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      color: "var(--text-primary)",
+                      lineHeight: 1.3,
+                      margin: 0,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
                   <p
                     style={{
                       fontFamily: "var(--font-body)",
                       fontSize: "0.875rem",
                       color: "var(--text-secondary)",
-                      marginBottom: "12px",
-                      fontStyle: "italic",
+                      lineHeight: 1.65,
+                      margin: 0,
                     }}
                   >
-                    {case_.change}
-                  </p>
-
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.9375rem",
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                      borderLeft: "3px solid var(--brand-lime)",
-                      paddingLeft: "12px",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    {case_.quote}
-                  </p>
-
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.8125rem",
-                      color: "var(--text-tertiary)",
-                    }}
-                  >
-                    {case_.company}
+                    {item.body}
                   </p>
                 </div>
               ))}
             </div>
 
+            {/* Bottom CTA */}
             <div
               style={{
                 marginTop: "48px",
-                padding: "24px",
-                background: "rgba(108,59,255,0.04)",
-                border: "1px solid rgba(108,59,255,0.12)",
-                borderRadius: "12px",
                 textAlign: "center",
               }}
             >
-              <p
+              <a
+                href="#scan"
                 style={{
-                  fontFamily: "var(--font-body)",
+                  display: "inline-block",
+                  fontFamily: "var(--font-display)",
                   fontSize: "0.9375rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.6,
+                  fontWeight: 700,
+                  color: "#0a0a0b",
+                  background: "var(--brand-lime)",
+                  padding: "14px 28px",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  letterSpacing: "-0.01em",
                 }}
               >
-                <strong>Real results from real users.</strong> Most fixes take 1–4 hours to implement. Average score improvement: +38 points in 30 days.
-              </p>
+                Want to see which of these apply to your site?
+              </a>
             </div>
           </div>
         </section>
