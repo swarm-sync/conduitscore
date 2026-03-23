@@ -12,18 +12,65 @@ interface ScanSummary {
   createdAt: string;
 }
 
+interface SessionUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 export default function DashboardPage() {
   const [totalScans, setTotalScans] = useState<number | null>(null);
   const [avgScore, setAvgScore] = useState<number | null>(null);
   const [lastScore, setLastScore] = useState<number | null>(null);
   const [recentScans, setRecentScans] = useState<ScanSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [scansError, setScansError] = useState<string | null>(null);
+  const [sessionError, setSessionError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadDashboard() {
       try {
+        // Validate session first
+        const sessionRes = await fetch("/api/auth/session", { cache: "no-store" });
+
+        if (!sessionRes.ok) {
+          console.error("Dashboard session check failed:", sessionRes.status);
+          setSessionError("Unable to verify session. Please sign in again.");
+          setLoading(false);
+          return;
+        }
+
+        const session = await sessionRes.json();
+
+        if (!session?.user) {
+          console.error("No user in session");
+          setSessionError("Please sign in to view your scans.");
+          setLoading(false);
+          return;
+        }
+
+        // Session valid, now fetch scans
         const res = await fetch("/api/scans?limit=5", { cache: "no-store" });
-        if (!res.ok) return;
+
+        if (!res.ok) {
+          const status = res.status;
+          const statusText = res.statusText;
+          console.error("Dashboard fetch failed:", status, statusText);
+
+          if (status === 401) {
+            setScansError("Session expired. Please sign in again.");
+          } else if (status === 403) {
+            setScansError("You don't have permission to view scans.");
+          } else if (status === 500) {
+            setScansError("Server error. Please try again later.");
+          } else {
+            setScansError(`Failed to load scans (${status})`);
+          }
+          setLoading(false);
+          return;
+        }
+
         const data = await res.json();
         const scans: ScanSummary[] = data.scans ?? [];
         const total: number = data.total ?? 0;
@@ -33,8 +80,10 @@ export default function DashboardPage() {
         setAvgScore(avg);
         setLastScore(scans[0]?.overallScore ?? null);
         setRecentScans(scans);
-      } catch {
-        // silently fail
+        setScansError(null);
+      } catch (e) {
+        console.error("Dashboard fetch failed:", e);
+        setScansError("Network error. Please check your connection and try again.");
       } finally {
         setLoading(false);
       }
@@ -85,6 +134,28 @@ export default function DashboardPage() {
     },
   ];
 
+  // Show session error first - prevents confusing empty state
+  if (sessionError) {
+    return (
+      <div className="space-y-6 py-2">
+        <div>
+          <span className="section-label">Overview</span>
+          <h1 className="mt-2 text-xl font-bold" style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+            Dashboard
+          </h1>
+        </div>
+        <div className="rounded-xl p-6 border" style={{ background: "rgba(220, 38, 38, 0.05)", borderColor: "rgba(220, 38, 38, 0.3)" }}>
+          <p className="text-sm font-medium" style={{ color: "rgb(220, 38, 38)" }}>
+            {sessionError}
+          </p>
+          <Link href="/signin" className="inline-block mt-3 px-4 py-2 rounded-lg text-sm font-medium" style={{ background: "rgb(220, 38, 38)", color: "white" }}>
+            Sign in →
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 py-2">
       <div>
@@ -96,6 +167,15 @@ export default function DashboardPage() {
           Monitor and improve your AI visibility across all pages.
         </p>
       </div>
+
+      {/* Error banner for scan fetch failures */}
+      {scansError && (
+        <div className="rounded-xl p-4 border" style={{ background: "rgba(220, 38, 38, 0.05)", borderColor: "rgba(220, 38, 38, 0.3)" }}>
+          <p className="text-sm font-medium" style={{ color: "rgb(220, 38, 38)" }}>
+            {scansError}
+          </p>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
