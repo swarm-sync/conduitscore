@@ -1,0 +1,30 @@
+# Production deploy on every push to `main`.
+# Fixes gap where Vercel project has no GitHub repo linked (link field empty in API).
+#
+# One-time: GitHub repo → Settings → Secrets and variables → Actions → New repository secret:
+#   VERCEL_TOKEN = create at https://vercel.com/account/tokens (scope that can deploy this project)
+#
+# Optional native fix (stops needing this workflow): Vercel → conduitscore → Settings → Git
+# → Connect Repository → github.com/bkauto3/conduitscore (must use a GitHub account that can
+# install the Vercel app on that repo).
+
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERCEL_ORG_ID: team_zUSYtIgFGkjMLjlOXS1QjQWw
+  VERCEL_PROJECT_ID: prj_4HgiyG0GUNG46cnhqDNilHJtl8j6
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        run: npx vercel@50.4.5 deploy --prod --yes --token "${{ secrets.VERCEL_TOKEN }}"
