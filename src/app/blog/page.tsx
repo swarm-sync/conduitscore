@@ -78,6 +78,12 @@ export default function BlogPage() {
   return (
     <>
       <BlogIndexJsonLd />
+      <style dangerouslySetInnerHTML={{ __html: `
+        .blog-checklist-card:hover {
+          border-color: rgba(255,45,85,0.4) !important;
+          box-shadow: 0 8px 32px rgba(99,102,241,0.12);
+        }
+      ` }} />
       <Header />
       <main style={{ backgroundColor: "var(--surface-base)" }}>
         {/* Hero section */}
@@ -110,6 +116,7 @@ export default function BlogPage() {
             style={{ textDecoration: "none", display: "block" }}
           >
             <div
+              className="blog-checklist-card"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(99,102,241,0.10) 0%, rgba(255,45,85,0.08) 60%, rgba(18,18,20,0.95) 100%)",
@@ -120,15 +127,6 @@ export default function BlogPage() {
                 gap: "20px",
                 alignItems: "flex-start",
                 transition: "border-color 200ms, box-shadow 200ms",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,45,85,0.4)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 8px 32px rgba(99,102,241,0.12)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.28)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
               }}
             >
               <div
