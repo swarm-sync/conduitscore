@@ -15,7 +15,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
  */
 
 const CHECKLIST_PDF_URL =
-  process.env.CHECKLIST_PDF_URL ?? "https://conduitscore.com/resources/ai-visibility-checklist.pdf";
+  process.env.CHECKLIST_PDF_URL ?? "https://conduitscore.com/resources/ai-visibility-checklist.md";
 
 function escapeHtml(s: string): string {
   return s
