@@ -7,7 +7,9 @@ import { BLOG_POSTS_MAP, type BlogPost } from "@/lib/blog-posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return Object.keys(BLOG_POSTS_MAP).map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params,

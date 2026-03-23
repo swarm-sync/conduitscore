@@ -6,8 +6,6 @@ import { Providers } from "@/components/providers";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-export const dynamic = "force-dynamic";
-
 /* ──────────────────────────────────────────────────────────────────────
    B1: Self-host Google Fonts via next/font/google
    Eliminates render-blocking external CSS (~116 KiB), the
