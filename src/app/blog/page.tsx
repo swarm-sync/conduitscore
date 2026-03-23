@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { BLOG_POSTS } from "@/lib/blog-posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
@@ -21,71 +22,8 @@ export const metadata: Metadata = {
   },
 };
 
-const posts = [
-  {
-    slug: "14-point-ai-visibility-checklist",
-    title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
-    description:
-      "Google ranking ≠ AI visibility. Learn the 14 signals LLM crawlers look for—schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
-    category: "Technical Guides",
-    date: "2026-03-22",
-    readTime: "18 min read",
-  },
-  {
-    slug: "what-is-ai-seo",
-    title: "What Is AI SEO? The Complete Guide to Optimizing for AI Search in 2026",
-    description:
-      "AI SEO (also called GEO and AEO) is the practice of optimizing your website for AI-powered search engines. Learn the difference between traditional SEO and AI SEO, and how to rank on ChatGPT, Perplexity, and Claude.",
-    category: "AI SEO Fundamentals",
-    date: "2026-03-01",
-    readTime: "12 min read",
-  },
-  {
-    slug: "how-to-optimize-for-chatgpt",
-    title: "How to Optimize Your Website for ChatGPT Search in 2026",
-    description:
-      "Step-by-step guide to making your website visible in ChatGPT search results. Covers GPTBot crawler access, structured data, content formatting, and citation optimization.",
-    category: "Platform Guides",
-    date: "2026-03-05",
-    readTime: "10 min read",
-  },
-  {
-    slug: "llms-txt-guide",
-    title: "LLMs.txt: The Complete Implementation Guide for AI Visibility",
-    description:
-      "Everything you need to know about the llms.txt standard. How to create, validate, and optimize your llms.txt file so AI agents can understand your website.",
-    category: "Technical Guides",
-    date: "2026-03-08",
-    readTime: "8 min read",
-  },
-  {
-    slug: "structured-data-for-ai",
-    title: "Structured Data for AI: JSON-LD Schema That AI Agents Actually Use",
-    description:
-      "Which schema.org types matter most for AI visibility? Learn how to implement Organization, FAQPage, HowTo, Product, and Article schema for maximum AI citation.",
-    category: "Technical Guides",
-    date: "2026-03-10",
-    readTime: "15 min read",
-  },
-  {
-    slug: "ai-crawler-access-guide",
-    title: "AI Crawler Access: robots.txt Configuration for GPTBot, PerplexityBot & ClaudeBot",
-    description:
-      "Your robots.txt might be blocking AI agents from reading your content. Learn how to configure crawler access for every major AI bot including GPTBot, PerplexityBot, ClaudeBot, and Google-Extended.",
-    category: "Technical Guides",
-    date: "2026-03-11",
-    readTime: "7 min read",
-  },
-  {
-    slug: "geo-vs-seo",
-    title: "GEO vs SEO: Why You Need Both in 2026",
-    description:
-      "Generative Engine Optimization (GEO) and Search Engine Optimization (SEO) target different discovery channels. Learn when to prioritize each and how they work together.",
-    category: "AI SEO Fundamentals",
-    date: "2026-02-28",
-    readTime: "9 min read",
-  },
-];
+// Use shared posts from centralized source
+// BLOG_POSTS imported from @/lib/blog-posts - single source of truth
 
 function BlogIndexJsonLd() {
   const jsonLd = {
@@ -100,7 +38,7 @@ function BlogIndexJsonLd() {
       name: "ConduitScore",
       url: SITE_URL,
     },
-    blogPost: posts.map((post) => ({
+    blogPost: BLOG_POSTS.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
       description: post.description,
@@ -267,7 +205,7 @@ export default function BlogPage() {
         {/* Post list */}
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
           <div className="space-y-6">
-            {posts.map((post) => (
+            {BLOG_POSTS.map((post) => (
               <article
                 key={post.slug}
                 className="card rounded-xl p-8 group"

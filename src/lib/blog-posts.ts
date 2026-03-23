@@ -1,0 +1,554 @@
+/**
+ * Shared blog posts data
+ * Single source of truth for all blog post definitions.
+ * Used by both /blog/page.tsx and /blog/[slug]/page.tsx
+ */
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  date: string;
+  readTime: string;
+}
+
+/**
+ * Blog posts lookup by slug
+ */
+export const BLOG_POSTS_MAP: Record<string, BlogPost> = {
+  "14-point-ai-visibility-checklist": {
+    slug: "14-point-ai-visibility-checklist",
+    title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
+    description:
+      "Google ranking â‰  AI visibility. Learn the 14 signals LLM crawlers look forâ€”schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
+    content: `Your website ranks #1 on Google. Your organic traffic is solid. But when a prospect asks ChatGPT "what's the best AI visibility tool," your site doesn't appear in the results. That's not an SEO problem â€” it's an AI visibility problem. And they're completely different.
+
+Google's bots and large language models crawl the web in fundamentally different ways. Google renders JavaScript, learns from user behavior, and uses algorithms refined over 25 years. LLMs like Claude, ChatGPT, and Gemini read raw HTML, parse structured data literally, and have no concept of "bounce rate" or "click-through rate." A site that's invisible to Google would rank poorly. A site that's invisible to LLMs is ignored by AI research tools, even if it's on page 1 of search.
+
+The stakes are highest for SaaS, agencies, and e-commerce. A prospect using AI-powered research â€” asking ChatGPT to compare solutions, using Claude to build research documents, leveraging Perplexity for competitive analysis â€” won't find you if your site fails this checklist. You'll lose deals before you know they're possible.
+
+This checklist maps the 14 signals that LLM crawlers look for. Each point has a specific check, a real-world example of failure, and a code fix you can copy-paste today.
+
+## 1. Robots.txt Must Explicitly Allow AI Crawlers
+
+**The signal:** LLM crawlers check \`robots.txt\` to see if they're allowed on your site. If you block them, you don't get indexed.
+
+**The failure:** A common mistake is a permissive robots.txt for Google but restrictive rules for unknown crawlers.
+
+**The fix:** Allow major LLM crawlers explicitly. Add this to \`robots.txt\`:
+
+\`\`\`
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+\`\`\`
+
+GPTBot is OpenAI's crawler. CCBot is Common Crawl (used for LLM training). anthropic-ai is Anthropic's crawler. Allowing them doesn't expose private data â€” it ensures your public content is crawled.
+
+## 2. Sitemap.xml Must Be Discoverable and Complete
+
+**The signal:** Without a sitemap, LLM crawlers miss pages, especially deeper content.
+
+**The failure:** Your site has a sitemap, but it's incomplete â€” missing blog posts, use case pages, or documentation.
+
+**The fix:** Generate a complete sitemap and link it from robots.txt. Add this line to \`robots.txt\`:
+
+\`\`\`
+Sitemap: https://yoursite.com/sitemap.xml
+\`\`\`
+
+Then ensure your sitemap includes every important page.
+
+## 3. Organization Schema Markup (JSON-LD)
+
+**The signal:** LLMs parse structured data to understand what your company is. Without it, they infer incorrectly.
+
+**The failure:** Your homepage has no schema markup. Claude or ChatGPT has to guess your business model.
+
+**The fix:** Add Organization schema to your homepage \`<head>\`:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "YourCompany",
+  "url": "https://yoursite.com",
+  "logo": "https://yoursite.com/logo.png",
+  "description": "Brief description of what you do"
+}
+</script>
+\`\`\`
+
+This tells LLMs who you are, what you do, and how to find you elsewhere online.
+
+## 4. Product Schema (If You're an E-Commerce or SaaS)
+
+**The signal:** If you sell anything, product schema tells LLMs about pricing and features.
+
+**The failure:** You describe your plans on the pricing page in plain text. LLMs can read it, but they can't extract structured pricing tiers.
+
+**The fix:** Add Product schema to each plan:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "Pro Plan",
+  "description": "Full access to all features",
+  "offers": {
+    "@type": "Offer",
+    "price": "299",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+\`\`\`
+
+## 5. Breadcrumb Schema for Content Navigation
+
+**The signal:** Breadcrumb schema tells LLMs the hierarchy of your site.
+
+**The failure:** You have a blog with posts in categories, but no breadcrumb schema. LLMs treat each post as isolated.
+
+**The fix:** Add breadcrumb schema to every blog post:
+
+\`\`\`html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://yoursite.com"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://yoursite.com/blog"}
+  ]
+}
+</script>
+\`\`\`
+
+## 6. Plain Text Content Must Be Real (No Heavy JavaScript Rendering)
+
+**The signal:** LLMs read raw HTML. If your content is rendered entirely by JavaScript, they see an empty page.
+
+**The failure:** Your homepage is a React SPA. When crawled, the HTML contains only \`<div id="root"></div>\`.
+
+**The fix:** Ensure critical content is in HTML, not rendered by JavaScript. Use server-side rendering (SSR).
+
+## 7. H1, H2, H3 Hierarchy (Content Structure)
+
+**The signal:** LLMs parse headings to understand content structure.
+
+**The failure:** Your page has no H1, or multiple H1s, or unrelated H2s.
+
+**The fix:** Structure every page with one H1, 3-5 H2s, and nested H3s under each H2.
+
+## 8. Minimum 300 Words of Original Content Per Page
+
+**The signal:** LLMs value depth. Thin pages are ignored or downranked.
+
+**The failure:** Your product page is 150 words of marketing copy with no detail.
+
+**The fix:** Add depth. Use real examples, data, and explanation. Target 500+ words on key pages.
+
+## 9. Mobile Responsiveness (CSS Media Queries)
+
+**The signal:** Modern LLM crawlers use mobile user agents.
+
+**The failure:** Your site fails on mobile (375px viewport).
+
+**The fix:** Use responsive design. Test on mobile with CSS media queries.
+
+## 10. HTTPS/SSL Certificate (Security)
+
+**The signal:** LLMs prioritize secure sites. Unencrypted HTTP is a red flag.
+
+**The failure:** Your site is on HTTP, not HTTPS.
+
+**The fix:** Install an SSL certificate. Most hosting platforms (Vercel, Netlify) do this automatically.
+
+## 11. Fast Load Time (Core Web Vitals)
+
+**The signal:** LLMs care about performance. Slow pages are harder to crawl.
+
+**The failure:** Your site takes 8 seconds to load.
+
+**The fix:** Optimize images, minify JavaScript/CSS, use caching. Aim for LCP < 2.5s.
+
+## 12. LLMs.txt File (Custom Model Instructions)
+
+**The signal:** Many LLMs now check for an \`llms.txt\` file at the root of your domain.
+
+**The failure:** You don't have \`llms.txt\`. LLMs have to guess what information is most important.
+
+**The fix:** Create \`/public/llms.txt\`:
+
+\`\`\`
+# About Our Company
+We are [Company Name], a [description].
+
+# Key Links
+- Pricing: https://yoursite.com/pricing
+- Documentation: https://yoursite.com/docs
+\`\`\`
+
+## 13. Internal Links (Knowledge Graph Building)
+
+**The signal:** LLMs build a mental graph of your site. Internal links show how topics relate.
+
+**The failure:** Your blog posts are orphaned with no links between related content.
+
+**The fix:** Link liberally between related posts and product pages.
+
+## 14. Freshness & Updates (Recent Content Dates)
+
+**The signal:** LLMs value current information. Stale content is deprioritized.
+
+**The failure:** Your blog's last post was 18 months ago.
+
+**The fix:** Add publish and update dates using Article schema, and keep publishing regularly.
+
+## The Real Cost of Missing These 14 Points
+
+You've seen founders with better SEO traffic lose deals because AI researchers couldn't find them. You've watched competitors with mediocre content beat you because their JSON-LD schema was perfect.
+
+This checklist is the difference between invisible and findable. Implement all 14, and LLMs will represent your site accurately â€” in ChatGPT conversations, in Claude's web research, in Gemini summaries. Miss even 3-4, and you'll be ghosted by AI-powered buying research.
+
+Audit your site now. Run a free ConduitScore scan to see which signals you're missing. Then copy-paste the fixes above. Most teams complete this in 4 hours. The payoff: being visible to the fastest-growing discovery channel for B2B SaaS â€” AI-powered research.`,
+    category: "Technical Guides",
+    date: "2026-03-22",
+    readTime: "18 min read",
+  },
+  "what-is-ai-seo": {
+    slug: "what-is-ai-seo",
+    title: "What Is AI SEO? The Complete Guide to Optimizing for AI Search in 2026",
+    description:
+      "AI SEO (also called GEO and AEO) is the practice of optimizing your website for AI-powered search engines. Learn the difference between traditional SEO and AI SEO.",
+    content: `AI SEO -- also known as Generative Engine Optimization (GEO) or Answer Engine Optimization (AEO) -- is the practice of optimizing your website so that AI-powered search engines like ChatGPT, Perplexity, Claude, and Google Gemini can discover, understand, and cite your content.
+
+Traditional SEO focused on ranking in Google's ten blue links. AI SEO focuses on being included in AI-generated answers, recommendations, and citations. The fundamental difference is that AI agents do not "rank" pages -- they extract, synthesize, and cite information from across the web.
+
+## Why AI SEO Matters in 2026
+
+Over 100 million people now use AI assistants for search queries weekly. This number is growing at over 300% year-over-year. When someone asks ChatGPT "what is the best project management tool for startups" or asks Perplexity "how do I improve my website speed," the AI agent decides which websites to cite. If your website is not optimized for AI consumption, you are invisible to this rapidly growing discovery channel.
+
+## The 7 Pillars of AI Visibility
+
+1. **Crawler Access**: AI agents use specific bots (GPTBot, PerplexityBot, ClaudeBot) to crawl your website. Your robots.txt must explicitly allow these crawlers.
+
+2. **Structured Data**: JSON-LD schema markup helps AI agents parse your content into machine-readable entities. FAQPage, HowTo, Product, and Organization schemas are particularly valuable.
+
+3. **Content Structure**: Clear heading hierarchies (H1, H2, H3), semantic HTML, and answer-formatted content sections make it easy for AI to extract relevant information.
+
+4. **LLMs.txt**: This emerging standard provides a machine-readable summary of your website that AI agents can use to quickly understand your site's purpose and content.
+
+5. **Technical Health**: Fast load times, proper meta tags, Open Graph data, and server-rendered HTML ensure AI crawlers can access your content reliably.
+
+6. **Citation Signals**: Authoritative external links, expert authorship, and factual accuracy increase the likelihood that AI agents will cite your content.
+
+7. **Content Quality**: Comprehensive, well-researched, frequently updated content with clear expertise signals is preferred by AI systems.
+
+## AI SEO vs Traditional SEO
+
+| Factor | Traditional SEO | AI SEO (GEO/AEO) |
+|--------|----------------|-------------------|
+| Goal | Rank in search results | Be cited in AI answers |
+| Audience | Google crawler + humans | AI agents + humans |
+| Key metric | Rankings, CTR | Citations, mentions |
+| Content format | Keyword-optimized pages | Entity-rich, structured content |
+| Technical focus | Page speed, mobile-first | Structured data, crawler access |
+| Link building | Backlinks for authority | Citation signals for trust |
+
+## How to Get Started
+
+The fastest way to assess your AI visibility is to use a scanner like ConduitScore. Enter any URL and get a 0-100 score across all 7 pillars in 30 seconds, plus copy-paste code fixes for every issue found.`,
+    category: "AI SEO Fundamentals",
+    date: "2026-03-01",
+    readTime: "12 min read",
+  },
+  "how-to-optimize-for-chatgpt": {
+    slug: "how-to-optimize-for-chatgpt",
+    title: "How to Optimize Your Website for ChatGPT Search in 2026",
+    description:
+      "Step-by-step guide to making your website visible in ChatGPT search results. Covers GPTBot crawler access, structured data, and citation optimization.",
+    content: `ChatGPT is now one of the most popular ways people search for information online. With over 200 million weekly active users, optimizing your website for ChatGPT is no longer optional -- it is a growth imperative.
+
+## Step 1: Allow GPTBot in Your robots.txt
+
+ChatGPT uses two crawlers to discover content: GPTBot (for training and general crawling) and OAI-SearchBot (specifically for ChatGPT search results). Your robots.txt must allow both:
+
+\`\`\`
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+\`\`\`
+
+If your robots.txt blocks these bots (which is the default on many platforms), ChatGPT literally cannot see your website.
+
+## Step 2: Implement JSON-LD Structured Data
+
+ChatGPT relies heavily on structured data to understand what your pages are about. The most impactful schemas for ChatGPT visibility are:
+
+- **Organization**: Tells ChatGPT who you are
+- **FAQPage**: Makes your Q&A directly extractable
+- **HowTo**: Step-by-step content that ChatGPT can cite
+- **Product**: Product details for shopping queries
+- **Article**: Blog and editorial content metadata
+
+## Step 3: Structure Content for Extraction
+
+ChatGPT does not read your page like a human. It parses structured content. To maximize citations:
+
+- Use clear H1/H2/H3 heading hierarchies
+- Write answer-ready paragraphs (start with the answer, then explain)
+- Include definition-style content for "what is" queries
+- Add comparison tables for "vs" and "best" queries
+- Include numbered lists for "how to" queries
+
+## Step 4: Create a llms.txt File
+
+While still an emerging standard, llms.txt provides a machine-readable summary of your entire website. Place it at your domain root (/llms.txt) with a Markdown-formatted overview of your key pages, products, and content.
+
+## Step 5: Monitor Your ChatGPT Visibility
+
+Use ConduitScore to scan your website and track your AI visibility score over time. The tool specifically checks whether GPTBot and OAI-SearchBot can access your site and whether your content is structured for ChatGPT extraction.`,
+    category: "Platform Guides",
+    date: "2026-03-05",
+    readTime: "10 min read",
+  },
+  "llms-txt-guide": {
+    slug: "llms-txt-guide",
+    title: "LLMs.txt: The Complete Implementation Guide for AI Visibility",
+    description:
+      "Everything you need to know about the llms.txt standard. How to create, validate, and optimize your llms.txt file.",
+    content: `The llms.txt standard, proposed by Jeremy Howard of Answer.AI, is a plain-text Markdown file hosted at your website's root directory that provides a concise, machine-readable map of your site's most important content.
+
+## What Is llms.txt?
+
+Think of llms.txt as a "table of contents for AI agents." While robots.txt tells crawlers what they can and cannot access, llms.txt tells AI agents what your site is about and where to find the most important information.
+
+## How to Create Your llms.txt
+
+Create a file called \`llms.txt\` in your website's public/root directory. Format it as Markdown with these sections:
+
+\`\`\`markdown
+# Your Company Name
+
+> One-line description of what your company does
+
+A 2-3 sentence overview of your business, products, and target audience.
+
+## Key Pages
+
+- [Homepage](https://yoursite.com/): Brief description
+- [Product](https://yoursite.com/product): Brief description
+- [Pricing](https://yoursite.com/pricing): Brief description
+- [Blog](https://yoursite.com/blog): Brief description
+
+## Products/Services
+
+List your main products or services with brief descriptions.
+
+## Contact
+
+- Website: https://yoursite.com
+- Email: contact@yoursite.com
+\`\`\`
+
+## Best Practices
+
+1. **Keep it concise**: AI agents have context windows. Aim for under 2,000 words.
+2. **Use Markdown formatting**: Headers, lists, and links are machine-parseable.
+3. **Include your most important URLs**: Focus on pages you want AI to cite.
+4. **Update regularly**: Keep it current with your latest content and offerings.
+5. **Validate it**: Use ConduitScore's LLMs.txt checker to ensure proper formatting.
+
+## Current Adoption Status
+
+While no major AI company has officially confirmed they use llms.txt at inference time, the standard is gaining adoption across AI-first companies. Having a well-structured llms.txt file positions your website favorably as the standard matures.`,
+    category: "Technical Guides",
+    date: "2026-03-08",
+    readTime: "8 min read",
+  },
+  "structured-data-for-ai": {
+    slug: "structured-data-for-ai",
+    title: "Structured Data for AI: JSON-LD Schema That AI Agents Actually Use",
+    description:
+      "Which schema.org types matter most for AI visibility? Learn how to implement Organization, FAQPage, HowTo, Product, and Article schema.",
+    content: `Structured data is the single most impactful technical optimization for AI visibility. AI agents like ChatGPT, Perplexity, and Claude use JSON-LD schema markup to understand the entities, relationships, and facts on your website.
+
+## Why Structured Data Matters for AI
+
+When an AI agent crawls your page, it sees HTML. Structured data (JSON-LD) provides a machine-readable layer that explicitly states: "This page is about [entity], it has [attributes], and it relates to [other entities]." Without it, AI agents must infer meaning -- and they often get it wrong or skip your content entirely.
+
+## The Top 5 Schemas for AI Visibility
+
+### 1. Organization Schema
+Every website should have Organization schema on the homepage. It tells AI agents who you are, what you do, and how to contact you.
+
+### 2. FAQPage Schema
+FAQPage schema is the most citation-friendly schema type. When AI agents search for answers, FAQPage schema provides pre-formatted question-answer pairs that are trivially easy to cite.
+
+### 3. HowTo Schema
+For instructional content, HowTo schema structures your steps into a machine-readable format. AI agents love citing step-by-step content.
+
+### 4. Product Schema
+If you sell products or services, Product schema with pricing, features, and reviews makes your offerings visible to AI shopping assistants.
+
+### 5. Article/BlogPosting Schema
+For editorial content, Article schema provides authorship, publication date, and topic metadata that AI agents use to assess content quality and recency.
+
+## Implementation in Next.js
+
+In Next.js, the recommended approach is server-rendered JSON-LD:
+
+\`\`\`tsx
+function PageJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [{
+      "@type": "Question",
+      name: "Your question here?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Your answer here."
+      }
+    }]
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+\`\`\`
+
+## Validation
+
+Always validate your structured data using Google's Rich Results Test and the Schema.org Validator. ConduitScore's structured data analyzer also checks for AI-specific schema implementation.`,
+    category: "Technical Guides",
+    date: "2026-03-10",
+    readTime: "15 min read",
+  },
+  "ai-crawler-access-guide": {
+    slug: "ai-crawler-access-guide",
+    title: "AI Crawler Access: robots.txt Configuration for GPTBot, PerplexityBot & ClaudeBot",
+    description:
+      "Your robots.txt might be blocking AI agents. Learn how to configure crawler access for every major AI bot.",
+    content: `If AI agents cannot crawl your website, nothing else matters. Your robots.txt file is the first thing every AI crawler checks -- and most websites are accidentally blocking the AI bots that power ChatGPT, Perplexity, Claude, and Gemini.
+
+## The Complete List of AI Crawlers
+
+| Bot Name | Company | Purpose |
+|----------|---------|---------|
+| GPTBot | OpenAI | General crawling for ChatGPT |
+| OAI-SearchBot | OpenAI | ChatGPT search results |
+| ChatGPT-User | OpenAI | Real-time browsing by ChatGPT |
+| PerplexityBot | Perplexity | Perplexity search and answers |
+| ClaudeBot | Anthropic | Claude web browsing |
+| Claude-Web | Anthropic | Claude web search |
+| Google-Extended | Google | Gemini AI training and search |
+| Amazonbot | Amazon | Alexa and Amazon search |
+| Bingbot | Microsoft | Copilot and Bing AI |
+| cohere-ai | Cohere | Cohere AI models |
+| anthropic-ai | Anthropic | Anthropic general crawling |
+
+## Recommended robots.txt Configuration
+
+\`\`\`
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://yoursite.com/sitemap.xml
+\`\`\`
+
+## Common Mistakes
+
+1. **Blanket blocking**: Many CMS platforms and hosting providers block all unknown bots by default.
+2. **Forgetting OAI-SearchBot**: GPTBot is not the only OpenAI crawler. OAI-SearchBot powers search.
+3. **Blocking /api/ but not /dashboard/**: Protect private routes, but allow public content.
+4. **No sitemap reference**: Including your sitemap URL helps AI crawlers discover all your pages.
+
+## How to Test
+
+Use ConduitScore to scan your URL -- our Crawler Access analyzer checks every major AI bot against your robots.txt and reports which ones are blocked.`,
+    category: "Technical Guides",
+    date: "2026-03-11",
+    readTime: "7 min read",
+  },
+  "geo-vs-seo": {
+    slug: "geo-vs-seo",
+    title: "GEO vs SEO: Why You Need Both in 2026",
+    description:
+      "Generative Engine Optimization (GEO) and traditional SEO target different discovery channels. Learn when to prioritize each.",
+    content: `In 2026, search is split into two distinct channels: traditional search engines (Google, Bing) and AI-powered answer engines (ChatGPT, Perplexity, Claude, Gemini). Each requires a different optimization strategy.
+
+## What Is GEO?
+
+Generative Engine Optimization (GEO) is the practice of optimizing content to be discovered, cited, and recommended by AI-powered answer engines. Unlike SEO, which aims to rank pages in search results, GEO aims to get your content included in AI-generated responses.
+
+## What Is AEO?
+
+Answer Engine Optimization (AEO) is a closely related term that focuses specifically on optimizing for question-answering AI systems. While GEO covers all generative AI, AEO focuses on the Q&A use case.
+
+## Key Differences
+
+| Dimension | SEO | GEO/AEO |
+|-----------|-----|---------|
+| Target | Google/Bing SERPs | AI-generated answers |
+| Format | Keyword-optimized pages | Entity-rich, structured content |
+| Success metric | Rankings, clicks | Citations, mentions, recommendations |
+| Technical focus | Page speed, mobile | Structured data, crawler access |
+| Content style | Keyword density, length | Comprehensiveness, authority, recency |
+| Link strategy | Backlinks | Citation signals |
+
+## Why You Need Both
+
+SEO is not dead. Google still processes over 8.5 billion searches per day. But AI search is growing at 300% year-over-year. The websites that will dominate in 2026 and beyond are those that optimize for both channels simultaneously.
+
+The good news: many GEO optimizations also improve traditional SEO. Structured data helps Google rich results. Quality content ranks better on both Google and AI. Clear content structure improves user experience and AI readability.
+
+## How to Audit Both
+
+ConduitScore provides a unified AI visibility score that covers all 7 categories relevant to both GEO and traditional SEO compliance. Scan your website to see where you stand across both channels.`,
+    category: "AI SEO Fundamentals",
+    date: "2026-02-28",
+    readTime: "9 min read",
+  },
+};
+
+/**
+ * All blog posts as an array (ordered by date descending)
+ */
+export const BLOG_POSTS: BlogPost[] = Object.values(BLOG_POSTS_MAP).sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
