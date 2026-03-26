@@ -1,24 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
-
-/**
- * Maps tier + billing-cycle keys to Stripe price IDs via environment variables.
- *
- * Lookup key is built as:
- *   annual === true  → `${tier}_annual`
- *   annual === false → `${tier}`
- *
- * agency is intentionally absent — Agency is Contact Us only; any request with
- * tier === "agency" receives a 400 before this map is consulted.
- */
-const PRICE_MAP: Record<string, string> = {
-  starter:        process.env.STRIPE_PRICE_STARTER         ?? "",
-  starter_annual: process.env.STRIPE_PRICE_STARTER_ANNUAL  ?? "",
-  pro:            process.env.STRIPE_PRICE_PRO             ?? "",
-  pro_annual:     process.env.STRIPE_PRICE_PRO_ANNUAL      ?? "",
-  growth:         process.env.STRIPE_PRICE_GROWTH          ?? "",
-  growth_annual:  process.env.STRIPE_PRICE_GROWTH_ANNUAL   ?? "",
-};
+import { getStripeEnv, PRICE_MAP } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,7 +33,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid plan tier" }, { status: 400 });
     }
 
-    const stripeKey = process.env.STRIPE_SECRET_KEY ?? "";
+    const stripeKey = getStripeEnv("STRIPE_SECRET_KEY");
     const origin = request.headers.get("origin") || "https://conduitscore.com";
     const billing = annual ? "annual" : "monthly";
 

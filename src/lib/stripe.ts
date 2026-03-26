@@ -2,9 +2,18 @@ import Stripe from "stripe";
 
 let _stripe: Stripe | null = null;
 
+export function getStripeEnv(name: string): string {
+  const raw = process.env[name] ?? "";
+  return raw
+    .trim()
+    .replace(/^['"]|['"]$/g, "")
+    .replace(/(?:\\r\\n|\\n|\\r)+$/g, "")
+    .trim();
+}
+
 export function getStripe(): Stripe {
   if (!_stripe) {
-    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
+    _stripe = new Stripe(getStripeEnv("STRIPE_SECRET_KEY"), {
       apiVersion: "2024-12-18.acacia" as Stripe.LatestApiVersion,
     });
   }
@@ -22,12 +31,12 @@ export function getStripe(): Stripe {
  * agency is intentionally omitted — Agency is Contact Us only; no Stripe price exists.
  */
 export const PRICE_MAP: Record<string, string> = {
-  starter:        process.env.STRIPE_PRICE_STARTER         ?? "",
-  starter_annual: process.env.STRIPE_PRICE_STARTER_ANNUAL  ?? "",
-  pro:            process.env.STRIPE_PRICE_PRO             ?? "",
-  pro_annual:     process.env.STRIPE_PRICE_PRO_ANNUAL      ?? "",
-  growth:         process.env.STRIPE_PRICE_GROWTH          ?? "",
-  growth_annual:  process.env.STRIPE_PRICE_GROWTH_ANNUAL   ?? "",
+  starter:        getStripeEnv("STRIPE_PRICE_STARTER"),
+  starter_annual: getStripeEnv("STRIPE_PRICE_STARTER_ANNUAL"),
+  pro:            getStripeEnv("STRIPE_PRICE_PRO"),
+  pro_annual:     getStripeEnv("STRIPE_PRICE_PRO_ANNUAL"),
+  growth:         getStripeEnv("STRIPE_PRICE_GROWTH"),
+  growth_annual:  getStripeEnv("STRIPE_PRICE_GROWTH_ANNUAL"),
 };
 
 /**
