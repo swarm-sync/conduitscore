@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     const stripeKey = process.env.STRIPE_SECRET_KEY ?? "";
-    const origin = request.headers.get("origin") || "https://www.conduitscore.com";
+    const origin = request.headers.get("origin") || "https://conduitscore.com";
     const billing = annual ? "annual" : "monthly";
 
     // Use native fetch instead of Stripe SDK (SDK's http module blocked on Vercel edge).

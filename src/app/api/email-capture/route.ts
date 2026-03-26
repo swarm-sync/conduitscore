@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
 
     // Day 0 email — send immediately.
     const reportUrl = scanId
-      ? `${process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://www.conduitscore.com"}/scan-result?id=${scanId}`
-      : `${process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://www.conduitscore.com"}/scan-result`;
+      ? `${process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://conduitscore.com"}/scan-result?id=${scanId}`
+      : `${process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://conduitscore.com"}/scan-result`;
 
     const scoreDisplay = score !== null ? `${score}/100` : "your score";
     const siteName = scanUrl ?? "your site";

@@ -431,15 +431,15 @@ export default function BillingPage() {
                 className="overflow-x-auto rounded-xl p-4 text-xs"
                 style={{ background: "rgba(0,0,0,0.24)", color: "var(--text-secondary)" }}
               >
-                {`curl -X POST https://www.conduitscore.com/api/scan \\
+                {`curl -X POST https://conduitscore.com/api/scan \\
   -H "x-api-key: YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"url":"https://example.com"}'
 
-curl https://www.conduitscore.com/api/scans \\
+curl https://conduitscore.com/api/scans \\
   -H "x-api-key: YOUR_API_KEY"
 
-curl https://www.conduitscore.com/api/scans/SCAN_ID \\
+curl https://conduitscore.com/api/scans/SCAN_ID \\
   -H "x-api-key: YOUR_API_KEY"`}
               </pre>
             </div>

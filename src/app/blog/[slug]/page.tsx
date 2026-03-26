@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BLOG_POSTS_MAP, type BlogPost } from "@/lib/blog-posts";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitscore.com";
 
 export function generateStaticParams() {
   return Object.keys(BLOG_POSTS_MAP).map((slug) => ({ slug }));
