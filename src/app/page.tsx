@@ -5,7 +5,7 @@ import { ScanForm } from "@/components/scan/scan-form";
 import { ExampleScoreCard } from "@/components/home/example-score-card";
 import { SignalsSection } from "@/components/home/signals-section";
 import { WhoUsesSection } from "@/components/home/who-uses-section";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
@@ -95,8 +95,8 @@ function HomePageJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ConduitScore",
-    url: "https://conduitscore.com",
-    logo: "https://conduitscore.com/logo.svg",
+    url: "https://www.conduitscore.com",
+    logo: "https://www.conduitscore.com/logo.svg",
     description:
       "AI visibility scanner that scores any website 0–100 for discoverability by ChatGPT, Perplexity, Claude, Gemini, and other AI agents.",
     sameAs: [
@@ -114,14 +114,14 @@ function HomePageJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "ConduitScore",
-    url: "https://conduitscore.com",
+    url: "https://www.conduitscore.com",
     description:
       "Free AI visibility scanner. Check how well ChatGPT, Perplexity, Claude, and other AI agents can find and cite your website.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://conduitscore.com/?url={search_term_string}",
+      urlTemplate: "https://www.conduitscore.com/?url={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },

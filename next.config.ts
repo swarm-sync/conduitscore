@@ -125,13 +125,13 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // SEO: Redirect www to non-www for canonical consistency
+  // SEO: Redirect apex to www for canonical consistency
   async redirects() {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.conduitscore.com" }],
-        destination: "https://conduitscore.com/:path*",
+        has: [{ type: "host", value: "conduitscore.com" }],
+        destination: "https://www.conduitscore.com/:path*",
         permanent: true,
       },
     ];

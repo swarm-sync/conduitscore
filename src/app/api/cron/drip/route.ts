@@ -7,7 +7,7 @@ import type { Fix, Issue } from "@/lib/scanner/types";
 
 export const maxDuration = 300;
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://conduitscore.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.conduitscore.com";
 
 // Drip schedule in days from sign-up.
 const DAY_7 = 7;

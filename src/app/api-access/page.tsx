@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "ConduitScore API Access",
@@ -155,7 +155,7 @@ export default function ApiAccessPage() {
                 className="overflow-x-auto rounded-[24px] p-6 text-xs leading-relaxed"
                 style={{ background: "rgba(5,10,18,0.92)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}
               >
-{`curl "https://conduitscore.com/api/public/domain/example.com/score"
+{`curl "https://www.conduitscore.com/api/public/domain/example.com/score"
 
 {
   "domain": "example.com",

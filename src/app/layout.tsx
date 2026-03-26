@@ -33,7 +33,7 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
 const BRAND_LOGO_PATH = "/NEWNEW/android-chrome-512x512.png";
 const APPLE_TOUCH_ICON_PATH = "/NEWNEW/apple-touch-icon.png";
 const FAVICON_32_PATH = "/NEWNEW/favicon-32x32.png";
