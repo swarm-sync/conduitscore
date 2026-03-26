@@ -317,11 +317,11 @@ export default function BillingPage() {
             </p>
           </div>
           <a
-            href="/docs"
+            href="/api-access"
             className="rounded-lg px-4 py-2 text-sm font-medium"
             style={{ border: "1px solid var(--border-default)", color: "var(--text-secondary)" }}
           >
-            View API docs
+            View API overview
           </a>
         </div>
 
@@ -422,7 +422,10 @@ export default function BillingPage() {
 
             <div className="space-y-3">
               <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                Example requests
+                Full integration examples
+              </p>
+              <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
+                This is the detailed Scale-only section. Use your API key below with either the <code>x-api-key</code> header or a Bearer token.
               </p>
               <pre
                 className="overflow-x-auto rounded-xl p-4 text-xs"

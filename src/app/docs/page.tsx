@@ -157,7 +157,7 @@ export default function DocsPage() {
               <span className="section-label">API</span>
               <h2 className="mt-4 uppercase">REST API quick start</h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Scale plans can create API keys from Billing, then authenticate with either the <code>x-api-key</code> header or a Bearer token.
+                Scale plans can create API keys from Billing. The public API overview explains what the API is for, and Scale customers get hands-on integration details inside the app once they have access.
               </p>
             </div>
             <div className="space-y-4">
@@ -169,26 +169,36 @@ export default function DocsPage() {
                   Available endpoints
                 </p>
                 <ul className="mt-4 space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                  <li><code>POST /api/scan</code> to start an authenticated scan.</li>
-                  <li><code>GET /api/scans</code> to list scans for the API key owner.</li>
-                  <li><code>GET /api/scans/:id</code> to retrieve a specific scan result.</li>
+                  <li><code>GET /api/public/domain/{"{domain}"}/score</code> is available as a simple public lookup.</li>
+                  <li>Scale customers can create API keys from Billing for authenticated scan access.</li>
+                  <li>Authenticated endpoints cover scans, scan history, and scan detail retrieval.</li>
                 </ul>
               </div>
-              <pre
-                className="overflow-x-auto rounded-[24px] p-6 text-xs leading-relaxed"
+              <div
+                className="rounded-[24px] p-6 text-sm leading-relaxed"
                 style={{ background: "rgba(5,10,18,0.92)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}
               >
-{`curl -X POST https://conduitscore.com/api/scan \\
-  -H "x-api-key: YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{"url":"https://example.com"}'
-
-curl https://conduitscore.com/api/scans \\
-  -H "Authorization: Bearer YOUR_API_KEY"
-
-curl https://conduitscore.com/api/scans/SCAN_ID \\
-  -H "x-api-key: YOUR_API_KEY"`}
-              </pre>
+                <p>
+                  Want the non-technical overview first? Visit the public API access page. If you are already on Scale,
+                  open Billing to create keys and use the in-app integration examples.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="/api-access"
+                    className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-all"
+                    style={{ background: "var(--brand-red)", color: "var(--text-primary)", textDecoration: "none" }}
+                  >
+                    API overview
+                  </Link>
+                  <Link
+                    href="/settings/billing"
+                    className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition-all"
+                    style={{ border: "1px solid var(--border-default)", color: "var(--text-secondary)", textDecoration: "none" }}
+                  >
+                    Scale customer billing
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
