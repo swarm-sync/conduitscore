@@ -116,7 +116,7 @@ describe("PricingContent", () => {
     expect(screen.getByText("$23")).toBeTruthy();
     expect(screen.getByText("$276 billed yearly")).toBeTruthy();
 
-    fireEvent.click(screen.getByRole("button", { name: /Choose Fix for Fix plan at \$23 with annual billing/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Choose Fix Yearly for Fix plan at \$23 with annual billing/i }));
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledTimes(1);
@@ -147,7 +147,7 @@ describe("PricingContent", () => {
 
     render(<PricingContent plans={PLANS} pricingFaqs={FAQS} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Choose Fix for Fix plan at \$23 with annual billing/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Choose Fix Yearly for Fix plan at \$23 with annual billing/i }));
 
     expect(window.location.href).toBe("/signin?callbackUrl=%2Fpricing%3Fbilling%3Dyearly");
 

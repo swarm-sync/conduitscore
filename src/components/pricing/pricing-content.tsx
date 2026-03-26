@@ -109,6 +109,7 @@ export function PricingContent({ plans, pricingFaqs }: PricingContentProps) {
           <div className="grid gap-5 lg:grid-cols-5 items-start">
             {plans.map((plan) => {
               const price = annualBilling && plan.annualPrice ? plan.annualPrice : plan.monthlyPrice;
+              const cta = annualBilling && plan.annualPrice ? `${plan.cta} Yearly` : plan.cta;
               const annualNote = plan.contactOnly
                 ? undefined
                 : annualBilling
@@ -128,7 +129,7 @@ export function PricingContent({ plans, pricingFaqs }: PricingContentProps) {
                   annualNote={annualNote}
                   description={plan.description}
                   features={plan.features}
-                  cta={plan.cta}
+                  cta={cta}
                   popular={plan.popular}
                   contactOnly={plan.contactOnly}
                   annual={annualBilling}
