@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
 
     const greeting = firstName ? `Hi ${escapeHtml(firstName)},` : "Hi there,";
     const scanUrl =
-      process.env.NEXT_PUBLIC_APP_URL ?? "https://www.conduitscore.com";
+      process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://www.conduitscore.com";
 
     await sendEmail({
       to: email,

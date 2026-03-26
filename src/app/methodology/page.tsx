@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "ConduitScore Methodology — How the 0–100 Score Is Calculated",

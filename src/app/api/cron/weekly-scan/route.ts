@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
               <h1 style="font-size:24px;margin-bottom:8px;color:#111;">Score drop detected</h1>
               <p style="color:#444;line-height:1.6;">${scheduled.project.name} dropped from <strong>${previousScore}</strong> to <strong>${currentScore}</strong> on its latest scheduled ConduitScore scan.</p>
               <p style="color:#444;line-height:1.6;">Review the latest report to see what changed and which fixes to tackle first.</p>
-              <p style="margin-top:24px;"><a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.conduitscore.com"}/projects" style="display:inline-block;background:#6c3bff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;">Open Projects</a></p>
+              <p style="margin-top:24px;"><a href="${process.env.NEXT_PUBLIC_SITE_URL?.trim() ?? "https://www.conduitscore.com"}/projects" style="display:inline-block;background:#6c3bff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;">Open Projects</a></p>
             </div>`,
             text: `${scheduled.project.name} dropped from ${previousScore} to ${currentScore} on its latest scheduled ConduitScore scan. Review the latest report in your Projects dashboard.`,
           });

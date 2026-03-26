@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import Link from "next/link";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "System Status — ConduitScore",

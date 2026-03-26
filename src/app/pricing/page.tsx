@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { PricingContent } from "@/components/pricing/pricing-content";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "Pricing - AI Visibility Scanner Plans",

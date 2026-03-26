@@ -5,7 +5,7 @@ import { ScanForm } from "@/components/scan/scan-form";
 import { ExampleScoreCard } from "@/components/home/example-score-card";
 import { SignalsSection } from "@/components/home/signals-section";
 import { WhoUsesSection } from "@/components/home/who-uses-section";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.conduitscore.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.conduitscore.com";
 
 export const metadata: Metadata = {
   title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
