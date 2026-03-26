@@ -120,6 +120,7 @@ export function Footer() {
             <ul className="space-y-2.5">
               {[
                 { label: "Documentation", href: "/docs" },
+                { label: "API Access", href: "/api-access" },
                 { label: "Blog", href: "/blog" },
                 { label: "AI Visibility Checklist", href: "/resources/ai-visibility-checklist" },
                 { label: "About", href: "/about" },

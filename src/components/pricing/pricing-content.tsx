@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { PricingCard } from "@/components/pricing/pricing-card";
 
 export interface PricingPlan {
@@ -27,7 +28,28 @@ interface PricingContentProps {
 }
 
 export function PricingContent({ plans, pricingFaqs }: PricingContentProps) {
-  const [annualBilling, setAnnualBilling] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [annualBilling, setAnnualBilling] = useState(() => searchParams.get("billing") === "yearly");
+
+  useEffect(() => {
+    setAnnualBilling(searchParams.get("billing") === "yearly");
+  }, [searchParams]);
+
+  function updateBillingMode(nextAnnualBilling: boolean) {
+    setAnnualBilling(nextAnnualBilling);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (nextAnnualBilling) {
+      params.set("billing", "yearly");
+    } else {
+      params.delete("billing");
+    }
+
+    const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  }
 
   const comparisonRows = [
     annualBilling
@@ -58,7 +80,7 @@ export function PricingContent({ plans, pricingFaqs }: PricingContentProps) {
             >
               <button
                 type="button"
-                onClick={() => setAnnualBilling(false)}
+                onClick={() => updateBillingMode(false)}
                 className="rounded-full px-5 py-2 text-sm font-semibold transition-all"
                 style={{
                   background: annualBilling ? "transparent" : "var(--brand-red)",
@@ -69,7 +91,7 @@ export function PricingContent({ plans, pricingFaqs }: PricingContentProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setAnnualBilling(true)}
+                onClick={() => updateBillingMode(true)}
                 className="rounded-full px-5 py-2 text-sm font-semibold transition-all"
                 style={{
                   background: annualBilling ? "var(--brand-red)" : "transparent",

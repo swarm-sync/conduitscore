@@ -1,25 +1,29 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
 const BRAND_LOGO_SRC = "/NEWNEW/conduitscore-lockup-transparent.png";
 
-export default function SignInPage() {
+function SignInContent() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const searchParams = useSearchParams();
+  const callbackParam = searchParams.get("callbackUrl");
+  const callbackUrl = callbackParam?.startsWith("/") ? callbackParam : "/dashboard";
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl });
   };
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await signIn("email", { email, callbackUrl: "/dashboard", redirect: false });
+    await signIn("email", { email, callbackUrl, redirect: false });
     setLoading(false);
     setSent(true);
   };
@@ -265,5 +269,13 @@ export default function SignInPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignInContent />
+    </Suspense>
   );
 }

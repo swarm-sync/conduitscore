@@ -324,7 +324,6 @@ export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
               aria-invalid={!!error}
               aria-describedby={error ? errorId : undefined}
               autoComplete="url"
-              autoFocus
             />
 
             <div className="p-2 flex items-center flex-shrink-0">

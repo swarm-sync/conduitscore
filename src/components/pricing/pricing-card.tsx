@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 interface PricingCardProps {
   name: string;
@@ -26,6 +27,7 @@ const DISPLAY_TO_TIER: Record<string, string> = {
 
 export function PricingCard({ name, price, period, annualNote, description, features, cta, popular, contactOnly, annual = false }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
+  const { status } = useSession();
 
   async function handleSubscribe() {
     if (name === "Scale" || contactOnly) {
@@ -37,6 +39,14 @@ export function PricingCard({ name, price, period, annualNote, description, feat
     if (tier === "agency") {
       // Safety guard — should not reach Stripe for scale/agency tier
       throw new Error("Scale plan is not a self-serve purchase");
+    }
+
+    if (status !== "authenticated") {
+      const params = new URLSearchParams({
+        callbackUrl: annual ? "/pricing?billing=yearly" : "/pricing",
+      });
+      window.location.href = `/signin?${params.toString()}`;
+      return;
     }
 
     setLoading(true);

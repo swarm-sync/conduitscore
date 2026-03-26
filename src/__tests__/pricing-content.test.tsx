@@ -2,6 +2,20 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { PricingContent, type PricingFaq, type PricingPlan } from "@/components/pricing/pricing-content";
 
+const replaceMock = vi.fn();
+let searchParamsValue = new URLSearchParams();
+let sessionStatus = "authenticated";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: replaceMock }),
+  usePathname: () => "/pricing",
+  useSearchParams: () => searchParamsValue,
+}));
+
+vi.mock("next-auth/react", () => ({
+  useSession: () => ({ status: sessionStatus }),
+}));
+
 const PLANS: PricingPlan[] = [
   {
     name: "Diagnose",
@@ -64,6 +78,9 @@ const FAQS: PricingFaq[] = [
 
 describe("PricingContent", () => {
   beforeEach(() => {
+    searchParamsValue = new URLSearchParams();
+    sessionStatus = "authenticated";
+    replaceMock.mockReset();
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
@@ -93,6 +110,7 @@ describe("PricingContent", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Yearly" }));
 
+    expect(replaceMock).toHaveBeenCalledWith("/pricing?billing=yearly", { scroll: false });
     expect(screen.getByText("Yearly billing")).toBeTruthy();
     expect(screen.getByText("$276/yr")).toBeTruthy();
     expect(screen.getByText("$23")).toBeTruthy();
@@ -107,5 +125,35 @@ describe("PricingContent", () => {
     const [, init] = vi.mocked(fetch).mock.calls[0];
     expect(init?.method).toBe("POST");
     expect(JSON.parse(String(init?.body))).toEqual({ tier: "starter", annual: true });
+  });
+
+  it("initializes from the yearly billing query param", () => {
+    searchParamsValue = new URLSearchParams("billing=yearly");
+
+    render(<PricingContent plans={PLANS} pricingFaqs={FAQS} />);
+
+    expect(screen.getByText("Yearly billing")).toBeTruthy();
+    expect(screen.getByText("$276 billed yearly")).toBeTruthy();
+  });
+
+  it("sends logged-out users to sign-in with the yearly callback preserved", () => {
+    sessionStatus = "unauthenticated";
+    searchParamsValue = new URLSearchParams("billing=yearly");
+    const originalLocation = window.location;
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { href: "http://localhost/pricing?billing=yearly" },
+    });
+
+    render(<PricingContent plans={PLANS} pricingFaqs={FAQS} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Choose Fix for Fix plan at \$23 with annual billing/i }));
+
+    expect(window.location.href).toBe("/signin?callbackUrl=%2Fpricing%3Fbilling%3Dyearly");
+
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: originalLocation,
+    });
   });
 });

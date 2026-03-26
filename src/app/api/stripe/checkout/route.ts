@@ -22,19 +22,18 @@ const PRICE_MAP: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   try {
+    const body = await request.json();
+    const { tier, annual = false }: { tier: string; annual?: boolean } = body;
+
     // Require an authenticated session before creating a checkout.
     // Unauthenticated requests are redirected to sign-in with a callback to
     // /pricing so the user lands back on the pricing page after authentication.
     const session = await getSession();
     if (!session?.user?.email) {
-      return NextResponse.redirect(
-        new URL("/signin?callbackUrl=/pricing", request.url),
-        { status: 302 }
-      );
+      const signInUrl = new URL("/signin", request.url);
+      signInUrl.searchParams.set("callbackUrl", annual ? "/pricing?billing=yearly" : "/pricing");
+      return NextResponse.redirect(signInUrl, { status: 302 });
     }
-
-    const body = await request.json();
-    const { tier, annual = false }: { tier: string; annual?: boolean } = body;
 
     // Agency is Contact Us only — no Stripe checkout flow exists for this tier.
     if (tier === "agency") {

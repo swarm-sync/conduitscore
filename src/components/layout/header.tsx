@@ -31,9 +31,11 @@ export function Header() {
     ? [
       { href: "/dashboard", label: "Dashboard" },
       { href: "/pricing", label: "Pricing" },
+      { href: "/api-access", label: "API Access" },
     ]
     : [
       { href: "/pricing", label: "Pricing" },
+      { href: "/api-access", label: "API Access" },
       { href: "/blog", label: "Resources" },
       { href: "/methodology", label: "Methodology" },
       { href: "/signin", label: "Sign In" },

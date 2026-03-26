@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { PricingContent } from "@/components/pricing/pricing-content";
@@ -238,10 +240,25 @@ export default function PricingPage() {
             <p className="mt-4 text-lg max-w-md mx-auto" style={{ color: "var(--text-secondary)" }}>
               See the problem for free. Upgrade for full fixes, automation, alerts, and API access when you need more leverage.
             </p>
+            <div className="mt-6 flex justify-center">
+              <Link
+                href="/api-access"
+                className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-all"
+                style={{
+                  border: "1px solid var(--border-default)",
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                }}
+              >
+                API Access Overview
+              </Link>
+            </div>
           </div>
         </section>
 
-        <PricingContent plans={plans} pricingFaqs={pricingFaqs} />
+        <Suspense fallback={null}>
+          <PricingContent plans={plans} pricingFaqs={pricingFaqs} />
+        </Suspense>
 
         {/* ===== 14-SIGNAL COMPARISON ===== */}
         <section

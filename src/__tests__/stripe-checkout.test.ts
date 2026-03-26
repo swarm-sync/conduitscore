@@ -200,5 +200,18 @@ describe("POST /api/stripe/checkout", () => {
     expect(res.status).toBe(302);
     const location = res.headers.get("location");
     expect(location).toContain("/signin");
+    expect(location).toContain("callbackUrl=%2Fpricing");
+  });
+
+  it("Unauthenticated yearly request → 302 redirect preserves yearly billing callback", async () => {
+    vi.mocked(getSession).mockResolvedValue(null as never);
+
+    const req = makeRequest({ tier: "starter", annual: true });
+    const res = await POST(req);
+
+    expect(res.status).toBe(302);
+    const location = res.headers.get("location");
+    expect(location).toContain("/signin");
+    expect(location).toContain("callbackUrl=%2Fpricing%3Fbilling%3Dyearly");
   });
 });
