@@ -12,6 +12,7 @@ interface PricingCardProps {
   cta: string;
   popular: boolean;
   contactOnly?: boolean;
+  annual?: boolean;
 }
 
 // Maps outcome-based display names to internal Stripe tier keys
@@ -23,7 +24,7 @@ const DISPLAY_TO_TIER: Record<string, string> = {
   Scale: "agency",
 };
 
-export function PricingCard({ name, price, period, annualNote, description, features, cta, popular, contactOnly }: PricingCardProps) {
+export function PricingCard({ name, price, period, annualNote, description, features, cta, popular, contactOnly, annual = false }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubscribe() {
@@ -43,7 +44,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier, annual }),
       });
 
       if (!res.ok) throw new Error("Checkout failed");
@@ -168,7 +169,7 @@ export function PricingCard({ name, price, period, annualNote, description, feat
               className="mt-1.5 text-xs"
               style={{ color: "var(--text-tertiary)" }}
             >
-              {annualNote} — save 20%
+              {annualNote}
             </p>
           )}
         </div>
@@ -228,7 +229,11 @@ export function PricingCard({ name, price, period, annualNote, description, feat
               el.style.color = "var(--text-primary)";
             }
           }}
-          aria-label={isContactOnly ? `Contact us about the ${name} plan at ${price}` : `${cta} for ${name} plan at ${price} per month`}
+          aria-label={
+            isContactOnly
+              ? `Contact us about the ${name} plan at ${price}`
+              : `${cta} for ${name} plan at ${price} ${annual ? "with annual billing" : "per month"}`
+          }
         >
           {loading ? (
             <span className="inline-flex items-center gap-2 justify-center">

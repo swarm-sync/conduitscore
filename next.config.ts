@@ -1,9 +1,21 @@
 import { resolve } from "path";
 import type { NextConfig } from "next";
-// @ts-ignore - critters types issue with package.json exports
+// @ts-expect-error - critters types issue with package.json exports
 import Critters from "critters";
 
 const projectRoot = resolve(process.cwd());
+type CrittersPluginOptions = {
+  preload: "swap";
+  fonts: boolean;
+  inlineThreshold: number;
+};
+type CrittersPluginInstance = {
+  apply: (compiler: unknown) => void;
+};
+type CrittersPluginConstructor = new (
+  options: CrittersPluginOptions
+) => CrittersPluginInstance;
+const CrittersPlugin = Critters as unknown as CrittersPluginConstructor;
 
 const nextConfig: NextConfig = {
   // SEO: Enforce trailing slashes for canonical URL consistency
@@ -26,7 +38,7 @@ const nextConfig: NextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(
-        new (Critters as any)({
+        new CrittersPlugin({
           preload: "swap",
           fonts: false,
           inlineThreshold: 2000,

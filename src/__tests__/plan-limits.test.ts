@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { PLAN_LIMITS, canScan } from "@/lib/plan-limits";
+import { PLAN_LIMITS, PLAN_FEATURES, canScan } from "@/lib/plan-limits";
 
 describe("PLAN_LIMITS shape", () => {
   const EXPECTED_TIERS = ["free", "starter", "pro", "growth", "agency"];
@@ -104,5 +104,18 @@ describe("canScan()", () => {
     // Unknown tier → falls back to PLAN_LIMITS.free (3 scans)
     expect(canScan("enterprise", 2)).toBe(true);
     expect(canScan("enterprise", 3)).toBe(false);
+  });
+});
+
+describe("PLAN_FEATURES", () => {
+  it("dashboard history is included on the free tier", () => {
+    expect(PLAN_FEATURES.dashboardHistory("free")).toBe(true);
+  });
+
+  it("score trend chart unlocks on Monitor and above", () => {
+    expect(PLAN_FEATURES.scoreTrendChart("starter")).toBe(false);
+    expect(PLAN_FEATURES.scoreTrendChart("pro")).toBe(true);
+    expect(PLAN_FEATURES.scoreTrendChart("growth")).toBe(true);
+    expect(PLAN_FEATURES.scoreTrendChart("agency")).toBe(true);
   });
 });

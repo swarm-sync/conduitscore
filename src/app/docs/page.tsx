@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 export const metadata: Metadata = {
   title: "ConduitScore — Docs, FAQ, and API",
   description:
-    "Answers to the most common questions about ConduitScore, AI visibility scans, monitoring, bulk uploads, and Agency API access.",
+    "Answers to the most common questions about ConduitScore, AI visibility scans, plan access, bulk uploads, and Scale API access.",
   alternates: {
     canonical: `${SITE_URL}/docs`,
   },
@@ -67,7 +67,7 @@ export default function DocsPage() {
             <span className="section-label">Documentation</span>
             <h1 className="mt-4 uppercase">Frequently Asked Questions</h1>
             <p className="mt-4 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
-              Everything you need to know about AI visibility scans, monitoring, bulk uploads, and Agency API access.
+              Everything you need to know about AI visibility scans, plan access, bulk uploads, and Scale API access.
             </p>
           </div>
         </section>
@@ -118,7 +118,7 @@ export default function DocsPage() {
               <span className="section-label">Monitoring</span>
               <h2 className="mt-4 uppercase">Feature access by plan</h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                ConduitScore keeps the free scan lightweight, then unlocks operational features as teams move into recurring monitoring and integrations.
+                ConduitScore keeps the free tier useful, then adds depth, automation, alerts, and integrations as your workflow gets more serious.
               </p>
             </div>
             <div
@@ -129,9 +129,9 @@ export default function DocsPage() {
                 ["AI visibility score", "All plans"],
                 ["Code fixes unlocked", "Fix+"],
                 ["Issue descriptions", "Fix+"],
-                ["Dashboard & history", "Fix+"],
+                ["Dashboard & history", "All plans"],
                 ["Scheduled re-scans", "Monitor+"],
-                ["Score trend chart", "Alert+"],
+                ["Score trend chart", "Monitor+"],
                 ["Email alerts", "Alert+"],
                 ["Bulk scan (CSV upload)", "Scale"],
                 ["REST API access", "Scale"],
@@ -157,7 +157,7 @@ export default function DocsPage() {
               <span className="section-label">API</span>
               <h2 className="mt-4 uppercase">REST API quick start</h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Agency plans can create API keys from Billing, then authenticate with either the <code>x-api-key</code> header or a Bearer token.
+                Scale plans can create API keys from Billing, then authenticate with either the <code>x-api-key</code> header or a Bearer token.
               </p>
             </div>
             <div className="space-y-4">
@@ -196,10 +196,10 @@ curl https://conduitscore.com/api/scans/SCAN_ID \\
         <section className="border-t py-16" style={{ borderColor: "var(--border-subtle)" }}>
           <div className="container-base mx-auto grid gap-10 px-6 md:px-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
             <div>
-              <span className="section-label">Agency</span>
+              <span className="section-label">Scale</span>
               <h2 className="mt-4 uppercase">Bulk CSV upload</h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Agency plans can upload a CSV from the Projects dashboard to create multiple projects and trigger initial scans in one pass.
+                Scale plans can upload a CSV from the Projects dashboard to create multiple projects and trigger initial scans in one pass.
               </p>
             </div>
             <div

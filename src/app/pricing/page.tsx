@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { PricingCard } from "@/components/pricing/pricing-card";
+import { PricingContent } from "@/components/pricing/pricing-content";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://conduitscore.com";
 
 export const metadata: Metadata = {
   title: "Pricing - AI Visibility Scanner Plans",
   description:
-    "ConduitScore pricing: Diagnose (3 scans/month), Fix ($29/mo, 50 scans), Monitor ($49/mo, 100 scans), Alert ($79/mo, 500 scans), Scale ($149/mo, unlimited). Start free, upgrade when you need more.",
+    "ConduitScore pricing: start free with Diagnose, unlock fixes with Fix, automate tracking with Monitor, add alerts with Alert, and scale workflows with Scale.",
   alternates: {
     canonical: `${SITE_URL}/pricing`,
   },
   openGraph: {
     title: "ConduitScore Pricing - AI Visibility Scanner Plans",
     description:
-      "Start free with 3 AI visibility scans per month. Upgrade for code fixes, issue descriptions, score trends, and more.",
+      "Start free, then upgrade for full fixes, automation, alerts, and API access when your workflow needs more.",
     url: `${SITE_URL}/pricing`,
     type: "website",
   },
@@ -24,13 +24,14 @@ export const metadata: Metadata = {
 const plans = [
   {
     name: "Diagnose",
-    price: "$0",
-    description: "For trying ConduitScore on a single site",
+    monthlyPrice: "$0",
+    description: "See the problem before you commit",
     features: [
       "3 scans per month",
       "AI visibility score",
-      "1 free sample code fix",
       "Issue titles only",
+      "1 free sample code fix",
+      "Basic dashboard & history",
       "No sign-up required",
     ],
     cta: "Scan Free",
@@ -38,65 +39,62 @@ const plans = [
   },
   {
     name: "Fix",
-    price: "$29",
+    monthlyPrice: "$29",
+    annualPrice: "$23",
+    annualTotal: "$276",
     period: "/mo",
-    annualNote: "$23/mo billed annually",
-    description: "For site owners who want the full fix list",
+    description: "Unlock every fix and explanation",
     features: [
       "50 scans per month",
+      "Everything in Diagnose",
       "All code fixes unlocked",
       "Full issue descriptions",
-      "Dashboard & history",
-      "AI visibility score",
-      "Single-site workflow",
     ],
     cta: "Get Started",
     popular: false,
   },
   {
     name: "Monitor",
-    price: "$49",
+    monthlyPrice: "$49",
+    annualPrice: "$39",
+    annualTotal: "$468",
     period: "/mo",
-    annualNote: "$39/mo billed annually",
-    description: "For teams that need recurring scans",
+    description: "Automate tracking across your sites",
     features: [
       "100 scans per month",
       "Everything in Fix",
-      "Scheduled weekly re-scans",
-      "Dashboard & history",
       "Multi-site monitoring",
-      "AI visibility score",
+      "Scheduled weekly re-scans",
+      "Score trend chart",
     ],
     cta: "Get Started",
     popular: true,
   },
   {
     name: "Alert",
-    price: "$79",
+    monthlyPrice: "$79",
+    annualPrice: "$63",
+    annualTotal: "$756",
     period: "/mo",
-    annualNote: "$63/mo billed annually",
-    description: "For teams that need monitoring and alerting",
+    description: "Get notified when your score slips",
     features: [
       "500 scans per month",
       "Everything in Monitor",
-      "Score trend history chart",
-      "Scheduled weekly re-scans",
       "Email alerts on score drop",
-      "AI visibility score",
     ],
     cta: "Get Started",
     popular: false,
   },
   {
     name: "Scale",
-    price: "$149",
-    description: "For agencies and multi-client workflows",
+    monthlyPrice: "$149",
+    description: "Integrate ConduitScore into high-volume workflows",
     features: [
       "Unlimited scans",
       "Everything in Alert",
       "Bulk scan via CSV upload",
       "REST API access",
-      "Agency-scale delivery",
+      "API keys for programmatic scans",
       "Multi-client workflow",
     ],
     cta: "Contact Us",
@@ -128,7 +126,7 @@ function PricingPageJsonLd() {
         item: {
           "@type": "Offer",
           name: `${plan.name} Plan`,
-          price: plan.price.replace("$", ""),
+          price: plan.monthlyPrice.replace("$", ""),
           priceCurrency: "USD",
           description: plan.description,
           url: `${SITE_URL}/pricing`,
@@ -164,7 +162,12 @@ const pricingFaqs = [
   {
     question: "Do you offer annual billing discounts?",
     answer:
-      "Yes, annual billing saves you 20% compared to monthly pricing. Contact our team for Agency or custom enterprise pricing.",
+      "Yes. Choose yearly billing on the pricing page to save 20% on Fix, Monitor, and Alert. Scale pricing is still handled directly with our team.",
+  },
+  {
+    question: "Which plan should I start with?",
+    answer:
+      "Start with Diagnose if you want to see the problem. Move to Fix when you want the full remediation, Monitor when you need recurring tracking, Alert when you want score-drop notifications, and Scale when you need bulk workflows or API access.",
   },
 ];
 
@@ -186,20 +189,6 @@ function PricingFaqJsonLd() {
     />
   );
 }
-
-const comparisonRows = [
-  { feature: "Monthly price",          free: "$0",         starter: "$29",  pro: "$49",    growth: "$79",      agency: "$149" },
-  { feature: "Scans per month",        free: "3",          starter: "50",   pro: "100",    growth: "500",      agency: "Unlimited" },
-  { feature: "AI visibility score",   free: "Yes",        starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
-  { feature: "Code fixes unlocked",   free: "1 sample",   starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
-  { feature: "Issue descriptions",    free: "Titles only", starter: "Yes", pro: "Yes",    growth: "Yes",      agency: "Yes" },
-  { feature: "Dashboard & history",   free: "—",          starter: "Yes",  pro: "Yes",    growth: "Yes",      agency: "Yes" },
-  { feature: "Score trend chart",     free: "—",          starter: "—",    pro: "—",      growth: "Yes",      agency: "Yes" },
-  { feature: "Scheduled re-scans",    free: "—",          starter: "—",    pro: "Yes",    growth: "Yes",      agency: "Yes" },
-  { feature: "Email alerts",          free: "—",          starter: "—",    pro: "—",      growth: "Yes",      agency: "Yes" },
-  { feature: "Bulk scan",             free: "—",          starter: "—",    pro: "—",      growth: "—",        agency: "CSV upload" },
-  { feature: "REST API access",       free: "—",          starter: "—",    pro: "—",      growth: "—",        agency: "Yes" },
-];
 
 export default function PricingPage() {
   return (
@@ -244,45 +233,15 @@ export default function PricingPage() {
                 fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
               }}
             >
-              Simple, transparent pricing
+              Pricing that grows with your workflow
             </h1>
             <p className="mt-4 text-lg max-w-md mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Start free. Upgrade when you need more AI visibility coverage.
-            </p>
-            {/* Annual savings badge */}
-            <div
-              className="mt-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-              style={{
-                background: "rgba(0,229,160,0.08)",
-                border: "1px solid rgba(0,229,160,0.22)",
-                color: "var(--success-400)",
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Annual billing saves 20%
-            </div>
-          </div>
-        </section>
-
-        {/* ===== PLANS GRID ===== */}
-        <section className="py-20">
-          <div className="container-wide mx-auto">
-            <div className="grid gap-5 lg:grid-cols-5 items-start">
-              {plans.map((plan) => (
-                <PricingCard key={plan.name} {...plan} />
-              ))}
-            </div>
-
-            {/* Money-back note */}
-            <p className="mt-8 text-center text-sm" style={{ color: "var(--text-tertiary)" }}>
-              All paid plans include a{" "}
-              <span style={{ color: "var(--text-secondary)" }}>14-day money-back guarantee</span>.
-              Cancel anytime, no questions asked.
+              See the problem for free. Upgrade for full fixes, automation, alerts, and API access when you need more leverage.
             </p>
           </div>
         </section>
+
+        <PricingContent plans={plans} pricingFaqs={pricingFaqs} />
 
         {/* ===== 14-SIGNAL COMPARISON ===== */}
         <section
@@ -396,161 +355,6 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* ===== COMPARISON TABLE ===== */}
-        <section
-          className="pb-20"
-          style={{ borderTop: "1px solid var(--border-subtle)" }}
-        >
-          <div className="container-wide mx-auto pt-16">
-            <h2
-              className="text-center text-2xl font-bold mb-10"
-              style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)", letterSpacing: "-0.02em" }}
-            >
-              Compare all features
-            </h2>
-            <div
-              className="overflow-x-auto rounded-xl"
-              style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-overlay)" }}
-            >
-              <table className="w-full text-sm" role="table" aria-label="Plan feature comparison">
-                <thead>
-                  <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-                    <th
-                      className="py-4 px-6 text-left font-semibold"
-                      style={{ color: "var(--text-secondary)", fontFamily: "var(--font-display)", width: "25%" }}
-                    >
-                      Feature
-                    </th>
-                    {["Diagnose", "Fix", "Monitor", "Alert", "Scale"].map((plan) => (
-                      <th
-                        key={plan}
-                        className="py-4 px-4 text-center font-semibold"
-                        style={{
-                          color: plan === "Monitor" ? "var(--brand-red)" : "var(--text-secondary)",
-                          fontFamily: "var(--font-display)",
-                        }}
-                      >
-                        {plan}
-                        {plan === "Monitor" && (
-                          <span
-                            className="block text-xs font-normal mt-0.5"
-                            style={{ color: "var(--text-tertiary)" }}
-                          >
-                            Popular
-                          </span>
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonRows.map((row, i) => (
-                    <tr
-                      key={row.feature}
-                      style={{
-                        borderBottom: i < comparisonRows.length - 1 ? "1px solid var(--border-subtle)" : "none",
-                        background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)",
-                      }}
-                    >
-                      <td className="py-3.5 px-6" style={{ color: "var(--text-secondary)" }}>
-                        {row.feature}
-                      </td>
-                      {[row.free, row.starter, row.pro, row.growth, row.agency].map((val, vi) => (
-                        <td key={vi} className="py-3.5 px-4 text-center">
-                          {val === "Yes" ? (
-                            <div className="flex justify-center">
-                              <div
-                                className="flex h-5 w-5 items-center justify-center rounded-full"
-                                style={{
-                                  background: vi === 2
-                                    ? "rgba(255,45,85,0.10)"
-                                    : "rgba(0,229,160,0.08)",
-                                  border: vi === 2
-                                    ? "1px solid rgba(255,45,85,0.22)"
-                                    : "1px solid rgba(0,229,160,0.20)",
-                                }}
-                              >
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-label="Included">
-                                  <path
-                                    d="M2 5l2.5 2.5 3.5-4"
-                                    stroke={vi === 2 ? "var(--brand-red)" : "var(--success-400)"}
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          ) : val === "—" ? (
-                            <span style={{ color: "var(--text-tertiary)" }}>—</span>
-                          ) : (
-                            <span
-                              style={{
-                                color: vi === 2 ? "var(--brand-red)" : "var(--text-secondary)",
-                                fontWeight: vi === 2 ? 600 : 400,
-                                fontFamily: vi === 2 ? "var(--font-mono)" : "inherit",
-                                fontSize: vi === 2 ? "0.8125rem" : "inherit",
-                              }}
-                            >
-                              {val}
-                            </span>
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* ===== PRICING FAQ ===== */}
-        <section
-          className="pb-24"
-          style={{ borderTop: "1px solid var(--border-subtle)", background: "var(--surface-raised)" }}
-        >
-          <div className="container-wide mx-auto pt-16">
-            <h2
-              className="text-center text-2xl font-bold mb-10"
-              style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)", letterSpacing: "-0.02em" }}
-            >
-              Pricing FAQ
-            </h2>
-            <div className="mx-auto max-w-2xl space-y-3">
-              {pricingFaqs.map((faq) => (
-                <details
-                  key={faq.question}
-                  className="group rounded-xl"
-                  style={{ background: "var(--surface-overlay)", border: "1px solid var(--border-subtle)", transition: "border-color 0.2s" }}
-                >
-                  <summary
-                    className="flex cursor-pointer items-center justify-between p-5 font-semibold text-sm select-none"
-                    style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)", listStyle: "none" }}
-                  >
-                    {faq.question}
-                    <span
-                      className="ml-4 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md transition-all group-open:rotate-180"
-                      style={{
-                        background: "rgba(108,59,255,0.08)",
-                        border: "1px solid var(--border-subtle)",
-                        color: "var(--brand-red)",
-                      }}
-                      aria-hidden="true"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </summary>
-                  <p className="px-5 pb-5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                    {faq.answer}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

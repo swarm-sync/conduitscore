@@ -12,13 +12,6 @@ interface ScanSummary {
   createdAt: string;
 }
 
-interface SessionUser {
-  id?: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
-
 export default function DashboardPage() {
   const [totalScans, setTotalScans] = useState<number | null>(null);
   const [avgScore, setAvgScore] = useState<number | null>(null);

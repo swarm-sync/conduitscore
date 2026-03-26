@@ -467,7 +467,7 @@ export default function ProjectsPage() {
                       </>
                     ) : (
                       <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-                        Upgrade to Pro to enable scheduled rescans.
+                        Upgrade to Monitor to enable scheduled rescans.
                       </p>
                     )}
                   </div>
@@ -475,7 +475,7 @@ export default function ProjectsPage() {
                     <p className="text-xs uppercase tracking-widest" style={{ color: "var(--text-tertiary)" }}>Email alerts</p>
                     {canReceiveAlerts ? (
                       <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-                        Growth and Agency projects receive an email if a scheduled scan drops by 5+ points.
+                        Alert and Scale projects receive an email if a scheduled scan drops by 5+ points.
                       </p>
                     ) : (
                       <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -503,7 +503,7 @@ export default function ProjectsPage() {
                     <ProjectTrendChartLazy points={chartPoints} />
                   ) : (
                     <div className="rounded-xl p-6 text-sm" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-subtle)", color: "var(--text-secondary)" }}>
-                      Upgrade to Growth to unlock the score trend chart.
+                      Upgrade to Monitor to unlock the score trend chart.
                     </div>
                   )}
                 </div>

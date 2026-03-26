@@ -41,22 +41,22 @@ const FEATURE_ROWS = [
   },
   {
     name: "Dashboard & history",
-    value: (tier: string) => (PLAN_FEATURES.dashboardHistory(tier) ? "Included" : "Not included"),
+    value: () => "Included",
   },
   {
     name: "Score trend chart",
-    value: (tier: string) => (PLAN_FEATURES.scoreTrendChart(tier) ? "Included" : "Growth+"),
+    value: (tier: string) => (PLAN_FEATURES.scoreTrendChart(tier) ? "Included" : "Monitor+"),
   },
   {
     name: "Scheduled re-scans",
-    value: (tier: string) => (PLAN_FEATURES.scheduledRescans(tier) ? "Included" : "Pro+"),
+    value: (tier: string) => (PLAN_FEATURES.scheduledRescans(tier) ? "Included" : "Monitor+"),
   },
   {
     name: "Email alerts",
     value: (tier: string) => (PLAN_FEATURES.emailAlerts(tier) ? "Included" : "Growth+"),
   },
   {
-    name: "Bulk scan",
+    name: "Bulk CSV upload",
     value: (tier: string) => (PLAN_FEATURES.bulkScan(tier) ? "CSV upload" : "Scale"),
   },
   {
@@ -213,8 +213,6 @@ export default function BillingPage() {
           </span>
           <span className="text-sm" style={{ color: "var(--text-secondary)" }}>
             {scanLimit ? `${scanLimit} scans/month` : "Unlimited scans/month"}
-            {" · "}
-            {limits.pagesPerScan === -1 ? "Unlimited pages per scan" : `${limits.pagesPerScan} ${limits.pagesPerScan === 1 ? "page" : "pages"} per scan`}
           </span>
         </div>
         <div className="mt-6 flex gap-3">

@@ -23,11 +23,14 @@ export function isTierAtLeast(tier: string, minimumTier: SubscriptionTier): bool
 }
 
 export const PLAN_FEATURES = {
-  dashboardHistory: (tier: string) => isTierAtLeast(tier, "starter"),
+  dashboardHistory: (tier: string) => {
+    void tier;
+    return true;
+  },
   unlockedFixes: (tier: string) => isTierAtLeast(tier, "starter"),
   issueDescriptions: (tier: string) => isTierAtLeast(tier, "starter"),
   scheduledRescans: (tier: string) => isTierAtLeast(tier, "pro"),
-  scoreTrendChart: (tier: string) => isTierAtLeast(tier, "growth"),
+  scoreTrendChart: (tier: string) => isTierAtLeast(tier, "pro"),
   emailAlerts: (tier: string) => isTierAtLeast(tier, "growth"),
   bulkScan: (tier: string) => isTierAtLeast(tier, "agency"),
   restApi: (tier: string) => isTierAtLeast(tier, "agency"),
