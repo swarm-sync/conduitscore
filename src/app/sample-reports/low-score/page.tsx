@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "Sample ConduitScore Report — Low Score (28/100)",
   description:
-    "See what a low ConduitScore report looks like. A score of 28/100 indicates major AI visibility blockers including blocked bots, missing structured data, and no llms.txt file.",
+    "See a low ConduitScore report (28/100). Major AI visibility blockers: blocked bots, missing structured data, and no llms.txt. Includes prioritized fixes.",
   alternates: {
     canonical: `${SITE_URL}/sample-reports/low-score`,
   },

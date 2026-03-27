@@ -32,7 +32,7 @@ export async function generateMetadata({
       url: `${SITE_URL}/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
-      authors: ["ConduitScore"],
+      authors: [post.author],
       section: post.category,
     },
     twitter: {
@@ -53,9 +53,14 @@ function BlogPostJsonLd({ post }: { post: BlogPost }) {
     datePublished: post.date,
     dateModified: post.date,
     author: {
-      "@type": "Organization",
-      name: "ConduitScore",
-      url: SITE_URL,
+      "@type": "Person",
+      name: post.author,
+      jobTitle: post.authorTitle,
+      worksFor: {
+        "@type": "Organization",
+        name: "ConduitScore",
+        url: SITE_URL,
+      },
     },
     publisher: {
       "@type": "Organization",
@@ -95,6 +100,86 @@ function BlogPostJsonLd({ post }: { post: BlogPost }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
     </>
+  );
+}
+
+/**
+ * PostByline
+ * Displays author name, title, and formatted publish date below the article title.
+ * Format: avatar-initial | By [Author] · [Title] | Published [Date]
+ */
+function PostByline({ post }: { post: BlogPost }) {
+  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return (
+    <div
+      className="mt-6 flex items-center gap-3"
+      style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "20px" }}
+    >
+      {/* Author avatar — initials circle */}
+      <div
+        aria-hidden="true"
+        style={{
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, var(--cyan-500, #06b6d4) 0%, var(--brand-red, #ff2d55) 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          fontSize: "0.875rem",
+          fontWeight: 700,
+          color: "#fff",
+          letterSpacing: "0.02em",
+        }}
+      >
+        {post.author
+          .split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2)}
+      </div>
+
+      {/* Author info */}
+      <div style={{ lineHeight: 1.35 }}>
+        <p
+          style={{
+            fontSize: "0.875rem",
+            fontWeight: 600,
+            color: "var(--text-primary)",
+            margin: 0,
+          }}
+        >
+          {post.author}
+        </p>
+        <p
+          style={{
+            fontSize: "0.75rem",
+            color: "var(--text-secondary)",
+            margin: 0,
+          }}
+        >
+          {post.authorTitle}
+          <span
+            style={{
+              display: "inline-block",
+              margin: "0 6px",
+              color: "var(--text-tertiary)",
+            }}
+            aria-hidden="true"
+          >
+            ·
+          </span>
+          <time dateTime={post.date}>Published {formattedDate}</time>
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -198,19 +283,12 @@ export default async function BlogPostPage({
               </span>
             </nav>
 
-            {/* Category + meta */}
+            {/* Category + read time */}
             <div
               className="flex flex-wrap items-center gap-3 text-xs mb-5"
               style={{ color: "var(--text-secondary)" }}
             >
               <span className="badge badge-cyan">{post.category}</span>
-              <time dateTime={post.date}>
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
               <span style={{ color: "var(--text-tertiary)" }}>{post.readTime}</span>
             </div>
 
@@ -221,6 +299,9 @@ export default async function BlogPostPage({
             >
               {post.description}
             </p>
+
+            {/* Byline */}
+            <PostByline post={post} />
           </div>
         </section>
 

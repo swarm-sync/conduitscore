@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "AI Visibility for E-commerce - ConduitScore",
   description:
-    "E-commerce stores miss sales when AI shopping assistants can't read product data. ConduitScore scans your store so ChatGPT, Perplexity, and Gemini recommend your products to shoppers.",
+    "E-commerce stores miss sales when AI shopping assistants can't read product data. ConduitScore scans your store so ChatGPT, Perplexity, and Gemini recommend your products.",
   alternates: {
     canonical: `${SITE_URL}/use-cases/ecommerce`,
   },
@@ -47,7 +47,7 @@ function EcommerceUseCaseJsonLd() {
         name: "How quickly can I improve my e-commerce AI visibility score?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Most e-commerce sites can improve their AI visibility score by 20-30 points within a week by implementing three quick wins: allowing AI crawlers in robots.txt, adding Product schema to product pages, and creating an LLMs.txt file. ConduitScore provides the exact code for each fix.",
+          text: "Many e-commerce sites see meaningful score improvements quickly by addressing three areas: allowing AI crawlers in robots.txt, adding Product schema to product pages, and creating an LLMs.txt file. ConduitScore provides the exact code for each fix.",
         },
       },
     ],
@@ -127,16 +127,21 @@ export default function EcommerceUseCasePage() {
                   Product Discovery Has a New Channel
                 </h2>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
-                  AI-powered shopping is growing at over 400% year-over-year. Consumers now ask
-                  ChatGPT, Perplexity, and Google Gemini for product recommendations before visiting
-                  any store. These AI agents do not browse your site like humans -- they parse
-                  structured data, read product schema, and evaluate your content for authority and
-                  accuracy.
+                  Consumers increasingly ask ChatGPT, Perplexity, and Google Gemini for product
+                  recommendations before visiting any store. These AI agents do not browse your site
+                  like humans -- they parse structured data, read product schema, and evaluate your
+                  content for authority and accuracy.{" "}
+                  <Link href="/methodology" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                    See how AI agents evaluate every signal
+                  </Link>.
                 </p>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                   The e-commerce sites that win in this new channel are the ones with proper Product
                   schema on every page, AI crawler access enabled, rich product descriptions with
-                  comparison data, and a machine-readable site summary via LLMs.txt. Without these,
+                  comparison data, and a machine-readable site summary via LLMs.txt.{" "}
+                  <Link href="/blog/structured-data-for-ai" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                    Learn how to implement Product schema for AI
+                  </Link>. Without these,
                   AI agents literally cannot see your inventory.
                 </p>
               </div>
@@ -177,37 +182,87 @@ export default function EcommerceUseCasePage() {
           </div>
         </section>
 
-        {/* Stats */}
+        {/* First-party data proof */}
         <section className="py-20 sm:py-24" style={{ background: "var(--surface-raised)" }}>
-          <div className="container-wide mx-auto px-4 text-center">
-            <h2
-              className="text-2xl font-bold sm:text-3xl"
-              style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
-            >
-              AI-Powered Shopping Is Not a Future Trend
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
-              It is happening now. E-commerce stores that optimize for AI agents today are capturing
-              demand that competitors cannot even see.
-            </p>
-            <div className="mt-12 grid gap-8 sm:grid-cols-3">
-              {[
-                { stat: "400%+", label: "YoY growth in AI-assisted shopping queries" },
-                { stat: "73%", label: "of AI product recommendations cite stores with Product schema" },
-                { stat: "20-30 pts", label: "average score improvement after implementing fixes" },
-              ].map((item) => (
-                <div key={item.label} className="card p-8">
-                  <div
-                    className="stat-number text-4xl gradient-text"
-                    style={{ fontFamily: "var(--font-mono)" }}
+          <div className="container-wide mx-auto px-4">
+            <div className="mx-auto max-w-3xl">
+              <div
+                className="rounded-2xl border p-8 sm:p-10"
+                style={{
+                  background: "var(--surface-base)",
+                  borderColor: "rgba(0,217,255,0.2)",
+                }}
+              >
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                    style={{ background: "rgba(0,217,255,0.12)", color: "var(--cyan-300)" }}
                   >
-                    {item.stat}
+                    &#9679;
+                  </span>
+                  <div>
+                    <p
+                      className="text-xs font-semibold uppercase tracking-widest"
+                      style={{ color: "var(--cyan-300)" }}
+                    >
+                      Real data from our scans
+                    </p>
+                    <h2
+                      className="mt-2 text-xl font-bold sm:text-2xl"
+                      style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+                    >
+                      Structured data gaps are widespread
+                    </h2>
                   </div>
-                  <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    {item.label}
-                  </p>
                 </div>
-              ))}
+                <p className="mt-6" style={{ color: "var(--text-secondary)" }}>
+                  Across 457 sites scanned between March 13 and March 17, 2026, the average AI
+                  visibility score was{" "}
+                  <strong style={{ color: "var(--text-primary)" }}>35 out of 100</strong> and the
+                  median was{" "}
+                  <strong style={{ color: "var(--text-primary)" }}>29 out of 100</strong>. In
+                  nearly every low-scoring site, our structured-data analyzer flagged the absence
+                  of Product schema -- the markup that AI shopping assistants rely on to extract
+                  price, availability, and product details. This is consistent with what we observe
+                  across e-commerce: most stores have useful product information, but it is locked
+                  in HTML that AI agents cannot reliably parse.
+                </p>
+                <div
+                  className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl p-6"
+                  style={{ background: "var(--surface-raised)" }}
+                >
+                  {[
+                    { stat: "457", label: "Sites scanned" },
+                    { stat: "35 / 100", label: "Average score" },
+                    { stat: "29 / 100", label: "Median score" },
+                  ].map((item) => (
+                    <div key={item.label} className="text-center">
+                      <p
+                        className="text-2xl font-bold"
+                        style={{ color: "var(--cyan-300)", fontFamily: "var(--font-display)" }}
+                      >
+                        {item.stat}
+                      </p>
+                      <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
+                        {item.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+                  Addressing three gaps -- enabling AI crawler access in robots.txt, adding
+                  Product schema to product pages, and publishing an LLMs.txt file -- covers the
+                  most common deficiencies we see. These are the changes that consistently move
+                  scores from the 20&ndash;35 range into the 50&ndash;70 range in our scan data.
+                  They do not require a site redesign; they are configuration and markup changes.
+                </p>
+                <p
+                  className="mt-4 text-xs"
+                  style={{ color: "var(--text-tertiary, var(--text-secondary))", opacity: 0.7 }}
+                >
+                  Data from 457 anonymous ConduitScore scans, March 13&ndash;17, 2026.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -224,7 +279,10 @@ export default function EcommerceUseCasePage() {
               </h2>
               <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                 Scan your e-commerce store now. See exactly what AI agents find -- and what they miss.
-                Get copy-paste Product schema and crawler access fixes in 30 seconds.
+                Get copy-paste Product schema and crawler access fixes in 30 seconds.{" "}
+                <Link href="/sample-reports/high-score" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  See what a fully optimized score report looks like
+                </Link>.
               </p>
               <div className="mt-8">
                 <Link href="/" className="btn btn-primary btn-lg">

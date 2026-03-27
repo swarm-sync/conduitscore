@@ -85,7 +85,10 @@ export default function ApiAccessPage() {
               <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 Scale customers do not receive ConduitScore&apos;s code or infrastructure. They receive an API key. That key
                 authorizes specific API requests so their own software can send domains to ConduitScore and get structured
-                results back.
+                results back.{" "}
+                <Link href="/what-conduit-checks" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  See every check the API runs across 7 categories
+                </Link>.
               </p>
             </div>
             <div
@@ -112,7 +115,10 @@ export default function ApiAccessPage() {
               <span className="section-label">Use cases</span>
               <h2 className="mt-4 uppercase">Why customers would want it</h2>
               <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                API access matters when ConduitScore needs to fit into a workflow, not just be used manually in the browser.
+                API access matters when ConduitScore needs to fit into a workflow, not just be used manually in the browser.{" "}
+                <Link href="/use-cases/agencies" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  See how agencies scale audits across client portfolios
+                </Link>.
               </p>
             </div>
             <div className="space-y-3">
@@ -136,7 +142,11 @@ export default function ApiAccessPage() {
               <h2 className="mt-4 uppercase">One endpoint anyone can understand</h2>
               <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 ConduitScore also exposes a simple public score lookup endpoint. This shows what the API returns, while
-                keeping Scale-only authenticated access behind API keys.
+                keeping Scale-only authenticated access behind API keys. The score reflects signals like{" "}
+                <Link href="/blog/structured-data-for-ai" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  structured data
+                </Link>{" "}
+                and crawler access — see <Link href="/methodology" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>our methodology</Link> for the full breakdown.
               </p>
             </div>
             <div className="space-y-4">

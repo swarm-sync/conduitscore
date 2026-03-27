@@ -126,7 +126,8 @@ export function WhoUsesSection() {
             style={{
               fontSize: "0.9375rem",
               fontFamily: "var(--font-body)",
-              color: "var(--cyan-400)",
+              /* --cyan-400 resolves to --brand-red which fails contrast; use --brand-cyan instead */
+              color: "var(--brand-cyan)",
               textDecoration: "none",
             }}
           >

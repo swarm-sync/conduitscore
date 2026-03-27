@@ -9,7 +9,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "Blog - AI SEO Guides, GEO Tips & AI Visibility Insights",
   description:
-    "Learn how to optimize your website for AI agents. Expert guides on AI SEO, Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), structured data, LLMs.txt, and more.",
+    "Expert guides on AI SEO, GEO, and AEO. Learn to optimize your site for ChatGPT, Perplexity, and Claude with structured data, LLMs.txt, and content strategy.",
   alternates: {
     canonical: `${SITE_URL}/blog`,
   },
@@ -45,8 +45,9 @@ function BlogIndexJsonLd() {
       url: `${SITE_URL}/blog/${post.slug}`,
       datePublished: post.date,
       author: {
-        "@type": "Organization",
-        name: "ConduitScore",
+        "@type": "Person",
+        name: post.author,
+        jobTitle: post.authorTitle,
       },
     })),
   };
@@ -200,6 +201,70 @@ export default function BlogPage() {
           </Link>
         </div>
 
+        {/* Entity bridge: product pages */}
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-8 pb-0">
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "12px",
+              alignItems: "center",
+              padding: "20px 24px",
+              background: "var(--surface-overlay)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "var(--radius-lg)",
+            }}
+          >
+            <span style={{ fontSize: "0.8125rem", color: "var(--text-tertiary)", fontFamily: "var(--font-body)" }}>
+              Explore the product:
+            </span>
+            <Link
+              href="/what-conduit-checks"
+              style={{
+                fontSize: "0.875rem",
+                color: "var(--brand-cyan)",
+                textDecoration: "none",
+                fontWeight: 500,
+              }}
+            >
+              What we check &rarr;
+            </Link>
+            <Link
+              href="/methodology"
+              style={{
+                fontSize: "0.875rem",
+                color: "var(--brand-cyan)",
+                textDecoration: "none",
+                fontWeight: 500,
+              }}
+            >
+              Our methodology &rarr;
+            </Link>
+            <Link
+              href="/use-cases/saas"
+              style={{
+                fontSize: "0.875rem",
+                color: "var(--text-secondary)",
+                textDecoration: "none",
+                fontWeight: 500,
+              }}
+            >
+              SaaS use case &rarr;
+            </Link>
+            <Link
+              href="/pricing"
+              style={{
+                fontSize: "0.875rem",
+                color: "var(--text-secondary)",
+                textDecoration: "none",
+                fontWeight: 500,
+              }}
+            >
+              Pricing &rarr;
+            </Link>
+          </div>
+        </div>
+
         {/* Post list */}
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20">
           <div className="space-y-6">
@@ -227,6 +292,8 @@ export default function BlogPage() {
                     })}
                   </time>
                   <span style={{ color: "var(--text-tertiary)" }}>{post.readTime}</span>
+                  <span style={{ color: "var(--text-tertiary)" }} aria-hidden="true">·</span>
+                  <span style={{ color: "var(--text-secondary)" }}>By {post.author}</span>
                 </div>
 
                 {/* Title */}
@@ -275,6 +342,69 @@ export default function BlogPage() {
                 </Link>
               </article>
             ))}
+          </div>
+
+          {/* Ready to scan CTA */}
+          <div
+            style={{
+              marginTop: "48px",
+              padding: "36px",
+              background: "var(--surface-overlay)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "var(--radius-xl)",
+              textAlign: "center",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "1.125rem",
+                fontWeight: 700,
+                color: "var(--text-primary)",
+                marginBottom: "8px",
+              }}
+            >
+              Ready to see your own AI visibility score?
+            </p>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginBottom: "20px" }}>
+              Scan any website free — no signup needed. Results in 15 seconds.
+            </p>
+            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+              <Link
+                href="/"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "10px 24px",
+                  borderRadius: "8px",
+                  background: "var(--brand-lime)",
+                  color: "#0a0a0b",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  fontSize: "0.9375rem",
+                }}
+              >
+                Scan My Site Free
+              </Link>
+              <Link
+                href="/pricing"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "10px 24px",
+                  borderRadius: "8px",
+                  border: "1px solid var(--border-default)",
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                  fontSize: "0.9375rem",
+                }}
+              >
+                View Pricing
+              </Link>
+            </div>
           </div>
         </div>
       </main>

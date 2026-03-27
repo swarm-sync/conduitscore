@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "AI Visibility for Marketing Agencies - ConduitScore",
   description:
-    "Marketing and SEO agencies need a scalable way to audit AI visibility for clients. ConduitScore gives you white-label scanning, bulk analysis, and client-ready reports for ChatGPT, Perplexity, and Claude optimization.",
+    "Scale AI visibility audits for every client. ConduitScore gives agencies white-label scanning, bulk analysis, and client-ready reports for ChatGPT, Perplexity, and Claude.",
   alternates: {
     canonical: `${SITE_URL}/use-cases/agencies`,
   },
@@ -126,16 +126,19 @@ export default function AgenciesUseCasePage() {
                   Your Clients Need AI Optimization. You Need Scalable Tools.
                 </h2>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
-                  AI search is growing at 300% year-over-year. Clients are already asking
-                  &ldquo;how do we show up in ChatGPT?&rdquo; and &ldquo;why aren&rsquo;t we cited in
-                  Perplexity?&rdquo; The agencies that can answer these questions -- with data, not
-                  guesswork -- will win the next generation of retainers.
+                  AI search is the fastest-growing new channel for content discovery. Clients are
+                  already asking &ldquo;how do we show up in ChatGPT?&rdquo; and &ldquo;why
+                  aren&rsquo;t we cited in Perplexity?&rdquo; The agencies that can answer these
+                  questions -- with data, not guesswork -- will win the next generation of retainers.
                 </p>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                   ConduitScore gives your team a scalable audit platform. Run scans during
                   prospect calls to demonstrate immediate value. Generate white-label reports for
                   client presentations. Build AI visibility into your monthly retainer workflow
-                  with automated monitoring and alerts.
+                  with automated monitoring and alerts.{" "}
+                  <Link href="/what-conduit-checks" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                    See exactly what each client audit covers
+                  </Link>.
                 </p>
               </div>
               <div className="card-glow p-8">
@@ -224,6 +227,110 @@ export default function AgenciesUseCasePage() {
           </div>
         </section>
 
+        {/* First-party data proof */}
+        <section className="py-20 sm:py-24">
+          <div className="container-wide mx-auto px-4">
+            <div className="mx-auto max-w-3xl">
+              <div
+                className="rounded-2xl border p-8 sm:p-10"
+                style={{
+                  background: "var(--surface-raised)",
+                  borderColor: "rgba(108,59,255,0.2)",
+                }}
+              >
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                    style={{ background: "rgba(108,59,255,0.15)", color: "var(--violet-300)" }}
+                  >
+                    &#9679;
+                  </span>
+                  <div>
+                    <p
+                      className="text-xs font-semibold uppercase tracking-widest"
+                      style={{ color: "var(--violet-300)" }}
+                    >
+                      What the scan data shows
+                    </p>
+                    <h2
+                      className="mt-2 text-xl font-bold sm:text-2xl"
+                      style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+                    >
+                      Every client site is a quick-win audit waiting to happen
+                    </h2>
+                  </div>
+                </div>
+                <p className="mt-6" style={{ color: "var(--text-secondary)" }}>
+                  We have scanned 457 unique websites over a five-day window (March 13&ndash;17,
+                  2026). The median AI visibility score across all sites was{" "}
+                  <strong style={{ color: "var(--text-primary)" }}>29 out of 100</strong>, and
+                  the average was 35. The minimum observed was 20 and the maximum was 95. That
+                  spread is meaningful for agencies: nearly every client site you bring into
+                  ConduitScore will have a score below 50, which means immediate, demonstrable
+                  improvement opportunities exist before you have done any substantive work.
+                </p>
+                <div
+                  className="mt-6 rounded-xl p-6"
+                  style={{ background: "var(--surface-base)" }}
+                >
+                  <p
+                    className="text-sm font-semibold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    What improvement looks like in practice
+                  </p>
+                  <ul className="mt-4 space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+                    {[
+                      {
+                        fix: "Enable AI crawler access in robots.txt",
+                        detail:
+                          "Sites that block GPTBot, PerplexityBot, or ClaudeBot in robots.txt receive a 0 on crawler access. Removing those blocks is a one-line change that immediately improves that category score.",
+                      },
+                      {
+                        fix: "Publish an LLMs.txt file",
+                        detail:
+                          "Fewer than 5% of sites in our scan set have an LLMs.txt file at the domain root. Adding one is a 30-minute task that covers an entire scoring category.",
+                      },
+                      {
+                        fix: "Add JSON-LD structured data to key pages",
+                        detail:
+                          "Sites with valid Product, FAQPage, or Organization schema consistently score higher on our structured-data category. The top-scoring site in our data (95/100) has schema on every primary page.",
+                      },
+                    ].map((item) => (
+                      <li key={item.fix} className="flex gap-3">
+                        <span
+                          className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                          style={{ background: "rgba(108,59,255,0.15)", color: "var(--violet-300)" }}
+                        >
+                          &#10003;
+                        </span>
+                        <div>
+                          <span className="font-medium" style={{ color: "var(--text-primary)" }}>
+                            {item.fix}
+                          </span>{" "}
+                          &mdash; {item.detail}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <p className="mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+                  These three fixes together address the most common deficiencies in our scan
+                  dataset. They are also the easiest to demonstrate to a client: run the scan
+                  before, apply the fixes, run the scan again. The score change is observable and
+                  concrete.
+                </p>
+                <p
+                  className="mt-4 text-xs"
+                  style={{ color: "var(--text-tertiary, var(--text-secondary))", opacity: 0.7 }}
+                >
+                  Data from 457 anonymous ConduitScore scans, March 13&ndash;17, 2026.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="py-20 sm:py-24">
           <div className="container-wide mx-auto px-4 text-center">
@@ -236,7 +343,10 @@ export default function AgenciesUseCasePage() {
               </h2>
               <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                 Run a free scan on any client site right now. See the AI visibility score, identify
-                quick wins, and use the results to start a conversation about AI search optimization.
+                quick wins, and use the results to start a conversation about AI search optimization.{" "}
+                <Link href="/api-access" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  Explore API access for white-label integrations
+                </Link>.
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                 <Link href="/" className="btn btn-primary btn-lg">

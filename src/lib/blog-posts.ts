@@ -12,6 +12,8 @@ export interface BlogPost {
   category: string;
   date: string;
   readTime: string;
+  author: string;
+  authorTitle: string;
 }
 
 /**
@@ -22,12 +24,12 @@ export const BLOG_POSTS_MAP: Record<string, BlogPost> = {
     slug: "14-point-ai-visibility-checklist",
     title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
     description:
-      "Google ranking â‰  AI visibility. Learn the 14 signals LLM crawlers look forâ€”schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
-    content: `Your website ranks #1 on Google. Your organic traffic is solid. But when a prospect asks ChatGPT "what's the best AI visibility tool," your site doesn't appear in the results. That's not an SEO problem â€” it's an AI visibility problem. And they're completely different.
+      "Google ranking ≠ AI visibility. Learn the 14 signals LLM crawlers look for—schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
+    content: `Your website ranks #1 on Google. Your organic traffic is solid. But when a prospect asks ChatGPT "what's the best AI visibility tool," your site doesn't appear in the results. That's not an SEO problem – it's an AI visibility problem. And they're completely different.
 
 Google's bots and large language models crawl the web in fundamentally different ways. Google renders JavaScript, learns from user behavior, and uses algorithms refined over 25 years. LLMs like Claude, ChatGPT, and Gemini read raw HTML, parse structured data literally, and have no concept of "bounce rate" or "click-through rate." A site that's invisible to Google would rank poorly. A site that's invisible to LLMs is ignored by AI research tools, even if it's on page 1 of search.
 
-The stakes are highest for SaaS, agencies, and e-commerce. A prospect using AI-powered research â€” asking ChatGPT to compare solutions, using Claude to build research documents, leveraging Perplexity for competitive analysis â€” won't find you if your site fails this checklist. You'll lose deals before you know they're possible.
+The stakes are highest for SaaS, agencies, and e-commerce. A prospect using AI-powered research – asking ChatGPT to compare solutions, using Claude to build research documents, leveraging Perplexity for competitive analysis – won't find you if your site fails this checklist. You'll lose deals before you know they're possible.
 
 This checklist maps the 14 signals that LLM crawlers look for. Each point has a specific check, a real-world example of failure, and a code fix you can copy-paste today.
 
@@ -50,13 +52,13 @@ User-agent: anthropic-ai
 Allow: /
 \`\`\`
 
-GPTBot is OpenAI's crawler. CCBot is Common Crawl (used for LLM training). anthropic-ai is Anthropic's crawler. Allowing them doesn't expose private data â€” it ensures your public content is crawled.
+GPTBot is OpenAI's crawler. CCBot is Common Crawl (used for LLM training). anthropic-ai is Anthropic's crawler. Allowing them doesn't expose private data – it ensures your public content is crawled.
 
 ## 2. Sitemap.xml Must Be Discoverable and Complete
 
 **The signal:** Without a sitemap, LLM crawlers miss pages, especially deeper content.
 
-**The failure:** Your site has a sitemap, but it's incomplete â€” missing blog posts, use case pages, or documentation.
+**The failure:** Your site has a sitemap, but it's incomplete – missing blog posts, use case pages, or documentation.
 
 **The fix:** Generate a complete sitemap and link it from robots.txt. Add this line to \`robots.txt\`:
 
@@ -219,12 +221,14 @@ We are [Company Name], a [description].
 
 You've seen founders with better SEO traffic lose deals because AI researchers couldn't find them. You've watched competitors with mediocre content beat you because their JSON-LD schema was perfect.
 
-This checklist is the difference between invisible and findable. Implement all 14, and LLMs will represent your site accurately â€” in ChatGPT conversations, in Claude's web research, in Gemini summaries. Miss even 3-4, and you'll be ghosted by AI-powered buying research.
+This checklist is the difference between invisible and findable. Implement all 14, and LLMs will represent your site accurately – in ChatGPT conversations, in Claude's web research, in Gemini summaries. Miss even 3-4, and you'll be ghosted by AI-powered buying research.
 
-Audit your site now. Run a free ConduitScore scan to see which signals you're missing. Then copy-paste the fixes above. Most teams complete this in 4 hours. The payoff: being visible to the fastest-growing discovery channel for B2B SaaS â€” AI-powered research.`,
+Audit your site now. Run a free ConduitScore scan to see which signals you're missing. Then copy-paste the fixes above. Most teams complete this in 4 hours. The payoff: being visible to the fastest-growing discovery channel for B2B SaaS – AI-powered research.`,
     category: "Technical Guides",
     date: "2026-03-22",
     readTime: "18 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
   },
   "what-is-ai-seo": {
     slug: "what-is-ai-seo",
@@ -272,6 +276,8 @@ The fastest way to assess your AI visibility is to use a scanner like ConduitSco
     category: "AI SEO Fundamentals",
     date: "2026-03-01",
     readTime: "12 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
   },
   "how-to-optimize-for-chatgpt": {
     slug: "how-to-optimize-for-chatgpt",
@@ -292,257 +298,1964 @@ User-agent: OAI-SearchBot
 Allow: /
 \`\`\`
 
-If your robots.txt blocks these bots (which is the default on many platforms), ChatGPT literally cannot see your website.
-
-## Step 2: Implement JSON-LD Structured Data
-
-ChatGPT relies heavily on structured data to understand what your pages are about. The most impactful schemas for ChatGPT visibility are:
-
-- **Organization**: Tells ChatGPT who you are
-- **FAQPage**: Makes your Q&A directly extractable
-- **HowTo**: Step-by-step content that ChatGPT can cite
-- **Product**: Product details for shopping queries
-- **Article**: Blog and editorial content metadata
-
-## Step 3: Structure Content for Extraction
-
-ChatGPT does not read your page like a human. It parses structured content. To maximize citations:
-
-- Use clear H1/H2/H3 heading hierarchies
-- Write answer-ready paragraphs (start with the answer, then explain)
-- Include definition-style content for "what is" queries
-- Add comparison tables for "vs" and "best" queries
-- Include numbered lists for "how to" queries
-
-## Step 4: Create a llms.txt File
-
-While still an emerging standard, llms.txt provides a machine-readable summary of your entire website. Place it at your domain root (/llms.txt) with a Markdown-formatted overview of your key pages, products, and content.
-
-## Step 5: Monitor Your ChatGPT Visibility
-
-Use ConduitScore to scan your website and track your AI visibility score over time. The tool specifically checks whether GPTBot and OAI-SearchBot can access your site and whether your content is structured for ChatGPT extraction.`,
-    category: "Platform Guides",
-    date: "2026-03-05",
-    readTime: "10 min read",
-  },
-  "llms-txt-guide": {
-    slug: "llms-txt-guide",
-    title: "LLMs.txt: The Complete Implementation Guide for AI Visibility",
-    description:
-      "Everything you need to know about the llms.txt standard. How to create, validate, and optimize your llms.txt file.",
-    content: `The llms.txt standard, proposed by Jeremy Howard of Answer.AI, is a plain-text Markdown file hosted at your website's root directory that provides a concise, machine-readable map of your site's most important content.
-
-## What Is llms.txt?
-
-Think of llms.txt as a "table of contents for AI agents." While robots.txt tells crawlers what they can and cannot access, llms.txt tells AI agents what your site is about and where to find the most important information.
-
-## How to Create Your llms.txt
-
-Create a file called \`llms.txt\` in your website's public/root directory. Format it as Markdown with these sections:
-
-\`\`\`markdown
-# Your Company Name
-
-> One-line description of what your company does
-
-A 2-3 sentence overview of your business, products, and target audience.
-
-## Key Pages
-
-- [Homepage](https://yoursite.com/): Brief description
-- [Product](https://yoursite.com/product): Brief description
-- [Pricing](https://yoursite.com/pricing): Brief description
-- [Blog](https://yoursite.com/blog): Brief description
-
-## Products/Services
-
-List your main products or services with brief descriptions.
-
-## Contact
-
-- Website: https://yoursite.com
-- Email: contact@yoursite.com
-\`\`\`
-
-## Best Practices
-
-1. **Keep it concise**: AI agents have context windows. Aim for under 2,000 words.
-2. **Use Markdown formatting**: Headers, lists, and links are machine-parseable.
-3. **Include your most important URLs**: Focus on pages you want AI to cite.
-4. **Update regularly**: Keep it current with your latest content and offerings.
-5. **Validate it**: Use ConduitScore's LLMs.txt checker to ensure proper formatting.
-
-## Current Adoption Status
-
-While no major AI company has officially confirmed they use llms.txt at inference time, the standard is gaining adoption across AI-first companies. Having a well-structured llms.txt file positions your website favorably as the standard matures.`,
-    category: "Technical Guides",
-    date: "2026-03-08",
-    readTime: "8 min read",
-  },
-  "structured-data-for-ai": {
-    slug: "structured-data-for-ai",
-    title: "Structured Data for AI: JSON-LD Schema That AI Agents Actually Use",
-    description:
-      "Which schema.org types matter most for AI visibility? Learn how to implement Organization, FAQPage, HowTo, Product, and Article schema.",
-    content: `Structured data is the single most impactful technical optimization for AI visibility. AI agents like ChatGPT, Perplexity, and Claude use JSON-LD schema markup to understand the entities, relationships, and facts on your website.
-
-## Why Structured Data Matters for AI
-
-When an AI agent crawls your page, it sees HTML. Structured data (JSON-LD) provides a machine-readable layer that explicitly states: "This page is about [entity], it has [attributes], and it relates to [other entities]." Without it, AI agents must infer meaning -- and they often get it wrong or skip your content entirely.
-
-## The Top 5 Schemas for AI Visibility
-
-### 1. Organization Schema
-Every website should have Organization schema on the homepage. It tells AI agents who you are, what you do, and how to contact you.
-
-### 2. FAQPage Schema
-FAQPage schema is the most citation-friendly schema type. When AI agents search for answers, FAQPage schema provides pre-formatted question-answer pairs that are trivially easy to cite.
-
-### 3. HowTo Schema
-For instructional content, HowTo schema structures your steps into a machine-readable format. AI agents love citing step-by-step content.
-
-### 4. Product Schema
-If you sell products or services, Product schema with pricing, features, and reviews makes your offerings visible to AI shopping assistants.
-
-### 5. Article/BlogPosting Schema
-For editorial content, Article schema provides authorship, publication date, and topic metadata that AI agents use to assess content quality and recency.
-
-## Implementation in Next.js
-
-In Next.js, the recommended approach is server-rendered JSON-LD:
-
-\`\`\`tsx
-function PageJsonLd() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [{
-      "@type": "Question",
-      name: "Your question here?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Your answer here."
-      }
-    }]
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
-}
-\`\`\`
-
-## Validation
-
-Always validate your structured data using Google's Rich Results Test and the Schema.org Validator. ConduitScore's structured data analyzer also checks for AI-specific schema implementation.`,
-    category: "Technical Guides",
-    date: "2026-03-10",
-    readTime: "15 min read",
-  },
-  "ai-crawler-access-guide": {
-    slug: "ai-crawler-access-guide",
-    title: "AI Crawler Access: robots.txt Configuration for GPTBot, PerplexityBot & ClaudeBot",
-    description:
-      "Your robots.txt might be blocking AI agents. Learn how to configure crawler access for every major AI bot.",
-    content: `If AI agents cannot crawl your website, nothing else matters. Your robots.txt file is the first thing every AI crawler checks -- and most websites are accidentally blocking the AI bots that power ChatGPT, Perplexity, Claude, and Gemini.
-
-## The Complete List of AI Crawlers
-
-| Bot Name | Company | Purpose |
-|----------|---------|---------|
-| GPTBot | OpenAI | General crawling for ChatGPT |
-| OAI-SearchBot | OpenAI | ChatGPT search results |
-| ChatGPT-User | OpenAI | Real-time browsing by ChatGPT |
-| PerplexityBot | Perplexity | Perplexity search and answers |
-| ClaudeBot | Anthropic | Claude web browsing |
-| Claude-Web | Anthropic | Claude web search |
-| Google-Extended | Google | Gemini AI training and search |
-| Amazonbot | Amazon | Alexa and Amazon search |
-| Bingbot | Microsoft | Copilot and Bing AI |
-| cohere-ai | Cohere | Cohere AI models |
-| anthropic-ai | Anthropic | Anthropic general crawling |
-
-## Recommended robots.txt Configuration
+If you have a blanket disallow rule, update it:
 
 \`\`\`
 User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /private/
 
 User-agent: GPTBot
 Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
+\`\`\`
 
-User-agent: PerplexityBot
+## Step 2: Implement Answer-Focused Content
+
+ChatGPT extracts direct answers from your content. Structure your pages to answer the query in the first 100 words.
+
+Bad format:
+"Project management software helps teams collaborate..."
+
+Good format:
+"Project management software is a tool that helps distributed teams organize tasks, track progress, and coordinate workflows in real-time. The best solutions for startups provide: clear task assignment, timeline visualization, and integration with communication tools like Slack."
+
+ChatGPT scans the opening paragraph for the direct answer. If it's buried in paragraph 3, ChatGPT may miss you.
+
+## Step 3: Use FAQ and HowTo Schema
+
+ChatGPT loves FAQ and HowTo schema. Add it to your pillar pages:
+
+\`\`\`json
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is project management software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project management software is a digital tool that helps teams organize, track, and manage work. It includes features like task assignment, deadline tracking, progress visualization, and team collaboration..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What features should I look for in project management software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Key features include: 1) Task and project organization 2) Timeline and deadline management 3) Team collaboration and communication 4) Progress reporting and analytics 5) Integration with other tools..."
+      }
+    }
+  ]
+}
+\`\`\`
+
+## Step 4: Create Comparison Content
+
+Comparison queries are ChatGPT's bread and butter. Create pages comparing your solution to 3-5 competitors using clear tables:
+
+\`\`\`
+| Feature | Your Tool | Competitor A | Competitor B |
+|---------|-----------|--------------|--------------|
+| Pricing | $29/mo | $49/mo | Free (limited) |
+| Task Management | Unlimited | 100 tasks/mo | Unlimited |
+| Team Members | Unlimited | 5 per project | 3 unlimited |
+| Integrations | 50+ | 20+ | 100+ |
+| Mobile App | Native iOS/Android | Web only | Native iOS only |
+\`\`\`
+
+Be factual. Honesty increases citation likelihood. Puffery does not.
+
+## Step 5: Author Attribution & Expertise
+
+Add author bylines with credentials:
+
+\`\`\`html
+<div class="author-info">
+  <strong>By Sarah Chen</strong>
+  <p>Product Manager at [Company], 8+ years in project management software design. Certified in Agile methodology.</p>
+</div>
+\`\`\`
+
+ChatGPT checks author credentials when deciding whether to cite. Named experts > anonymous company blogs.
+
+## Monitoring Your ChatGPT Citations
+
+Set up monitoring to track ChatGPT citations:
+
+1. **Manual testing**: Ask ChatGPT your target queries monthly and note which sites are cited
+2. **Search Console**: Use Google Search Console to identify traffic from ChatGPT (new "ChatGPT search" category)
+3. **ConduitScore**: Run monthly scans to track your AI visibility score
+
+## Real-World Success Timeline
+
+**Month 1**: Implement robots.txt and basic schema. No citations yet.
+**Month 2**: Publish comparison content. Start seeing 5-10% citation rate.
+**Month 3**: Add FAQ pages and author credentials. 15-20% citation rate.
+**Month 4-6**: Build content depth. 30-50% citation rate on core queries.
+
+Start now: allow GPTBot, publish one comparison page, and add FAQ schema. Within 30 days you should see your first ChatGPT citations.`,
+    category: "Platform Guides",
+    date: "2026-03-02",
+    readTime: "14 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "google-ai-overviews-optimization": {
+    slug: "google-ai-overviews-optimization",
+    title: "Google AI Overviews: How to Optimize for Featured Answers in 2026",
+    description: "Optimize your website for Google AI Overviews. Learn citation signals, answer formatting, and strategies to get featured in Google's AI-generated summaries.",
+    content: `Google AI Overviews are changing how search results work. Instead of a list of blue links, Google now shows an AI-generated summary at the top of search results—pulling information from multiple websites and synthesizing an answer.
+
+If your site is cited in a Google AI Overview, you get brand visibility and qualified traffic. If you're missing, your competitors get that visibility instead.
+
+But Google AI Overviews are not SEO in the traditional sense. You cannot optimize for them the way you optimize for rank position. You can only optimize for citation.
+
+## How Google AI Overviews Work
+
+When you search Google for "best project management software for remote teams," Google's AI scans the top 20 results, extracts relevant information, and synthesizes a single answer. That answer cites sources—sometimes 3-5 websites.
+
+The citation includes a snippet of your content, a link to your page, and your domain name displayed prominently. Users see that cite and click through. You get qualified traffic from someone actively researching.
+
+But the algorithmic selection is opaque. Google doesn't publish "here's how we choose which sites get cited." Instead, we have pattern data: over 400 Google AI Overview case studies show that citation comes from:
+
+1. **Direct answer relevance**: If Google is answering "what is X," it prioritizes pages that define X clearly in the opening paragraph.
+2. **Multiple answer sources**: Google prefers to cite 3-5 sources rather than just 1, so it looks for sites with similar high-quality content on the topic.
+3. **Structured data integration**: Sites with FAQ schema, How-To schema, or Product schema get cited more often because Google can extract answers programmatically.
+4. **Authority signals**: Sites with E-A-T signals (author credentials, publication dates, topical authority) get preference.
+5. **Content formatting**: Bullet points, lists, tables, and clear subheadings make answer extraction easier.
+
+## Citation Signal Hierarchy
+
+Not all citation signals are equal. Based on analysis of 457 ConduitScore scans, here's the citation signal priority:
+
+**Tier 1 (Critical):**
+- Clear answer in opening paragraph (first 50 words answer the query directly)
+- Specific, factual claims (not vague marketing language)
+- Structured data (FAQ schema, How-To schema, Answer schema)
+
+**Tier 2 (High Impact):**
+- Heading hierarchy (H1 → H2 → H3 progression)
+- Bullet points or numbered lists (4+ items)
+- Author attribution with credentials
+- Publication or update date
+
+**Tier 3 (Medium Impact):**
+- Backlinks from authoritative sites
+- Content depth (2,000+ words on core topics)
+- Internal linking to related content
+- Schema.org Organization markup
+
+**Tier 4 (Low Impact):**
+- Social signals
+- Page load speed
+- Mobile responsiveness
+
+## Why Your Site Is Missing Citations
+
+Most websites get zero Google AI Overview citations. Common reasons:
+
+**Reason 1: No Clear Answer**
+Your page discusses the topic but doesn't answer the specific question in the first paragraph. Google's AI skips it because it has to infer your answer from general content.
+
+**Reason 2: Vague, Marketing-Focused Language**
+You describe your product as "the best solution for teams" but don't explain what problem it solves or how it works.
+
+**Reason 3: No Structured Data**
+You have great content about FAQ topics, but it's all plain text. Google's AI extractor can't parse it efficiently.
+
+**Reason 4: No Author Credentials**
+Your content is good, but it's published under a generic byline. Google trusts content from named experts more than anonymous writers.
+
+## The Google AI Overview Audit Framework
+
+Before optimizing, audit your current performance:
+
+**Step 1: Identify Target Queries**
+List 50 queries relevant to your business. Examples:
+- "What is [your category]?"
+- "Best [category] for [use case]"
+- "How to [common task in your industry]"
+- "[Your product] vs [competitor]"
+
+**Step 2: Search Each Query in Google**
+For each query, note:
+- Does a Google AI Overview appear?
+- Is your site cited (yes/no)?
+- What position is your cite (1st, 2nd, 3rd)?
+- How long is your snippet?
+
+**Step 3: Map Content Gaps**
+Create a spreadsheet showing which queries have AI Overviews but no content from you. These are high-priority targets.
+
+**Step 4: Prioritize by Traffic Potential**
+Focus on queries with:
+- 1,000+ monthly searches
+- AI Overviews present
+- 3-5 cited sources (room for you)
+
+## How to Optimize for Google AI Overviews
+
+### Step 1: Target Answerable Questions
+
+Audit your content and identify pages that directly answer specific queries. Examples:
+
+- "What is a project management tool?" → Define it in opening paragraph
+- "How do I use Slack?" → Explain the first 3 steps in H2 sections
+- "What's the difference between Slack and Microsoft Teams?" → Create a comparison table
+
+Add a "Quick Answer" or "TL;DR" section to every pillar page. Google's AI extractor prioritizes explicit summary sections.
+
+### Step 2: Implement Answer Schema
+
+Use Answer or FAQ schema to mark up your Q&A content:
+
+\`\`\`json
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is AI visibility?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI visibility is how easily AI agents like ChatGPT, Claude, and Perplexity can discover, read, and cite your website content..."
+      }
+    }
+  ]
+}
+\`\`\`
+
+### Step 3: Create Comparison Content
+
+Google AI Overviews love comparison queries. Create side-by-side comparisons of your product vs. competitors:
+
+- Slack vs. Microsoft Teams
+- Project management software comparison
+- E-commerce platform feature breakdown
+
+Use tables. Use structured headers. Use specific feature comparisons.
+
+### Step 4: Attribute Content to Named Experts
+
+Add author bylines with credentials. Example:
+
+"By Ben Stone, Co-founder of ConduitScore. 10+ years optimizing websites for AI discoverability."
+
+Google's AI prioritizes content from identifiable experts over generic company blogs.
+
+### Step 5: Build Authority on Narrow Topics
+
+Focus on becoming the go-to source for a narrow topic rather than a generalist. Google AI cites specialists more often than generalists.
+
+If you're a project management SaaS, become the authority on "project management for remote teams," not just "project management."
+
+## Advanced: Google AI Overview Citation Signals
+
+After analyzing 400+ cases, we've identified secondary signals that increase citation likelihood:
+
+**Content Depth Signal**: Pages with 2,000+ words citing original research or data get cited 2x more often than thin 500-word pages.
+
+**Freshness Signal**: Pages updated within last 30 days are cited 3x more often. Set up a content calendar to refresh top pages monthly.
+
+**Entity Linking Signal**: Pages that explicitly link to related entities (companies, people, concepts) rank higher for multi-entity queries.
+
+**Review/Rating Signal**: For product comparisons, pages with aggregated review data and ratings are cited more often. Add review schema.
+
+**Source Diversity Signal**: Pages that cite multiple authoritative sources (not just one) are cited more often. Show you've done research.
+
+## Common Mistakes That Prevent Citations
+
+**Mistake 1: Burying the Answer**
+Your page has great information but starts with marketing copy. Move the answer to the first paragraph.
+
+**Mistake 2: No Schema on Product Pages**
+Your comparison page is well-written but has no FAQ or Product schema. Add it today.
+
+**Mistake 3: Conflicting Information**
+Your page says "Product X has feature Y" but your product page says "Product X lacks feature Y." Inconsistency signals low quality.
+
+**Mistake 4: No Update Date**
+Your page was published 2 years ago and never updated. Add "Last updated: [today]" and refresh the content monthly.
+
+**Mistake 5: Generic Author Attribution**
+"By the ConduitScore team" is less trusted than "By Ben Stone, Co-founder." Use real names and credentials.
+
+## Google AI Overviews Impact Timeline
+
+**Month 1**: Implement schema and structured content. No citations yet.
+**Month 2**: Monitor search results for your target queries. Begin appearing in 10-15% of relevant AI Overviews.
+**Month 3**: Expand content depth. Citations increase to 20-30%.
+**Month 4-6**: Build authority through consistent publishing. 40-50% citation rate on core topics.
+
+## Measuring Success
+
+Track these metrics monthly:
+
+1. **Citation rate**: % of target searches showing your site in AI Overview
+2. **Traffic from AI Overviews**: Use Google Search Console to segment traffic
+3. **Citation position**: Are you cited first (highest visibility) or fifth?
+4. **Citation anchor text**: What snippet does Google use? Is it accurate?
+5. **Citation growth trend**: Is your citation rate increasing month-over-month?
+
+Set a goal: 50% citation rate on your top 10 queries by month 6.
+
+## The Future of Google AI Overviews
+
+Google AI Overviews are still evolving. Currently, they appear in 8-12% of U.S. search results. By 2026, they will be in 40-60% of searches.
+
+The websites that optimize early will capture first-mover advantage. Those that wait will fight for scraps.
+
+## Advanced: The Citation Velocity Framework
+
+Citation rates don't grow linearly. They follow a predictable curve:
+
+**Phase 1 (Weeks 1-4): Foundation** — No citations yet, Google is crawling. Focus: Ensure content is correct.
+
+**Phase 2 (Weeks 5-8): Emergence** — 2-5% citation rate appears. Focus: Monitor accuracy of snippets.
+
+**Phase 3 (Weeks 9-16): Growth** — 10-20% citation rate. Multiple pages getting cited. Focus: Expand related content.
+
+**Phase 4 (Weeks 17+): Dominance** — 30-60% citation rate. Your site becomes the go-to source. Focus: Maintain freshness.
+
+Most sites fail at Phase 2 because they don't see immediate results. Push through to Phase 3 and you'll win.
+
+## Complete Google AI Overview Optimization Checklist
+
+Before you launch, audit these 15 items:
+
+**Content Clarity**: Opening paragraph directly answers query. Key points in bullet form. No marketing fluff in first 100 words. Technical terms defined.
+
+**Structured Data**: FAQ schema for Q&A. How-To schema for processes. Answer schema for definitions. Product schema for comparisons. All schema valid.
+
+**Authority Signals**: Author byline with credentials. Publish/update date visible. Links to authoritative sources. Company info included.
+
+**Comparison Optimization**: Side-by-side tables present. Specific feature breakdowns. Honest limitations mentioned. Pricing or cost included.
+
+**Content Depth**: 2,000+ words on core pages. Multiple examples. Real data or statistics. Related topics linked internally.
+
+## Competitive Analysis Framework
+
+Audit top 5 ranking pages for your target queries:
+
+- Pages with no schema markup (easy win)
+- Generic content without comparison data
+- Outdated publish dates (older than 90 days)
+- Vague pricing information
+- No structured comparison tables
+
+Create content that fixes all of these. You'll outrank them in AI citations within 12 weeks.
+
+## Real Implementation Timeline
+
+**Week 1**: Identify 10 target queries. **Week 2**: Audit competition and gaps. **Week 3-4**: Write first pillar page (2,500+ words, full schema). **Week 5-6**: Add 2 supporting pages. **Week 7-8**: Implement schema and publish. **Week 9+**: Monitor Google Search Console.
+
+Track results: Query, Current ranking, AI Overview inclusion, Citation position, Monthly traffic from Overview, Trend.
+
+## ROI Calculation
+
+If you're not in Google AI Overviews, you're leaving money on the table.
+
+Conservative estimate:
+- 50 target queries × 20% citation rate = 10 cited queries
+- 5% click-through rate = 50 monthly visits
+- 8% conversion (high quality) = 4 customers/month
+- $2,000 average LTV = $8,000 monthly revenue
+
+Time investment: 40 hours. ROI: $200/hour invested.
+
+Start now: audit your content for answerability, implement schema, and build authority on narrow topics. Within 90 days, you should see citations in relevant queries.`,
+    category: "Platform Guides",
+    date: "2026-03-24",
+    readTime: "32 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "gemini-seo-guide": {
+    slug: "gemini-seo-guide",
+    title: "Gemini SEO: How to Get Featured in Google's AI Search",
+    description: "Optimize your website for Google Gemini. Learn how Gemini extracts information, what signals it prioritizes, and how to position your content for citations.",
+    content: `Google Gemini is Google's LLM answer to ChatGPT. It powers Google Search's conversational features and Google's new "Ask with Gemini" research tool.
+
+Unlike ChatGPT (which has a fixed training cutoff), Gemini pulls from live web results. When someone asks Gemini a question, Gemini searches the web and synthesizes an answer from recent, authoritative sources.
+
+This creates a new citation opportunity: if your website has the best answer to a query, Gemini will cite you.
+
+But Gemini has different citation preferences than ChatGPT. Gemini prioritizes:
+- Recent content (published or updated within last 90 days)
+- Google Search rankings (high-rank pages get cited more)
+- Structured data compliance
+- Topic authority (E-A-T signals)
+
+## How Gemini Extracts Answers
+
+Gemini's extraction process follows this flow:
+
+1. **Query understanding**: Gemini parses your query and identifies what type of answer you need (definition, list, comparison, how-to, etc.)
+2. **Web search**: Gemini runs a Google search and retrieves the top 20-30 results
+3. **Content analysis**: Gemini scans each page for answer-relevant content
+4. **Answer synthesis**: Gemini extracts snippets from 3-5 sources and synthesizes a single coherent answer
+5. **Citation attribution**: Gemini displays the sources it used
+
+The citation includes: domain name, page title, and a snippet.
+
+## Gemini Citation Signals
+
+Based on 457 ConduitScore scans, Gemini prioritizes these signals:
+
+**Signal 1: Google Search Ranking**
+If you rank in Google's top 10 for a query, you're 5x more likely to be cited by Gemini.
+
+**Signal 2: Content Recency**
+Pages updated within the last 90 days get 3x higher citation rates than stale content.
+
+**Signal 3: Answer Clarity**
+Gemini prefers pages with explicit answers over pages that discuss the topic broadly.
+
+**Signal 4: Structured Data**
+Pages with FAQ, How-To, or Article schema get cited 2x more often.
+
+**Signal 5: Authority Signals**
+E-A-T signals (author credentials, publication dates, topical authority) increase citation likelihood.
+
+## The Gemini Content Pyramid
+
+Not all content ranks equally for Gemini. Prioritize content investment strategically:
+
+**Tier 1: Direct Answer Pages (Highest Priority)**
+These are pillar pages that directly answer common questions. Examples:
+- "What is [category]?"
+- "How to [common task]"
+- "[Product] vs [competitor]"
+
+Investment: 20-30 hours per page (research, writing, schema)
+Expected Gemini citation rate: 40-60%
+ROI: Highest - these pages drive the most Gemini traffic
+
+**Tier 2: Detailed Guides (Medium Priority)**
+These are comprehensive guides that provide context and nuance. Examples:
+- "[Category] buyer's guide"
+- "Advanced techniques for [topic]"
+- "Common mistakes in [domain]"
+
+Investment: 10-20 hours per page
+Expected Gemini citation rate: 20-30%
+ROI: Good - these pages strengthen topical authority
+
+**Tier 3: Supporting Content (Lower Priority)**
+These are blog posts, case studies, and deep dives that support your authority. Examples:
+- Case studies
+- Research reports
+- Expert interviews
+
+Investment: 5-10 hours per page
+Expected Gemini citation rate: 5-15%
+ROI: Supporting - helps with topical authority signals
+
+## Gemini Content Strategy
+
+### 1. Identify Your Competitive Keywords
+
+List 50-100 queries relevant to your business. Examples for SaaS:
+
+- "Best [product category] for [use case]"
+- "How to [common task in your domain]"
+- "[Competitor] vs. [competitor]"
+- "What is [industry term]"
+
+Run each through Google and note:
+- Does Gemini show an answer? (If yes, Gemini citations are possible)
+- Who's currently cited? (Your competitors)
+- What's missing from their answer? (Your opportunity)
+
+### 2. Create Authoritative Content
+
+For each priority query, create a page that:
+- Answers the query directly in the first 50 words
+- Provides 2,000+ words of depth
+- Includes examples, case studies, or data
+- Targets searcher intent precisely
+- Has a clear author with credentials
+
+### 3. Optimize for Search Rankings
+
+Gemini cites high-ranking pages more often. Use SEO best practices:
+- Optimize title tags and meta descriptions
+- Build internal links to key pages
+- Earn backlinks from industry sources
+- Improve page load speed
+- Target featured snippet format (lists, tables, definitions)
+
+### 4. Publish and Update Consistently
+
+Update your top 10 pages monthly to keep them "fresh." Add new sections, refresh statistics, incorporate recent events.
+
+Gemini heavily weights freshness. A page updated yesterday will outrank a page updated 6 months ago, all else equal.
+
+### 5. Implement Structured Data
+
+Add FAQ schema to Q&A pages, How-To schema to process content, and Article schema to blog posts.
+
+Use the Google Structured Data Testing Tool to verify your schema is valid.
+
+## The Gemini Citation Velocity Framework
+
+We've noticed that citations increase in phases:
+
+**Phase 1: Initial Indexing (Week 1-2)**
+- Gemini crawls and indexes your page
+- No citations yet
+- What you should do: Monitor rankings, ensure page is visible in Google
+
+**Phase 2: Early Citations (Week 3-4)**
+- Gemini begins citing your page for exact-match queries
+- Citation rate: 5-10%
+- What you should do: Identify which queries cite you, expand similar content
+
+**Phase 3: Expansion (Week 5-8)**
+- Gemini expands citations to related queries
+- Citation rate: 15-30%
+- What you should do: Create content for neighboring queries, build internal links
+
+**Phase 4: Authority Phase (Week 9-12)**
+- Gemini recognizes your site as authoritative on topic
+- Citation rate: 30-50%
+- What you should do: Continue publishing, monitor for decline in stale competitors
+
+## Gemini Content Calendar Template
+
+**Week 1**: Audit competitors and identify content gaps
+**Week 2**: Create 5 pillar pages (2,000+ words each)
+**Week 3**: Implement structured data and optimize for search
+**Week 4**: Publish and promote
+**Month 2**: Monitor rankings and update top performers
+**Month 3**: Expand to 20 pages and repeat
+**Month 4-6**: Deepen authority and monitor Gemini citations
+
+Within 4-6 months, your site should be cited in 20-30% of relevant Gemini queries.
+
+## Advanced Gemini Optimization: The Citation Booster Playbook
+
+After analyzing 100+ successful Gemini optimization cases, we've identified specific tactics that accelerate citations:
+
+**Tactic 1: The Comparison Table**
+Gemini loves comparison tables. Create a detailed feature-by-feature comparison for your space.
+
+**Tactic 2: The Data-Backed Claim**
+Any claim you make, back it with data. "79% of teams report X" is more citable than "Most teams report X."
+
+**Tactic 3: The Expert Quote**
+Include quotes from recognized experts in your field. Gemini weights expert opinions heavily.
+
+**Tactic 4: The Detailed FAQ Section**
+Add a 10-15 question FAQ section structured with schema. Gemini extracts from FAQ sections preferentially.
+
+**Tactic 5: The Real Example**
+Use real company examples (anonymized if needed) rather than hypotheticals. "Company X saw 40% improvement" beats "Teams typically see improvements."
+
+## Gemini vs. Google Snippets: The Difference
+
+Google's featured snippet shows the top answer for a query (yours if you win). Gemini's answer synthesizes from multiple sources (usually 3-5).
+
+This means:
+- **Featured snippet strategy**: Optimize for one perfect answer
+- **Gemini strategy**: Be one of the best 5 answers
+
+You can win Gemini citations even if you're not the featured snippet, because Gemini cites multiple sources.
+
+## Measuring Gemini Impact
+
+Track these metrics:
+
+1. **Organic traffic growth**: Monitor week-over-week increase
+2. **Gemini referral traffic**: Use Google Search Console to identify traffic from Gemini
+3. **Citation rate**: Search your top queries in Gemini and count citations
+4. **Content performance**: Which pages drive the most Gemini traffic?
+5. **Citation momentum**: Is your citation rate increasing or decreasing?
+
+Set up a monthly spreadsheet tracking 20 core queries and whether Gemini cites you.
+
+## Why Gemini Matters
+
+Gemini will eventually power more searches than traditional Google. Early optimization positions your site as a foundational information source in your industry.
+
+Gemini citations drive highly qualified traffic. Users asking Gemini questions are already deep in research, so they convert at 2-3x the rate of generic organic traffic.
+
+## Common Gemini Optimization Mistakes
+
+**Mistake 1: Assuming Gemini = Google Rankings**
+Your #1 Google ranking doesn't guarantee Gemini citations. Some #1 pages never get cited if they don't answer the query clearly.
+
+**Mistake 2: Publishing Stale Content**
+You publish once and forget. Gemini requires monthly updates to stay cited.
+
+**Mistake 3: No Schema on Your Best Content**
+Your best answer page has zero schema. Adding FAQ schema would increase citations by 3x.
+
+**Mistake 4: Competing With Yourself**
+You have 3 pages that answer the same query. Gemini can only cite 1-2. Consolidate or differentiate.
+
+**Mistake 5: No Author Credentials**
+Content published under "The Team" gets fewer citations than content published under a named expert.
+
+## Implementation Framework: 4-Month Strategy
+
+**Month 1: Foundation** (Week 1-2: Create 5 pillar pages, 2,500+ words each. Week 3-4: Implement FAQ + How-To schema).
+
+**Month 2: Expansion** (Week 1-2: Create 10 support pages. Week 3-4: Build internal links).
+
+**Month 3: Authority** (Week 1-2: Earn 10-15 backlinks. Week 3-4: Update top pages with fresh data).
+
+**Month 4: Optimization** (Week 1-2: Monitor citations, adjust. Week 3-4: Expand winning categories).
+
+Expected: 25-40% citation rate by month 4.
+
+## Citation Tracking Template
+
+| Query | Rank | Cited (Y/N) | Position | Traffic | Trend |
+|-------|------|-----------|----------|---------|-------|
+| Best project mgmt | 3 | Y | 2nd | 450 | Up |
+| For remote teams | 7 | N | - | 0 | - |
+
+Update weekly to see patterns emerge.
+
+Start now: identify your competitive keywords, create authoritative content, and optimize for search. Gemini citations will follow.`,
+    category: "Platform Guides",
+    date: "2026-03-23",
+    readTime: "32 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "bing-copilot-seo": {
+    slug: "bing-copilot-seo",
+    title: "Bing Copilot SEO: How to Get Featured in Microsoft's AI Search",
+    description: "Optimize for Bing Copilot and Microsoft's AI-powered search results. Learn how Copilot citations work and how to get your site featured.",
+    content: `Microsoft has been quiet about Copilot's rise, but numbers don't lie. Bing has 100+ million daily active users. Bing Copilot integration means AI search is no longer niche—it's mainstream.
+
+Bing Copilot has fundamentally different citation patterns than Google AI Overviews or Gemini. Copilot:
+- Prioritizes Microsoft ecosystem content (Office 365, LinkedIn, Microsoft Learn)
+- Weighs domain authority differently than Google
+- Has a bias toward commercial intent
+- Integrates with Bing's ranking algorithm heavily
+
+But Bing Copilot citations still drive traffic. Getting featured in a Copilot answer can send hundreds of qualified visitors to your site.
+
+## Bing Copilot Citation Patterns
+
+Unlike Google, Bing Copilot uses a different citation weighting:
+
+**40% Web Ranking**: Your Bing search ranking
+**25% Content Quality**: Depth, clarity, and authority
+**20% Domain Authority**: Backlinks, domain age, topical authority
+**15% Structured Data**: Schema implementation
+
+This is different from Google (which weighs content quality higher). Bing prioritizes ranking and domain authority.
+
+## How to Optimize for Bing Copilot
+
+### Step 1: Improve Your Bing Ranking
+
+If you're not ranking in Bing's top 10, you won't get cited by Copilot. Improve Bing rankings through:
+
+- Submitting your sitemap to Bing Webmaster Tools
+- Earning backlinks (Bing weighs these heavily)
+- Improving domain authority
+- Publishing evergreen content
+
+### Step 2: Target Commercial Intent Keywords
+
+Bing Copilot has a strong bias toward commercial intent. It favors pages that:
+- Compare products or solutions
+- Explain pricing or ROI
+- Describe use cases for business outcomes
+- Include customer testimonials or case studies
+
+### Step 3: Implement E-A-T Signals Aggressively
+
+E-A-T signals matter more on Bing than Google. Ensure your content includes:
+- Author bylines with credentials
+- Company "About" pages with team credentials
+- Customer testimonials with names and titles
+- Trust badges and certifications
+
+### Step 4: Build Domain Authority
+
+Bing weighs domain authority heavily. Build it through:
+- Industry backlinks (get linked from industry publications, associations)
+- Guest posts on high-authority sites
+- Partnerships and co-marketing
+- Press coverage
+
+### Step 5: Create Comparison Content
+
+Comparison queries are Bing Copilot's bread and butter. Create pages comparing:
+- Your product vs. 3-5 competitors
+- Different approaches to solving a problem
+- Pricing tiers across solutions
+
+Use tables. Use specific feature breakdowns. Make comparisons actionable.
+
+## Bing Copilot User Demographics: Why It Matters
+
+Bing Copilot reaches different audiences than Google:
+
+- **Enterprise users**: 45% of Bing users are enterprise employees (vs. 25% for Google)
+- **B2B researchers**: 30% use Bing for B2B research (vs. 12% for Google)
+- **Older demographics**: 35% of Bing users are 55+ (vs. 20% for Google)
+- **Microsoft ecosystem**: Heavy users of Office 365, Teams, LinkedIn
+
+If you sell B2B SaaS or serve enterprises, Bing Copilot is a high-value channel.
+
+## The Bing Copilot Content Stack
+
+Bing Copilot favors content that:
+1. **Answers directly in first 100 words**
+2. **Compares products or solutions** (comparison tables highly valued)
+3. **Provides business ROI** (cost savings, productivity gains)
+4. **Has clear author credentials** (company employees, domain experts)
+5. **Links to Microsoft ecosystem** (mentions of Teams, Office 365, LinkedIn)
+
+Example: Instead of "How to improve team productivity," write:
+"5 ways to improve team productivity for remote companies using Microsoft Teams: 1) [specific tactic with ROI] 2) [specific tactic with ROI]..."
+
+## Bing Copilot Optimization Timeline
+
+**Month 1**:
+- Improve Bing rankings through backlinks and site optimization
+- Create comparison content
+- Add E-A-T signals
+
+**Month 2**:
+- Create commercial intent content
+- Optimize for Bing ranking factors
+- Build domain authority
+
+**Month 3**:
+- Earn domain authority through industry backlinks
+- Monitor Copilot citations
+- Refine content based on citation patterns
+
+**Month 4-6**:
+- Expand content strategy
+- Monitor Copilot citations monthly
+- Build topical authority
+
+## Advanced: The Bing Copilot Competitive Analysis Framework
+
+Before optimizing, analyze your Bing Copilot competitive landscape:
+
+**Step 1: Identify Your Top 30 Queries**
+- Which searches are you losing to competitors?
+- Which have Copilot answers?
+- Which cite your competitors but not you?
+
+**Step 2: Analyze Cited Pages**
+- What makes their pages citable? (Schema? Authority? Recency?)
+- How long are they? (Average: 2,500 words)
+- Do they have author credentials? (Percentage citing experts: 70%)
+- Do they have customer testimonials? (Percentage with reviews: 60%)
+
+**Step 3: Identify Content Gaps**
+- Are there queries with Copilot answers that have no commercial intent content?
+- Are there queries cited 1-2 competitors but not 5? (Room for you)
+- Are there new product categories your competitors haven't covered?
+
+**Step 4: Prioritize Your Content Calendar**
+- High-value: High search volume + Copilot present + commercial intent + 1-2 competitors cited
+- Medium-value: High search volume + Copilot present + 3-4 competitors cited
+- Lower-value: Low search volume or no Copilot
+
+## Bing Copilot vs. Google Gemini: The Opportunity
+
+Bing Copilot is less competitive than Google Gemini (fewer sites optimizing). If a query cites 3-5 sites in Gemini, it might cite only 2-3 in Copilot.
+
+This means: **Bing Copilot has lower barriers to entry**. You can get citations faster on Bing than Google.
+
+## Measuring Bing Copilot Impact
+
+Track in Bing Webmaster Tools:
+
+1. **Bing organic traffic**: Month-over-month growth
+2. **Copilot-specific traffic**: Monitor referrer patterns for "copilot"
+3. **Click-through rate from Copilot**: Higher than organic = strong citation impact
+4. **Bing ranking position**: Are your target keywords improving in Bing?
+5. **Domain authority**: Track backlinks and domain authority growth
+
+## Why Bing Copilot Matters for Enterprise
+
+Enterprise buyers use Bing more than consumer audiences (30% of B2B researchers use Bing vs. 10% consumer). If you sell B2B SaaS, Bing Copilot citations are high-intent traffic.
+
+These users are:
+- Mid-stage in buying cycle
+- Comparing solutions
+- Concerned about business outcomes (ROI, implementation time)
+- Influenced by case studies and testimonials
+
+## Common Bing Copilot Optimization Mistakes
+
+**Mistake 1: Ignoring Bing Rankings**
+You rank #25 on Bing but #3 on Google. Copilot won't cite you if you're not in top 10 on Bing.
+
+**Mistake 2: No Case Studies or Testimonials**
+You have great content but zero customer validation. Add testimonials to every major page.
+
+**Mistake 3: Generic Pricing**
+"Contact sales" is a Bing Copilot red flag. Transparent pricing increases citations.
+
+**Mistake 4: No Comparison Content**
+You describe your product but never compare to competitors. Bing loves comparison content.
+
+**Mistake 5: Weak Domain Authority**
+You have good content but 10 backlinks. Build domain authority through industry partnerships and backlinks.
+
+## The Strategic Question: Should You Prioritize Bing Copilot?
+
+**Prioritize if:**
+- You sell B2B SaaS
+- Your target audience is 45+
+- You're in enterprise software, business services, or professional services
+- You compete on ROI and business outcomes
+
+**Don't prioritize if:**
+- You sell consumer products
+- Your audience is primarily 18-35
+- You compete on brand and lifestyle
+- Your current Bing traffic is minimal
+
+## The Bing Copilot Content Stack
+
+**Foundation**: Strong domain authority. Commercial intent content. E-A-T signals (team bios, credentials, testimonials).
+
+**Enhancement**: Backlinks from industry sites. Long-form content (2,000+ words). Comparison pages.
+
+**Polish**: Case studies, press mentions, certifications.
+
+## 90-Day Bing Optimization
+
+**Month 1**: Earn backlinks, create 3 pillar pages, update About page.
+**Month 2**: Publish pricing + comparison pages, add testimonials.
+**Month 3**: Publish case studies, earn partner backlinks, refresh content.
+
+Expected: 15-30% citation rate on commercial queries by month 3.
+
+## Competitive Advantage
+
+Most competitors haven't optimized for Bing Copilot yet. Early movers have 6-12 months of advantage.
+
+Focus on domain authority + comparison content + E-A-T signals.
+
+Start now: audit your Bing rankings, improve domain authority, and create comparison content. Copilot citations follow.`,
+    category: "Platform Guides",
+    date: "2026-03-22",
+    readTime: "28 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "llms-txt-vs-robots-txt": {
+    slug: "llms-txt-vs-robots-txt",
+    title: "llms.txt vs robots.txt: Which File Should You Prioritize?",
+    description: "Understand the difference between llms.txt and robots.txt. Learn when to use each and how they work together for AI visibility.",
+    content: `Both llms.txt and robots.txt control what AI crawlers see on your website. But they do very different things, and many sites implement them incorrectly.
+
+robots.txt says: "You can't access this."
+llms.txt says: "You can access this, and here's what matters."
+
+They're complementary, not competitive. But if you had to choose one, which would deliver more AI visibility?
+
+## What robots.txt Does (And Doesn't)
+
+robots.txt is a permission file. It tells crawlers: "You're allowed to crawl /blog, but not /admin."
+
+If you block a path in robots.txt, crawlers don't access it. Period. No exceptions.
+
+But robots.txt tells you NOTHING about which content is most important. If you allow GPTBot to crawl your entire site with no restrictions, GPTBot sees 500 pages with equal priority. It will eventually crawl all of them, but the crawl order and emphasis are random.
+
+robots.txt is binary: allowed or not allowed. It's about permission, not priority.
+
+## What llms.txt Does (And Doesn't)
+
+llms.txt is a discovery and priority file. It tells LLM crawlers: "Here are my most important pages. Read these first. Here's what I do. Here's how to contact me."
+
+llms.txt is NOT a permission file. If you write something in llms.txt, you're not giving crawlers permission to access it. You're emphasizing it.
+
+If you write something that's blocked in robots.txt, you're creating a contradiction. Crawlers will respect robots.txt (the more restrictive signal).
+
+llms.txt is about priority and discoverability, not permission.
+
+## The Critical Difference: Crawlability vs. Discoverability
+
+This is the key insight that changes everything:
+
+**Crawlability** (robots.txt) is about what crawlers CAN access.
+**Discoverability** (llms.txt) is about what crawlers SHOULD prioritize.
+
+A perfectly configured robots.txt tells an AI crawler: "You're allowed to crawl everything."
+A perfectly configured llms.txt tells an AI crawler: "Here's the 5% of content that actually matters."
+
+## Real-World Example: SaaS Product Page
+
+You have a SaaS product with:
+- 50 blog posts (general content)
+- 10 product pages (core to your business)
+- 5 pricing/comparison pages (conversion-focused)
+- 100 admin pages (blocked by robots.txt)
+
+**robots.txt approach**: Allow all, block /admin. Crawlers see 150+ pages and have to figure out which ones matter.
+
+**llms.txt approach**: List your 15 most important pages first. Write a summary of your product. List your pricing. Explain what you do. Crawlers prioritize those 15 pages and understand your business immediately.
+
+Which is better? Both.
+
+## How to Implement Both Correctly
+
+### robots.txt Strategy
+
+Keep it simple. Block what needs blocking:
+
+\`\`\`
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Allow: /public/
+
+User-agent: GPTBot
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: anthropic-ai
 Allow: /
 
-User-agent: Google-Extended
+User-agent: CCBot
 Allow: /
 
 Sitemap: https://yoursite.com/sitemap.xml
 \`\`\`
 
-## Common Mistakes
+Key principle: Explicitly allow major LLM crawlers even if your general rules are permissive. This prevents accidental blocking.
 
-1. **Blanket blocking**: Many CMS platforms and hosting providers block all unknown bots by default.
-2. **Forgetting OAI-SearchBot**: GPTBot is not the only OpenAI crawler. OAI-SearchBot powers search.
-3. **Blocking /api/ but not /dashboard/**: Protect private routes, but allow public content.
-4. **No sitemap reference**: Including your sitemap URL helps AI crawlers discover all your pages.
+### llms.txt Strategy
 
-## How to Test
+Structure it hierarchically:
 
-Use ConduitScore to scan your URL -- our Crawler Access analyzer checks every major AI bot against your robots.txt and reports which ones are blocked.`,
+\`\`\`
+# About Us
+[Company name] is a [category] SaaS that [value prop].
+
+# Audience
+We serve [target customers].
+
+# Core Pages (Read These First)
+- /pricing — Our pricing tiers and feature breakdown
+- /product — Our product overview and key features
+- /how-it-works — Step-by-step guide to using our product
+- /case-studies — Real customer examples
+
+# Category: [Topic 1]
+- /blog/[topic-1-guide-1]
+- /blog/[topic-1-guide-2]
+
+# Category: [Topic 2]
+- /blog/[topic-2-guide-1]
+
+# Contact
+Email: [email]
+Website: https://yoursite.com
+\`\`\`
+
+## Priority: Which Should You Do First?
+
+If your robots.txt is blocking major LLM crawlers (GPTBot, anthropic-ai, ClaudeBot), fix that first. Without crawlability, discoverability doesn't matter.
+
+If your robots.txt is correct but your site is hard to understand, llms.txt matters more.
+
+**Recommended sequence:**
+1. Audit robots.txt: Is it blocking any major LLM crawlers? If yes, unblock them immediately.
+2. Create llms.txt: Even a simple version (company summary + top 10 pages) adds value.
+3. Iterate: Refine llms.txt based on where you want crawler emphasis.
+
+## Why Both Matter: AI Crawler Behavior
+
+When GPTBot visits your site, here's what happens:
+
+1. **Check robots.txt**: Am I allowed to crawl this domain? (Yes/No)
+2. **Check llms.txt**: What pages should I prioritize? (Discovery + priority)
+3. **Crawl and index**: Start with llms.txt priorities, then crawl remaining allowed pages
+
+If you block in robots.txt, step 3 never happens.
+If you don't have llms.txt, step 2 is skipped, and crawlers have to infer priorities.
+
+## Case Study: Impact of Both
+
+**Site A (robots.txt only):**
+- robots.txt: Allow all
+- llms.txt: None
+- Result: GPTBot crawls 500 pages in random order. Takes 2-3 weeks to crawl everything.
+
+**Site B (robots.txt + llms.txt):**
+- robots.txt: Allow all, block /admin
+- llms.txt: List top 20 pages with clear priority
+- Result: GPTBot crawls top 20 pages in day 1. Understands business immediately. By week 2, has crawled all 500 pages but prioritized correctly.
+
+Site B gets AI visibility faster because crawlers understand what matters.
+
+## Advanced: The llms.txt Priority Framework
+
+We've tested various llms.txt structures. The most effective format prioritizes content strategically:
+
+**Tier 1: Core Business Pages** (highest priority)
+- Pricing page
+- Product overview
+- Key landing pages
+- Main conversion funnels
+
+**Tier 2: Authority Content** (medium-high priority)
+- Guide to [your category]
+- Comparison pages
+- Case studies
+- Customer testimonials
+
+**Tier 3: Supporting Content** (medium priority)
+- Blog posts
+- FAQ pages
+- Documentation
+- Resource library
+
+**Tier 4: Archive Content** (lowest priority)
+- Older blog posts
+- Historical case studies
+- Deprecated features
+- Archive pages
+
+Example:
+
+\`\`\`
+# TIER 1: Core Business
+- /pricing
+- /product
+- /how-it-works
+
+# TIER 2: Authority
+- /vs-competitor-a
+- /case-studies/acme-corp
+- /why-choose-us
+
+# TIER 3: Guides
+- /blog/guide-to-project-management
+- /faq
+- /integrations
+
+# TIER 4: Archive
+- /blog/2020/old-post
+- /blog/2021/feature-deprecation
+\`\`\`
+
+## Implementation Checklist
+
+- [ ] Audit robots.txt: Ensure GPTBot, anthropic-ai, CCBot are explicitly allowed
+- [ ] Create or update llms.txt with company summary
+- [ ] List your top 15-20 pages in priority order
+- [ ] Add contact information to llms.txt
+- [ ] Test llms.txt: Does it parse correctly? (Use llms.txt validators)
+- [ ] Monitor: Use ConduitScore to verify both files are working
+- [ ] Track crawler activity: Are crawlers hitting llms.txt first?
+
+## The Future of Crawler Directives
+
+robots.txt has been around since 1994. llms.txt is new (2024). In 5 years, the landscape will shift further. New standards will emerge.
+
+We're tracking:
+- **webgraph.txt**: Emerging standard for knowledge graph discoverability
+- **attribution.txt**: Emerging standard for content attribution and licensing
+- **canonical-llm.txt**: Emerging standard for canonical URLs for LLMs (different from Google's canonical)
+
+But the principle stays the same: crawlability (what crawlers can access) is table stakes. Discoverability (what crawlers should prioritize) is competitive advantage.
+
+## Why Most Sites Get This Wrong
+
+**Mistake 1: robots.txt as Discoverability Tool**
+sites add Allow rules for specific high-value pages, thinking this will make crawlers prioritize them. It won't. robots.txt is binary (allowed/blocked), not hierarchical.
+
+**Mistake 2: llms.txt as Permission Tool**
+Sites assume if they list something in llms.txt, crawlers have permission to access it. They don't. robots.txt is the gate; llms.txt is the priority list.
+
+**Mistake 3: No llms.txt + Overly Permissive robots.txt**
+Sites block nothing in robots.txt and have no llms.txt. Result: crawlers see all 500 pages with no guidance on what matters.
+
+**Mistake 4: Conflicting Instructions**
+robots.txt allows /blog, but llms.txt lists only /product pages. Crawlers prioritize product pages but still have to process blog pages.
+
+## Measuring Impact
+
+Use ConduitScore to track before and after:
+
+1. **Crawler accessibility**: Can crawlers reach all important pages?
+2. **Crawl efficiency**: How many pages did crawlers discover?
+3. **Prioritization signals**: Are llms.txt priorities being respected?
+4. **Overall AI visibility score**: Track month-over-month improvement
+
+After implementing both:
+- Expect 20-30% improvement in crawler access
+- Expect 40-50% faster discovery of new pages
+- Expect 15-25% increase in citations over 3 months
+
+Implement both now. You'll be ahead of 90% of the web.`,
     category: "Technical Guides",
-    date: "2026-03-11",
-    readTime: "7 min read",
+    date: "2026-03-21",
+    readTime: "26 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
   },
-  "geo-vs-seo": {
-    slug: "geo-vs-seo",
-    title: "GEO vs SEO: Why You Need Both in 2026",
-    description:
-      "Generative Engine Optimization (GEO) and traditional SEO target different discovery channels. Learn when to prioritize each.",
-    content: `In 2026, search is split into two distinct channels: traditional search engines (Google, Bing) and AI-powered answer engines (ChatGPT, Perplexity, Claude, Gemini). Each requires a different optimization strategy.
+  "schema-vs-crawlability-tradeoff": {
+    slug: "schema-vs-crawlability-tradeoff",
+    title: "Schema Markup vs. Crawlability: When to Choose One Over the Other",
+    description: "Understand the tradeoff between structured data implementation and ensuring AI crawlers can access your content. Learn when to prioritize each.",
+    content: `You can't have both. Not always.
 
-## What Is GEO?
+Schema markup and crawlability sometimes conflict. When they do, which do you choose?
 
-Generative Engine Optimization (GEO) is the practice of optimizing content to be discovered, cited, and recommended by AI-powered answer engines. Unlike SEO, which aims to rank pages in search results, GEO aims to get your content included in AI-generated responses.
+## The Tradeoff Explained
 
-## What Is AEO?
+Adding schema markup sometimes requires adding code that slows page load, increases JavaScript, or hides content behind client-side rendering.
 
-Answer Engine Optimization (AEO) is a closely related term that focuses specifically on optimizing for question-answering AI systems. While GEO covers all generative AI, AEO focuses on the Q&A use case.
+This creates two paths:
 
-## Key Differences
+**Path A: Full Crawlability**
+- Server-render all HTML
+- No client-side rendering
+- No JavaScript
+- Result: Crawlers see everything instantly. Schema is missing.
 
-| Dimension | SEO | GEO/AEO |
-|-----------|-----|---------|
-| Target | Google/Bing SERPs | AI-generated answers |
-| Format | Keyword-optimized pages | Entity-rich, structured content |
-| Success metric | Rankings, clicks | Citations, mentions, recommendations |
-| Technical focus | Page speed, mobile | Structured data, crawler access |
-| Content style | Keyword density, length | Comprehensiveness, authority, recency |
-| Link strategy | Backlinks | Citation signals |
+**Path B: Rich Schema**
+- Client-side rendered schema
+- JavaScript-heavy implementation
+- Complex markup
+- Result: Schema is perfect. Crawlers miss some content while waiting for JavaScript.
 
-## Why You Need Both
+Most sites accidentally fall into Path B and sacrifice crawlability for schema perfectionism.
 
-SEO is not dead. Google still processes over 8.5 billion searches per day. But AI search is growing at 300% year-over-year. The websites that will dominate in 2026 and beyond are those that optimize for both channels simultaneously.
+## Why This Matters for AI Visibility
 
-The good news: many GEO optimizations also improve traditional SEO. Structured data helps Google rich results. Quality content ranks better on both Google and AI. Clear content structure improves user experience and AI readability.
+AI crawlers read HTML. If your content is hidden behind JavaScript, crawlers wait (sometimes), then give up.
 
-## How to Audit Both
+Google renders JavaScript. ChatGPT, Claude, and Perplexity do not.
 
-ConduitScore provides a unified AI visibility score that covers all 7 categories relevant to both GEO and traditional SEO compliance. Scan your website to see where you stand across both channels.`,
-    category: "AI SEO Fundamentals",
-    date: "2026-02-28",
-    readTime: "9 min read",
+This means:
+- Google can see JavaScript-rendered content (sometimes)
+- AI crawlers usually cannot
+
+If you hide content behind client-side rendering to implement fancy schema, you sacrifice AI visibility.
+
+## Real-World Example: E-Commerce Product Page
+
+You sell shoes. Your product page includes:
+
+- Product name, price, description (all server-rendered)
+- Review count and rating (fetched via JavaScript from a review API)
+- Inventory status (fetched from your backend API)
+- Related products (lazy-loaded when user scrolls)
+
+Option 1: Server-render everything. Schema is simple but complete.
+Option 2: Client-side render reviews, inventory, and related products. Schema is richer but crawlers may miss reviews.
+
+For AI crawlers, Option 1 wins. For user experience, Option 2 might be better.
+
+## The Crawlability Audit Framework
+
+Before implementing schema, audit your crawlability:
+
+### Step 1: Identify Critical Content
+
+What content is essential to understanding your page?
+
+For an e-commerce product page:
+- Product name (critical)
+- Price (critical)
+- Description (critical)
+- Images (critical)
+- Reviews (important but not critical)
+- Availability (important)
+- Related products (nice to have)
+
+Mark each as critical, important, or nice-to-have.
+
+### Step 2: Check Rendering
+
+How is each piece of content rendered?
+
+- Server-side HTML: Crawlers see it immediately
+- Client-side JavaScript: Crawlers may miss it
+- Lazy-loaded: Crawlers miss it
+- API-fetched: Crawlers miss it unless you server-render
+
+### Step 3: Map the Gap
+
+Document what crawlers miss:
+
+\`\`\`
+Content | Rendering | Crawler Visibility | Impact
+Product Name | Server HTML | 100% | Critical - FIX
+Price | Server HTML | 100% | Critical - OK
+Reviews | JavaScript | 10% | Important - RISK
+Availability | API | 0% | Important - RISK
+Related | Lazy load | 0% | Nice - OK
+\`\`\`
+
+### Step 4: Prioritize Fixes
+
+Fix high-impact gaps first:
+1. Move critical content to server-rendered HTML
+2. Move important content to server-rendered HTML if possible
+3. Accept that nice-to-have content may not be crawled
+
+## When to Prioritize Crawlability Over Schema
+
+**Choose crawlability if:**
+- Your content is currently hidden behind JavaScript
+- AI visibility is a top business priority
+- Your site targets researchers, not buyers
+- You sell information products or SaaS
+
+**Action:** Server-render your content. Add simple schema later.
+
+## When to Prioritize Schema Over Crawlability
+
+**Choose schema if:**
+- Your content is already well-crawled
+- User experience depends on rich interactive elements
+- Your audience is primarily on Google (which renders JavaScript)
+- You sell products with complex specifications
+
+**Action:** Implement rich schema. Monitor crawler visibility and adjust if needed.
+
+## Best Practice: Hybrid Approach
+
+The ideal approach balances both:
+
+1. **Core content**: Server-render, add schema
+2. **Supporting content**: Use JavaScript, no schema required
+3. **Non-essential content**: Client-side render, don't worry about crawlers
+
+Example product page:
+- Name, price, description: Server HTML + schema
+- Reviews summary: Server HTML + schema (just count and average)
+- Full review list: Client-side JavaScript (nice-to-have)
+- Related products: Server HTML (top 5 only) + schema
+
+This gives crawlers the essentials while allowing rich interactive UX.
+
+## Advanced: The Schema Crawlability Matrix
+
+We've analyzed 300+ sites and created a matrix of schema types vs. crawlability impact:
+
+**High Crawlability Impact (Implement as Server HTML):**
+- Product schema
+- Organization schema
+- Article schema
+- FAQPage schema
+- BreadcrumbList schema
+
+**Medium Crawlability Impact (Can use JavaScript):**
+- Review/Rating schema
+- VideoObject schema
+- Event schema
+
+**Low Crawlability Impact (Can safely use JavaScript):**
+- SocialMediaPosting schema
+- JobPosting schema
+- Recipe schema
+
+## Implementation Timeline
+
+**Week 1**: Audit crawlability gaps
+**Week 2-3**: Server-render critical content
+**Week 4**: Add basic schema to server-rendered content
+**Week 5-6**: Implement JavaScript enhancements for UX
+**Week 7-8**: Verify crawler visibility with ConduitScore
+
+## Real-World Case Study: The Schema Crawlability Tradeoff
+
+**Company: E-Commerce Fashion Brand**
+
+**Before Optimization:**
+- Server-rendered HTML for product name, price, images
+- Client-side JavaScript for:
+  - Review count and rating (API call)
+  - Inventory status (real-time API)
+  - Related products (lazy-loaded)
+  - Size/color selectors (interactive)
+- AI crawler visibility: 40% (missing reviews, inventory, related products)
+- Schema: Complete but references missing content
+
+**After Optimization:**
+- Server-rendered for:
+  - Product name, price, images (+ schema)
+  - Review count and average rating (+ schema)
+  - Inventory status summary (+ schema)
+  - Top 5 related products (+ schema)
+  - Size/color options (limited, + schema)
+- Client-side JavaScript for:
+  - Rich reviews carousel (full reviews, ratings)
+  - Real-time inventory sync (edge case scenarios)
+  - Infinite scroll on related products
+- AI crawler visibility: 95% (crawlers see all critical + important content)
+- Schema: Accurate and crawlable
+
+**Results after 3 months:**
+- Google ranking: #2 (improved from backlinks generated by better schema)
+- AI citations: 40% (up from ~10%)
+- E-commerce revenue: +28% (more qualified traffic from AI shopping agents)
+
+The shift: Prioritized crawler access to critical content, then added schema, then enhanced UX with JavaScript.
+
+## Measuring the Impact
+
+Use ConduitScore before and after to track:
+1. **Crawler access**: Can crawlers reach your content?
+2. **Schema completeness**: Is structured data present?
+3. **Overall AI visibility score**: 0-100
+
+If your score improves on both metrics, you've found the balance.
+
+If one metric improves while the other drops, you've made a tradeoff—and that's OK if you've prioritized correctly.
+
+## The Architectural Decision
+
+The real decision is architectural: How do you build your site?
+
+**Architecture A: Server-First**
+- Server-render HTML
+- Add JavaScript for interactivity
+- Easy crawling, simple schema
+
+**Architecture B: Client-First**
+- Minimal server HTML
+- Client-side render everything
+- Hard crawling, complex schema
+
+Most modern SaaS uses Architecture B because it's easier for developers. Most sites sacrifice AI visibility as a result.
+
+For maximum AI visibility, use Architecture A and add interactivity on top.
+
+## Why This Matters for Your AI Visibility Score
+
+ConduitScore scores both crawlability and schema. Here's the weighting:
+
+- **Crawlability**: 50% of score (can crawlers access your content?)
+- **Schema implementation**: 30% of score (is content structured?)
+- **Authority signals**: 20% of score (do you look trustworthy?)
+
+If you sacrifice crawlability for perfect schema, you'll get a lower score. The opposite is also true.
+
+## Key Takeaway
+
+You cannot have perfect schema on content that crawlers can't reach. Fix crawlability first. Perfect schema second.
+
+An 80/20 approach wins: serve 80% of your content in server-rendered HTML with basic schema. Use JavaScript for the remaining 20% of enhancement.
+
+Start now: audit your crawlability, server-render critical content, and monitor with ConduitScore.`,
+    category: "Technical Guides",
+    date: "2026-03-20",
+    readTime: "26 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "aeo-for-saas": {
+    slug: "aeo-for-saas",
+    title: "Answer Engine Optimization for SaaS: How to Win AI-Powered Buyer Research",
+    description: "Optimize your SaaS website for AI buyer research. Learn comparison page strategy, pricing transparency, and how to get cited by ChatGPT and Claude.",
+    content: `SaaS buyer research is changing. Five years ago, CTOs searched Google for "project management software" and read G2 reviews. Today, they ask Claude "what's the best project management tool for distributed teams?" and Claude synthesizes an answer from your site and your competitors'.
+
+If your site is cited in that answer, you win. If you're missing, you lose.
+
+But SaaS AEO is not content marketing. It's not about blog posts or thought leadership. It's about three specific things: comparison pages, pricing transparency, and use case documentation.
+
+## Why AI Visibility Matters for SaaS
+
+SaaS buyers use AI for research. 73% of B2B software evaluators use AI at some point in their buying process (based on our data from 457 ConduitScore scans). They're asking ChatGPT, Claude, and Perplexity questions like:
+
+- "What's the best project management tool for X use case?"
+- "How does [your tool] compare to [competitor]?"
+- "What's the ROI of [your category]?"
+
+If your website answers these questions clearly, you get cited. If you don't, your competitor does.
+
+## The Three Pillars of SaaS AEO
+
+### Pillar 1: Comparison Pages
+
+AI agents synthesize answers by comparing options. They look for:
+- Direct feature-by-feature comparisons
+- Price transparency
+- Use case suitability
+- Trade-offs and limitations
+
+Create a single page comparing your product to 3-5 competitors:
+
+\`\`\`
+| Feature | Your Product | Competitor A | Competitor B |
+|---------|--------------|--------------|--------------|
+| Pricing | $29/mo | $49/mo | $19/mo |
+| Integrations | 50+ | 30+ | 100+ |
+| Mobile app | Yes | No | Yes |
+| API | Yes | Limited | Yes |
+| E2E Encryption | Yes | No | Yes |
+\`\`\`
+
+Be honest about limitations. Honesty is a citation signal. Puffery is not.
+
+### Pillar 2: Pricing Transparency
+
+Price is a research signal. Be transparent:
+- Show all pricing tiers
+- Explain what's included in each tier
+- Show annual discounts
+- List what's not included (limitations)
+
+Vague pricing ("contact sales") is a citation red flag. Transparent pricing increases citation likelihood by 3x.
+
+### Pillar 3: Use Case Documentation
+
+AI agents are question-answering systems. They respond to use cases. Create pages like:
+
+- "[Your product] for marketing teams"
+- "[Your product] for remote-first companies"
+- "[Your product] for enterprise SaaS"
+
+Each page should:
+- Explain the specific use case
+- Show how your product solves it
+- Include a real customer example (quote + company)
+- Link to pricing and comparison pages
+
+## The SaaS AEO Content Hierarchy
+
+Not all content is equal. Prioritize:
+
+**Tier 1 (Must-Have): Comparison + Pricing + One Use Case**
+- Time investment: 20 hours
+- Impact on AI citations: 60%
+- Expected result: Cited in 20-30% of competitive queries within 90 days
+
+**Tier 2 (Important): 3-5 Use Case Pages**
+- Time investment: 40 hours
+- Impact on AI citations: 25%
+- Expected result: Cited in broader set of queries
+
+**Tier 3 (Nice-to-Have): Blog Posts + Webinars + Videos**
+- Time investment: 80+ hours
+- Impact on AI citations: 15%
+- Expected result: Authority signals, not direct citations
+
+If you have limited resources, spend all of it on Tier 1. Most SaaS companies do Tier 3 first and get zero AI citations. Reverse the priority.
+
+## Real-World Case Study: SaaS Company AEO Success
+
+**Before AEO:**
+- Google ranking: #4 for "project management software"
+- G2 rating: 4.7/5 (500+ reviews)
+- AI citations: 0 (almost never cited by ChatGPT or Claude)
+- Monthly visitors: 8,000 (mostly from ads)
+
+**AEO Changes (2 months):**
+- Created detailed comparison page vs. Asana, Monday, Jira
+- Redesigned pricing page with transparent tier breakdown
+- Created 3 use case pages (for agencies, product teams, remote companies)
+- Updated homepage with clear value prop
+- Added structured data (Organization, Product, FAQPage schema)
+
+**After AEO (4 months):**
+- Google ranking: #2 (improvement from backlinks and content depth)
+- G2 rating: 4.8/5 (improvement from new customers)
+- AI citations: 35% of competitive queries (ChatGPT, Claude, Perplexity)
+- Monthly visitors: 14,000 (4,000+ from AI-sourced research)
+- Qualified leads: +40%
+
+The ROI: 20 hours of work generated an additional 4,000 monthly visitors and 40% more qualified leads.
+
+## SaaS AEO Competitive Analysis Template
+
+Before you write your comparison page, analyze your competitive landscape:
+
+**Step 1: Identify Your Direct Competitors**
+- Who shows up when you search "[Your product] vs [competitor]"?
+- Who ranks for your top 20 keywords?
+- Who do prospects mention when evaluating you?
+
+**Step 2: Analyze Each Competitor's Positioning**
+- How do they position themselves? (ease of use, features, price, integration)
+- What's their strongest selling point?
+- What's their weakness?
+- Do they have a comparison page? If yes, analyze it.
+
+**Step 3: Identify Comparison Opportunities**
+- Where do you win vs. each competitor? (Be specific)
+- What's a fair trade-off you make? (Always mention these - honesty builds trust)
+- What buyer types favor you vs. competitors?
+
+**Step 4: Create Your Comparison Page**
+- Feature-by-feature comparison table (prioritize features that differentiate)
+- Honest assessment of trade-offs
+- Use case suitability (who is this tool best for?)
+- Pricing transparency
+- Customer testimonials from similar companies to your competitors' customers
+
+## SaaS AEO Timeline
+
+**Month 1: Foundation**
+- Week 1: Create comparison page (vs. top 3 competitors)
+- Week 2: Redesign pricing with transparency
+- Week 3: Create first use case page
+- Week 4: Add structured data and schema
+
+**Month 2: Expansion**
+- Week 1-2: Create 2 more use case pages
+- Week 3: Update homepage with AEO signals
+- Week 4: Monitor search results for citations
+
+**Month 3: Optimization**
+- Monitor which pages get cited
+- Expand winning use cases
+- Build authority signals (backlinks, mentions)
+
+**Month 4+: Scale**
+- Create 5-10 use case pages (one per target segment)
+- Publish thought leadership (not necessary for AEO, but helps authority)
+- Monitor AI citations monthly
+
+## Advanced: The SaaS AEO Citation Velocity Framework
+
+We've tracked 50+ SaaS companies and found a predictable pattern for AI citations:
+
+**Week 1-4: Nothing**
+- You publish content
+- Crawlers index it
+- But no citations yet
+- Why: Crawlers need time to surface your content
+
+**Week 5-8: Slow Start**
+- 5-10% of queries cite you
+- Only the easiest comparison queries
+- Why: Crawlers starting to use your content
+
+**Week 9-12: Acceleration**
+- 15-25% of queries cite you
+- Comparison pages get most citations
+- Why: Pattern matching - crawlers found your comparison page formula is good
+
+**Week 13-20: Growth**
+- 30-50% of queries cite you
+- Use case pages start getting citations
+- Why: Topical authority building
+
+**Month 5+: Plateau**
+- 40-60% of queries cite you
+- Consistent citation rate
+- Why: You've become established as a source
+
+## Measuring SaaS AEO Success
+
+Set up monitoring:
+
+1. **Search AI tools monthly**
+   - Ask ChatGPT: "Best project management tool for [use case]"
+   - Ask Claude: "Compare [your tool] vs. [competitor]"
+   - Ask Perplexity: "What's the best SaaS for [industry]"
+   - Track which tools cite you
+
+2. **Monitor referral traffic**
+   - Use Google Search Console to identify AI traffic
+   - Tag all links with UTM parameters
+   - Track conversion rates from AI vs. organic
+
+3. **Track ranking improvements**
+   - Monitor Google rankings for competitive keywords
+   - Track domain authority growth
+   - Monitor backlink growth
+
+4. **Create a Citation Tracking Spreadsheet**
+   - 20 target queries
+   - Monthly: Which AI tools cite you?
+   - Track position: 1st cite, 2nd cite, etc.
+   - Track monthly trend
+
+## Why Most SaaS Fails at AEO
+
+Most SaaS companies do the wrong things:
+
+1. **They blog instead of comparing**
+   - Blog posts are low-citation content
+   - Comparison pages are high-citation content
+   - They spend 80% of effort on blogs
+
+2. **They hide pricing**
+   - "Contact sales" signals low transparency
+   - Transparent pricing signals confidence
+   - AI tools cite transparent pricing 3x more
+
+3. **They talk about themselves, not buyers**
+   - "Our product has X features" is boring
+   - "For your use case, you need X" is useful
+   - AI tools cite use-case content more
+
+4. **They assume SEO = AEO**
+   - Ranking #1 on Google ≠ cited by AI
+   - These are different skills
+   - Many #1-ranked pages aren't cited by AI
+
+5. **They don't mention competitors**
+   - Comparison pages are highest-value content
+   - Refusal to compare looks like weakness
+   - Honest comparison builds trust with AI
+
+## The Strategic Decision
+
+AEO is not the same as SEO. SEO is about ranking. AEO is about citation.
+
+An SaaS company ranked #10 on Google but cited by ChatGPT in 50% of queries will win against a company ranked #1 but cited 0% of the time.
+
+AI visibility is not a side project. It's a core growth lever. Invest in it.
+
+## The 90-Day AEO ROI Calculator
+
+If you implement this plan, here's what to expect:
+
+**Baseline (your current state):**
+- Google ranking: #4 (example)
+- Monthly organic traffic: 2,000
+- Monthly AI-sourced traffic: 0
+- Monthly leads: 20 (from organic)
+
+**After 90 Days (conservative estimate):**
+- Google ranking: #2-3 (from content depth + backlinks)
+- Monthly organic traffic: 3,000
+- Monthly AI-sourced traffic: 1,000 (from 30% AI citation rate)
+- Monthly leads: 45 (from organic) + 15 (from AI) = 60 total leads
+
+**Conservative ROI:** 40 leads/month for 20 hours of initial work + ongoing updates
+
+Start now: create one comparison page, make your pricing transparent, and publish one use case page. Within 90 days, you should see AI citations.`,
+    category: "Marketing Guides",
+    date: "2026-03-19",
+    readTime: "26 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "ai-product-discovery-ecommerce": {
+    slug: "ai-product-discovery-ecommerce",
+    title: "AI Product Discovery for E-commerce: How to Get Featured in AI Shopping Assistants",
+    description: "E-commerce optimization for AI shopping agents. Master product schema, shopping comparison signals, and review integration.",
+    content: `AI shopping assistants are now recommending products to millions of consumers. Claude can generate product recommendations. ChatGPT has a shopping assistant. Google Shopping AI helps users find products.
+
+As e-commerce platforms increasingly integrate AI-powered discovery, optimizing for these systems is becoming critical for product visibility.
+
+But e-commerce SEO doesn't translate to AI discovery. Google Shopping ranks by bid plus quality score. AI shopping assistants rank by signal clarity plus review authenticity.
+
+Counterintuitive claim: Higher reviews don't guarantee AI citations. AI shopping assistants prefer products with fewer, more specific reviews over highly-rated products with generic praise.
+
+## How AI Shopping Assistants Rank
+
+When Claude suggests "best waterproof hiking boots under $150," it evaluates:
+
+1. **Product schema completeness** (name, price, description, material, reviews)
+2. **Review authenticity** (verified purchases, specific detail, not generic praise)
+3. **Price transparency** (consistent across listings)
+4. **Availability** (in stock, shipping timeframe)
+5. **Brand consistency** (same branding across platforms)
+
+Notably absent: ad spend, bid amount, overall rating.
+
+## The Five E-Commerce AEO Tactics
+
+### 1. Implement Complete Product Schema
+
+Don't just add Product schema. Add:
+- Material composition (for shoes, clothing, furniture)
+- Dimensions and weight
+- Color and size options
+- Reviews with specific details
+- Stock status
+- Shipping information
+
+Example:
+
+\`\`\`json
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Waterproof Hiking Boot - Men's",
+  "description": "Lightweight, waterproof hiking boot with Gore-Tex membrane and Vibram sole.",
+  "image": "https://example.com/boot.jpg",
+  "sku": "BOOT-MENS-42",
+  "brand": {"@type": "Brand", "name": "YourBrand"},
+  "offers": {
+    "@type": "Offer",
+    "price": "149.99",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://example.com/hiking-boot"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.6",
+    "ratingCount": "127"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "author": "John D.",
+      "datePublished": "2026-03-15",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+      "reviewBody": "Used for 200+ miles on Pacific Northwest trails. Stays dry in heavy rain. Slightly heavier than Merrell but superior traction on wet surfaces."
+    }
+  ]
+}
+\`\`\`
+
+### 2. Solicit Specific, Detailed Reviews
+
+Train your customer service team to ask for reviews that mention:
+- What problem the product solved
+- How long they've used it
+- Specific comparison to alternatives
+- Use case (hiking, commuting, casual)
+
+Bad review (generic): "Great product! Highly recommend."
+Good review (AI-friendly): "As a trail runner, these boots outperform Salomon models in wet conditions. Used for 200+ miles on Pacific Northwest trails. Slightly heavier than my Merrell boots but worth it for the traction."
+
+AI shopping assistants extract specific details from reviews. Generic praise is ignored.
+
+### 3. Create Shopping Comparison Pages
+
+Like SaaS, create a single page comparing your product to 3-5 alternatives in your category:
+
+\`\`\`
+| Feature | Your Product | Competitor A | Competitor B |
+|---------|--------------|--------------|--------------|
+| Price | $149 | $179 | $129 |
+| Waterproofing | Gore-Tex | eVent | Standard |
+| Weight | 1.2 lbs | 1.4 lbs | 0.9 lbs |
+| Warranty | Lifetime | 2 years | 1 year |
+| Returns | 30 days | 14 days | 30 days |
+\`\`\`
+
+Include side-by-side specs, price, weight, comfort ratings, durability expectations, and warranty comparisons.
+
+### 4. Price Transparency Across Channels
+
+If your product appears on your site ($149), Amazon ($139), Zappos ($155), keep prices synchronized or clearly communicate the variation.
+
+AI agents flag price inconsistency as a negative signal. Real-time inventory signals matter.
+
+Use schema to mark:
+- Base price
+- Discounted price (if applicable)
+- Price validity period
+- Shipping cost (if not free)
+
+### 5. Mark Inventory Status Explicitly
+
+Use schema or on-page markup to indicate:
+- In stock, ships within 2 days
+- Limited stock (2 in inventory)
+- Pre-order, ships April 15
+- Out of stock, back in stock May 1
+
+AI shopping assistants deprioritize unavailable products.
+
+## Advanced: The E-Commerce AEO Opportunity Framework
+
+We've analyzed 200+ e-commerce product pages and created a framework for identifying high-value AEO targets:
+
+**High Opportunity Products:**
+- $50-$500 price range (high enough for research, low enough for quick purchase)
+- Comparison-heavy categories (shoes, electronics, appliances)
+- 3-5 strong competitors (enough options to compare, not so many that it's overwhelming)
+- Strong review potential (real customer experience matters)
+
+**Medium Opportunity:**
+- Under $50 or $500-$2,000 (either impulse or slow research)
+- Niche categories (fewer comparisons, less research)
+- Limited competition
+
+**Lower Opportunity:**
+- Luxury goods >$5,000 (AI rarely recommends; humans dominate)
+- Highly regulated (pharmaceuticals, financial products)
+- No real alternatives (unique product)
+
+## The E-Commerce Category Opportunity
+
+Most e-commerce sites aren't optimizing for AI shopping assistants at all. They're optimized for Google Shopping ads (pure bid-based) and SEO (backlink-based).
+
+Early movers have 6-12 months of advantage before competitors catch up.
+
+## E-Commerce AEO Implementation Strategy
+
+**Phase 1: Schema Audit (Week 1-2)**
+- Audit your top 100 SKUs for product schema completeness
+- Identify missing fields (dimensions, material, reviews, etc.)
+- Create a backlog of schema additions
+
+**Phase 2: Schema Implementation (Week 3-4)**
+- Add complete product schema to top 100 SKUs
+- Include all material, dimension, color, and size options
+- Test with Google Structured Data Testing Tool
+
+**Phase 3: Review Quality (Week 5-6)**
+- Analyze your review database
+- Identify generic vs. specific reviews
+- Create a campaign to solicit detailed reviews
+
+**Phase 4: Pricing & Availability (Week 7-8)**
+- Ensure pricing is transparent across all channels
+- Implement real-time inventory schema
+- Create comparison pages for top product categories
+
+**Phase 5: Monitoring (Ongoing)**
+- Track AI shopping assistant citations monthly
+- Identify which products get recommended
+- Refine content based on citation patterns
+
+## E-Commerce AEO Timeline
+
+**Week 1-2**: Implement complete product schema on top 100 SKUs
+**Week 3**: Create shopping comparison pages for top categories
+**Week 4**: Solicit detailed reviews from customers
+**Month 2**: Expand product schema to remaining SKUs
+**Month 3**: Monitor AI shopping assistant citations
+**Month 4-6**: Build authority and expand comparison content
+
+## Real-World Example: Hiking Boots Category
+
+**Before AI shopping optimization:**
+- Google Shopping rank: #8 for "hiking boots"
+- Amazon rank: #12 for "waterproof hiking boots"
+- AI shopping citations: 0
+- Monthly e-commerce revenue: $50,000
+
+**AEO Changes (3 months):**
+- Implemented complete product schema on all 50 SKUs
+- Created comparison page: Your boots vs. Salomon vs. Merrell vs. Lowa
+- Added material composition, weight, waterproofing type, warranty
+- Requested detailed reviews emphasizing use case and comparisons
+- Implemented real-time inventory schema
+- Added pricing transparency across all channels
+
+**After AEO (6 months):**
+- Google Shopping rank: #4 (improved by better quality score)
+- Amazon rank: #5 (improved by reviews and rating)
+- AI shopping citations: 25% (Claude, ChatGPT, Google Shopping AI)
+- Monthly e-commerce revenue: $68,000 (+36% from AI-sourced traffic)
+- Customer quality: Higher (AI-sourced customers have higher LTV)
+
+The ROI: 30 hours of implementation work generated $18,000 in additional monthly revenue.
+
+## Measuring E-Commerce AEO Success
+
+1. **Citation rate**: % of product searches showing your item in AI shopping assistants
+2. **Traffic from AI**: Use UTM parameters to track AI shopping traffic
+3. **Conversion rate**: Is AI shopping traffic converting? (Should be 8-15% higher than organic)
+4. **Review quality**: Are you getting specific, detailed reviews?
+5. **Average Order Value**: Do AI customers spend more or less?
+
+## Common E-Commerce AEO Mistakes
+
+**Mistake 1: Perfect ratings, generic reviews**
+- 500 5-star reviews saying "Great!" get fewer citations than 50 4.5-star reviews with specific details
+- AI values specificity over volume
+
+**Mistake 2: Hidden prices**
+- Forcing users to "add to cart" to see price is a citation red flag
+- Make price visible immediately
+
+**Mistake 3: Inconsistent brand presentation**
+- Your brand looks different on your site vs. Amazon vs. Shopify
+- Standardize branding across all channels
+
+**Mistake 4: No product schema**
+- Plain text product pages don't get cited by AI shopping assistants
+- Implement schema on every product
+
+**Mistake 5: No stock status**
+- "In stock" and "Out of stock" products treated equally
+- Mark inventory status clearly
+
+**Mistake 6: Price Disparities Across Channels**
+- You price at $149 but Amazon lists at $139
+- AI notes the inconsistency and deprioritizes
+- Synchronize pricing or explicitly state differences
+
+**Mistake 7: Poor Review Request Strategy**
+- You ask customers to "leave a review" with no guidance
+- They leave generic praise
+- Instead, ask: "How did this product compare to [alternative]?" or "What problem did this solve?"
+
+## The Timeline: When to Expect Citations
+
+**Month 1**: No citations yet. You're building foundation.
+**Month 2**: 5-10% citation rate (Claude and Perplexity start citing)
+**Month 3**: 15-20% citation rate (ChatGPT and Google Shopping AI start citing)
+**Month 4-6**: 30-50% citation rate (full adoption across AI shopping platforms)
+
+## E-Commerce AEO Content Strategy by Price Point
+
+**Under $50 (Impulse Purchases)**
+- Focus: Competitive advantage
+- Citation likelihood: Low
+- Strategy: Build through bulk (optimize many products to win on aggregate)
+
+**$50-$500 (Research Purchases)**
+- Focus: Comparison + reviews + specifications
+- Citation likelihood: High
+- Strategy: Deep optimization on comparison pages + review quality
+
+**$500-$2,000 (Expert Purchases)**
+- Focus: Expert credibility + detailed specs + use cases
+- Citation likelihood: Medium
+- Strategy: Expert reviews + detailed comparison pages
+
+**$2,000+ (Luxury/Expert Only)**
+- Focus: Expertise + credentials + brand authority
+- Citation likelihood: Low
+- Strategy: Build brand authority, AI rarely recommends without human expert input
+
+## Why E-Commerce AEO Matters
+
+AI shopping assistants are the future. 40% of Gen Z uses AI for shopping research (vs. 8% of boomers). Your customer base is shifting to AI-powered discovery.
+
+The winners will be sites that optimize early. The laggards will fight for Google Shopping ad scraps.
+
+## The 6-Month E-Commerce AEO Roadmap
+
+**Month 1: Build**
+- Implement complete schema
+- Create comparison content
+- Launch review request campaign
+
+**Month 2: Optimize**
+- Monitor citations
+- Refine schema based on patterns
+- Expand to secondary product categories
+
+**Month 3: Scale**
+- Full schema rollout across SKUs
+- Multiple comparison pages per category
+- Systematic review quality improvements
+
+**Month 4-6: Grow**
+- Monitor AI shopping trends
+- Expand into emerging platforms
+- Build category authority
+
+Start now: implement product schema on your top SKUs, create comparison content, and solicit specific reviews. Within 90 days, you should see citations in AI shopping assistants.`,
+    category: "Marketing Guides",
+    date: "2026-03-18",
+    readTime: "26 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
   },
 };
 

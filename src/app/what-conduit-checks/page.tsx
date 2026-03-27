@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "What ConduitScore Checks — 7 AI Visibility Categories",
   description:
-    "A detailed breakdown of every check ConduitScore runs across its 7 AI visibility categories: Crawler Access, Structured Data, LLMs.txt, Content Structure, Technical Health, Citation Signals, and Content Quality.",
+    "Every check ConduitScore runs across 7 AI visibility categories: Crawler Access, Structured Data, LLMs.txt, Content Structure, Technical Health, Citation Signals, and Content Quality.",
   alternates: {
     canonical: `${SITE_URL}/what-conduit-checks`,
   },
@@ -450,6 +450,101 @@ export default function WhatConduitChecksPage() {
               </section>
             ))}
           </div>
+
+          {/* Related Concepts */}
+          <section
+            aria-labelledby="related-concepts-heading"
+            style={{
+              marginTop: "64px",
+              padding: "36px",
+              background: "var(--surface-elevated)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "16px",
+            }}
+          >
+            <h2
+              id="related-concepts-heading"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "1.25rem",
+                fontWeight: 700,
+                color: "var(--text-primary)",
+                letterSpacing: "-0.03em",
+                marginBottom: "20px",
+              }}
+            >
+              Related Concepts and Deep Dives
+            </h2>
+            <ul
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "14px",
+                margin: 0,
+                padding: 0,
+                listStyle: "none",
+              }}
+            >
+              {[
+                {
+                  href: "/blog/what-is-ai-seo",
+                  title: "AI SEO vs Traditional SEO",
+                  desc: "Understand the fundamental differences between optimizing for search engines and optimizing for AI agents.",
+                },
+                {
+                  href: "/blog/how-to-optimize-for-chatgpt",
+                  title: "How to Optimize for ChatGPT",
+                  desc: "Step-by-step implementation guide for making your site visible and citable in ChatGPT responses.",
+                },
+                {
+                  href: "/blog/ai-crawler-access-guide",
+                  title: "Crawler Access Configuration",
+                  desc: "Detailed robots.txt and sitemap guide for allowing GPTBot, ClaudeBot, and PerplexityBot.",
+                },
+                {
+                  href: "/blog/structured-data-for-ai",
+                  title: "Structured Data for AI",
+                  desc: "JSON-LD schema examples and implementation patterns for AI-readable content.",
+                },
+                {
+                  href: "/blog/llms-txt-guide",
+                  title: "LLMs.txt Implementation Guide",
+                  desc: "How to create and structure an llms.txt file that AI agents can use to understand your site.",
+                },
+              ].map((item) => (
+                <li key={item.href} style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                  <span
+                    style={{
+                      flexShrink: 0,
+                      marginTop: "5px",
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      background: "var(--brand-cyan)",
+                      opacity: 0.7,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <Link
+                      href={item.href}
+                      style={{
+                        color: "var(--brand-cyan)",
+                        textDecoration: "none",
+                        fontSize: "0.9375rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {item.title}
+                    </Link>
+                    <span style={{ color: "var(--text-tertiary)", fontSize: "0.875rem" }}>
+                      {" "}&mdash; {item.desc}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           {/* CTA */}
           <div

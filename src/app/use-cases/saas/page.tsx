@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "AI Visibility for SaaS Companies - ConduitScore",
   description:
-    "SaaS companies lose pipeline when AI agents can't find or cite their product. ConduitScore scans your SaaS website across 7 categories so ChatGPT, Perplexity, and Claude recommend you to buyers.",
+    "SaaS companies lose pipeline when AI agents can't cite their product. ConduitScore scans 7 visibility categories so ChatGPT, Perplexity, and Claude recommend you to buyers.",
   alternates: {
     canonical: `${SITE_URL}/use-cases/saas`,
   },
@@ -39,7 +39,7 @@ function SaasUseCaseJsonLd() {
         name: "What AI visibility score should a SaaS website aim for?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Top-performing SaaS websites score 75 or higher on the ConduitScore AI visibility scale. The average SaaS site scores around 35-45 out of 100. Key areas where SaaS sites underperform are structured data (Product and FAQPage schema), crawler access for AI bots, and missing LLMs.txt files.",
+          text: "SaaS sites commonly underperform on structured data (Product and FAQPage schema), crawler access for AI bots, and missing LLMs.txt files. ConduitScore scans all seven categories and shows you the highest-impact fixes to improve your score.",
         },
       },
       {
@@ -126,18 +126,23 @@ export default function SaasUseCasePage() {
                   The SaaS Discovery Channel Has Shifted
                 </h2>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
-                  B2B software buyers are replacing Google searches with AI-powered research. Over 60%
-                  of SaaS evaluation now starts with an AI assistant query rather than a traditional
-                  search. When someone asks &ldquo;what are the best alternatives to [competitor]&rdquo;
+                  B2B software buyers are replacing Google searches with AI-powered research. When
+                  someone asks an AI assistant &ldquo;what are the best alternatives to [competitor]&rdquo;
                   or &ldquo;compare [category] tools,&rdquo; AI agents synthesize answers from across
                   the web. If your website is not structured for AI consumption, you are invisible in
-                  this new discovery layer.
+                  this new discovery layer.{" "}
+                  <Link href="/blog/what-is-ai-seo" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                    Learn how AI SEO differs from traditional SEO
+                  </Link>.
                 </p>
                 <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                   Traditional SEO still matters, but it is no longer sufficient. AI agents do not rank
                   pages -- they extract, synthesize, and cite. Your pricing page, comparison pages,
                   feature documentation, and knowledge base all need to be machine-readable for
-                  ChatGPT, Perplexity, Claude, and Gemini.
+                  ChatGPT, Perplexity, Claude, and Gemini.{" "}
+                  <Link href="/methodology" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                    See how ConduitScore measures each signal
+                  </Link>.
                 </p>
               </div>
               <div className="card-glow p-8">
@@ -226,6 +231,87 @@ export default function SaasUseCasePage() {
           </div>
         </section>
 
+        {/* First-party data proof */}
+        <section className="py-20 sm:py-24">
+          <div className="container-wide mx-auto px-4">
+            <div className="mx-auto max-w-3xl">
+              <div
+                className="rounded-2xl border p-8 sm:p-10"
+                style={{
+                  background: "var(--surface-raised)",
+                  borderColor: "rgba(108,59,255,0.2)",
+                }}
+              >
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                    style={{ background: "rgba(108,59,255,0.15)", color: "var(--violet-300)" }}
+                  >
+                    &#9679;
+                  </span>
+                  <div>
+                    <p
+                      className="text-xs font-semibold uppercase tracking-widest"
+                      style={{ color: "var(--violet-300)" }}
+                    >
+                      What we see in our data
+                    </p>
+                    <h2
+                      className="mt-2 text-xl font-bold sm:text-2xl"
+                      style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+                    >
+                      Most sites have significant room to improve
+                    </h2>
+                  </div>
+                </div>
+                <p className="mt-6" style={{ color: "var(--text-secondary)" }}>
+                  Based on 457 ConduitScore scans run between March 13 and March 17, 2026, the
+                  median AI visibility score across all sites is{" "}
+                  <strong style={{ color: "var(--text-primary)" }}>29 out of 100</strong>. That
+                  means half of all sites we have scanned score below 29 -- signaling that crawler
+                  access, structured data, and LLMs.txt coverage are consistently missing or
+                  incomplete across the web.
+                </p>
+                <div
+                  className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl p-6"
+                  style={{ background: "var(--surface-base)" }}
+                >
+                  {[
+                    { stat: "457", label: "Sites scanned" },
+                    { stat: "29 / 100", label: "Median score" },
+                    { stat: "95 / 100", label: "Top score observed" },
+                  ].map((item) => (
+                    <div key={item.label} className="text-center">
+                      <p
+                        className="text-2xl font-bold"
+                        style={{ color: "var(--violet-300)", fontFamily: "var(--font-display)" }}
+                      >
+                        {item.stat}
+                      </p>
+                      <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
+                        {item.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+                  The highest-scoring sites in our sample (95+) share three traits: AI crawlers
+                  are explicitly allowed in robots.txt, key pages carry valid JSON-LD structured
+                  data, and an LLMs.txt file is present at the domain root. These are mechanical
+                  fixes -- not content overhauls -- and they account for most of the gap between
+                  a score of 29 and a score above 90.
+                </p>
+                <p
+                  className="mt-4 text-xs"
+                  style={{ color: "var(--text-tertiary, var(--text-secondary))", opacity: 0.7 }}
+                >
+                  Data from 457 anonymous ConduitScore scans, March 13&ndash;17, 2026.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA */}
         <section className="py-20 sm:py-24">
           <div className="container-wide mx-auto px-4 text-center">
@@ -238,7 +324,10 @@ export default function SaasUseCasePage() {
               </h2>
               <p className="mt-4" style={{ color: "var(--text-secondary)" }}>
                 Scan your SaaS website now and find out exactly what AI agents see -- and what they
-                are missing. Free scan, no sign-up required.
+                are missing. Free scan, no sign-up required.{" "}
+                <Link href="/sample-reports/high-score" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>
+                  See what a high-scoring site looks like
+                </Link>.
               </p>
               <div className="mt-8">
                 <Link href="/" className="btn btn-primary btn-lg">

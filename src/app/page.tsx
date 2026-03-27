@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ScanForm } from "@/components/scan/scan-form";
@@ -8,16 +9,16 @@ import { WhoUsesSection } from "@/components/home/who-uses-section";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitscore.com";
 
 export const metadata: Metadata = {
-  title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
+  title: "ConduitScore — See Why AI Ignores Your Site",
   description:
-    "See why AI ignores your site. ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in about 15 seconds. Free, no signup required.",
+    "ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "ConduitScore — See Why AI Ignores Your Site and Fix It in Minutes",
+    title: "ConduitScore — See Why AI Ignores Your Site",
     description:
-      "See why AI ignores your site. ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in about 15 seconds. Free, no signup required.",
+      "ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
     url: SITE_URL,
     type: "website",
   },
@@ -225,6 +226,68 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ===== WHAT IS AI VISIBILITY? (DEFINITION BLOCK) ===== */}
+        <section
+          aria-labelledby="ai-visibility-def"
+          style={{
+            padding: "80px 0",
+            background: "var(--surface-overlay)",
+            borderTop: "1px solid var(--border-subtle)",
+          }}
+        >
+          <div className="container-base mx-auto px-6 md:px-0" style={{ maxWidth: "720px" }}>
+            <h2
+              id="ai-visibility-def"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.5rem, 3vw, 2rem)",
+                color: "var(--text-primary)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.15,
+                marginBottom: "24px",
+              }}
+            >
+              What is AI Visibility?
+            </h2>
+
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                color: "var(--text-secondary)",
+                lineHeight: 1.7,
+                marginBottom: "20px",
+              }}
+            >
+              <strong>AI visibility</strong> is the degree to which your website&apos;s content is discoverable, readable, and citable by AI agents like ChatGPT, Claude, Perplexity, and Gemini.
+            </p>
+
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                color: "var(--text-secondary)",
+                lineHeight: 1.7,
+                marginBottom: "20px",
+              }}
+            >
+              A SaaS company might rank first on Google for &ldquo;project management software,&rdquo; but if ChatGPT cannot parse their pricing structure from structured data or extract a clear product summary from their homepage, the product will not appear in AI-generated comparisons and recommendations. Google and AI agents evaluate websites on fundamentally different criteria. Google cares about relevance to search queries. AI agents care whether they can reliably extract, verify, and attribute your content.
+            </p>
+
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1rem",
+                color: "var(--text-secondary)",
+                lineHeight: 1.7,
+              }}
+            >
+              ConduitScore measures this visibility across 7 core categories—from crawler access and structured data to llms.txt and content quality. Your score reflects how ready your site is to be cited by AI systems.
+            </p>
+          </div>
+        </section>
+
         {/* ===== PROBLEM SECTION ===== */}
         <section
           aria-labelledby="problem-heading"
@@ -260,7 +323,8 @@ export default function Home() {
                 textAlign: "center",
               }}
             >
-              SEO tools show you how you rank in search results. But AI agents like ChatGPT, Claude, and Perplexity see your site completely differently. They have stricter requirements for crawler access, structured data, content clarity, and citation signals. Miss even one of these 14 critical signals, and your site becomes invisible to AI-generated answers — no matter how well it ranks in Google.
+              SEO tools show you how you rank in search results. But AI agents like ChatGPT, Claude, and Perplexity see your site completely differently. They have stricter requirements for crawler access, structured data, content clarity, and citation signals. Miss even one of these 14 critical signals, and your site becomes invisible to AI-generated answers — no matter how well it ranks in Google.{" "}
+              <Link href="/methodology" style={{ color: "var(--brand-cyan)", textDecoration: "underline", textUnderlineOffset: "3px" }}>Learn how we measure AI visibility</Link>.
             </p>
 
             <ul
@@ -718,7 +782,8 @@ export default function Home() {
                 marginBottom: "48px",
               }}
             >
-              AI visibility problems are rarely obvious. Most of them are invisible to humans but fully measurable.
+              AI visibility problems are rarely obvious. Most of them are invisible to humans but fully measurable.{" "}
+              <Link href="/blog/what-is-ai-seo" style={{ color: "var(--brand-cyan)", textDecoration: "underline", textUnderlineOffset: "3px" }}>Understand how AI SEO differs from traditional SEO</Link>.
             </p>
 
             {/* Card grid — 1 col mobile, 2 col tablet, 3+2 desktop via CSS grid */}
@@ -733,7 +798,7 @@ export default function Home() {
                 {
                   number: "01",
                   title: "Your robots.txt blocks AI crawlers without you knowing",
-                  body: "GPTBot, ClaudeBot, and PerplexityBot are opt-out crawlers — they respect robots.txt directives meant for other bots. An overly broad Disallow rule added years ago can silently exclude your site from every major AI index. Cloudflare's 2024 data shows over 35% of top sites block at least one major AI crawler.",
+                  body: "GPTBot, ClaudeBot, and PerplexityBot are opt-out crawlers — they respect robots.txt directives meant for other bots. An overly broad Disallow rule added years ago can silently exclude your site from every major AI index. Cloudflare's August 2024 data found that 35.7% of the world's top 1,000 websites block OpenAI's GPTBot — a seven-fold increase from the 5% blocking rate when the crawler launched.",
                 },
                 {
                   number: "02",
@@ -936,7 +1001,9 @@ export default function Home() {
                 lineHeight: 1.6,
               }}
             >
-              Find out how AI systems read your site — and what to fix first.
+              Find out how AI systems read your site — and what to fix first.{" "}
+              <Link href="/sample-reports/high-score" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>See what a high score looks like</Link> or{" "}
+              <Link href="/use-cases/saas" style={{ color: "var(--brand-cyan)", textDecoration: "none" }}>see how SaaS companies use ConduitScore</Link>.
             </p>
 
             <div style={{ marginTop: "32px" }}>

@@ -6,14 +6,14 @@ import { Footer } from "@/components/layout/footer";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitscore.com";
 
 export const metadata: Metadata = {
-  title: "ConduitScore Methodology — How the 0–100 Score Is Calculated",
+  title: "ConduitScore Methodology — How the Score Is Calculated",
   description:
-    "Learn exactly how ConduitScore calculates the 0–100 AI visibility score across 7 categories: Crawler Access, Structured Data, LLMs.txt, Content Structure, Technical Health, Citation Signals, and Content Quality.",
+    "How ConduitScore calculates your 0–100 AI visibility score. Transparent weights across 7 categories: Crawler Access, Structured Data, LLMs.txt, Content Structure, Technical Health, and more.",
   alternates: {
     canonical: `${SITE_URL}/methodology`,
   },
   openGraph: {
-    title: "ConduitScore Methodology — How the 0–100 Score Is Calculated",
+    title: "ConduitScore Methodology — How the Score Is Calculated",
     description:
       "A transparent breakdown of every category, weight, and signal used to score your website's visibility to AI agents like ChatGPT, Perplexity, Claude, and Gemini.",
     url: `${SITE_URL}/methodology`,
@@ -57,42 +57,49 @@ const categories = [
     points: 15,
     description:
       "Checks whether AI bots (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) can access your site, whether your robots.txt is configured correctly, and whether a sitemap is discoverable.",
+    learnMore: { href: "/blog/ai-crawler-access-guide", label: "Crawler access guide" },
   },
   {
     name: "Structured Data",
     points: 20,
     description:
       "Evaluates JSON-LD schema markup including Organization, WebSite, FAQPage, BreadcrumbList, and article schemas that help AI systems understand your content.",
+    learnMore: { href: "/blog/structured-data-for-ai", label: "Structured data for AI guide" },
   },
   {
     name: "LLMs.txt",
     points: 10,
     description:
       "Checks for the presence, completeness, and structure of your /llms.txt file — a machine-readable guide for AI agents about your site's key pages and purpose.",
+    learnMore: { href: "/blog/llms-txt-guide", label: "LLMs.txt implementation guide" },
   },
   {
     name: "Content Structure",
     points: 15,
     description:
       "Assesses heading hierarchy, semantic HTML, FAQ sections, introductory paragraphs, and answer-friendly formatting.",
+    learnMore: null,
   },
   {
     name: "Technical Health",
     points: 15,
     description:
       "Evaluates page load speed, canonical tags, viewport meta, meta descriptions, noindex directives, and other technical signals affecting AI crawler success.",
+    learnMore: null,
   },
   {
     name: "Citation Signals",
     points: 15,
     description:
       "Checks for author attribution, external links to authoritative sources, about/contact pages, trust/legal pages, and clear organization identity.",
+    learnMore: null,
   },
   {
     name: "Content Quality",
     points: 10,
     description:
       "Measures content depth, title and description quality, publish dates, paragraph structure, and extractability for AI answer generation.",
+    learnMore: null,
   },
 ];
 
@@ -239,6 +246,146 @@ export default function MethodologyPage() {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "64px" }}>
 
+            {/* Section: What Your Score Means (SUMMARY BLOCK) */}
+            <section aria-labelledby="score-meaning">
+              <h2
+                id="score-meaning"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(1.5rem, 3vw, 2rem)",
+                  fontWeight: 700,
+                  color: "var(--text-primary)",
+                  letterSpacing: "-0.03em",
+                  marginBottom: "24px",
+                }}
+              >
+                What Your Score Means
+              </h2>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  marginBottom: "32px",
+                }}
+              >
+                {[
+                  { range: "0–39", meaning: "Poor. Site is largely invisible to AI agents—major blockers present." },
+                  { range: "40–59", meaning: "Below Average. Partial visibility—several important signals are missing." },
+                  { range: "60–74", meaning: "Moderate. Good foundation but key gaps remain." },
+                  { range: "75–89", meaning: "Good. Well-optimized with minor improvements available." },
+                  { range: "90–100", meaning: "Excellent. Highly visible to AI agents." },
+                ].map((item) => (
+                  <div
+                    key={item.range}
+                    style={{
+                      display: "flex",
+                      gap: "16px",
+                      padding: "16px",
+                      background: "var(--surface-elevated)",
+                      border: "1px solid var(--border-subtle)",
+                      borderRadius: "12px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "0.875rem",
+                        fontWeight: 700,
+                        color: "var(--brand-cyan)",
+                        minWidth: "60px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {item.range}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "0.875rem",
+                        lineHeight: 1.6,
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      {item.meaning}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Data callout box */}
+              <aside
+                style={{
+                  background: "rgba(217,255,0,0.08)",
+                  border: "1px solid rgba(217,255,0,0.18)",
+                  borderRadius: "12px",
+                  padding: "24px",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "0.875rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "var(--brand-lime)",
+                    margin: "0 0 12px 0",
+                  }}
+                >
+                  The AI Visibility Gap
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.9375rem",
+                    lineHeight: 1.7,
+                    color: "var(--text-secondary)",
+                    margin: "0 0 12px 0",
+                  }}
+                >
+                  Based on 457 ConduitScore scans analyzed (March 13–17, 2026):
+                </p>
+                <ul
+                  style={{
+                    margin: 0,
+                    paddingLeft: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <li
+                    style={{
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    <strong>Median score: 28/100</strong> — Half of all websites score below this threshold
+                  </li>
+                  <li
+                    style={{
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    <strong>78% score below 50</strong> — Indicating widespread AI visibility gaps
+                  </li>
+                  <li
+                    style={{
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    <strong>Only 6% score above 80</strong> — Few sites have optimized comprehensively for AI
+                  </li>
+                </ul>
+              </aside>
+            </section>
+
             {/* Section A: Core Score Methodology */}
             <section>
               <h2
@@ -349,6 +496,17 @@ export default function MethodologyPage() {
                         }}
                       >
                         {cat.description}
+                        {cat.learnMore && (
+                          <>
+                            {" "}
+                            <Link
+                              href={cat.learnMore.href}
+                              style={{ color: "var(--brand-cyan)", textDecoration: "none", fontSize: "0.8125rem" }}
+                            >
+                              {cat.learnMore.label} &rarr;
+                            </Link>
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
@@ -623,6 +781,60 @@ export default function MethodologyPage() {
                   }}
                 >
                   See a Sample Report →
+                </Link>
+                <Link
+                  href="/blog/ai-crawler-access-guide"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "10px 18px",
+                    borderRadius: "8px",
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border-subtle)",
+                    color: "var(--text-secondary)",
+                    textDecoration: "none",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                  }}
+                >
+                  Crawler Access Guide →
+                </Link>
+                <Link
+                  href="/blog/structured-data-for-ai"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "10px 18px",
+                    borderRadius: "8px",
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border-subtle)",
+                    color: "var(--text-secondary)",
+                    textDecoration: "none",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                  }}
+                >
+                  Structured Data for AI →
+                </Link>
+                <Link
+                  href="/blog/llms-txt-guide"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "10px 18px",
+                    borderRadius: "8px",
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border-subtle)",
+                    color: "var(--text-secondary)",
+                    textDecoration: "none",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                  }}
+                >
+                  LLMs.txt Implementation Guide →
                 </Link>
               </div>
             </section>

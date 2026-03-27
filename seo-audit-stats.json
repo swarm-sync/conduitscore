@@ -1,0 +1,31 @@
+{
+  "extractedAt": "2026-03-26T22:52:43.789Z",
+  "totalScans": 457,
+  "dateRange": {
+    "start": "2026-03-13",
+    "end": "2026-03-17"
+  },
+  "overallStats": {
+    "avgScore": 35.4,
+    "medianScore": 29,
+    "minScore": 20,
+    "maxScore": 95
+  },
+  "byTier": {
+    "unknown": {
+      "count": 454,
+      "avg": 35.2,
+      "median": 29,
+      "min": 29,
+      "max": 95
+    },
+    "free": {
+      "count": 3,
+      "avg": 65.7,
+      "median": 92,
+      "min": 20,
+      "max": 92
+    }
+  },
+  "recentScansLast30Days": 457
+}

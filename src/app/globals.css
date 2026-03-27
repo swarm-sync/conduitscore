@@ -12,6 +12,9 @@
   --brand-red-alt: #ff2d55;
   --brand-purple: #6366f1;
   --brand-lime: #d9ff00;
+  /* --brand-cyan: accessible teal/cyan used for inline links throughout the site.
+     #22d3ee (Tailwind cyan-400) passes 4.5:1 on #080809 / #101014 dark backgrounds. */
+  --brand-cyan: #22d3ee;
 
   --violet-950: #141530;
   --violet-900: #1d1f49;
@@ -302,7 +305,8 @@ code, pre {
 
 .section-label {
   display: inline-block;
-  color: var(--brand-red);
+  /* #ff6d8c passes 4.5:1 on #101014 (--surface-raised) — was --brand-red (#e8004d, ~3.9:1) */
+  color: #ff6d8c;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;

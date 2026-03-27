@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/status`,
   },
+  robots: {
+    index: false,
+  },
 };
 
 const services = [

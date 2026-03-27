@@ -355,7 +355,8 @@ export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
                   cursor: loading ? "not-allowed" : "pointer",
                   whiteSpace: "nowrap",
                 }}
-                aria-label={loading ? "Scanning in progress" : "Scan website for AI visibility"}
+                aria-busy={loading}
+                aria-label={loading ? "Scanning in progress" : undefined}
               >
                 {loading ? (
                   <>

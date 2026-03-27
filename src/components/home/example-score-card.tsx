@@ -219,7 +219,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
               fontWeight: 600,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.38)",
+              /* Bumped from 0.38 → 0.6 to pass WCAG AA 4.5:1 on #0c0c0f card bg */
+              color: "rgba(255,255,255,0.60)",
               marginBottom: "4px",
             }}
           >
@@ -343,7 +344,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize:   "0.6875rem",
-                  color:      "rgba(255,255,255,0.38)",
+                  /* Bumped from 0.38 → 0.55 to pass WCAG AA */
+                  color:      "rgba(255,255,255,0.55)",
                   lineHeight: 1.2,
                   marginTop:  "2px",
                 }}
@@ -392,7 +394,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize:   "0.875rem",
-                color:      "rgba(255,255,255,0.35)",
+                /* Bumped from 0.35 → 0.55 to pass WCAG AA */
+                color:      "rgba(255,255,255,0.55)",
                 marginTop:  "2px",
               }}
             >
@@ -657,7 +660,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
           style={{
             fontFamily:  "var(--font-body)",
             fontSize:    "0.8125rem",
-            color:       "rgba(255,255,255,0.45)",
+            /* Bumped from 0.45 → 0.60 to pass WCAG AA */
+            color:       "rgba(255,255,255,0.60)",
             lineHeight:  1.5,
             textAlign:   "center",
             paddingTop:  "12px",
@@ -673,7 +677,8 @@ export function ExampleScoreCard({ animateOnMount = true }: ExampleScoreCardProp
         style={{
           fontFamily:   "var(--font-body)",
           fontSize:     "0.8125rem",
-          color:        "rgba(255,255,255,0.38)",
+          /* Bumped from 0.38 → 0.60 to pass WCAG AA on dark page background */
+          color:        "rgba(255,255,255,0.60)",
           textAlign:    "center",
           marginTop:    "14px",
           lineHeight:   1.5,
