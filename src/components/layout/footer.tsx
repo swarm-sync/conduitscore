@@ -44,7 +44,7 @@ export function Footer() {
                 className="transition-opacity duration-200 group-hover:opacity-80"
                 style={{
                   objectFit: "contain",
-                  width: "190px",
+                  width: "min(260px, 72vw)",
                   height: "auto",
                   display: "block",
                   flexShrink: 0,
