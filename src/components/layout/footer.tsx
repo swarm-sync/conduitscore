@@ -39,8 +39,8 @@ export function Footer() {
               <Image
                 src={FOOTER_LOGO_SRC}
                 alt="ConduitScore"
-                width={2400}
-                height={1371}
+                width={756}
+                height={292}
                 className="transition-opacity duration-200 group-hover:opacity-80"
                 style={{
                   objectFit: "contain",

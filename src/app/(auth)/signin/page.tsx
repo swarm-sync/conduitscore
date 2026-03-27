@@ -64,8 +64,8 @@ function SignInContent() {
             <Image
               src={BRAND_LOGO_SRC}
               alt="ConduitScore"
-              width={1300}
-              height={700}
+              width={756}
+              height={292}
               priority
               style={{
                 objectFit: "contain",

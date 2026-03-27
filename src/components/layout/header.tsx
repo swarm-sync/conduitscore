@@ -64,8 +64,8 @@ export function Header() {
           <Image
             src={HEADER_LOGO_SRC}
             alt="ConduitScore"
-            width={2400}
-            height={1371}
+            width={756}
+            height={292}
             priority
             fetchPriority="high"
             className="transition-opacity duration-200 group-hover:opacity-90"
