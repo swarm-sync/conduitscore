@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const FOOTER_LOGO_SRC = "/logo.svg";
+const FOOTER_LOGO_SRC = "/NEWNEW/conduitscore-lockup.svg";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
