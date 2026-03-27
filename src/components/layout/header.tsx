@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const HEADER_LOGO_SRC = "/NEWNEW/conduitscore-lockup-white.svg";
+const HEADER_LOGO_ICON_SRC = "/NEWNEW/android-chrome-192x192.png";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,24 +58,39 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="container-wide mx-auto flex h-[104px] items-center justify-between">
+      <div className="container-wide mx-auto flex h-[80px] md:h-[92px] items-center justify-between">
 
         <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
-          <Image
-            src={HEADER_LOGO_SRC}
-            alt="ConduitScore — powered by conduit"
-            width={1300}
-            height={700}
-            priority
-            fetchPriority="high"
-            className="transition-opacity duration-200 group-hover:opacity-90"
-            style={{
-              objectFit: "contain",
-              width: "auto",
-              height: "88px",
-              display: "block",
-            }}
-          />
+          <div className="flex items-center gap-3 md:gap-3.5">
+            <Image
+              src={HEADER_LOGO_ICON_SRC}
+              alt="ConduitScore"
+              width={192}
+              height={192}
+              priority
+              fetchPriority="high"
+              className="transition-opacity duration-200 group-hover:opacity-90"
+              style={{
+                objectFit: "contain",
+                width: "36px",
+                height: "36px",
+                display: "block",
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.1rem, 2vw, 1.45rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                color: "var(--text-primary)",
+                lineHeight: 1,
+              }}
+            >
+              ConduitScore
+            </span>
+          </div>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
