@@ -2791,6 +2791,344 @@ Most importantly, it is honest. You are not making up frameworks. The 14 signals
     author: "Ben Stone",
     authorTitle: "Co-founder, ConduitScore",
   },
+
+  "what-is-ai-visibility-complete-guide-2026": {
+    slug: "what-is-ai-visibility-complete-guide-2026",
+    title: "What Is AI Visibility? (The Complete Guide for 2026)",
+    description: "AI visibility is how findable your site is to ChatGPT, Claude, and Perplexity. Learn the 14 signals that determine whether AI systems cite your content.",
+    content: `Google can find your website. ChatGPT probably cannot cite it.
+
+That distinction — ranking versus being cited — is the gap that defines AI visibility. And in 2026, that gap is costing businesses traffic they cannot see, from a channel they never thought to measure.
+
+AI visibility is the degree to which AI systems can access, parse, and choose to cite your website when answering a user's question. It is not the same as SEO. It is not a subset of SEO. It is a parallel discipline with different signals, different rewards, and different consequences for getting it wrong.
+
+This guide explains what AI visibility means, why it matters more in 2026 than it did two years ago, and exactly what the 14 signals are that determine whether a system like ChatGPT or Perplexity cites your content or ignores it entirely.
+
+## Why 2026 Is the Inflection Point
+
+In 2022, search worked like this: a user typed a query, got ten blue links, and clicked one. Your job was to be one of those links.
+
+That model is not dead. But it is no longer the only model — and for many queries, it is no longer the primary one.
+
+Today, ChatGPT has over 200 million weekly active users. Perplexity processes over 100 million queries per month. Google's AI Overviews appear on roughly 25% of searches in the United States as of early 2026. Bing Copilot is integrated directly into Microsoft's operating system. Claude.ai answers questions for millions of enterprise users.
+
+All of those systems generate answers directly. They do not show users a list of links and ask them to choose. They synthesize a response — and either cite your site as a source, or they do not.
+
+Here is the counterintuitive part: the signals these AI systems use to decide what to cite are almost entirely different from the signals Google uses to decide what to rank. A site with 50,000 backlinks and decade-old domain authority can be completely invisible to AI systems if it lacks structured data, blocks AI crawlers in its robots.txt, and has no author attribution on its articles.
+
+Meanwhile, a six-month-old site with solid JSON-LD schema, clear author credentials, and an accessible llms.txt file can start receiving AI citations within weeks of launch.
+
+The signals that matter have changed. Most sites have not caught up.
+
+## What AI Systems Actually Look For
+
+Before covering the 14 signals specifically, it helps to understand how AI systems make citation decisions at a high level.
+
+Large language models are trained on massive text corpora, but they also retrieve live web content for real-time queries. When a system like Perplexity searches the web to answer a question, it is not just looking for relevance — it is filtering for trustworthiness, parseability, and authority.
+
+**Trustworthiness** means: Is this a real organization? Is there a named author? Is there contact information? Is there a publication date?
+
+**Parseability** means: Can a machine read this content cleanly? Is the content in the HTML body, or is it hidden behind JavaScript rendering? Is there structured data that explicitly labels what this content is?
+
+**Authority** means: Does this site have backlinks from known sources? Does it have an established presence? Does the author have verifiable credentials?
+
+These three filters — trustworthiness, parseability, authority — map directly to the 14 AI visibility signals. When a site scores well on all three, AI systems cite it. When a site fails on any one of them, it gets skipped regardless of how well it ranks on Google.
+
+## The 14 AI Visibility Signals Across 7 Categories
+
+### Category 1: Crawlability and Access
+
+Before an AI system can consider citing your site, it has to be able to reach it. Three signals govern this:
+
+**Robots.txt permission for AI crawlers.** Many sites that optimized their robots.txt for Googlebot have accidentally blocked AI crawlers. GPTBot (OpenAI), ClaudeBot (Anthropic), and PerplexityBot each have distinct user-agent identifiers. If your robots.txt disallows these crawlers — or uses a catch-all "Disallow: /" that blocks all non-Google bots — those AI systems cannot access your content at all. The fix is straightforward: audit your robots.txt and confirm it does not block named AI crawlers.
+
+**Sitemap.xml presence.** A sitemap tells crawlers which pages exist and when they were last updated. Sites without a sitemap make AI systems work harder to discover content — and AI crawlers, unlike Googlebot, will not necessarily persist through that friction. A valid XML sitemap at /sitemap.xml is a baseline requirement.
+
+**No JavaScript-only content.** AI crawlers do not execute JavaScript the way a browser does. If your key content — product descriptions, article bodies, pricing information — only appears after JavaScript renders, AI systems see a blank page. Content must be present in the raw HTML response.
+
+### Category 2: Structured Data and Semantics
+
+Structured data is the clearest signal you can send to a machine. It says: "This is what this content is, in a format designed for machines to read."
+
+**JSON-LD schema markup.** Schema.org's vocabulary gives you explicit labels for your content. An Article schema tells AI systems this is editorial content with an author and a date. An Organization schema tells them who is behind the site. A Product schema tells them what you sell and at what price. Without schema, AI systems have to infer content type from context — and they get it wrong often enough to affect citation decisions.
+
+**Open Graph tags.** Open Graph metadata (og:title, og:description, og:type) was designed for social sharing but is read by AI systems as a machine-readable content summary. Sites without Open Graph tags are missing an easy signal.
+
+**Proper heading hierarchy.** H1 through H3 headings create a semantic outline that AI systems use to understand content structure. A page with one H1, clear H2 sections, and H3 subsections is significantly easier to parse than a page with inconsistent heading levels or heading tags used purely for visual formatting.
+
+### Category 3: Citation Readiness
+
+AI systems prefer to cite sources they can verify. Citation readiness signals establish your site as a verifiable, accountable source.
+
+**Author information on every article.** A bylined article with an author name, a brief bio, and ideally a link to the author's profile elsewhere signals that a real person with accountable credentials wrote this content. Anonymous content — published under a company name with no individual author — scores lower on citation readiness.
+
+**Visible publication dates.** AI systems weight recency in many query types. An article without a visible publication date cannot be evaluated for freshness. Dates should be in the HTML in a machine-readable format (ISO 8601: 2026-03-27) and visible to readers.
+
+**Organization identity in footer.** Your organization name, contact email, and physical address in the site footer — ideally matching your Organization schema — close the loop on verifiable identity. It is the digital equivalent of a newspaper's masthead.
+
+### Category 4: Content Quality Signals
+
+Not all content gets cited equally. AI systems apply quality filters that reward depth, originality, and freshness.
+
+**Article length and depth.** Content under 600 words rarely has enough substance to serve as a citation for a complex question. AI systems tend to cite longer-form content that fully addresses a topic. This does not mean longer is always better — but thin pages are rarely cited.
+
+**Content freshness.** Information that has not been updated in three or more years is treated with lower confidence by AI systems, particularly on topics that change (technology, regulations, pricing, best practices). A content calendar that includes regular updates to key pages is an AI visibility investment, not just an SEO one.
+
+**Original research and primary data.** Content that contains original research, proprietary data, or primary-source interviews carries higher citation value than content that synthesizes what is already widely published. If you have internal data — survey results, usage statistics, case study outcomes — publishing it explicitly increases your citation potential.
+
+### Category 5: Link Profile
+
+Authority signals from backlinks matter to AI systems as a proxy for trustworthiness, though they matter differently than they do for Google rankings.
+
+**Domain backlinks from known sources.** A site with backlinks from established publishers, educational institutions, or recognized industry organizations signals domain authority to AI systems. The threshold is not as high as Google's — AI systems are not running PageRank — but a site with zero backlinks is treated as unverified.
+
+**Internal linking.** Internal links help AI crawlers discover all pages on a site and understand content relationships. A site with strong internal linking between related articles is more thoroughly indexed by AI crawlers than a site where pages exist in isolation.
+
+**No obvious spam signals.** Sites with patterns associated with spam — keyword-stuffed anchor text, links from link farms, domain names with multiple hyphens and purchased expired domains — are filtered out early by AI citation logic.
+
+### Category 6: Site Health and Performance
+
+Technical hygiene signals that your site is maintained and functional.
+
+**SSL certificate (HTTPS).** An HTTP site in 2026 is a red flag. AI systems use HTTPS as a minimum bar for any citation. If your site is not HTTPS, this alone can disqualify it from AI citations regardless of content quality.
+
+**Page load under 3 seconds on mobile.** AI crawlers do have timeout thresholds. Extremely slow pages — particularly on mobile, where crawlers often run user-agent profiles — may be abandoned before full content retrieval. Page speed is both a user experience and a machine accessibility issue.
+
+**No crawl errors on key pages.** 404 errors, redirect chains, and server errors on key content pages signal poor site maintenance. AI systems deprioritize sites with significant error rates.
+
+### Category 7: Compliance and Safety
+
+The final category covers signals that establish your site as a legitimate, operating entity.
+
+**Privacy policy and terms of service.** Sites without published privacy policies and terms of service have incomplete organizational infrastructure. AI systems use the presence of these pages as a basic legitimacy signal — particularly important for sites that handle user data.
+
+**Working contact page.** A functional contact page with a real email address (not just a form with no other contact information) is a trust signal. AI systems that validate organizational identity check for reachable contact channels.
+
+**No security issues.** Sites with active malware flags, browser security warnings, or blacklist status with major security providers will not be cited by any major AI system. Security infrastructure is not optional.
+
+## AI Visibility vs. Traditional SEO: Where They Overlap and Diverge
+
+Site health, HTTPS, mobile performance, and content quality are signals that matter for both Google rankings and AI citations. Investing in these improves both channels simultaneously.
+
+The divergence is significant in three areas:
+
+**Structured data.** Google uses schema markup as a ranking signal, but it is optional for many site types. For AI citations, JSON-LD schema is close to mandatory — it is the clearest machine-readable signal you can provide.
+
+**Author attribution.** Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) framework values author credentials, but plenty of high-ranking content has no byline. AI systems treat missing author information as a citation risk flag.
+
+**Keyword optimization.** Traditional SEO rewards keyword placement, density, and semantic keyword coverage. AI systems do not rank by keyword. They cite by trustworthiness and parse-quality. A piece of content optimized for keywords but written in a way that is difficult to parse — dense jargon, inconsistent structure, no clear answer to the implicit question — will rank on Google and be skipped by AI.
+
+The practical implication: SEO and AI visibility are complementary, not competing. The fastest path to both is to fix site health and content quality first, then layer in AI-specific signals (schema, author info, llms.txt, robots.txt) that Google will ignore but AI systems will reward.
+
+## How to Measure AI Visibility
+
+You cannot improve what you cannot measure. AI visibility scoring gives you a quantified baseline across all 14 signals so you know where to focus.
+
+ConduitScore's scoring system assigns a 0-100 score based on how many of the 14 signals your site satisfies and how strongly. The score breaks down by category — so you can see that your site scores 90 on Site Health but 40 on Citation Readiness, and prioritize accordingly.
+
+The free scan takes approximately 15 seconds. It checks all 14 signals programmatically: fetching your robots.txt to check for AI crawler blocks, parsing your HTML for JSON-LD schema, checking for author markup in article pages, testing page load time, verifying HTTPS, and more.
+
+Running a scan before making changes gives you a baseline. Running one after gives you proof that the changes worked.
+
+## The Most Common AI Visibility Mistakes
+
+In scanning thousands of sites, four mistakes appear most often:
+
+**Blocking AI crawlers by accident.** The most common issue. Site owners added "Disallow: /" to block scrapers and did not know they blocked GPTBot and ClaudeBot at the same time. Check your robots.txt. If it disallows all bots or specifically disallows any of the major AI crawlers, you are invisible to those systems.
+
+**No schema on any page.** Many small business sites and even mid-size company sites launched before structured data was standard practice and were never updated. Adding Organization schema to the homepage and Article schema to blog posts is a half-day of work that dramatically improves AI parse-ability.
+
+**Anonymous content.** Articles published under a company name with no individual author — "By ConduitScore Team" with no linked bio or profile — score lower than bylined content. Author schema linked to an author profile page is the fix.
+
+**Outdated content with no refresh date.** A blog post from 2021 with a last-modified date of 2021 is treated as potentially stale on every topic. If you have high-quality older content, add a "last reviewed" date and update it when the content is checked for accuracy.
+
+## What Improving AI Visibility Looks Like in Practice
+
+A realistic improvement path for a site starting from a mid-range AI visibility score:
+
+**Week 1:** Fix robots.txt to permit AI crawlers. Add a valid sitemap.xml if one does not exist. Confirm HTTPS is active. These are zero-content changes that unlock the foundation.
+
+**Week 2:** Add Organization schema to the homepage in JSON-LD format. Add Open Graph tags to all key pages. Both can be done in an afternoon with access to the site's head section.
+
+**Week 3:** Audit your top 10 content pages for author attribution. Add author bylines with linked bios. Add visible publication dates to all articles. Add Article schema to blog posts.
+
+**Week 4:** Identify your three to five most important pages — the ones you most want to be cited for. Check that each one is over 600 words, contains structured information (headings, clear sections), and answers a specific question completely.
+
+**Month 2:** Add a /llms.txt file that describes your site's content structure to AI systems. Monitor your AI visibility score monthly. Watch for regressions — a site update, a plugin change, or a robots.txt edit can inadvertently break signals you fixed.
+
+Sites that follow this path typically move from a score in the 30-50 range to the 65-80 range within 60 days. That is the range where AI citations start appearing for relevant queries.
+
+## The Infrastructure Frame
+
+There is a temptation to treat AI visibility as a tactics problem — a checklist to run through and forget. That framing leads to improvements that degrade over time.
+
+The more durable frame is infrastructure. A site's AI visibility is part of its technical infrastructure, the same way HTTPS is infrastructure. It requires initial setup, periodic maintenance, and monitoring for regressions.
+
+Organizations that treat AI visibility as infrastructure — building it into site launch processes, content publishing workflows, and quarterly technical audits — accumulate citations over time rather than chasing them reactively.
+
+The sites that will consistently appear in AI-generated answers are not the sites that ran one audit in early 2026. They are the sites that built AI visibility into how they operate.
+
+Your first step is to understand where you stand today. Scan your site at ConduitScore.com — the free scan checks all 14 signals in about 15 seconds and shows you exactly where to focus. Three free scans per month, no account required.`,
+    category: "Guides",
+    date: "2026-03-27",
+    readTime: "14 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+
+  "what-is-llms-txt-complete-guide": {
+    slug: "what-is-llms-txt-complete-guide",
+    title: "What Is llms.txt? The Complete Guide",
+    description: "llms.txt tells AI systems what your site contains and which pages to prioritize for citations. Learn what it is, how to write one, and whether it matters.",
+    content: `robots.txt tells AI systems where they can go. llms.txt tells them what they will find when they get there.
+
+That distinction matters more than it first appears. A site can be completely accessible to AI crawlers — no blocked paths, valid sitemap, clean HTML — and still receive zero citations from ChatGPT or Perplexity. The reason is not access. The reason is context. When an AI system retrieves 150 pages from a website, it has no machine-readable signal about which three pages represent the site's core expertise, which content is most current, or which author is the authoritative voice on a given topic.
+
+llms.txt is how you provide that signal directly.
+
+## What llms.txt Is
+
+llms.txt is a plain-text file placed at the root of your website, accessible at yourdomain.com/llms.txt. It is a structured, markdown-formatted document that describes your site to AI systems: what the site covers, which pages are most important, who the authors are, and what an AI should know before it starts retrieving and citing your content.
+
+The format was proposed by Jeremy Howard, co-founder of fast.ai, in September 2024. Howard's argument was straightforward: robots.txt was designed in 1994 for search engine crawlers. It handles access permissions — which paths are allowed, which are denied. It was never designed to communicate content context, and that gap has become a problem as AI systems need to make citation decisions based on more than just raw text retrieval.
+
+llms.txt fills that gap. It is not a replacement for robots.txt. It is a companion document that answers a different question: not "can you access this?" but "once you get there, what is this site, and what should you prioritize?"
+
+## The Counterintuitive Part: This Is a Context Problem, Not a Crawl Problem
+
+Most site owners who learn about AI visibility assume the main obstacle is access. They check their robots.txt, confirm that GPTBot is not blocked, and conclude their site is AI-ready.
+
+It is not — and the reason reveals something important about how AI citation decisions actually work.
+
+When a system like Perplexity retrieves content to answer a question, it does not read every page on your site with equal attention. It retrieves a selection of pages, ranks them by relevance and trustworthiness, synthesizes the content, and cites the sources it considers most authoritative for the specific query.
+
+That ranking step — relevance and trustworthiness — is where most sites lose citations they should be receiving. An AI system that retrieves your homepage, three blog posts, and your pricing page has no way to know that your research report from six months ago is the most authoritative piece of content on your site. It cannot tell, from the HTML alone, that the author of that report has 15 years of domain experience and has been cited by three industry publications.
+
+llms.txt is how you tell it. Directly, in machine-readable format, without ambiguity.
+
+## The Format: What Goes in a llms.txt File
+
+llms.txt uses simple markdown formatting. There is no rigid specification yet — the standard is still emerging — but the structure that has become most widely adopted follows this pattern:
+
+**The header section** opens the file with a brief description of the site. Two to four sentences covering what the site does, who it serves, and what makes its content authoritative. This is the first thing an AI system reads when it retrieves your llms.txt.
+
+**The main content sections** are H2-level headings that correspond to the major content areas of your site. Under each heading, you list key pages with their URLs and a one-sentence description of what each page covers. These descriptions are not for human readers — they are for AI systems that need to quickly assess whether a given page is relevant to a query they are trying to answer.
+
+**The author section** lists the people who create content for the site, with brief credential information. AI systems use author credentials as part of their citation trustworthiness assessment. A named author with stated expertise is more citable than anonymous content.
+
+**The optional metadata** includes content freshness signals (when the site last had significant updates), contact information, and links to key resources like the sitemap, privacy policy, or API documentation if applicable.
+
+Here is what a well-structured llms.txt looks like for a hypothetical B2B SaaS company called Acme Analytics, which provides data pipeline software:
+
+\`\`\`
+# Acme Analytics
+
+Acme Analytics provides cloud-native data pipeline software for engineering teams at mid-size companies. Our documentation, blog, and research cover data engineering, ETL architecture, real-time data processing, and data quality practices. Content is written by senior data engineers with 8-15 years of direct implementation experience.
+
+## Documentation
+
+- [Getting Started Guide](/docs/getting-started): Complete setup walkthrough for new users, from account creation to first pipeline run.
+- [Pipeline Architecture Overview](/docs/architecture): Technical reference for Acme's three-tier processing model and how data flows through the system.
+- [API Reference](/docs/api): Full API documentation with request/response examples for all endpoints.
+- [Troubleshooting Guide](/docs/troubleshooting): Solutions to the 40 most common configuration and runtime errors.
+
+## Blog
+
+- [Why Most Data Pipelines Fail at Scale](/blog/pipeline-failure-modes): Analysis of the four architectural patterns that cause pipeline failures above 10M events/day, with specific case examples.
+- [Real-Time vs. Batch Processing: A Decision Framework](/blog/realtime-vs-batch): Framework for choosing between streaming and batch architectures based on latency requirements, cost constraints, and team capacity.
+- [Data Quality at the Source: Preventing Downstream Problems](/blog/data-quality-source): Practical guide to implementing validation at ingestion rather than transformation, with code examples.
+
+## Research
+
+- [State of Data Engineering 2025](/research/state-of-data-engineering-2025): Survey of 847 data engineering teams on tooling, architecture patterns, challenges, and salary benchmarks.
+
+## Authors
+
+- **Maria Chen** (Head of Product, Acme Analytics): 12 years in data engineering, former staff engineer at Databricks. Writes on pipeline architecture and product decisions.
+- **James Park** (Senior Data Engineer): Specializes in real-time processing and stream analytics. Author of the Troubleshooting Guide.
+
+## Contact
+
+- General: hello@acmeanalytics.com
+- Press/Research: press@acmeanalytics.com
+- Last content update: March 2026
+\`\`\`
+
+Notice what this file does. In under 400 words, it tells an AI system: what Acme Analytics is, what content categories exist, which specific pages are most authoritative, who the authors are and what their credentials are, and when the site was last updated. An AI answering a question about data pipeline failure modes can immediately identify the relevant blog post, understand who wrote it and why they are credible, and cite it with confidence.
+
+Without llms.txt, that same AI system retrieves the page, has no context about its authority, and may deprioritize it in favor of content from a site that has provided clearer signals.
+
+## How llms.txt Fits Into the 14-Signal AI Visibility Framework
+
+llms.txt is one of the 14 AI visibility signals that determine whether a site gets cited by AI systems. It falls within the Crawlability and Access category alongside robots.txt permissions and sitemap.xml.
+
+The distinction within that category is important. robots.txt governs access — the binary question of whether an AI crawler is permitted to retrieve a page. A sitemap.xml governs discovery — it tells crawlers which pages exist. llms.txt governs context — it tells crawlers which pages matter and why.
+
+All three work together. A site with a clean robots.txt and a valid sitemap but no llms.txt is accessible and discoverable, but not contextualized. A site with llms.txt but a misconfigured robots.txt that blocks AI crawlers is contextualized but inaccessible. You need all three.
+
+Within the broader 14-signal framework, llms.txt also amplifies signals in other categories. When your llms.txt lists named authors with credentials, it reinforces the Citation Readiness signal. When it links to your most substantive content, it reinforces the Content Quality signal by making that content easier for AI systems to find and weight appropriately.
+
+## How to Write and Deploy Your Own llms.txt
+
+The process is straightforward for any site owner or developer with access to the site root.
+
+**Step 1: Create the file.** Open a text editor and create a new file named llms.txt. Use UTF-8 encoding. Do not use a .doc, .docx, or .html format — the file must be plain text.
+
+**Step 2: Write the header description.** Two to four sentences describing what your site covers and who it is authoritative for. Be specific. "We cover digital marketing" is too vague. "We publish data-backed analysis of B2B SaaS marketing attribution, with a focus on multi-touch models and revenue operations" tells an AI system exactly what queries your content should be considered for.
+
+**Step 3: Identify your most important pages by category.** For each major content area (blog, documentation, research, resources), select three to eight pages that best represent your expertise. These should be your most substantive, well-cited, or frequently referenced pieces — not your most recent ones. An AI system reading your llms.txt should come away knowing exactly which pages to retrieve first.
+
+**Step 4: Write one-sentence descriptions for each page.** The description should answer: what specific question does this page answer, and for whom? Not "our blog post about SEO" but "a practitioner's guide to implementing breadcrumb schema markup for multi-level product category pages."
+
+**Step 5: Add author information.** For each author who has published content on your site, include their name, their role or credential, and their areas of focus. Two to three sentences per author is sufficient.
+
+**Step 6: Deploy the file.** Place llms.txt in your site's root directory so it is accessible at yourdomain.com/llms.txt. For static sites, this means placing it alongside your index.html. For Next.js or similar frameworks, place it in the /public directory.
+
+**Step 7: Verify accessibility.** Open a browser in incognito mode and navigate to yourdomain.com/llms.txt. Confirm the file loads as plain text. Confirm the response headers show text/plain as the content type. If your hosting environment is serving it as HTML, check your server configuration.
+
+**Step 8: Do not block it in robots.txt.** This sounds obvious, but it has happened. If your robots.txt has broad "Disallow: /" rules for non-Google bots, confirm that it does not block access to llms.txt. AI systems cannot use a file they cannot retrieve.
+
+## Common Mistakes Site Owners Make With llms.txt
+
+**Too long.** llms.txt should be under 2,000 words. The purpose is to provide a quick, structured context summary — not to reproduce your entire site's content. An AI system that retrieves a 10,000-word llms.txt is not being helped; it is being burdened.
+
+**Too vague.** A header description that reads "We cover business topics for professionals" gives an AI system nothing useful. Be specific about your domain, your content type, and your target audience.
+
+**Not maintained.** llms.txt has a "last updated" field for a reason. A file that lists content from 2023 as your most important pages, when you have published substantially better content since, actively misleads AI systems. Block quarterly time to review and update it.
+
+**Wrong file location.** The file must be at the domain root: yourdomain.com/llms.txt. Not yourdomain.com/blog/llms.txt. Not yourdomain.com/files/llms.txt. AI systems look for it at the root path specifically.
+
+**Blocking it in robots.txt.** As noted above: if your robots.txt disallows access to llms.txt, AI systems cannot retrieve it. The file does nothing.
+
+**Listing promotional pages instead of authoritative ones.** Site owners sometimes use llms.txt to highlight their homepage, pricing page, and product tour. Those pages rarely drive AI citations. The pages that get cited are substantive content pages: research reports, technical guides, in-depth analyses. Prioritize those.
+
+## Is llms.txt Worth It Right Now?
+
+The honest answer is: it is not universally adopted, but adoption is accelerating, and the cost of adding it is low enough that the question is almost academic.
+
+As of early 2026, Perplexity has confirmed that it reads llms.txt files when available. Several other AI retrieval systems have signaled support. OpenAI has not published explicit confirmation for ChatGPT's web browsing, but the standard is visible in their public documentation discussions.
+
+The counterargument — that you should wait until more AI systems officially support it — has a logical flaw. The sites that benefit from llms.txt will be the sites that had it in place when AI systems standardized on it, not the sites that added it afterward. The adoption curve for standards like this is steep and fast: robots.txt went from proposal to universal adoption in under three years.
+
+The practical frame: llms.txt takes two to four hours to write well. It requires no ongoing technical maintenance, only content updates when your key pages change. The upside is being contextualized for AI citations on every query where your content is relevant. The downside of not having it is invisible — you will not see the citations you are not receiving.
+
+## The Larger Point About Machine-Readable Context
+
+llms.txt represents a pattern that is becoming more broadly true about the web: content that is explicitly machine-readable is cited more than content that requires inference.
+
+JSON-LD schema markup says explicitly: "this is an Article, authored by this person, published on this date." Author bylines say explicitly: "a named human with verifiable credentials wrote this." llms.txt says explicitly: "these are the pages on this site that best answer questions in this domain."
+
+In each case, the explicit signal outperforms the inferred one. AI systems making citation decisions under time constraints favor sources that are transparent about what they are and why they are authoritative. That transparency is not a trick. It is the digital equivalent of what credible publications have always done: show their work.
+
+Your llms.txt is where you show yours.
+
+Scan your site at ConduitScore.com to check whether llms.txt is present and readable — the free scan checks this alongside 13 other AI visibility signals in about 15 seconds. Three free scans per month, no account required. You will see your current score and exactly which signals to fix first.`,
+    category: "Technical Guides",
+    date: "2026-03-27",
+    readTime: "13 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
 };
 
 /**
