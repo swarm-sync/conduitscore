@@ -2257,6 +2257,540 @@ Start now: implement product schema on your top SKUs, create comparison content,
     author: "Ben Stone",
     authorTitle: "Co-founder, ConduitScore",
   },
+  "what-the-14-ai-visibility-signals-actually-mean": {
+    slug: "what-the-14-ai-visibility-signals-actually-mean",
+    title: "What the 14 AI Visibility Signals Actually Mean",
+    description: "Understand the 14 signals that determine whether AI systems can access and cite your website. Learn what each signal means and why they matter.",
+    content: `When you run an AI visibility scan on your website, you will see 14 signals spread across 7 categories. But what do those signals actually mean? Why does one signal matter more than another? And how do they differ from traditional SEO metrics?
+
+The confusion is understandable. For years, marketers optimized for Google. Now, there is a whole new dimension: making sure AI systems like ChatGPT and Claude can find your site, parse your content, and cite you when answering user questions.
+
+That is where the 14 AI visibility signals come in. These are not arbitrary metrics; they are the technical foundations that determine whether AI systems will treat your site as a trustworthy, accessible source. This guide breaks down each signal and explains why it matters for your business.
+
+## The 7 Categories and What They Measure
+
+Your website's AI visibility score is built on seven core categories, each testing a different aspect of how AI systems interact with your site.
+
+**Crawlability and Access** tests whether AI systems can even get to your content. This includes checking for robots.txt rules that block crawlers, overly restrictive settings, and JavaScript rendering that might hide content. If an AI system cannot access your pages, it does not matter how good your content is.
+
+**Structured Data and Semantics** looks at whether you are using schema.org markup, Open Graph tags, and other semantic HTML that helps AI systems understand what your content is about. Schema markup is the bridge between human-written text and machine-readable context.
+
+**Citation Readiness** measures whether your author information, publication date, and organizational details are clear and machine-readable. AI systems need to know who published something, when it was published, and what organization backs it up.
+
+**Content Quality Signals** evaluates freshness, depth, and uniqueness. Are you updating content regularly? Is your writing substantive? Have you copied from competitors? AI systems favor original, well-maintained content.
+
+**Link Profile** examines whether you have inbound links and how much authority flows to your domain. Backlinks still matter to AI systems; they are a signal of trustworthiness and relevance.
+
+**Site Health and Performance** checks page speed, mobile responsiveness, SSL certificates, and uptime. Slow, broken, or inaccessible sites get penalized by AI visibility algorithms.
+
+**Compliance and Safety** tests whether your site follows best practices like having a privacy policy, clear contact information, and no known security issues.
+
+## Why These 14 Signals Matter More Than Traditional SEO Metrics
+
+You might already have a traditional SEO audit that tells you about keyword rankings, backlinks, and on-page optimization. So why do you need AI visibility signals?
+
+The answer is simple: AI systems do not rank your site; they decide whether to include it as a source.
+
+When someone asks ChatGPT a question, the model does not run a search algorithm. It searches its training data and real-time sources. If your site is not crawlable, does not have clear author information, or lacks structured data, the AI system cannot reliably use your content—even if you rank number one in Google.
+
+The 14 signals measure something different from traditional rankings. They measure trustworthiness and accessibility from the AI system perspective. A site can rank well for keywords but still be invisible to AI if it fails on citation readiness or structured data.
+
+That is why the free scan focuses on these 14 signals. They directly impact whether your site becomes a source for AI-generated answers, product recommendations, and business citations.
+
+## How to Use Your AI Visibility Score Immediately
+
+After running a free scan on ConduitScore, you will see your score, a breakdown of which signals you are strong on, and which ones need work. But what should you actually do with that information?
+
+Start with the prioritized fixes. The scan does not just flag problems; it ranks them by impact. Work on the high-impact signals first—typically crawlability, structured data, and citation readiness.
+
+Most importantly, the fixes are designed to be copy-paste ready. You do not need to hire an agency or spend weeks rebuilding your site. Many AI visibility improvements are quick wins: adding missing schema markup, updating your robots.txt, or clarifying your author information.
+
+The checklist at /resources/ai-visibility-checklist walks you through each signal with specific implementation steps.
+
+## The Difference Between AI Visibility and Traditional SEO
+
+This is the question we hear most often: Are not the 14 signals just SEO best practices with a new name?
+
+The answer is mostly no—though there is overlap. Both SEO and AI visibility care about site health, mobile responsiveness, and quality content. But AI visibility adds new layers that traditional SEO does not emphasize as heavily.
+
+For example, traditional SEO cares about keyword rankings. AI visibility does not. Instead, it cares deeply about structured data, author information, and publication metadata.
+
+Similarly, AI visibility emphasizes real-time crawlability in ways traditional SEO does not. An AI system interacting with your site right now needs immediate access.
+
+Think of AI visibility as a new dimension. You can still optimize for traditional SEO and succeed. But if you want to be found by AI systems, the 14 signals give you a clear roadmap.
+
+## Starting Your AI Visibility Journey
+
+The good news: you do not need permission or a big budget to start improving your AI visibility. The free scan gives you a baseline. The checklist gives you a roadmap. And most of the fixes are within reach of a small marketing or technical team.
+
+Run your free scan at ConduitScore.com—you get three scans per month with no signup required. See where you stand on the 14 signals. Then tackle the highest-impact fixes.
+
+If you want ongoing monitoring or deeper analysis, paid tiers unlock 50, 100, or unlimited monthly scans, plus weekly re-scans and email alerts so you never miss a new issue.
+
+But the first step is simple: understand what the 14 signals measure, why they matter, and how they differ from traditional SEO. That is what this guide covered. The rest is execution.
+
+Scan your site now at ConduitScore.com and discover your AI visibility baseline in about 15 seconds.`,
+    category: "Technical Guides",
+    date: "2026-03-25",
+    readTime: "10 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "llmstxt-and-chatgpt-what-site-owners-get-wrong": {
+    slug: "llmstxt-and-chatgpt-what-site-owners-get-wrong",
+    title: "llms.txt and ChatGPT: What Site Owners Get Wrong",
+    description: "What is llms.txt? How does it affect ChatGPT citations? Learn what site owners misunderstand and what actually matters.",
+    content: `## The Confusion Around llms.txt
+
+If you have been paying attention to SEO and AI visibility lately, you have probably heard about llms.txt. It is a file you can add to your website's root directory that communicates with AI systems about how you want your content to be used.
+
+The problem is, there is a lot of misinformation out there. Some people say llms.txt is a game-changer that will get your site into ChatGPT. Others claim it is useless. Some think it is your only option for controlling how AI uses your content.
+
+All of these take the wrong approach. Here is what site owners actually need to know about llms.txt and how it relates to AI visibility.
+
+## What llms.txt Actually Does (And Does Not Do)
+
+Let us start with what llms.txt is: it is a simple text file that communicates your preferences to AI systems. It can tell AI crawlers whether you want them accessing your site, how to attribute your content, and where to find your terms of service.
+
+It is a courtesy file. A best-practice signal. A way of saying, Hey, AI systems—here are my preferences.
+
+What llms.txt is not is a magic unlock. Adding llms.txt to your site will not automatically get you into ChatGPT's training data or make Claude cite you. It will not bypass the technical requirements that AI systems actually care about.
+
+Think of llms.txt like robots.txt, but for AI systems. Robots.txt tells search engine crawlers your crawl budget preferences; llms.txt tells AI systems your usage preferences. Neither one is a ranking factor. Both are signals of good web citizenship.
+
+Many site owners are confused because they think llms.txt is step one. It is not. Step one is making sure your site is crawlable, has clear author information, uses structured data, and has quality content. Those are the 14 signals that actually determine AI visibility.
+
+llms.txt is a helpful refinement after you have nailed the fundamentals.
+
+## Why Your llms.txt Strategy is Probably Wrong
+
+We see a lot of site owners who have added llms.txt but are still invisible to AI. Here is why.
+
+**Mistake 1: Thinking llms.txt solves crawlability issues.** If your robots.txt blocks AI crawlers, llms.txt will not help. If your site requires JavaScript rendering or content is behind authentication walls, llms.txt will not help.
+
+**Mistake 2: Using llms.txt as a substitute for structured data.** Some site owners think they can skip Open Graph tags, schema markup, and author information if they have llms.txt. That is backwards. Structured data helps AI systems understand your content. llms.txt just tells them your preferences.
+
+**Mistake 3: Relying on llms.txt to control how your content is used.** llms.txt can express your preferences, but it cannot enforce them. An AI system can choose to ignore your llms.txt file. That is why real protection comes from your terms of service, robots.txt, and copyright headers.
+
+**Mistake 4: Adding llms.txt and then ignoring the other 13 signals.** This is the biggest one. Site owners see llms.txt as the thing they need to do for AI and check it off. Then they wonder why they are still not being cited.
+
+The fix is straightforward: llms.txt is one small piece of a larger AI visibility puzzle. Before you optimize llms.txt, make sure you are strong on the 14 AI visibility signals. Then, as a refinement, add and maintain llms.txt.
+
+## The Right Order: Signals First, llms.txt Second
+
+Here is the playbook:
+
+**Phase 1: Core signals.** Run an AI visibility scan to see where you stand on crawlability, structured data, citation readiness, content quality, links, site health, and compliance. Fix the high-impact issues first. This usually takes 2-4 weeks.
+
+**Phase 2: llms.txt refinement.** Once you have nailed the core signals, add llms.txt. Be explicit about your preferences: whether you allow AI crawling, how you want attribution, and where your licensing terms are.
+
+**Phase 3: Monitoring.** Use ongoing scans to make sure your signals stay strong and your llms.txt stays current. This is where paid plans come in handy.
+
+Most site owners skip Phase 1 and go straight to Phase 2. That is why they are frustrated. llms.txt is a nice-to-have, not a must-have.
+
+## ChatGPT, Training Data, and Real-Time Access
+
+Another common question: Will llms.txt or the 14 signals get my site into ChatGPT's training data?
+
+The short answer is no. ChatGPT's training data was frozen at a specific point in time. You cannot add yourself to ChatGPT's training anymore.
+
+What you can do is get your site into ChatGPT's real-time sources. When users interact with ChatGPT and ask questions, the model can pull from certain real-time sources. The 14 signals determine whether your site is a reliable source for that real-time access.
+
+The distinction matters. You are not trying to get into ChatGPT's training data; you are trying to get your site into the pool of real-time sources that ChatGPT can cite right now.
+
+The 14 signals are what make you reliable for real-time citation. llms.txt is how you communicate your preferences to the systems doing the citing.
+
+## Practical Next Steps
+
+Here is what to do this week:
+
+**First:** Check your current AI visibility score. Run a free scan at ConduitScore.com. You get three scans per month with no signup.
+
+**Second:** If you are weak on crawlability, structured data, or citation readiness, fix those first. The checklist has implementation steps for each signal.
+
+**Third:** Once those are handled, add llms.txt as a refinement. Be clear about your preferences, your attribution requirements, and your terms.
+
+**Fourth:** Set up monitoring. Check your AI visibility scores monthly. The AI landscape is moving fast.
+
+The bottom line: llms.txt is useful, but it is not the foundation. The 14 signals are. Start there, then layer in llms.txt.
+
+## Why This Matters for Your Business
+
+Google gave us 15+ years to optimize our sites for search. AI systems are different; they are evolving faster and the rules are still being written. But the good news is, you have a head start if you act now.
+
+The sites that will win over the next couple years are not the ones that wait for official best practices. They are the sites that understand the 14 signals, get strong across all of them, and then refine with tools like llms.txt.
+
+You can start that work today, with no cost to entry. Scan your site. Learn where you stand. Fix the highest-impact issues. That is your path to AI visibility.`,
+    category: "Technical Guides",
+    date: "2026-03-25",
+    readTime: "9 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "organization-schema-for-ai-citations-a-practical-guide": {
+    slug: "organization-schema-for-ai-citations-a-practical-guide",
+    title: "Organization Schema for AI Citations: A Practical Guide",
+    description: "Learn why organization schema matters for AI citations and how to implement it correctly. Step-by-step guide for site owners.",
+    content: `## Why AI Systems Care About Your Organization Schema
+
+When an AI system is deciding whether to cite your content, one of the first things it checks is: Who is behind this? Not just the author's name, but your organization. Are you an established company, a verified author, a trusted news outlet?
+
+That is where organization schema comes in. Schema.org's Organization markup is a structured way to tell AI systems who you are, where you are located, what you do, and how to contact you.
+
+Without organization schema, your business is a mystery to AI systems. With it, you are saying, "I am a real entity with a verifiable identity, contact info, and presence."
+
+This matters because AI systems are trained to cite credible sources. They prefer sources with clear organizational affiliation over anonymous or unverifiable sources. Organization schema is how you prove your credibility to machines.
+
+## What Goes Into Organization Schema
+
+Organization schema has a lot of optional fields, but the core elements that AI systems actually care about are straightforward.
+
+**The name** is where you put your company or brand name. Keep it exact and consistent with how your company appears everywhere else on your site.
+
+**The logo** is your company logo image. Use a high-quality logo file that clearly represents your brand.
+
+**The URL** is your site's homepage. This should be your primary domain, not a subdomain.
+
+**The description** is a short summary of what your organization does. One to two sentences, focused on your core value proposition.
+
+**Contact information** includes your phone number and email. Make sure these are actually monitored; AI systems sometimes validate them.
+
+**The type** tells the schema system what kind of organization you are. Most site owners use Organization, but you can be more specific: LocalBusiness, Publisher, NewsMediaOrganization, ProfessionalService.
+
+## How to Implement Organization Schema (The Right Way)
+
+The wrong way to implement schema is to stuff it full of fields and hope for the best. The right way is to be accurate, consistent, and minimal.
+
+Here is a basic structure in JSON-LD format that AI systems prefer:
+
+\`\`\`json
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Your Company Name",
+  "url": "https://yoursite.com",
+  "logo": "https://yoursite.com/logo.png",
+  "description": "What your company does in one or two sentences.",
+  "email": "hello@yoursite.com",
+  "sameAs": [
+    "https://twitter.com/yourhandle",
+    "https://linkedin.com/company/yourcompany"
+  ]
+}
+\`\`\`
+
+Add this to your homepage head section. Do not duplicate it across every page; one instance on your homepage is enough.
+
+**Important:** Make sure every value is accurate. AI systems penalize organizations that list incorrect information. If your phone number is wrong or your email is not monitored, you are hurting your credibility.
+
+## Common Mistakes Site Owners Make With Organization Schema
+
+We see these mistakes frequently in audits:
+
+**Mistake 1: Duplicating schema across all pages.** You only need one Organization schema on your homepage. Multiple instances can confuse parsers.
+
+**Mistake 2: Using outdated schema syntax.** Use JSON-LD format because it is more reliable for AI systems.
+
+**Mistake 3: Including fake or outdated information.** If you list an address you moved from years ago, you are signaling that your organization is not trustworthy.
+
+**Mistake 4: Forgetting to verify with Search Console.** Check that Google recognizes your Organization schema to confirm it is working.
+
+**Mistake 5: Not linking to your social profiles.** The sameAs field tells AI systems where else to find your organization.
+
+**Mistake 6: Leaving out the logo.** AI systems use it as a visual anchor for your organization.
+
+## Organization Schema Plus Other Citation Signals
+
+Organization schema does not work in isolation. It is most powerful when paired with other citation-readiness signals.
+
+Organization schema is one of the 14 AI visibility signals, and it is strongest when you also:
+
+- Include author information in your articles
+- Use publication dates so AI systems know when content was created
+- Cite your sources when you reference other material
+- Keep contact information current on your site
+- Build backlinks from reputable sources
+
+Think of organization schema as the foundation. The other citation signals are the walls and roof.
+
+## Testing and Monitoring Your Schema
+
+After you have added organization schema, test it.
+
+Use Google's Rich Results Test: paste your homepage URL into https://search.google.com/test/rich-results and see if Google recognizes your Organization schema.
+
+Also use Schema.org's validation tool to check syntax. This catches errors in your JSON before they become problems.
+
+Then, monitor it. Run an AI visibility scan every month to make sure schema is still being recognized.
+
+## Schema is Table Stakes for AI Visibility
+
+The days of hiding behind unverified content are ending. AI systems demand to know who is behind the information they are citing. Organization schema is how you answer that demand.
+
+Adding it correctly takes about 30 minutes. The payoff is significant: you are telling AI systems you are a real, verifiable organization worth citing. That translates to more citations and more traffic from AI systems.
+
+Start with your homepage. Then layer in author schema for your articles and LocalBusiness schema if you serve a geographic area.
+
+**Scan your site at ConduitScore.com to see whether organization schema is helping your AI visibility.** The free scan checks all 14 signals. Three free scans per month, no signup required.
+
+## Your Next Steps
+
+This week:
+
+1. Collect your official company name, exact address, phone, email, logo URL, and social profiles.
+2. Write your organization schema using proper JSON-LD formatting.
+3. Add it to your homepage head section.
+4. Use Google's Rich Results Test to verify it is recognized.
+5. Scan your site monthly to ensure schema remains strong.
+6. Add author schema to your key articles once organization schema is live.
+
+Organization schema is one piece of the AI visibility puzzle, but it is critical. Combined with the other 13 signals, it is what makes your site trustworthy to AI systems.`,
+    category: "Technical Guides",
+    date: "2026-03-25",
+    readTime: "9 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "free-ai-visibility-scan-vs-traditional-seo-audit": {
+    slug: "free-ai-visibility-scan-vs-traditional-seo-audit",
+    title: "Free AI Visibility Scan vs. Traditional SEO Audit",
+    description: "Compare AI visibility scans and traditional SEO audits. When to use each and why your site might need both.",
+    content: `## Are They the Same Thing?
+
+If you are a site owner or marketer, you have probably had a traditional SEO audit done. Maybe you paid an agency to crawl your site, identify on-page issues, check your backlink profile, and deliver recommendations.
+
+Now you are hearing about AI visibility scans. Are they the same thing? Should you care about both?
+
+The short answer is no—they are not the same. But they are also not mutually exclusive. Understanding the difference helps you decide which tool is right for your business.
+
+## What a Traditional SEO Audit Measures
+
+Traditional SEO audits focus on one goal: ranking in Google search results. They measure factors that Google uses to decide whether your site deserves a high ranking.
+
+A typical SEO audit checks:
+
+**On-page factors** like title tags, meta descriptions, headers, keyword placement, content length, and internal linking.
+
+**Technical SEO** like site speed, mobile responsiveness, crawlability, SSL certificates, and XML sitemaps.
+
+**Backlink profile** including the number and quality of sites linking to you.
+
+**Content quality** in terms of depth, uniqueness, and freshness.
+
+**User experience** signals like Core Web Vitals and accessibility.
+
+The goal is to answer one question: Why is this site not ranking higher in Google?
+
+## What an AI Visibility Scan Measures
+
+An AI visibility scan asks a different question: Can AI systems access, understand, and cite this site?
+
+An AI visibility scan measures 14 signals across 7 categories: Crawlability and Access, Structured Data and Semantics, Citation Readiness, Content Quality, Link Profile, Site Health, and Compliance and Safety.
+
+The goal is to answer: Will AI systems cite this site as a source?
+
+## Key Differences
+
+**What they optimize for:**
+- SEO audits target keyword rankings in Google
+- AI scans target citations in AI systems like ChatGPT and Perplexity
+
+**Speed to impact:**
+- SEO improvements take weeks or months
+- AI fixes often show results almost immediately
+
+**What they focus on:**
+- SEO cares about keyword position and organic traffic
+- AI cares about crawlability, structured data, and author info
+
+**Cost:**
+- Traditional SEO audits typically cost $1,500–$5,000
+- AI scans cost free to $49/month
+
+## A Critical Difference: Speed to Impact
+
+Traditional SEO is a long game. You fix issues today; you see ranking improvement in 4 to 12 weeks if at all.
+
+AI visibility is faster. Once you fix crawlability or citation readiness issues, AI systems can cite you almost immediately.
+
+If you are trying to get traction now, AI visibility is the faster lever.
+
+## When You Need a Traditional SEO Audit
+
+Do not throw away SEO audits entirely. Consider one if:
+
+- **Your organic traffic is stagnant.** An SEO audit helps diagnose why you are not getting discovered.
+- **You want keyword targeting strategy.** AI systems do not rank by keyword. Google does. If keyword rankings matter, SEO analysis is the right tool.
+- **You need competitive analysis.** A good SEO audit includes competitor ranking and content strategies.
+- **You are in a highly competitive niche.** In saturated industries, traditional SEO is still how most traffic comes in.
+
+## When You Need an AI Visibility Scan
+
+Prioritize an AI visibility scan if:
+
+- **You want to be cited by AI systems.** If ChatGPT or Perplexity citing your content would help your business, you need AI visibility.
+- **You want to be found faster.** AI citations can drive traffic immediately. Google rankings take time.
+- **You are in an AI-native category.** If people research your service using AI assistants, AI visibility matters more.
+- **You want to monitor an ongoing metric.** One-time SEO audits are useful. Free AI scans are quick and repeatable.
+- **You are a SaaS, agency, or consultant.** B2B audiences use AI to research solutions.
+
+## The Honest Answer: You Probably Need Both
+
+If you are serious about organic visibility through both Google and AI systems, the ideal approach is:
+
+1. Run a free AI visibility scan to understand your baseline.
+2. Fix the highest-impact issues using the checklist.
+3. Invest in a traditional SEO audit if organic traffic is a major metric.
+4. Layer in ongoing AI monitoring to catch new issues.
+
+The 14 signals and traditional SEO best practices overlap on site health, mobile responsiveness, and content quality. Fixing those benefits both. They diverge on keyword targeting and citation readiness.
+
+Think of it this way: SEO gets you discovered by humans on Google. AI visibility gets you discovered by AI systems answering questions. You want both channels.
+
+## Starting with AI Visibility
+
+The good news: AI visibility is the faster, cheaper place to start. Run a free scan. See what the 14 signals measure. Fix a few high-impact issues. You will be visible to AI systems much faster.
+
+Then, if organic search is important, layer in traditional SEO expertise.
+
+But do not make the mistake of thinking they are the same thing. Understanding the difference is what lets you prioritize your effort and pick the right tool for your goal.
+
+**Scan your site now at ConduitScore.com** to see your AI visibility baseline. Three free scans per month, no signup required. Takes 15 seconds.`,
+    category: "How-To Guides",
+    date: "2026-03-25",
+    readTime: "8 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+  "agency-playbook-client-ai-readiness-in-one-page": {
+    slug: "agency-playbook-client-ai-readiness-in-one-page",
+    title: "Agency Playbook: Client AI-Readiness in One Page",
+    description: "A one-page framework agencies can use to audit client AI-readiness and deliver copy-paste fixes in one sprint.",
+    content: `## The Agency Problem: Differentiating Without Complexity
+
+If you are a digital agency, you have already optimized clients for Google. You have run SEO audits, built content calendars, managed paid search. Now your clients are asking: What about AI? Or worse, they are asking your competitors.
+
+The problem is, most agencies do not have an "AI audit" offering. There is no playbook. So either you dismiss it as hype, or you start saying things like, "We will need to do a deep research project"—which sounds expensive and vague to clients who just want to know if their site is visible to ChatGPT.
+
+This playbook changes that. It is a one-page framework that lets you quickly audit client AI-readiness, deliver specific copy-paste fixes, and upsell deeper work without reinventing your process.
+
+## The One-Page Framework: 14 Signals in 7 Categories
+
+The 14 AI visibility signals are organized into 7 categories. On a one-page checklist, they cover:
+
+**1. Crawlability and Access:** robots.txt does not block AI crawlers, no JavaScript paywall, sitemap.xml exists.
+
+**2. Structured Data and Semantics:** Organization schema on homepage, Article schema on blogs, Open Graph tags, proper H1-H2-H3 hierarchy.
+
+**3. Citation Readiness:** Author information on every article, publication date visible, organization name and contact in footer.
+
+**4. Content Quality Signals:** Articles over 600 words, content updated quarterly, no thin pages, original research.
+
+**5. Link Profile:** Domain has backlinks, no obvious spam, internal linking present.
+
+**6. Site Health and Performance:** SSL certificate, page load under 3 seconds mobile, mobile-responsive, no crawl errors.
+
+**7. Compliance and Safety:** Privacy policy published, terms of service, contact page working, no security issues.
+
+## The Audit Sprint: How to Deliver Value in One Week
+
+Here is how to deliver this with clients:
+
+**Day 1: Run the scan.** Use ConduitScore's free scan on the client's homepage. Share results. This takes 15 seconds and immediately shows where they stand.
+
+**Day 2: Deep dive on top issues.** Review which signals are weakest. Typically crawlability, structured data, citation readiness. Create prioritized list of 5 to 7 fixes.
+
+**Day 3: Provide copy-paste code.** For each fix, give the client actual code. Add schema to homepage head. Update robots.txt. Add Open Graph tags.
+
+**Day 4: Test and document.** Have a dev team member implement. Verify with Google's Rich Results Test.
+
+**Day 5: Deliver the report.** One-page summary: baseline score, fixes implemented, expected impact, next steps.
+
+Total effort: 5 to 8 hours of agency time. Client sees immediate value. You have now positioned yourself as the AI readiness expert.
+
+## Upsell Paths: From Free to Paid
+
+Once you have delivered the one-page audit, here are your upsell paths:
+
+**Upsell 1: Monthly monitoring.** The 14 signals can degrade. Offer monthly AI visibility rescans using paid plans as part of a retainer.
+
+**Upsell 2: Custom content strategy.** Once basics are fixed, clients need to use their AI visibility. Help create AI-discoverable content.
+
+**Upsell 3: Competitive analysis.** Scan competitors' AI visibility. Show the client how they stack up.
+
+**Upsell 4: Deeper SEO integration.** Some clients want to layer traditional SEO on top of AI readiness.
+
+**Upsell 5: API and bulk workflows.** For agencies with many clients, the Agency plan includes bulk CSV scanning and API access.
+
+## How to Position This to Clients
+
+Here is the language to use:
+
+"There is a new visibility channel emerging: AI systems like ChatGPT and Claude. They are generating answers to questions your audience is asking. But your site will not be cited unless it meets 14 specific readiness signals. We have identified which signals you are strong on and which ones are costing you citations. Here are the fixes—they are quick and they are specific. Once implemented, your site becomes a trusted source for AI-powered answers."
+
+That language does three things: educates the client, shows expertise, and promises quick wins.
+
+## Differentiating Your Agency
+
+The agencies that will win over the next year are the ones who can quickly audit and improve AI readiness. You do not need to be the world's expert; you need to be better than your competitors.
+
+By adopting the 14-signal framework:
+
+- You have a repeatable process
+- You can train junior staff quickly
+- You deliver results in a sprint, not months
+- You have a lead magnet (free audits to paid monitoring)
+- You are positioned ahead of confused agencies
+
+This is a category-creation opportunity. Position yourself as the agency that helped clients win in the AI visibility era.
+
+## Common Client Questions and How to Answer Them
+
+**How long until AI scans help our business?** Real-time. If you are cited by ChatGPT today, you can see traffic today. Unlike SEO, you do not wait months.
+
+**Is this instead of SEO?** It is in addition to SEO. Google still drives traffic. AI systems are a new channel. You want both.
+
+**How much does it cost to fix?** Most fixes are free or low-cost. They are code changes and content updates, not paid software.
+
+**What if our competitors are not doing this?** That is the advantage. You will be visible to AI first. By the time they catch up, you will have citations.
+
+## Your Implementation Roadmap This Week
+
+Here is what to do:
+
+**Step 1: Understand the 14 signals.** Read them. Understand what each one measures. You do not need to be technical.
+
+**Step 2: Pick one client.** Run a free scan at ConduitScore.com. See the framework in action. This takes 15 seconds.
+
+**Step 3: Draft your audit template.** Create a one-page template that matches your brand. List 14 signals. Add your agency name and logo.
+
+**Step 4: Pitch it as a free audit.** Offer one free AI readiness audit to a prospect or existing client. Show the value.
+
+**Step 5: Bundle it into a service.** Once you have done a couple audits, turn this into a packaged offering. Make it repeatable.
+
+**Step 6: Layer in monitoring.** After initial audit, offer monthly monitoring using paid plans. This is your recurring revenue.
+
+By month two, you will have a new service line. By month three, it will be a lead magnet that prospects ask about. That is how you differentiate.
+
+## Why This Works for Agencies
+
+The 14-signal framework works for agencies because:
+
+- It is teachable (train staff in an afternoon)
+- It is repeatable (same checklist for all verticals)
+- It is fast (deliver value in a week)
+- It is a funnel (free audit to paid monitoring)
+- It positions you as an expert
+
+Most importantly, it is honest. You are not making up frameworks. The 14 signals are based on how AI systems actually work.
+
+**Start with a free scan at ConduitScore.com.** See how the 14 signals show up on a real site. Then adapt this playbook to your clients and watch your win rate increase.`,
+    category: "Agency Guides",
+    date: "2026-03-25",
+    readTime: "10 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
 };
 
 /**
