@@ -7,6 +7,7 @@ const API_KEY_BYTES = 32;
 const apiKeyUserSelect = {
   id: true,
   email: true,
+  emailVerified: true,
   subscriptionTier: true,
   scanCountMonth: true,
   scanResetAt: true,

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { SampleChipRow, DemoResultCard, DEMO_DATA, type DemoScoreData } from "@/components/scan/sample-chip-row";
 import { trackEvent } from "@/lib/analytics";
+import { getClientFingerprint } from "@/lib/client-fingerprint";
+import { FINGERPRINT_HEADER } from "@/lib/free-tier-abuse";
 
 interface ScanFormProps {
   variant?: "hero" | "dashboard";
@@ -68,9 +70,13 @@ export function ScanForm({ variant = "hero", showChips }: ScanFormProps) {
     trackEvent("scan_submit_attempt", { source: variant });
 
     try {
+      const fingerprint = await getClientFingerprint();
       const res = await fetch("/api/scan", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          [FINGERPRINT_HEADER]: fingerprint,
+        },
         body: JSON.stringify({ url: url.trim() }),
       });
 

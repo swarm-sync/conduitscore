@@ -4,6 +4,11 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import type { Fix } from "@/lib/scanner/types";
 
+type FreeFixStatus = {
+  state?: string;
+  message?: string;
+};
+
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -65,16 +70,27 @@ interface LockGateProps {
   scanDomain: string;
   isAuthenticated: boolean;
   overallScore?: number;
+  freeFixStatus?: FreeFixStatus;
 }
 
-function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated, overallScore }: LockGateProps) {
+function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated, overallScore, freeFixStatus }: LockGateProps) {
   const [upgrading, setUpgrading] = useState(false);
   const projectedScore =
     overallScore != null && fix.scoreImpact != null
       ? Math.min(100, overallScore + fix.scoreImpact)
       : null;
+  const needsClaimSignIn = !isAuthenticated && freeFixStatus?.state === "sign_in_required";
+  const buttonLabel = needsClaimSignIn
+    ? "Sign In to Claim Free Fix"
+    : "Unlock Code Fixes — $29/mo";
 
   async function handleUnlock() {
+    if (needsClaimSignIn) {
+      const callbackUrl = `${window.location.pathname}${window.location.search}`;
+      window.location.href = `/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+      return;
+    }
+
     if (!isAuthenticated) {
       window.location.href = "/pricing";
       return;
@@ -122,22 +138,30 @@ function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated, overallScor
         </div>
 
         <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-          See the exact code to fix this.
-          {totalFixCount > 1 && (
-            <> Includes{" "}
-              <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>
-                {totalFixCount - 1} more fix{totalFixCount - 1 !== 1 ? "es" : ""}
-              </span>{" "}
-              for {scanDomain}.
-            </>
-          )}
+          {needsClaimSignIn
+            ? "Sign in with a verified email to unlock the one free sample fix included in the free plan."
+            : (
+              <>
+                See the exact code to fix this.
+                {totalFixCount > 1 && (
+                  <> Includes{" "}
+                    <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>
+                      {totalFixCount - 1} more fix{totalFixCount - 1 !== 1 ? "es" : ""}
+                    </span>{" "}
+                    for {scanDomain}.
+                  </>
+                )}
+              </>
+            )}
         </p>
 
         <p
           className="text-xs mb-4"
           style={{ color: "var(--text-tertiary)", fontFamily: "var(--font-body)" }}
         >
-          {totalFixCount} fix{totalFixCount !== 1 ? "es" : ""} ready for {scanDomain}. You&apos;ve seen 1. Unlock the remaining {totalFixCount - 1}. — $29/mo, cancel anytime.
+          {freeFixStatus?.message
+            ? freeFixStatus.message
+            : `${totalFixCount} fix${totalFixCount !== 1 ? "es" : ""} ready for ${scanDomain}. You&apos;ve seen 1. Unlock the remaining ${totalFixCount - 1}. — $29/mo, cancel anytime.`}
         </p>
 
         {/* Score delta — visible on all locked fixes */}
@@ -184,7 +208,7 @@ function LockGate({ fix, totalFixCount, scanDomain, isAuthenticated, overallScor
               Loading...
             </span>
           ) : (
-            "Unlock Code Fixes — $29/mo"
+            buttonLabel
           )}
         </button>
 
@@ -207,9 +231,10 @@ interface FixPanelProps {
   fixes: Fix[];
   scanDomain?: string;
   overallScore?: number;
+  freeFixStatus?: unknown;
 }
 
-export function FixPanel({ fixes, scanDomain = "your site", overallScore }: FixPanelProps) {
+export function FixPanel({ fixes, scanDomain = "your site", overallScore, freeFixStatus }: FixPanelProps) {
   const { status } = useSession();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const isAuthenticated = status === "authenticated";
@@ -391,6 +416,7 @@ export function FixPanel({ fixes, scanDomain = "your site", overallScore }: FixP
                       scanDomain={scanDomain}
                       isAuthenticated={isAuthenticated}
                       overallScore={overallScore}
+                      freeFixStatus={typeof freeFixStatus === "object" && freeFixStatus !== null ? freeFixStatus as FreeFixStatus : undefined}
                     />
                   </div>
                 ) : (

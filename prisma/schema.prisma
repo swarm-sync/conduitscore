@@ -26,6 +26,7 @@ model User {
   subscription  Subscription?
   payments      Payment[]
   apiKeys       ApiKey[]
+  freeFixClaims FreeFixClaim[]
   @@map("users")
 }
 
@@ -73,6 +74,8 @@ model Scan {
   userId        String?  @map("user_id")
   projectId     String?  @map("project_id")
   url           String
+  fingerprintHash String? @map("fingerprint_hash")
+  ipHash        String?  @map("ip_hash")
   status        String   @default("pending")
   overallScore  Int?     @map("overall_score")
   categoryScores Json?   @map("category_scores")
@@ -86,8 +89,11 @@ model Scan {
   project Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
   pages   ScanPage[]
   report  ScanReport?
+  freeFixClaims FreeFixClaim[]
   @@index([userId])
   @@index([projectId])
+  @@index([fingerprintHash])
+  @@index([ipHash])
   @@map("scans")
 }
 
@@ -186,4 +192,25 @@ model ScanLead {
   dripSentAt  DateTime @default(now()) @map("drip_sent_at")
   createdAt   DateTime @default(now()) @map("created_at")
   @@map("scan_leads")
+}
+
+model FreeFixClaim {
+  id              String    @id @default(cuid())
+  userId          String?   @map("user_id")
+  scanId          String?   @map("scan_id")
+  normalizedEmail String    @map("normalized_email")
+  emailDomain     String    @map("email_domain")
+  rootDomain      String    @map("root_domain")
+  fingerprintHash String?   @map("fingerprint_hash")
+  ipHash          String?   @map("ip_hash")
+  abuseScore      Int       @default(0) @map("abuse_score")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  scan            Scan?     @relation(fields: [scanId], references: [id], onDelete: SetNull)
+
+  @@index([normalizedEmail, createdAt])
+  @@index([rootDomain, createdAt])
+  @@index([fingerprintHash, createdAt])
+  @@index([ipHash, createdAt])
+  @@map("free_fix_claims")
 }

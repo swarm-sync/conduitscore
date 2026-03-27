@@ -6,6 +6,7 @@ import { findApiKeyForAuth } from "@/lib/api-keys";
 type AuthUser = {
   id: string;
   email: string;
+  emailVerified: Date | null;
   subscriptionTier: string;
   scanCountMonth: number;
   scanResetAt: Date;
@@ -46,6 +47,7 @@ async function getOptionalSessionUser(): Promise<AuthUser | null> {
       select: {
         id: true,
         email: true,
+        emailVerified: true,
         subscriptionTier: true,
         scanCountMonth: true,
         scanResetAt: true,

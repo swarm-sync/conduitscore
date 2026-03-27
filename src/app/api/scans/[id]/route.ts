@@ -12,6 +12,12 @@ import {
   DEFAULT_SCORE_IMPACT,
   DEFAULT_EFFORT_MINUTES,
 } from "@/lib/scanner/fix-meta";
+import {
+  getClientIp,
+  hashSignal,
+  readFingerprint,
+  resolveFreeFixStatus,
+} from "@/lib/free-tier-abuse";
 
 /** Tiers that receive full (unlocked) fix content. */
 const PAID_TIERS = new Set(["starter", "pro", "growth", "agency"]);
@@ -107,6 +113,16 @@ function applyFixGate(fixes: Fix[], issues: Issue[]): Fix[] {
   });
 }
 
+function lockAllFixes(fixes: Fix[]): Fix[] {
+  return fixes.map((fix) => ({
+    ...fix,
+    code: "",
+    description: "",
+    locked: true,
+    charCount: fix.code.length,
+  }));
+}
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -146,6 +162,8 @@ export async function GET(
       userTier = auth.user.subscriptionTier ?? "free";
     }
     const isPaid = PAID_TIERS.has(userTier);
+    const fingerprintHash = hashSignal(readFingerprint(_request));
+    const ipHash = hashSignal(getClientIp(_request));
 
     const result = scanRecordToResult(scan);
 
@@ -154,14 +172,32 @@ export async function GET(
       ? enrichedIssues
       : applyIssueGate(enrichedIssues);
     const enrichedFixes = enrichFixes(result.fixes);
+    const freeFixStatus = isPaid
+      ? { state: "paid", message: "Paid plans include all fixes." }
+      : await resolveFreeFixStatus({
+          scanId: scan.id,
+          scanUrl: scan.url,
+          userId: auth.user?.id ?? null,
+          userTier,
+          email: auth.user?.email ?? null,
+          emailVerified: auth.user?.emailVerified ?? null,
+          fingerprintHash,
+          ipHash,
+        });
     const finalFixes = isPaid
       ? enrichedFixes
-      : applyFixGate(enrichedFixes, finalIssues);
+      : freeFixStatus.state === "granted"
+      ? applyFixGate(enrichedFixes, finalIssues)
+      : lockAllFixes(enrichedFixes);
 
     return NextResponse.json({
       ...result,
       issues: finalIssues,
       fixes: finalFixes,
+      metadata: {
+        ...(result.metadata ?? {}),
+        freeFixStatus,
+      },
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to fetch scan";

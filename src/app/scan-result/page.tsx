@@ -9,6 +9,8 @@ import { CategoryBreakdown } from "@/components/scan/category-breakdown";
 import { IssueList } from "@/components/scan/issue-list";
 import { FixPanel } from "@/components/scan/fix-panel";
 import type { ScanResult } from "@/lib/scanner/types";
+import { getClientFingerprint } from "@/lib/client-fingerprint";
+import { FINGERPRINT_HEADER } from "@/lib/free-tier-abuse";
 
 function ShareButton({ scanId }: { scanId?: string }) {
   const [copied, setCopied] = useState(false);
@@ -72,7 +74,13 @@ export default function ScanResultPage() {
         const scanId = params.get("id");
 
         if (scanId) {
-          const response = await fetch(`/api/scans/${scanId}`, { cache: "no-store" });
+          const fingerprint = await getClientFingerprint();
+          const response = await fetch(`/api/scans/${scanId}`, {
+            cache: "no-store",
+            headers: {
+              [FINGERPRINT_HEADER]: fingerprint,
+            },
+          });
           const data = await response.json();
 
           if (!response.ok) {
@@ -434,6 +442,7 @@ export default function ScanResultPage() {
                     fixes={result.fixes}
                     scanDomain={(() => { try { return new URL(result.url).hostname; } catch { return result.url; } })()}
                     overallScore={result.overallScore}
+                    freeFixStatus={result.metadata.freeFixStatus}
                   />
                 </div>
               )}

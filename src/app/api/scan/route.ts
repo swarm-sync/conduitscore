@@ -14,6 +14,13 @@ import {
   DEFAULT_EFFORT_MINUTES,
 } from "@/lib/scanner/fix-meta";
 import { PLAN_FEATURES } from "@/lib/plan-limits";
+import {
+  checkFreeScanAccess,
+  getClientIp,
+  hashSignal,
+  readFingerprint,
+  resolveFreeFixStatus,
+} from "@/lib/free-tier-abuse";
 
 const SEVERITY_ORDER: Record<string, number> = { info: 0, warning: 1, critical: 2 };
 
@@ -54,6 +61,16 @@ function applyFixGate(fixes: Fix[], issues: Issue[]): Fix[] {
   });
 }
 
+function lockAllFixes(fixes: Fix[]): Fix[] {
+  return fixes.map((fix) => ({
+    ...fix,
+    code: "",
+    description: "",
+    locked: true,
+    charCount: fix.code.length,
+  }));
+}
+
 function applyIssueGate(issues: Issue[]): Issue[] {
   return issues.map((issue) => ({ ...issue, description: "" }));
 }
@@ -88,11 +105,26 @@ export async function POST(request: NextRequest) {
     if (!checkRateLimit(ip, 10, 60000)) {
       return NextResponse.json({ error: "Rate limit exceeded. Try again in a minute." }, { status: 429 });
     }
+    const fingerprintHash = hashSignal(readFingerprint(request));
+    const ipHash = hashSignal(getClientIp(request));
+
     if (!process.env.DATABASE_URL) {
       const result = await runScan(normalizedUrl, `ephemeral_${Date.now()}`);
       const enrichedIssues = applyIssueGate(enrichIssues(result.issues));
-      const gatedFixes = applyFixGate(enrichFixes(result.fixes), enrichedIssues);
-      return NextResponse.json({ status: "completed", ...result, issues: enrichedIssues, fixes: gatedFixes });
+      const gatedFixes = lockAllFixes(enrichFixes(result.fixes));
+      return NextResponse.json({
+        status: "completed",
+        ...result,
+        issues: enrichedIssues,
+        fixes: gatedFixes,
+        metadata: {
+          ...(result.metadata ?? {}),
+          freeFixStatus: {
+            state: "sign_in_required",
+            message: "Sign in with a verified email to claim your free sample fix.",
+          },
+        },
+      });
     }
 
     const auth = await getRequestUser(request);
@@ -136,13 +168,40 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      if (tier === "free") {
+        const scanAccess = await checkFreeScanAccess(fingerprintHash, ipHash);
+        if (!scanAccess.allowed) {
+          return NextResponse.json(
+            {
+              error: `You've used all ${scanAccess.limit} free scans for this month on this device/browser.`,
+              upgradeRequired: true,
+              tier,
+              limit: scanAccess.limit,
+              used: scanAccess.used,
+            },
+            { status: 402 }
+          );
+        }
+      }
+
       await prisma.user.update({
         where: { id: auth.user.id },
         data: { scanCountMonth: { increment: 1 } },
       });
     } else {
-      // Anonymous users: use IP-based rate limit (already applied above, 10/min)
-      // No monthly DB tracking for anonymous — they get 3 free scans via IP rate limit
+      const scanAccess = await checkFreeScanAccess(fingerprintHash, ipHash);
+      if (!scanAccess.allowed) {
+        return NextResponse.json(
+          {
+            error: `You've used all ${scanAccess.limit} free scans for this month on this device/browser.`,
+            upgradeRequired: true,
+            tier: "free",
+            limit: scanAccess.limit,
+            used: scanAccess.used,
+          },
+          { status: 402 }
+        );
+      }
     }
 
     const scan = await prisma.scan.create({
@@ -150,6 +209,8 @@ export async function POST(request: NextRequest) {
         url: normalizedUrl,
         status: "running",
         userId,
+        fingerprintHash,
+        ipHash,
       },
       select: { id: true },
     });
@@ -182,7 +243,23 @@ export async function POST(request: NextRequest) {
         ? enrichedIssues
         : applyIssueGate(enrichedIssues);
       const enrichedFixes = enrichFixes(result.fixes);
-      const finalFixes = isPaid ? enrichedFixes : applyFixGate(enrichedFixes, finalIssues);
+      const freeFixStatus = isPaid
+        ? { state: "paid", message: "Paid plans include all fixes." }
+        : await resolveFreeFixStatus({
+            scanId: scan.id,
+            scanUrl: normalizedUrl,
+            userId: auth.user?.id ?? null,
+            userTier: tier,
+            email: auth.user?.email ?? null,
+            emailVerified: auth.user?.emailVerified ?? null,
+            fingerprintHash,
+            ipHash,
+          });
+      const finalFixes = isPaid
+        ? enrichedFixes
+        : freeFixStatus.state === "granted"
+        ? applyFixGate(enrichedFixes, finalIssues)
+        : lockAllFixes(enrichedFixes);
 
       return NextResponse.json({
         id: scan.id,
@@ -190,6 +267,10 @@ export async function POST(request: NextRequest) {
         ...result,
         issues: finalIssues,
         fixes: finalFixes,
+        metadata: {
+          ...(result.metadata ?? {}),
+          freeFixStatus,
+        },
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Scan failed";
