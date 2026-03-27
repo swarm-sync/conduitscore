@@ -97,7 +97,7 @@ function HomePageJsonLd() {
     "@type": "Organization",
     name: "ConduitScore",
     url: "https://conduitscore.com",
-    logo: `${SITE_URL}/NEWNEW/conduitscore-lockup-transparent.png`,
+    logo: `${SITE_URL}/logo.svg`,
     description:
       "AI visibility scanner that scores any website 0–100 for discoverability by ChatGPT, Perplexity, Claude, Gemini, and other AI agents.",
     sameAs: [

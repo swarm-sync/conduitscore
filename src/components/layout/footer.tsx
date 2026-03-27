@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const FOOTER_LOGO_ICON_SRC = "/NEWNEW/android-chrome-192x192.png";
+const FOOTER_LOGO_SRC = "/logo.svg";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,34 +36,20 @@ export function Footer() {
           {/* Brand column */}
           <div className="md:col-span-1">
             <Link href="/" className="group inline-flex items-center" aria-label="ConduitScore home">
-              <div className="flex items-center gap-3.5">
-                <Image
-                  src={FOOTER_LOGO_ICON_SRC}
-                  alt="ConduitScore"
-                  width={192}
-                  height={192}
-                  className="transition-opacity duration-200 group-hover:opacity-80"
-                  style={{
-                    objectFit: "contain",
-                    width: "44px",
-                    height: "44px",
-                    display: "block",
-                    flexShrink: 0,
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "1.55rem",
-                    fontWeight: 700,
-                    letterSpacing: "-0.03em",
-                    color: "var(--text-primary)",
-                    lineHeight: 1,
-                  }}
-                >
-                  ConduitScore
-                </span>
-              </div>
+              <Image
+                src={FOOTER_LOGO_SRC}
+                alt="ConduitScore"
+                width={2400}
+                height={1371}
+                className="transition-opacity duration-200 group-hover:opacity-80"
+                style={{
+                  objectFit: "contain",
+                  width: "190px",
+                  height: "auto",
+                  display: "block",
+                  flexShrink: 0,
+                }}
+              />
             </Link>
 
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-tertiary)", maxWidth: "210px" }}>

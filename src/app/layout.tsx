@@ -34,11 +34,11 @@ const syne = Syne({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitscore.com";
-const BRAND_LOGO_PATH = "/NEWNEW/conduitscore-lockup-transparent.png";
-const APPLE_TOUCH_ICON_PATH = "/NEWNEW/apple-touch-icon.png";
-const FAVICON_32_PATH = "/NEWNEW/favicon-32x32.png";
-const FAVICON_16_PATH = "/NEWNEW/favicon-16x16.png";
-const FAVICON_ICO_PATH = "/NEWNEW/favicon.ico";
+const BRAND_LOGO_PATH = "/logo.svg";
+const APPLE_TOUCH_ICON_PATH = "/logo.svg";
+const FAVICON_32_PATH = "/logo.svg";
+const FAVICON_16_PATH = "/logo.svg";
+const FAVICON_ICO_PATH = "/logo.svg";
 const OG_IMAGE_PATH = "/NEWNEW/og-image-1200x630.png";
 const SITE_MANIFEST_PATH = "/NEWNEW/site.webmanifest";
 

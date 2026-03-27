@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-const BRAND_LOGO_SRC = "/NEWNEW/conduitscore-lockup-transparent.png";
+const BRAND_LOGO_SRC = "/logo.svg";
 
 function SignInContent() {
   const [email, setEmail] = useState("");
@@ -63,7 +63,7 @@ function SignInContent() {
           <div className="flex justify-center mb-4">
             <Image
               src={BRAND_LOGO_SRC}
-              alt="ConduitScore — powered by conduit"
+              alt="ConduitScore"
               width={1300}
               height={700}
               priority
