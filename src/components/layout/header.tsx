@@ -71,7 +71,7 @@ export function Header() {
             className="transition-opacity duration-200 group-hover:opacity-90"
             style={{
               objectFit: "contain",
-              width: "clamp(180px, 42vw, 260px)",
+              width: "clamp(200px, 42vw, 320px)",
               height: "auto",
               display: "block",
               flexShrink: 0,
