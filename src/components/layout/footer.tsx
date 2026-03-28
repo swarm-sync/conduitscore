@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const FOOTER_LOGO_SRC = "/NEWNEW/nav-logo-fixed.png";
+const FOOTER_LOGO_SRC = "/NEWNEW/nav-logo-v2.png";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

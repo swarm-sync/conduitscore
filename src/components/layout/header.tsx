@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const HEADER_LOGO_SRC = "/NEWNEW/nav-logo-fixed.png";
+const HEADER_LOGO_SRC = "/NEWNEW/nav-logo-v2.png";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -71,7 +71,7 @@ export function Header() {
             className="transition-opacity duration-200 group-hover:opacity-90"
             style={{
               objectFit: "contain",
-              width: "clamp(200px, 42vw, 320px)",
+              width: "clamp(180px, 38vw, 274px)",
               height: "auto",
               display: "block",
               flexShrink: 0,
