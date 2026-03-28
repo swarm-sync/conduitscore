@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const HEADER_LOGO_SRC = "/NEWNEW/conduitscore-lockup-transparent.png";
+const HEADER_LOGO_SRC = "/NEWNEW/nav-logo-fixed.png";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
