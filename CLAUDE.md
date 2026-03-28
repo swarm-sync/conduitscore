@@ -5,9 +5,9 @@
 **ConduitScore** — AI Visibility Score Scanner. A Next.js 15 SaaS that crawls any website and scores it for visibility to AI agents and LLMs (ChatGPT, Claude, Perplexity, etc.). Users get a 0–100 score, category breakdowns, issue lists, and actionable fixes.
 
 - **Live URL**: https://conduitscore.com
-- **GitHub**: https://github.com/bkauto3/conduitscore-website (branch: `master`)
+- **GitHub**: https://github.com/bkauto3/conduitscore (branch: `main`)
 - **Vercel project**: `bens-projects-4026/conduitscore`
-- **Deploy**: `npx vercel --prod` from `phase_5_output/` OR push to `master` (auto-deploy)
+- **Deploy**: `npx vercel --prod` from `phase_5_output/` (Vercel is NOT connected to GitHub — no auto-deploy)
 
 ---
 
@@ -277,7 +277,7 @@ npx vercel env ls               # list all Vercel env vars
 npx vercel logs conduitscore    # tail production logs
 
 # Git
-git add -A && git commit -m "..." && git push origin master
+git add -A && git commit -m "..." && git push origin main
 ```
 
 ---
