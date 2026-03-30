@@ -10,7 +10,7 @@ ConduitScore is a SaaS platform that scans websites and produces an AI visibilit
 - Checks crawler access (robots.txt rules for GPTBot, ClaudeBot, PerplexityBot, and 10+ AI user-agents)
 - Detects and validates structured data (JSON-LD, schema.org markup, FAQPage schema)
 - Analyzes content structure (heading hierarchy, semantic HTML, answer-ready sections)
-- Validates LLMs.txt presence, format, and completeness
+- Validates LLMs.txt presence, format, and completeness; checks for llms-full.txt and AI agent meta tags
 - Evaluates technical health (meta tags, load times, viewport, Open Graph, charset)
 - Measures citation signals (external links, author attribution, about/contact page presence)
 - Assesses content quality (word count, freshness signals, paragraph depth, readability)
@@ -45,10 +45,10 @@ ConduitScore is a SaaS platform that scans websites and produces an AI visibilit
 
 ## The 7 Scan Categories
 
-1. Crawler Access (15 pts): robots.txt permissions for GPTBot, ClaudeBot, PerplexityBot
+1. Crawler Access (15 pts): robots.txt permissions for GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot; explicit Allow rules detection
 2. Structured Data (20 pts): JSON-LD schema.org markup and FAQPage detection
 3. Content Structure (15 pts): Heading hierarchy, semantic HTML, FAQ sections
-4. LLMs.txt (10 pts): Machine-readable site summary file presence and format
+4. LLMs.txt (10 pts): llms.txt presence and format, llms-full.txt companion file, link rel="llms-full" and link rel="agent-manifest" meta tags
 5. Technical Health (15 pts): Meta tags, viewport, charset, page load speed
 6. Citation Signals (15 pts): External links, author attribution, about/contact pages
 7. Content Quality (10 pts): Word count, freshness dates, paragraph depth

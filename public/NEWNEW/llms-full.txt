@@ -37,6 +37,7 @@ The scanner evaluates the page across seven categories simultaneously:
 - Verifies permissions for GPTBot (OpenAI), ClaudeBot (Anthropic), PerplexityBot
 - Also checks for OAI-SearchBot, ChatGPT-User, Claude-Web, Amazonbot, anthropic-ai, Google-Extended, Googlebot, Bingbot, cohere-ai
 - Deducts points for each blocked AI crawler
+- Checks for explicit Allow rules for all 4 major AI crawlers (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) as a positive AI-friendliness signal
 
 #### 2. Structured Data (20 points max)
 - Detects JSON-LD script tags with application/ld+json type
@@ -55,6 +56,9 @@ The scanner evaluates the page across seven categories simultaneously:
 - Awards points for file presence
 - Awards bonus for content length > 100 characters
 - Awards bonus for having markdown headers (#) and URLs (http)
+- Checks for /llms-full.txt companion file (detailed AI agent instructions)
+- Checks for <link rel="llms-full"> meta tag in HTML head (machine-readable link to llms-full.txt)
+- Checks for <link rel="agent-manifest"> meta tag (declares AI agent API capabilities)
 
 #### 5. Technical Health (15 points max)
 - Measures page load time (under 2 seconds is ideal)

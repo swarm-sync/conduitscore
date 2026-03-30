@@ -56,7 +56,7 @@ const categories = [
     name: "Crawler Access",
     points: 15,
     description:
-      "Checks whether AI bots (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) can access your site, whether your robots.txt is configured correctly, and whether a sitemap is discoverable.",
+      "Checks whether AI bots (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) can access your site — including not just the absence of blocks, but the presence of explicit Allow rules that signal proactive AI-friendliness. Also checks robots.txt configuration and whether a sitemap is discoverable.",
     learnMore: { href: "/blog/ai-crawler-access-guide", label: "Crawler access guide" },
   },
   {
@@ -70,7 +70,7 @@ const categories = [
     name: "LLMs.txt",
     points: 10,
     description:
-      "Checks for the presence, completeness, and structure of your /llms.txt file — a machine-readable guide for AI agents about your site's key pages and purpose.",
+      "Checks for the presence, completeness, and structure of your /llms.txt file — a machine-readable guide for AI agents about your site's key pages and purpose. Also checks for a /llms-full.txt companion file and HTML meta tags (link rel=\"llms-full\" and link rel=\"agent-manifest\") that help autonomous AI agents discover your site's capabilities.",
     learnMore: { href: "/blog/llms-txt-guide", label: "LLMs.txt implementation guide" },
   },
   {

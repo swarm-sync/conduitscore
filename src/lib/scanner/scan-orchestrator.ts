@@ -129,7 +129,7 @@ export async function runScan(rawUrl: string, scanId: string): Promise<ScanResul
     analyzeCrawlerAccess(url, pageData.robotsTxt, pageData.sitemapXml),
     Promise.resolve(analyzeStructuredData(pageData.html)),
     Promise.resolve(analyzeContentStructure(pageData.html)),
-    analyzeLlmsTxt(url, pageData.llmsTxt),
+    analyzeLlmsTxt(url, pageData.llmsTxt, pageData.html),
     Promise.resolve(analyzeTechnicalHealth(pageData.html, pageData.loadTimeMs)),
     Promise.resolve(analyzeCitationSignals(pageData.html, url)),
     Promise.resolve(analyzeContentQuality(pageData.html)),

@@ -72,6 +72,52 @@ export async function analyzeCrawlerAccess(
       });
     }
 
+    // --- Explicit Allow bonus section ---
+    // Check which of the 4 named AI bots have an explicit Allow: / rule
+    const explicitAllowBots = ["GPTBot", "ClaudeBot", "PerplexityBot", "OAI-SearchBot"];
+    const hasExplicitAllow = (bot: string): boolean => {
+      const pattern = new RegExp(`User-agent:\\s*${bot.replace("-", "\\-")}[\\s\\S]*?Allow:\\s*/`, "i");
+      return pattern.test(robotsTxt);
+    };
+    const explicitAllowCount = explicitAllowBots.filter(hasExplicitAllow).length;
+
+    if (explicitAllowCount === 4) {
+      issues.push({
+        id: "ca-explicit-allow-all",
+        category: "Crawler Access",
+        severity: "info",
+        title: "All major AI crawlers explicitly allowed",
+        description:
+          "Your robots.txt explicitly allows GPTBot, ClaudeBot, PerplexityBot, and OAI-SearchBot — excellent AI crawler access.",
+      });
+    } else if (explicitAllowCount >= 2) {
+      issues.push({
+        id: "ca-explicit-allow-partial",
+        category: "Crawler Access",
+        severity: "info",
+        title: `${explicitAllowCount} of 4 AI crawlers explicitly allowed`,
+        description:
+          "Your robots.txt explicitly allows some AI crawlers. Consider adding explicit Allow rules for all major AI bots.",
+      });
+    } else if (explicitAllowCount === 0 && score === CATEGORIES.CRAWLER_ACCESS.maxScore) {
+      issues.push({
+        id: "ca-no-explicit-allow",
+        category: "Crawler Access",
+        severity: "info",
+        title: "No explicit AI crawler Allow rules",
+        description:
+          "Your robots.txt doesn't explicitly allow AI crawlers. Adding explicit Allow rules signals AI-friendliness and helps crawlers understand your intent.",
+      });
+      fixes.push({
+        issueId: "ca-no-explicit-allow",
+        title: "Add explicit AI crawler Allow rules",
+        description: "Add explicit Allow rules for all major AI bots in robots.txt",
+        code: "User-agent: GPTBot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: ClaudeBot\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /",
+        language: "text",
+      });
+    }
+    // --- End explicit Allow bonus section ---
+
     // Check Sitemap directive in robots.txt
     const hasSitemapDirective = /Sitemap:/i.test(robotsTxt);
     if (!hasSitemapDirective) {

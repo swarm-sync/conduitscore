@@ -22,11 +22,11 @@ AI visibility is distinct from Google visibility. A website can rank first in se
 
 The ConduitScore measures 7 core categories:
 
-**Crawler Access** — Whether AI crawlers (GPTBot, ClaudeBot, PerplexityBot) can access your site. This includes robots.txt configuration, sitemap presence, and crawler permission rules.
+**Crawler Access** — Whether AI crawlers (GPTBot, ClaudeBot, PerplexityBot) can access your site. This includes robots.txt configuration, explicit Allow rules for AI crawlers, sitemap presence, and crawler permission rules.
 
 **Structured Data** — JSON-LD schema markup (Organization, WebSite, FAQPage, Article, BreadcrumbList) that tells AI systems who you are, what you do, and how your content is organized.
 
-**LLMs.txt** — Presence and quality of a `/llms.txt` file, an emerging standard that explicitly guides AI agents about your site's purpose, key pages, and preferred attribution method.
+**LLMs.txt** — Presence and quality of a `/llms.txt` file, an emerging standard that explicitly guides AI agents about your site's purpose, key pages, and preferred attribution method. Also checks for a `/llms-full.txt` companion file and HTML meta tags (`link rel="llms-full"` and `link rel="agent-manifest"`) that help autonomous AI agents discover your site's capabilities.
 
 **Content Structure** — Heading hierarchy, semantic HTML, clear introductions, FAQ sections, and answer-friendly formatting that makes content easily extractable by AI systems.
 

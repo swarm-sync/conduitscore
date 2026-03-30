@@ -57,16 +57,17 @@ const categories = [
     name: "Crawler Access",
     points: 15,
     whyMatters:
-      "If AI bots are blocked by robots.txt or missing from your allowed crawlers list, they cannot index or cite your content — no matter how good it is. Crawler access is a prerequisite for any AI visibility.",
+      "If AI bots are blocked by robots.txt or missing from your allowed crawlers list, they cannot index or cite your content — no matter how good it is. Crawler access is a prerequisite for any AI visibility. Beyond just avoiding blocks, ConduitScore detects and flags explicit Allow: / rules for each major AI crawler as a positive signal — distinguishing sites actively optimizing for AI versus those that simply have not blocked it yet.",
     checks: [
       "robots.txt presence and AI bot access rules (GPTBot, ClaudeBot, OAI-SearchBot, PerplexityBot)",
+      "Explicit Allow rules for AI crawlers (signals AI-friendliness beyond passive permission)",
       "Sitemap directive in robots.txt",
       "sitemap.xml presence and accessibility",
       "Blocked important pages or assets",
       "Crawlable HTML availability",
     ],
     issue: "GPTBot is blocked in robots.txt",
-    fix: "Add a robots.txt rule that explicitly allows GPTBot: `User-agent: GPTBot\\nAllow: /`",
+    fix: "Add explicit Allow rules for each AI crawler in robots.txt: `User-agent: GPTBot\\nAllow: /` — and repeat for ClaudeBot, PerplexityBot, and OAI-SearchBot. Explicit Allow rules (not just the absence of Disallow) signal proactive AI-friendliness.",
   },
   {
     id: "structured-data",
@@ -89,15 +90,18 @@ const categories = [
     name: "LLMs.txt",
     points: 10,
     whyMatters:
-      "The /llms.txt file is the AI equivalent of sitemap.xml — it tells AI agents exactly which pages are important and what your site is for. Sites with a well-structured llms.txt are easier to summarize, cite, and recommend.",
+      "The /llms.txt file is the AI equivalent of sitemap.xml — it tells AI agents exactly which pages are important and what your site is for. Sites with a well-structured llms.txt are easier to summarize, cite, and recommend. The companion /llms-full.txt file goes further — it is designed for autonomous AI agents that need comprehensive instructions, not just a page index. The HTML meta tags (<link rel=\"llms-full\"> and <link rel=\"agent-manifest\">) act as machine-readable pointers that help agent frameworks discover your AI-readiness before they even request a file.",
     checks: [
       "File existence at /llms.txt",
       "File readability and structure (sections, headers)",
       "Number of URLs listed",
       "Whether key pages (about, pricing, docs) are referenced",
+      "/llms-full.txt companion file presence",
+      '<link rel="llms-full"> meta tag in HTML head',
+      '<link rel="agent-manifest"> meta tag for AI agent discovery',
     ],
     issue: "No /llms.txt file found",
-    fix: "Create a public/llms.txt file at the root of your site that lists your key pages with short descriptions. See llmstxt.org for the standard format.",
+    fix: "Create a public/llms.txt file at the root of your site that lists your key pages with short descriptions. Consider also adding /llms-full.txt with comprehensive AI agent instructions. See llmstxt.org for the standard format.",
   },
   {
     id: "content-structure",

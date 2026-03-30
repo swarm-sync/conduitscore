@@ -3,7 +3,8 @@ import { CATEGORIES } from "../types";
 
 export async function analyzeLlmsTxt(
   baseUrl: string,
-  llmsTxtContent?: string | null
+  llmsTxtContent?: string | null,
+  html?: string | null
 ): Promise<CategoryScore> {
   const issues: Issue[] = [];
   const fixes: Fix[] = [];
@@ -113,6 +114,110 @@ export async function analyzeLlmsTxt(
         severity: "info",
         title: "llms.txt has no sections",
         description: "An unstructured llms.txt is harder for AI agents to parse and prioritize. Add ## section headers.",
+      });
+    }
+  }
+
+  // --- /llms-full.txt check ---
+  let llmsFullFound = false;
+  try {
+    const fullRes = await fetch(`${baseUrl}/llms-full.txt`, { signal: AbortSignal.timeout(5000) });
+    if (fullRes.ok) {
+      const fullText = await fullRes.text();
+      if (fullText && fullText.trim().length > 0) {
+        llmsFullFound = true;
+      }
+    }
+  } catch {
+    // Fall through — llmsFullFound remains false
+  }
+
+  if (llmsFullFound) {
+    score += 2;
+    issues.push({
+      id: "lt-full-found",
+      category: "LLMs.txt",
+      severity: "info",
+      title: "llms-full.txt found",
+      description: "Your site has a comprehensive /llms-full.txt file. AI agents can discover detailed site instructions.",
+    });
+  } else {
+    issues.push({
+      id: "lt-no-full",
+      category: "LLMs.txt",
+      severity: "info",
+      title: "No /llms-full.txt found",
+      description: "Consider adding /llms-full.txt with detailed AI agent instructions beyond the summary in llms.txt.",
+    });
+    fixes.push({
+      issueId: "lt-no-full",
+      title: "Create llms-full.txt",
+      description: "Add a detailed companion file to llms.txt with full documentation",
+      code: `# Your Site Name — Full AI Agent Instructions\n\n> Complete documentation for AI agents and LLM-based tools.\n\n## Overview\nProvide a comprehensive description of your site, its purpose, and the audience it serves.\n\n## Products & Services\nhttps://yoursite.com/products\n- Full list of offerings with descriptions\n\n## Documentation\nhttps://yoursite.com/docs\nhttps://yoursite.com/docs/getting-started\nhttps://yoursite.com/docs/api-reference\nhttps://yoursite.com/docs/guides\n\n## Pricing\nhttps://yoursite.com/pricing\n- Free tier: ...\n- Pro tier: ...\n\n## About\nhttps://yoursite.com/about\nhttps://yoursite.com/team\nhttps://yoursite.com/blog\n\n## Support\nhttps://yoursite.com/support\nhttps://yoursite.com/faq\nemail@yoursite.com\n\n## Legal\nhttps://yoursite.com/terms\nhttps://yoursite.com/privacy`,
+      language: "text",
+    });
+  }
+
+  // --- HTML meta tag detection (only if html is provided and non-null) ---
+  if (html != null) {
+    // Check for <link rel="llms-full"
+    const hasLlmsFullMeta = /<link[^>]+rel=["']llms-full["']/i.test(html) ||
+      /<link[^>]+rel=llms-full/i.test(html);
+
+    if (hasLlmsFullMeta) {
+      score += 1;
+      issues.push({
+        id: "lt-meta-llms-full",
+        category: "LLMs.txt",
+        severity: "info",
+        title: '<link rel="llms-full"> tag found',
+        description: 'Your HTML head includes a machine-readable link to llms-full.txt — excellent for AI agent discovery.',
+      });
+    } else if (text !== null) {
+      // Only suggest the meta tag if llms.txt itself exists
+      issues.push({
+        id: "lt-no-meta-llms-full",
+        category: "LLMs.txt",
+        severity: "info",
+        title: 'Missing <link rel="llms-full"> meta tag',
+        description: 'Add <link rel="llms-full" href="/llms-full.txt"> to your HTML head for AI agent discovery.',
+      });
+      fixes.push({
+        issueId: "lt-no-meta-llms-full",
+        title: 'Add <link rel="llms-full"> to HTML head',
+        description: 'Declare the llms-full.txt location in your HTML head for AI agent discovery',
+        code: `<link rel="llms-full" href="/llms-full.txt">`,
+        language: "html",
+      });
+    }
+
+    // Check for <link rel="agent-manifest"
+    const hasAgentManifestMeta = /<link[^>]+rel=["']agent-manifest["']/i.test(html) ||
+      /<link[^>]+rel=agent-manifest/i.test(html);
+
+    if (hasAgentManifestMeta) {
+      score += 1;
+      issues.push({
+        id: "lt-meta-agent-manifest",
+        category: "LLMs.txt",
+        severity: "info",
+        title: '<link rel="agent-manifest"> tag found',
+        description: 'Your HTML head declares an agent manifest — autonomous AI agents can discover your API capabilities.',
+      });
+    } else {
+      issues.push({
+        id: "lt-no-meta-agent-manifest",
+        category: "LLMs.txt",
+        severity: "info",
+        title: 'Missing <link rel="agent-manifest"> meta tag',
+        description: 'Add <link rel="agent-manifest" href="/.well-known/agent-card.json"> to your HTML head to declare agent capabilities.',
+      });
+      fixes.push({
+        issueId: "lt-no-meta-agent-manifest",
+        title: 'Add <link rel="agent-manifest"> to HTML head',
+        description: 'Declare your agent card location in HTML head so autonomous AI agents can discover your API capabilities',
+        code: `<link rel="agent-manifest" href="/.well-known/agent-card.json">`,
+        language: "html",
       });
     }
   }

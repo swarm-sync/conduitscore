@@ -11,7 +11,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "ConduitScore — See Why AI Ignores Your Site",
   description:
-    "ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
+    "ConduitScore scans 14 AI visibility signals across 7 categories — from crawler access and llms.txt to llms-full.txt and agent meta tags — and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
   alternates: {
     canonical: SITE_URL,
   },
@@ -199,7 +199,7 @@ export default function Home() {
                     lineHeight: 1.6,
                   }}
                 >
-                  ConduitScore scans 14 real AI visibility signals across 7 categories — from crawler access and structured data to llms.txt and content quality — then shows you the highest-impact fixes first. Results in about 15 seconds. Free, no signup.
+                  ConduitScore scans 14 real AI visibility signals across 7 categories — from crawler access and structured data to llms.txt, llms-full.txt, and agent meta tags — then shows you the highest-impact fixes first. Results in about 15 seconds. Free, no signup.
                 </p>
 
                 {/* Scan form */}
@@ -340,7 +340,7 @@ export default function Home() {
               {[
                 "Blocked or unclear crawler access",
                 "Weak or missing schema",
-                "Missing llms.txt",
+                "Missing or incomplete llms.txt — and no companion agent files",
                 "Poor machine-readable content structure",
               ].map((item) => (
                 <li
@@ -431,7 +431,7 @@ export default function Home() {
               {[
                 {
                   category: "Crawler Access",
-                  signals: ["GPTBot detection", "ClaudeBot access", "PerplexityBot access", "OAI-SearchBot detection", "Sitemap.xml fetch"],
+                  signals: ["GPTBot detection", "ClaudeBot access", "PerplexityBot access", "OAI-SearchBot detection", "Explicit Allow rules", "Sitemap.xml fetch"],
                 },
                 {
                   category: "Structured Data",
@@ -439,7 +439,7 @@ export default function Home() {
                 },
                 {
                   category: "LLMs.txt File",
-                  signals: ["URL count validation", "Section headers", "Fix templates"],
+                  signals: ["llms.txt presence & structure", "llms-full.txt companion file", 'link rel="llms-full" meta tag', 'link rel="agent-manifest" meta tag'],
                 },
                 {
                   category: "Technical Health",
@@ -803,7 +803,7 @@ export default function Home() {
                 {
                   number: "02",
                   title: "You have no llms.txt file",
-                  body: "llms.txt is an emerging open standard (analogous to robots.txt) that tells AI models what your site is about, which pages matter most, and how to attribute your content. The vast majority of sites have never created one, leaving AI models to guess at your content's purpose and authority.",
+                  body: "llms.txt is an emerging open standard (analogous to robots.txt) that tells AI models what your site is about, which pages matter most, and how to attribute your content. The vast majority of sites have never created one, leaving AI models to guess at your content's purpose and authority. A step further: sites with a companion /llms-full.txt file — and <link rel=\"llms-full\"> and <link rel=\"agent-manifest\"> meta tags in their HTML — are signaling full agent-readiness, the equivalent of rolling out a welcome mat for autonomous AI systems.",
                 },
                 {
                   number: "03",

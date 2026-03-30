@@ -93,6 +93,26 @@ export const IMPACT_MAP: Record<string, string> = {
     "Your llms.txt lists very few URLs — AI agents may not discover the full scope of your site.",
   "lt-no-sections":
     "An unstructured llms.txt is harder for AI agents to parse and prioritize.",
+  "lt-full-found":
+    "Your /llms-full.txt file is present — autonomous AI agents can discover comprehensive instructions for your site.",
+  "lt-no-full":
+    "Without /llms-full.txt, autonomous AI agents lack the detailed instructions they need to fully understand your site's capabilities.",
+  "lt-meta-llms-full":
+    "Your HTML head includes a machine-readable link to llms-full.txt — excellent for AI agent discovery via standard HEAD requests.",
+  "lt-no-meta-llms-full":
+    "Without a <link rel=\"llms-full\"> tag, AI agent frameworks cannot discover your llms-full.txt file via HTML head parsing.",
+  "lt-meta-agent-manifest":
+    "Your HTML head declares an agent manifest — autonomous AI agents can discover your API and agent capabilities without crawling.",
+  "lt-no-meta-agent-manifest":
+    "Without a <link rel=\"agent-manifest\"> tag, autonomous AI agents cannot discover your API capabilities from the HTML head.",
+
+  // Crawler Access (explicit Allow)
+  "ca-explicit-allow-all":
+    "All four major AI crawlers have explicit Allow rules — your robots.txt signals proactive AI-friendliness, not just passive permission.",
+  "ca-explicit-allow-partial":
+    "Some AI crawlers have explicit Allow rules, but not all — adding rules for the remaining crawlers signals full AI-friendliness.",
+  "ca-no-explicit-allow":
+    "Your robots.txt permits AI crawlers by default but lacks explicit Allow rules — adding them signals proactive cooperation with AI indexers.",
 
   // Technical Health (new)
   "th-no-canonical":
@@ -172,6 +192,17 @@ export const SCORE_IMPACT: Record<string, number> = {
   // LLMs.txt (new)
   "lt-few-urls":           2,
   "lt-no-sections":        1,
+  "lt-no-full":            2,
+  "lt-no-meta-llms-full":  1,
+  "lt-no-meta-agent-manifest": 1,
+  // positive-signal IDs (feature present — no fix needed, score already awarded)
+  "lt-full-found":         0,
+  "lt-meta-llms-full":     0,
+  "lt-meta-agent-manifest": 0,
+  // Crawler Access explicit Allow (informational only — no score deduction)
+  "ca-explicit-allow-all":     0,
+  "ca-explicit-allow-partial": 0,
+  "ca-no-explicit-allow":      0,
 
   // Technical Health (new)
   "th-no-canonical":       3,
@@ -242,6 +273,17 @@ export const EFFORT_MINUTES: Record<string, number> = {
   // LLMs.txt (new)
   "lt-few-urls":           10,
   "lt-no-sections":        5,
+  "lt-no-full":            10,
+  "lt-no-meta-llms-full":  5,
+  "lt-no-meta-agent-manifest": 10,
+  // positive-signal IDs — no fix to apply
+  "lt-full-found":         0,
+  "lt-meta-llms-full":     0,
+  "lt-meta-agent-manifest": 0,
+  // Crawler Access explicit Allow — informational, no code change required
+  "ca-explicit-allow-all":     0,
+  "ca-explicit-allow-partial": 5,
+  "ca-no-explicit-allow":      5,
 
   // Technical Health (new)
   "th-no-canonical":       2,

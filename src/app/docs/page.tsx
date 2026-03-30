@@ -38,7 +38,12 @@ const faqs = [
   {
     question: "What is llms.txt and why does it matter?",
     answer:
-      "llms.txt is an emerging standard where websites place a machine-readable summary file at /llms.txt describing what the site does, its key pages, and contact information. AI agents check for this file to quickly understand a site's purpose without crawling every page.",
+      "llms.txt is an emerging standard where websites place a machine-readable summary file at /llms.txt describing what the site does, its key pages, and contact information. AI agents check for this file to quickly understand a site's purpose without crawling every page. ConduitScore also checks for /llms-full.txt (a detailed companion file) and HTML meta tags like link rel=\"llms-full\" and link rel=\"agent-manifest\" that help autonomous AI agents discover your site's capabilities.",
+  },
+  {
+    question: "Does ConduitScore check for explicit Allow rules in robots.txt?",
+    answer:
+      "Yes. ConduitScore distinguishes between sites that passively permit AI crawlers (no Disallow) and sites that actively invite them with explicit Allow: / rules for GPTBot, ClaudeBot, PerplexityBot, and OAI-SearchBot. Explicit Allow rules are an emerging best practice — they signal that you have intentionally configured your site for AI visibility, not just failed to block it. Sites with all four explicit Allow rules receive a positive signal in the Crawler Access category.",
   },
   {
     question: "How is AI visibility different from traditional SEO?",
