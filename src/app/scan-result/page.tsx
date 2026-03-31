@@ -12,6 +12,81 @@ import type { ScanResult } from "@/lib/scanner/types";
 import { getClientFingerprint } from "@/lib/client-fingerprint";
 import { FINGERPRINT_HEADER } from "@/lib/free-tier-abuse";
 
+function LockOverlay({ title, body, ctaLabel, ctaHref }: {
+  title: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "16px",
+        borderRadius: "12px",
+        background: "rgba(10,10,20,0.55)",
+        backdropFilter: "blur(2px)",
+        zIndex: 10,
+        padding: "32px 24px",
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "48px",
+          height: "48px",
+          borderRadius: "50%",
+          background: "rgba(108,59,255,0.12)",
+          border: "1px solid rgba(108,59,255,0.35)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <rect x="4" y="10" width="14" height="11" rx="2" stroke="rgba(108,59,255,0.9)" strokeWidth="1.5" />
+          <path d="M7 10V7a4 4 0 0 1 8 0v3" stroke="rgba(108,59,255,0.9)" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </div>
+      <div>
+        <p style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", marginBottom: "6px" }}>
+          {title}
+        </p>
+        <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", maxWidth: "320px", lineHeight: 1.5 }}>
+          {body}
+        </p>
+      </div>
+      <a
+        href={ctaHref}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "8px",
+          background: "var(--brand-red)",
+          color: "#fff",
+          fontFamily: "var(--font-display)",
+          fontWeight: 600,
+          fontSize: "0.875rem",
+          padding: "10px 24px",
+          borderRadius: "9999px",
+          textDecoration: "none",
+          boxShadow: "0 2px 12px rgba(255,45,85,0.35)",
+        }}
+      >
+        {ctaLabel}
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+    </div>
+  );
+}
+
 function ShareButton({ scanId }: { scanId?: string }) {
   const [copied, setCopied] = useState(false);
   if (!scanId) return null;
@@ -187,6 +262,24 @@ export default function ScanResultPage() {
   const loadTimeMs = typeof result.metadata.loadTimeMs === "number" ? result.metadata.loadTimeMs : 0;
   const criticalCount = result.issues.filter((i) => i.severity === "critical").length;
   const warningCount  = result.issues.filter((i) => i.severity === "warning").length;
+
+  // Determine if this is a free/anonymous user using the server-authoritative signal.
+  // freeFixStatus is only set by the API for non-paid users — paid users get undefined.
+  // Fallback: if freeFixStatus is absent but all fixes are locked, treat as gated.
+  const freeFixStatus = result.metadata.freeFixStatus as { state?: string } | undefined;
+  const isGated = freeFixStatus?.state != null
+    ? true
+    : result.fixes.length > 0 && result.fixes.every((f) => f.locked);
+
+  const needsSignIn = freeFixStatus?.state === "sign_in_required";
+  const gateCtaHref = needsSignIn
+    ? `/signin?callbackUrl=${encodeURIComponent(
+        typeof window !== "undefined"
+          ? window.location.pathname + window.location.search
+          : "/scan-result"
+      )}`
+    : "/pricing";
+  const gateCtaLabel = needsSignIn ? "Sign In to Unlock" : "Upgrade to Unlock";
 
   return (
     <>
@@ -431,19 +524,41 @@ export default function ScanResultPage() {
               )}
 
               {tab === "issues" && (
-                <div id="tabpanel-issues" role="tabpanel">
-                  <IssueList issues={result.issues} />
+                <div id="tabpanel-issues" role="tabpanel" style={{ position: "relative" }}>
+                  {/* Blurred preview for gated users */}
+                  <div style={{ filter: isGated ? "blur(6px)" : "none", pointerEvents: isGated ? "none" : "auto", userSelect: isGated ? "none" : "auto" }}>
+                    <IssueList issues={result.issues} />
+                  </div>
+                  {isGated && (
+                    <LockOverlay
+                      title="Issues are locked"
+                      body="Upgrade to see the full breakdown of what's hurting your AI visibility score."
+                      ctaLabel={gateCtaLabel}
+                      ctaHref={gateCtaHref}
+                    />
+                  )}
                 </div>
               )}
 
               {tab === "fixes" && (
-                <div id="tabpanel-fixes" role="tabpanel">
-                  <FixPanel
-                    fixes={result.fixes}
-                    scanDomain={(() => { try { return new URL(result.url).hostname; } catch { return result.url; } })()}
-                    overallScore={result.overallScore}
-                    freeFixStatus={result.metadata.freeFixStatus}
-                  />
+                <div id="tabpanel-fixes" role="tabpanel" style={{ position: "relative" }}>
+                  {/* Blurred preview for gated users */}
+                  <div style={{ filter: isGated ? "blur(6px)" : "none", pointerEvents: isGated ? "none" : "auto", userSelect: isGated ? "none" : "auto" }}>
+                    <FixPanel
+                      fixes={result.fixes}
+                      scanDomain={(() => { try { return new URL(result.url).hostname; } catch { return result.url; } })()}
+                      overallScore={result.overallScore}
+                      freeFixStatus={result.metadata.freeFixStatus}
+                    />
+                  </div>
+                  {isGated && (
+                    <LockOverlay
+                      title="Code fixes are locked"
+                      body="Get the exact code snippets to fix every issue and improve your score."
+                      ctaLabel={gateCtaLabel}
+                      ctaHref={gateCtaHref}
+                    />
+                  )}
                 </div>
               )}
             </div>
