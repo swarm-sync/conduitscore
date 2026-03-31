@@ -1,0 +1,55 @@
+{
+  "input": "task-manifest-social.md",
+  "run_date": "2026-03-28",
+  "run_type": "dry_run",
+  "reason": "All social API credentials missing (TWITTER_CONSUMER_KEY, TWITTER_ACCESS_TOKEN, LINKEDIN_ACCESS_TOKEN)",
+  "platforms": ["twitter", "linkedin", "reddit"],
+  "posts": [
+    {
+      "index": 1,
+      "type": "Industry Data Post",
+      "timing": "Day 1",
+      "platforms": ["twitter", "linkedin", "reddit"],
+      "status": "draft_ready",
+      "notes": "HIGHEST PRIORITY — publish first. Reddit: respond to all comments within 2 hours."
+    },
+    {
+      "index": 2,
+      "type": "Founder / Origin Story",
+      "timing": "Day 7",
+      "platforms": ["linkedin"],
+      "status": "draft_ready",
+      "notes": "LinkedIn only. Post from Ben Stone personal profile."
+    },
+    {
+      "index": 3,
+      "type": "Hot Take / Contrarian POV",
+      "timing": "Day 3",
+      "platforms": ["twitter", "linkedin"],
+      "status": "draft_ready",
+      "notes": "Twitter: 4-tweet thread. Link ONLY in Tweet 4. LinkedIn: single post."
+    },
+    {
+      "index": 4,
+      "type": "Customer Case Study",
+      "timing": "Day 14+",
+      "platforms": ["linkedin"],
+      "status": "BLOCKED",
+      "notes": "DO NOT PUBLISH until real testimonial data replaces all template values (score, fix time, retainer amount)."
+    },
+    {
+      "index": 5,
+      "type": "Direct CTA Post",
+      "timing": "Day 5 + recurring weekly",
+      "platforms": ["twitter"],
+      "status": "draft_ready",
+      "notes": "Pin to @conduitscore profile. Repeat weekly Tuesday–Thursday 9–11am EST."
+    }
+  ],
+  "summary": {
+    "total_posts": 5,
+    "draft_ready": 4,
+    "blocked": 1,
+    "published": 0
+  }
+}

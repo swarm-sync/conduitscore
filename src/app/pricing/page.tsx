@@ -274,14 +274,14 @@ export default function PricingPage() {
                 More signals. More fixes. More visibility.
               </h2>
               <p style={{ color: "var(--text-secondary)" }}>
-                ConduitScore checks 14 signals across 7 categories that determine whether ChatGPT, Claude, and Perplexity can cite your site.
+                ConduitScore checks 46 signals across 7 categories that determine whether ChatGPT, Claude, and Perplexity can cite your site.
               </p>
             </div>
             <div
               className="overflow-x-auto rounded-xl"
               style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-overlay)" }}
             >
-              <table className="w-full text-sm" role="table" aria-label="14-signal AI visibility comparison">
+              <table className="w-full text-sm" role="table" aria-label="46-signal AI visibility comparison">
                 <thead>
                   <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
                     <th

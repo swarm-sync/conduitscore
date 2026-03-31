@@ -383,7 +383,7 @@ export default function AboutPage() {
               <p className="mt-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 Want to understand exactly how ConduitScore evaluates your AI visibility? Check out our detailed
                 {" "}<Link href="/methodology" style={{ color: "var(--cyan-400)", textDecoration: "none" }} className="hover:underline">methodology page</Link> for
-                a complete breakdown of the 14 signals, 7 categories, and scoring methodology.
+                a complete breakdown of the 46 signals, 7 categories, and scoring methodology.
               </p>
             </section>
           </div>

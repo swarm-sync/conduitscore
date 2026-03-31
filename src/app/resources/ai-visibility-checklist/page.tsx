@@ -297,7 +297,7 @@ export default function AIVisibilityChecklistPage() {
               "@type": "HowTo",
               name: "The 14-Point AI Visibility Checklist",
               description:
-                "Audit all 14 signals ChatGPT, Claude, and Perplexity use to discover your site. Free guide with code examples.",
+                "Audit all 46 signals ChatGPT, Claude, and Perplexity use to discover your site. Free guide with code examples.",
               tool: "ConduitScore",
               step: CHECKLIST_ITEMS.map((item) => ({
                 "@type": "HowToStep",
@@ -389,7 +389,7 @@ export default function AIVisibilityChecklistPage() {
                 marginBottom: "36px",
               }}
             >
-              Audit all 14 signals your site needs for AI visibility — free guide with code examples
+              Audit all 46 signals your site needs for AI visibility — free guide with code examples
             </p>
 
             {/* CTA anchor */}
@@ -422,7 +422,7 @@ export default function AIVisibilityChecklistPage() {
               }}
             >
               {[
-                { label: "14 signals covered" },
+                { label: "46 signals covered" },
                 { label: "Copy-paste code fixes" },
                 { label: "No signup required" },
               ].map((item) => (
@@ -493,7 +493,7 @@ export default function AIVisibilityChecklistPage() {
                 4 of the 14 Signals
               </h2>
               <p style={{ color: "var(--text-tertiary)", fontSize: "0.95rem" }}>
-                The full checklist includes 14 signals with point values, audit steps, and code fixes for each.
+                The full checklist includes 46 signals with point values, audit steps, and code fixes for each.
               </p>
             </div>
 
@@ -1101,7 +1101,7 @@ export default function AIVisibilityChecklistPage() {
                 <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: "16px" }}>
                   {[
                     {
-                      text: "All 14 signals explained (with point values)",
+                      text: "All 46 signals explained (with point values)",
                       detail: "Understand exactly how each signal affects your AI visibility score.",
                     },
                     {
@@ -1389,7 +1389,7 @@ export default function AIVisibilityChecklistPage() {
                 margin: "0 auto 36px",
               }}
             >
-              Run the free ConduitScore scanner to see exactly which of the 14 checklist signals you&apos;re passing
+              Run the free ConduitScore scanner to see exactly which of the 46 checklist signals you&apos;re passing
               and which need work — with copy-paste fixes included.
             </p>
 

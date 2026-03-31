@@ -1,8 +1,8 @@
-# The 14-Point AI Visibility Checklist
+# The 46-Signal AI Visibility Checklist
 ### Every signal ChatGPT, Claude, and Perplexity use to discover your site
 
 **Powered by ConduitScore — https://conduitscore.com**
-*Run a free scan at conduitscore.com/scan to see your current score on all 14 signals.*
+*Run a free scan at conduitscore.com/scan to see your current score on all 46 signals.*
 
 ---
 

@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
             <p style="font-size:13px;font-weight:700;color:#fff;margin:0 0 14px;text-transform:uppercase;letter-spacing:0.1em;">What's inside</p>
             <ul style="margin:0;padding:0;list-style:none;">
               ${[
-                "All 14 signals explained — with point values",
+                "All 46 signals explained — with point values",
                 "How to audit each signal on your site",
                 "Copy-paste code fixes (no custom dev needed)",
                 "Before &amp; after examples (low score vs. high score)",
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
           </div>
 
           <p style="color:#a0a0b0;font-size:14px;line-height:1.6;margin:0 0 20px;">
-            Once you've run through the checklist, scan your site free at ConduitScore — we'll show you exactly which of the 14 signals you're passing and which need work.
+            Once you've run through the checklist, scan your site free at ConduitScore — we'll show you exactly which of the 46 signals you're passing and which need work.
           </p>
 
           <a href="${scanUrl}/scan" style="display:inline-block;background:transparent;color:#FF2D55;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;letter-spacing:0.04em;border:1px solid rgba(255,45,85,0.4);">
@@ -152,12 +152,12 @@ export async function POST(request: NextRequest) {
       `,
       text: `${greeting}
 
-Thanks for downloading the 14-Point AI Visibility Checklist.
+Thanks for downloading the 46-Signal AI Visibility Checklist.
 
 Download it here: ${CHECKLIST_PDF_URL}
 
 What's inside:
-- All 14 signals explained (with point values)
+- All 46 signals explained (with point values)
 - How to audit each signal on your site
 - Copy-paste code fixes (no custom dev needed)
 - Before & after examples

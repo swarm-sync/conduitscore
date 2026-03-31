@@ -22,16 +22,16 @@ export interface BlogPost {
 export const BLOG_POSTS_MAP: Record<string, BlogPost> = {
   "14-point-ai-visibility-checklist": {
     slug: "14-point-ai-visibility-checklist",
-    title: "The 14-Point AI Visibility Checklist: Why Google Rankings Aren't Enough",
+    title: "The 46-Signal AI Visibility Checklist: Why Google Rankings Aren't Enough",
     description:
-      "Google ranking ≠ AI visibility. Learn the 14 signals LLM crawlers look for—schema markup, structured data, robots.txt, and more. Fix your site in 4 hours.",
+      "Google ranking ≠ AI visibility. Learn the 46 signals LLM crawlers look for—schema markup, structured data, robots.txt, llms.txt, and more. Fix your site in 4 hours.",
     content: `Your website ranks #1 on Google. Your organic traffic is solid. But when a prospect asks ChatGPT "what's the best AI visibility tool," your site doesn't appear in the results. That's not an SEO problem – it's an AI visibility problem. And they're completely different.
 
-Google's bots and large language models crawl the web in fundamentally different ways. Google renders JavaScript, learns from user behavior, and uses algorithms refined over 25 years. LLMs like Claude, ChatGPT, and Gemini read raw HTML, parse structured data literally, and have no concept of "bounce rate" or "click-through rate." A site that's invisible to Google would rank poorly. A site that's invisible to LLMs is ignored by AI research tools, even if it's on page 1 of search.
+Google's bots and large language models crawl the web in fundamentally different ways. Google renders JavaScript, learns from user behavior, and uses algorithms refined over 25 years. LLMs like Claude, ChatGPT, and Gemini read raw HTML, parse structured data literally, have no concept of "bounce rate" or "click-through rate," and increasingly look for signals like llms.txt and agent meta tags. A site that's invisible to Google would rank poorly. A site that's invisible to LLMs is ignored by AI research tools, even if it's on page 1 of search.
 
 The stakes are highest for SaaS, agencies, and e-commerce. A prospect using AI-powered research – asking ChatGPT to compare solutions, using Claude to build research documents, leveraging Perplexity for competitive analysis – won't find you if your site fails this checklist. You'll lose deals before you know they're possible.
 
-This checklist maps the 14 signals that LLM crawlers look for. Each point has a specific check, a real-world example of failure, and a code fix you can copy-paste today.
+This checklist maps the 46 signals that LLM crawlers look for. Each point has a specific check, a real-world example of failure, and a code fix you can copy-paste today.
 
 ## 1. Robots.txt Must Explicitly Allow AI Crawlers
 

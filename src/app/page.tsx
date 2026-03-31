@@ -11,14 +11,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://conduitsco
 export const metadata: Metadata = {
   title: "ConduitScore — See Why AI Ignores Your Site",
   description:
-    "ConduitScore scans 14 AI visibility signals across 7 categories — from crawler access and llms.txt to llms-full.txt and agent meta tags — and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
+    "ConduitScore scans 46 AI visibility signals across 7 categories — from crawler access and llms.txt to llms-full.txt and agent meta tags — and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     title: "ConduitScore — See Why AI Ignores Your Site",
     description:
-      "ConduitScore scans 14 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
+      "ConduitScore scans 46 AI visibility signals across 7 categories and shows the highest-impact fixes first. Results in 15 seconds. Free, no signup required.",
     url: SITE_URL,
     type: "website",
   },
@@ -199,7 +199,7 @@ export default function Home() {
                     lineHeight: 1.6,
                   }}
                 >
-                  ConduitScore scans 14 real AI visibility signals across 7 categories — from crawler access and structured data to llms.txt, llms-full.txt, and agent meta tags — then shows you the highest-impact fixes first. Results in about 15 seconds. Free, no signup.
+                  ConduitScore scans 46 real AI visibility signals across 7 categories — from crawler access and structured data to llms.txt, llms-full.txt, and agent meta tags — then shows you the highest-impact fixes first. Results in about 15 seconds. Free, no signup.
                 </p>
 
                 {/* Scan form */}
@@ -323,7 +323,7 @@ export default function Home() {
                 textAlign: "center",
               }}
             >
-              SEO tools show you how you rank in search results. But AI agents like ChatGPT, Claude, and Perplexity see your site completely differently. They have stricter requirements for crawler access, structured data, content clarity, and citation signals. Miss even one of these 14 critical signals, and your site becomes invisible to AI-generated answers — no matter how well it ranks in Google.{" "}
+              SEO tools show you how you rank in search results. But AI agents like ChatGPT, Claude, and Perplexity see your site completely differently. They have stricter requirements for crawler access, structured data, content clarity, and citation signals. Miss even one of these 46 critical signals, and your site becomes invisible to AI-generated answers — no matter how well it ranks in Google.{" "}
               <Link href="/methodology" style={{ color: "var(--brand-cyan)", textDecoration: "underline", textUnderlineOffset: "3px" }}>Learn how we measure AI visibility</Link>.
             </p>
 
@@ -415,7 +415,7 @@ export default function Home() {
                   marginInline: "auto",
                 }}
               >
-                ConduitScore checks all 14 signals across 7 categories that AI agents evaluate before citing your site.
+                ConduitScore checks all 46 signals across 7 categories that AI agents evaluate before citing your site.
               </p>
             </div>
 
@@ -533,7 +533,7 @@ export default function Home() {
                   lineHeight: 1.6,
                 }}
               >
-                <strong>14 signals total</strong> — More than any competing AI visibility tool. Each one determines whether ChatGPT, Claude, and Perplexity can understand, trust, and cite your content.
+                <strong>46 signals total</strong> — More than any competing AI visibility tool. Each one determines whether ChatGPT, Claude, and Perplexity can understand, trust, and cite your content.
               </p>
             </div>
           </div>

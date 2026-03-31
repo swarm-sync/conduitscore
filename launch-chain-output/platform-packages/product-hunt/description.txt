@@ -1,0 +1,1 @@
+Paste any URL and get a 0–100 score showing how visible your site is to ChatGPT, Claude, and Perplexity. 7 analyzers surface the exact issues — with code-level fixes ranked by impact.
