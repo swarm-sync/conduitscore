@@ -134,6 +134,105 @@ function ShareButton({ scanId }: { scanId?: string }) {
   );
 }
 
+function BenchmarkCapture({ scanId, score, url }: { scanId?: string; score: number; url: string }) {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const emailInput = e.currentTarget.querySelector('input[type="email"]') as HTMLInputElement;
+    const email = emailInput?.value;
+    if (!email) return;
+
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/email-capture", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, scanId, score, url }),
+      });
+
+      if (response.ok) {
+        setStatus("sent");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div
+      className="mt-6 rounded-xl p-8"
+      style={{
+        background: "linear-gradient(135deg, rgba(108,59,255,0.08) 0%, rgba(0,217,255,0.04) 100%)",
+        border: "1px solid rgba(108,59,255,0.20)",
+      }}
+    >
+      <div className="max-w-md">
+        <h3
+          className="text-lg font-semibold mb-2"
+          style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+        >
+          See how your score compares
+        </h3>
+        <p className="text-sm mb-4" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+          We&apos;ll send you a free benchmark report showing how your site ranks against others in your industry.
+        </p>
+
+        {status === "sent" ? (
+          <p className="text-sm font-medium" style={{ color: "var(--success-400)" }}>
+            Report sent! Check your inbox.
+          </p>
+        ) : (
+          <form onSubmit={(e) => void handleSubmit(e)} className="flex gap-2">
+            <input
+              type="email"
+              placeholder="your@email.com"
+              required
+              className="flex-1 rounded-lg px-4 py-2.5 text-sm"
+              style={{
+                background: "var(--surface-raised)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-primary)",
+              }}
+            />
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="rounded-lg px-6 py-2.5 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: "rgba(217,255,0,0.20)",
+                border: "1px solid rgba(217,255,0,0.30)",
+                color: "var(--brand-lime)",
+              }}
+              onMouseEnter={(e) => {
+                if (!(e.currentTarget as HTMLButtonElement).disabled) {
+                  e.currentTarget.style.background = "rgba(217,255,0,0.30)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!(e.currentTarget as HTMLButtonElement).disabled) {
+                  e.currentTarget.style.background = "rgba(217,255,0,0.20)";
+                }
+              }}
+            >
+              {status === "sending" ? "Sending..." : status === "error" ? "Try Again" : "Send My Benchmark Report"}
+            </button>
+          </form>
+        )}
+
+        {status === "error" && (
+          <p className="text-sm mt-2" style={{ color: "var(--error-400)" }}>
+            Something went wrong. Try again.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function ScanResultPage() {
   const [result, setResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(true);
@@ -564,98 +663,78 @@ export default function ScanResultPage() {
             </div>
           </div>
 
-          {/* Email capture */}
-          <div
-            className="my-12 rounded-xl p-8"
-            style={{
-              background: "linear-gradient(135deg, rgba(108,59,255,0.08) 0%, rgba(0,217,255,0.04) 100%)",
-              border: "1px solid rgba(108,59,255,0.20)",
-            }}
-          >
-            <div className="max-w-md">
-              <h3
-                className="text-lg font-semibold mb-2"
-                style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
-              >
-                Get your full fix list by email
-              </h3>
-              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-                We&apos;ll send you a detailed breakdown of all fixes, prioritized by impact.
-              </p>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  const emailInput = e.currentTarget.querySelector('input[type="email"]') as HTMLInputElement;
-                  const email = emailInput?.value;
-                  if (!email) return;
-
-                  const button = e.currentTarget.querySelector('button[type="submit"]') as HTMLButtonElement;
-                  const originalText = button.textContent;
-                  button.disabled = true;
-                  button.textContent = "Sending...";
-
-                  try {
-                    const response = await fetch("/api/email-capture", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ email, scanId: currentScanId }),
-                    });
-
-                    if (response.ok) {
-                      emailInput.value = "";
-                      button.textContent = "Sent!";
-                      setTimeout(() => {
-                        button.textContent = originalText;
-                        button.disabled = false;
-                      }, 2000);
-                    } else {
-                      button.textContent = originalText;
-                      button.disabled = false;
-                      alert("Failed to send email. Please try again.");
-                    }
-                  } catch {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                    alert("Error sending email. Please try again.");
-                  }
-                }}
-                className="flex gap-2"
-              >
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  required
-                  className="flex-1 rounded-lg px-4 py-2.5 text-sm"
+          {/* Upgrade CTA — only for gated (free/anonymous) users */}
+          {isGated && (
+            <div
+              className="mt-12 rounded-xl p-8"
+              style={{
+                background: "rgba(10,10,20,0.85)",
+                border: "1px solid rgba(108,59,255,0.35)",
+                boxShadow: "0 0 30px rgba(108,59,255,0.08)",
+              }}
+            >
+              <div className="flex flex-col items-center text-center gap-4 max-w-lg mx-auto">
+                <div
                   style={{
-                    background: "var(--surface-raised)",
-                    border: "1px solid var(--border-subtle)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-                <button
-                  type="submit"
-                  className="rounded-lg px-6 py-2.5 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{
-                    background: "rgba(217,255,0,0.20)",
-                    border: "1px solid rgba(217,255,0,0.30)",
-                    color: "var(--brand-lime)",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!(e.currentTarget as HTMLButtonElement).disabled) {
-                      e.currentTarget.style.background = "rgba(217,255,0,0.30)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!(e.currentTarget as HTMLButtonElement).disabled) {
-                      e.currentTarget.style.background = "rgba(217,255,0,0.20)";
-                    }
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "50%",
+                    background: "rgba(108,59,255,0.12)",
+                    border: "1px solid rgba(108,59,255,0.35)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  Send
-                </button>
-              </form>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                    <rect x="4" y="10" width="14" height="11" rx="2" stroke="rgba(108,59,255,0.9)" strokeWidth="1.5" />
+                    <path d="M7 10V7a4 4 0 0 1 8 0v3" stroke="rgba(108,59,255,0.9)" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <h3
+                  className="text-lg font-bold"
+                  style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}
+                >
+                  Unlock your full fix list
+                </h3>
+                <p className="text-sm" style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                  {result.fixes.length > 0
+                    ? `You have ${result.fixes.length} fix${result.fixes.length === 1 ? "" : "es"} waiting.`
+                    : "Fixes are available for your issues."}{" "}
+                  Upgrade to Starter to get exact code snippets and implementation steps.
+                </p>
+                <a
+                  href="/pricing"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    background: "var(--brand-red)",
+                    color: "#fff",
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 600,
+                    fontSize: "0.875rem",
+                    padding: "12px 28px",
+                    borderRadius: "9999px",
+                    textDecoration: "none",
+                    boxShadow: "0 2px 12px rgba(255,45,85,0.35)",
+                  }}
+                >
+                  Upgrade to Starter &mdash; $29/mo
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Benchmark email capture — always visible */}
+          <BenchmarkCapture
+            scanId={currentScanId}
+            score={result.overallScore}
+            url={result.url}
+          />
 
           {/* Action buttons */}
           <div className="mt-10 flex flex-wrap gap-3">
