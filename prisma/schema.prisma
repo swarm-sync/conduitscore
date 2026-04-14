@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // Vercel serverless uses Amazon Linux 2 / rhel-openssl-3.0.x; local dev uses native.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
