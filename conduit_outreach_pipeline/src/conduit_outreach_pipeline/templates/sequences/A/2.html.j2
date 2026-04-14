@@ -1,0 +1,8 @@
+<p>Hi {{ greeting_name }},</p>
+<p>Your main gap is <strong>{{ top_issue }}</strong>. Quick context: {{ issue_description[:280] }}{% if issue_description|length > 280 %}…{% endif %}</p>
+{% if recommended_fix %}<p>Suggested fix (short): {{ recommended_fix[:200] }}{% if recommended_fix|length > 200 %}…{% endif %}</p>{% endif %}
+{% if code_snippet %}<p>Here’s a tight copy-paste snippet (trimmed for email):</p>
+<pre style="background:#f4f4f5;padding:12px;border-radius:8px;font-size:12px;overflow:auto;">{{ code_snippet }}</pre>{% endif %}
+<p>Apply what you can, then <a href="{{ rescan_link }}">re-scan</a> — many sites jump double digits after the first fix.</p>
+<p>Questions? Just reply.</p>
+{% include "partials/signature_ben.html.j2" %}

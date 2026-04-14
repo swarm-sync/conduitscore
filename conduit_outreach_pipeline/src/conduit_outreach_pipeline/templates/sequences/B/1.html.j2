@@ -1,0 +1,5 @@
+<p>Hi {{ greeting_name }},</p>
+<p>Quick scan on <strong>{{ domain }}</strong> ({{ company_name or domain }}): <strong>{{ ai_visibility_score }}/100</strong> AI visibility — relevant if you’re pitching performance to clients.</p>
+<p>Top issue: <strong>{{ top_issue }}</strong>.</p>
+<p>Re-scan free: <a href="{{ rescan_link }}">link</a></p>
+{% include "partials/signature_ben.html.j2" %}

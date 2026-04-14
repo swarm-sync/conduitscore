@@ -1,0 +1,5 @@
+<p>Hi {{ greeting_name }},</p>
+<p>We scanned <strong>{{ domain }}</strong> — it scored <strong>{{ ai_visibility_score }}/100</strong> on AI visibility (how well tools like ChatGPT / Perplexity can cite you).</p>
+<p>Your top issue right now: <strong>{{ top_issue }}</strong>.</p>
+<p>Free re-check anytime: <a href="{{ rescan_link }}">run a fresh scan</a>.</p>
+{% include "partials/signature_ben.html.j2" %}

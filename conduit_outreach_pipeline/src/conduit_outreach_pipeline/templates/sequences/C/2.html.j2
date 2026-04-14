@@ -1,0 +1,5 @@
+<p>Hi {{ greeting_name }},</p>
+<p>E-com fix focus: <strong>{{ top_issue }}</strong>. {{ issue_description[:220] }}{% if issue_description|length > 220 %}…{% endif %}</p>
+{% if code_snippet %}<pre style="background:#f4f4f5;padding:12px;border-radius:8px;font-size:12px;overflow:auto;">{{ code_snippet }}</pre>{% endif %}
+<p>Re-scan: <a href="{{ rescan_link }}">link</a></p>
+{% include "partials/signature_ben.html.j2" %}

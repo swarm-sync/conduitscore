@@ -7,7 +7,7 @@
 - **Live URL**: https://conduitscore.com
 - **GitHub**: https://github.com/bkauto3/conduitscore (branch: `main`)
 - **Vercel project**: `bens-projects-4026/conduitscore`
-- **Deploy**: `npx vercel --prod` from `phase_5_output/` (Vercel is NOT connected to GitHub — no auto-deploy)
+- **Deploy**: push to `main` on GitHub → Vercel production. Optional: `npx vercel --prod` from repo root.
 
 ---
 
@@ -29,8 +29,10 @@
 
 ## Directory Structure
 
+This repository’s **root is the Next.js app** (matches GitHub `main`). Older desktop copies used a nested `phase_5_output/` folder — that layout is legacy; ignore any duplicate tree sitting next to this repo.
+
 ```
-phase_5_output/               ← project root (always cd here)
+./ ← project root (npm install, npm run dev, prisma)
   src/
     app/
       (dashboard)/            ← authenticated layout
@@ -73,10 +75,15 @@ phase_5_output/               ← project root (always cd here)
       scan/issue-list.tsx
       scan/fix-panel.tsx
     middleware.ts             ← route protection
-  prisma/schema.prisma        ← DB schema
+  prisma/schema.prisma        ← DB schema (repo root)
   vercel.json                 ← cron schedule + function timeouts
   .env                        ← local env vars (never commit secrets)
+
+  conduit_outreach_pipeline/  ← Python: Sheets + Gmail + A/B/C sequences (optional)
+  reverse_funnel_outreach/    ← Python: lighter harvest + scan + CSV (optional)
 ```
+
+On some workstations an old **`phase_5_output/`** copy may still exist beside this tree — do not use it for dev; run commands from **this repo root**.
 
 ---
 
@@ -255,8 +262,8 @@ ScheduledScan {
 ## Common Commands
 
 ```powershell
-# Local dev
-cd "C:\Users\Administrator\Desktop\ConduitScore\phase_5_output"
+# Local dev (repo root — same as GitHub checkout)
+cd "C:\Users\Administrator\Desktop\ConduitScore"
 npm run dev                     # start dev server (http://localhost:3000)
 npm run build                   # production build
 npm run typecheck               # TypeScript check

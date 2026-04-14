@@ -1,0 +1,2 @@
+domain,receiver_email,first_name,company_name,industry_vertical,icp_tag,notes,scrape_source,batch_group,send_priority
+conduitscore.com,,Ben,ConduitScore,SaaS,B2B,example row,manual,week1,1
