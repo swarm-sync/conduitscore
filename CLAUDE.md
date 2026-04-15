@@ -7,7 +7,7 @@
 - **Live URL**: https://conduitscore.com
 - **GitHub**: https://github.com/bkauto3/conduitscore (branch: `main`)
 - **Vercel project**: `bens-projects-4026/conduitscore`
-- **Deploy**: push to `main` on GitHub → Vercel production. Optional: `npx vercel --prod` from repo root.
+- **Deploy**: push to `main` on GitHub → Vercel production. Optional: `npx vercel --prod` from repo root. Use **`bkauto3@gmail.com`** as commit author email in this repo so Vercel accepts the deployment.
 
 ---
 
