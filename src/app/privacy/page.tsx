@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "March 23, 2026";
+const LAST_UPDATED = "April 16, 2026";
 const COMPANY = "ConduitScore, Inc.";
 const EMAIL = "privacy@conduitscore.com";
 
@@ -60,13 +60,39 @@ export default function PrivacyPage() {
                 it, and your rights regarding that data.
               </p>
               <p>
+                <strong>Scope:</strong> This privacy policy covers the ConduitScore Chrome Extension
+                and the conduitscore.com web application.
+              </p>
+              <p>
                 By using the Service, you agree to the practices described in this Privacy Policy. If
                 you do not agree, please discontinue use of the Service.
               </p>
             </LegalSection>
 
             <LegalSection title="2. Information We Collect">
-              <h3>2.1 Information You Provide</h3>
+              <h3>2.0 Chrome Extension — Data Collected</h3>
+              <p>
+                When you use the ConduitScore Chrome Extension, the only data collected is the{" "}
+                <strong>domain name you explicitly provide</strong> — either by typing it into the
+                extension popup or selecting it via the browser context menu. We collect nothing else
+                from the extension. Specifically, the extension does <strong>not</strong> collect:
+              </p>
+              <ul>
+                <li>Your browsing history</li>
+                <li>Page content or text</li>
+                <li>Any personal information</li>
+                <li>Your IP address (beyond standard HTTP transport required to fulfill the request)</li>
+              </ul>
+              <p>
+                The domain name is sent to the ConduitScore public API at{" "}
+                <code style={{ fontSize: "0.85em" }}>
+                  https://conduitscore.com/api/public/domain/[domain]/score
+                </code>{" "}
+                to compute an AI visibility trust score. The result is returned directly to you.
+                The domain is used solely for this computation — not for advertising, profiling, or
+                any other purpose.
+              </p>
+              <h3>2.1 Information You Provide (Web App)</h3>
               <ul>
                 <li><strong>Account data:</strong> Email address when you register or sign in via magic link or Google OAuth.</li>
                 <li><strong>Payment data:</strong> Billing information is processed by Stripe. We do not store full card numbers.</li>
@@ -164,6 +190,13 @@ export default function PrivacyPage() {
                 the Service. Scan results are retained for 12 months on free plans and 24 months on paid
                 plans. You may request deletion at any time by contacting us.
               </p>
+              <p>
+                <strong>Chrome Extension:</strong> Scan results are cached locally in your browser
+                using{" "}
+                <code style={{ fontSize: "0.85em" }}>chrome.storage.local</code> for one hour.
+                After one hour the cache is automatically purged. ConduitScore does not store
+                per-user scan history server-side from extension requests.
+              </p>
             </LegalSection>
 
             <LegalSection title="7. Your Rights">
@@ -176,7 +209,13 @@ export default function PrivacyPage() {
                 <li>Lodge a complaint with your local data protection authority</li>
               </ul>
               <p>
-                To exercise these rights, email us at{" "}
+                <strong>Chrome Extension users:</strong> You can clear all extension data at any
+                time by removing the extension from Chrome (
+                <strong>chrome://extensions</strong> → Remove) or by using Chrome&apos;s built-in{" "}
+                <strong>Settings → Privacy and security → Clear browsing data</strong> controls.
+              </p>
+              <p>
+                To exercise other rights, email us at{" "}
                 <a href={`mailto:${EMAIL}`} style={{ color: "var(--brand-red)" }}>{EMAIL}</a>.
               </p>
             </LegalSection>

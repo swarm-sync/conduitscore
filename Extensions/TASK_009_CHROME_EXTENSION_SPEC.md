@@ -1,0 +1,1855 @@
+# ConduitScore Chrome Extension — Development Specification
+
+**Task:** task-009
+**Prepared for:** Frontend Lead
+**Date:** 2026-03-24
+**Status:** Ready for execution — no clarifying questions required
+**Sprint target:** Feature complete by Monday 2026-03-31, submitted to Chrome Web Store by Monday 2026-04-07
+
+---
+
+## Table of Contents
+
+1. [Architecture Overview](#1-architecture-overview)
+2. [File Structure](#2-file-structure)
+3. [manifest.json — Full Specification](#3-manifestjson--full-specification)
+4. [Service Worker](#4-service-worker)
+5. [Popup UI](#5-popup-ui)
+6. [Context Menu Integration](#6-context-menu-integration)
+7. [Badge Logic](#7-badge-logic)
+8. [Storage Strategy](#8-storage-strategy)
+9. [Error Scenarios](#9-error-scenarios)
+10. [TypeScript Types](#10-typescript-types)
+11. [Build Configuration](#11-build-configuration)
+12. [Chrome Web Store Submission Package](#12-chrome-web-store-submission-package)
+13. [Acceptance Verification Checklist](#13-acceptance-verification-checklist)
+
+---
+
+## 1. Architecture Overview
+
+### 1.1 Component Map
+
+```
+Chrome Extension (Manifest V3)
+│
+├── manifest.json                 ← Extension declaration (permissions, scripts, icons)
+│
+├── background/
+│   └── service-worker.ts         ← Handles API calls, badge updates, context menu,
+│                                    message routing, cache reads/writes
+│
+├── popup/
+│   ├── popup.html                ← Extension popup shell (80px wide, 400px tall)
+│   ├── popup.tsx                 ← React component tree for popup UI
+│   └── popup.css                 ← Scoped styles (no Tailwind CDN — bundled only)
+│
+├── content/
+│   └── content-script.ts         ← Injected into pages to extract active-tab domain
+│                                    (used for auto-populate, NOT for DOM scraping)
+│
+├── icons/
+│   ├── icon-16.png
+│   ├── icon-32.png
+│   ├── icon-48.png
+│   └── icon-128.png
+│
+└── assets/
+    └── conduitscore-logo.svg
+```
+
+### 1.2 Communication Flow
+
+```
+User action
+    │
+    ├─► Popup click / context menu → popup.tsx or service-worker.ts
+    │                                         │
+    │                                         ▼
+    │                              chrome.runtime.sendMessage()
+    │                                         │
+    │                                         ▼
+    │                              service-worker.ts
+    │                              ├─ Check chrome.storage.local (cache)
+    │                              │   └─ Cache hit → return cached result
+    │                              └─ Cache miss → fetch /api/public/domain/[domain]/score
+    │                                              │
+    │                                              ▼
+    │                                   ConduitScore Public API
+    │                                              │
+    │                                              ▼
+    │                              service-worker.ts
+    │                              ├─ Write result to chrome.storage.local
+    │                              ├─ Update extension badge
+    │                              └─ Send response back to popup
+    │
+    └─► Popup renders score, grade, categories
+```
+
+### 1.3 Manifest V3 Constraints
+
+- Service workers replace background pages. They are event-driven and terminate after ~30 seconds of inactivity. Do NOT rely on in-memory state across invocations — all persistent state must be written to `chrome.storage.local` before the worker terminates.
+- Content scripts run in an isolated world. They cannot call the ConduitScore API directly. They send messages to the service worker via `chrome.runtime.sendMessage`.
+- `fetch()` in Manifest V3 service workers does NOT support keep-alive. Each fetch is independent.
+- `chrome.action.setBadgeText` and `chrome.action.setBadgeBackgroundColor` are used (not `chrome.browserAction` — that is Manifest V2).
+
+---
+
+## 2. File Structure
+
+```
+conduitscore-extension/
+├── manifest.json
+├── package.json
+├── tsconfig.json
+├── webpack.config.js          (or vite.config.ts — see Section 11)
+│
+├── src/
+│   ├── background/
+│   │   └── service-worker.ts
+│   │
+│   ├── popup/
+│   │   ├── index.tsx          (React entry point — mounts <App /> into popup.html)
+│   │   ├── App.tsx            (Root component)
+│   │   ├── components/
+│   │   │   ├── DomainInput.tsx
+│   │   │   ├── ScoreDisplay.tsx
+│   │   │   ├── CategoryRow.tsx
+│   │   │   ├── GradeBadge.tsx
+│   │   │   ├── ErrorState.tsx
+│   │   │   └── LoadingState.tsx
+│   │   └── popup.css
+│   │
+│   ├── content/
+│   │   └── content-script.ts
+│   │
+│   └── shared/
+│       ├── types.ts           (Shared TypeScript types)
+│       ├── constants.ts       (API base URL, cache TTL, rate limit constants)
+│       └── utils.ts           (Domain normalization, grade calculation)
+│
+├── public/
+│   ├── popup.html
+│   └── icons/
+│       ├── icon-16.png
+│       ├── icon-32.png
+│       ├── icon-48.png
+│       └── icon-128.png
+│
+└── dist/                      (Generated by build — this is what gets zipped for CWS)
+    ├── manifest.json
+    ├── popup.html
+    ├── popup.js               (Bundled React popup)
+    ├── service-worker.js      (Bundled service worker)
+    ├── content-script.js      (Bundled content script)
+    └── icons/
+        ├── icon-16.png
+        ├── icon-32.png
+        ├── icon-48.png
+        └── icon-128.png
+```
+
+---
+
+## 3. manifest.json — Full Specification
+
+Path: `manifest.json` (at repo root, copied verbatim into `dist/` by build)
+
+```json
+{
+  "manifest_version": 3,
+  "name": "ConduitScore",
+  "short_name": "ConduitScore",
+  "version": "1.0.0",
+  "description": "Instantly check any domain's trust score — SSL, redirects, security headers, performance, and accessibility — directly in your browser.",
+
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ConduitScore — Domain Trust Score",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "https://conduitscore.com/*",
+    "https://staging.conduitscore.com/*",
+    "https://*.conduitscore.com/*"
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.png", "assets/*.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "homepage_url": "https://conduitscore.com",
+
+  "minimum_chrome_version": "109"
+}
+```
+
+### 3.1 Permission Justifications (required for CWS review)
+
+| Permission | Justification |
+|---|---|
+| `activeTab` | Read the domain of the currently active tab when the user clicks the extension icon or triggers a context menu action. Never reads page content. |
+| `storage` | Cache scan results locally (TTL = 1 hour) to avoid redundant API calls and provide instant repeat lookups. |
+| `contextMenus` | Add a "Check ConduitScore" right-click option on links and the current page. |
+| `scripting` | Inject content script to extract the hostname from the active tab on demand. |
+| `host_permissions` | Required to call `fetch()` from the service worker to the ConduitScore public API. Scoped to `conduitscore.com` only — no other domains. |
+
+### 3.2 Minimum Chrome Version
+
+Set to `109` because:
+- Manifest V3 service workers with `"type": "module"` require Chrome 91+.
+- `chrome.action` API (replacing `chrome.browserAction`) requires Chrome 88+.
+- `chrome.scripting.executeScript` with `world: "ISOLATED"` requires Chrome 95+.
+- Setting `109` gives a comfortable margin and covers ~98% of active Chrome users as of early 2026.
+
+---
+
+## 4. Service Worker
+
+Path: `src/background/service-worker.ts`
+
+### 4.1 Responsibilities
+
+1. Listen for `chrome.runtime.onInstalled` → register context menus, initialize storage schema.
+2. Listen for `chrome.contextMenus.onClicked` → extract domain from URL, dispatch scan.
+3. Listen for `chrome.runtime.onMessage` → handle `SCAN_DOMAIN` messages from popup and content script.
+4. Call the ConduitScore API with proper caching and error handling.
+5. Write results to `chrome.storage.local`.
+6. Update the action badge for the active tab.
+7. Listen for `chrome.tabs.onActivated` and `chrome.tabs.onUpdated` → restore cached badge for the tab's domain.
+
+### 4.2 Full Implementation
+
+```typescript
+// src/background/service-worker.ts
+
+import type {
+  ScanRequest,
+  ScanResponse,
+  ScanResult,
+  CacheEntry,
+  BadgeState,
+  MessageResponse,
+} from '../shared/types';
+import {
+  CONDUITSCORE_API_BASE,
+  CACHE_TTL_MS,
+  CACHE_KEY_PREFIX,
+  BADGE_KEY_PREFIX,
+} from '../shared/constants';
+import { normalizeDomain, gradeFromScore } from '../shared/utils';
+
+// ─── Lifecycle: onInstalled ───────────────────────────────────────────────────
+
+chrome.runtime.onInstalled.addListener(async () => {
+  // Register context menus
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: 'conduitscore-check-link',
+      title: 'Check ConduitScore for this link',
+      contexts: ['link'],
+    });
+    chrome.contextMenus.create({
+      id: 'conduitscore-check-page',
+      title: 'Check ConduitScore for this page',
+      contexts: ['page', 'frame'],
+    });
+  });
+
+  // Initialize storage schema version
+  await chrome.storage.local.set({ __schema_version: 1 });
+});
+
+// ─── Context Menu Handler ────────────────────────────────────────────────────
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  let rawDomain: string | null = null;
+
+  if (info.menuItemId === 'conduitscore-check-link' && info.linkUrl) {
+    try {
+      rawDomain = new URL(info.linkUrl).hostname;
+    } catch {
+      // Malformed URL in linkUrl — do nothing
+      return;
+    }
+  } else if (info.menuItemId === 'conduitscore-check-page' && tab?.url) {
+    try {
+      rawDomain = new URL(tab.url).hostname;
+    } catch {
+      return;
+    }
+  }
+
+  if (!rawDomain) return;
+
+  const domain = normalizeDomain(rawDomain);
+  if (!domain) return;
+
+  // Open popup is not possible from context menu in MV3 without user gesture.
+  // Instead: perform the scan and update the badge. The user can click the
+  // extension icon to see full results in the popup.
+  const result = await performScan(domain);
+  if (tab?.id != null) {
+    await updateBadgeForTab(tab.id, domain, result);
+  }
+});
+
+// ─── Message Handler ─────────────────────────────────────────────────────────
+
+chrome.runtime.onMessage.addListener(
+  (
+    message: ScanRequest,
+    _sender: chrome.runtime.MessageSender,
+    sendResponse: (response: MessageResponse) => void
+  ) => {
+    if (message.type === 'SCAN_DOMAIN') {
+      handleScanRequest(message.domain, message.tabId)
+        .then(sendResponse)
+        .catch((err) => {
+          sendResponse({
+            success: false,
+            error: 'server_error',
+            message: 'Unexpected error in service worker.',
+          });
+        });
+      // Return true to keep the message channel open for async response
+      return true;
+    }
+    if (message.type === 'GET_ACTIVE_TAB_DOMAIN') {
+      getActiveTabDomain().then(sendResponse).catch(() => {
+        sendResponse({ success: false, domain: null });
+      });
+      return true;
+    }
+  }
+);
+
+// ─── Tab Event Listeners (badge restoration) ─────────────────────────────────
+
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  await restoreBadgeForTab(activeInfo.tabId);
+});
+
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+  if (changeInfo.status === 'complete') {
+    await restoreBadgeForTab(tabId);
+  }
+});
+
+// ─── Core: Scan Handler ───────────────────────────────────────────────────────
+
+async function handleScanRequest(
+  rawDomain: string,
+  tabId?: number
+): Promise<MessageResponse> {
+  const domain = normalizeDomain(rawDomain);
+
+  if (!domain) {
+    return {
+      success: false,
+      error: 'invalid_domain',
+      message:
+        'The domain format is not valid. Enter a hostname like example.com without http:// or a path.',
+    };
+  }
+
+  const result = await performScan(domain);
+
+  if (tabId != null) {
+    await updateBadgeForTab(tabId, domain, result);
+  }
+
+  if (result.error) {
+    return {
+      success: false,
+      error: result.error,
+      message: result.message ?? 'An error occurred.',
+      domain,
+    };
+  }
+
+  return {
+    success: true,
+    data: result.data!,
+    domain,
+    cache_hit: result.cache_hit,
+  };
+}
+
+// ─── Core: Perform Scan (cache-first) ────────────────────────────────────────
+
+async function performScan(domain: string): Promise<ScanResult> {
+  // 1. Check local cache
+  const cached = await readCache(domain);
+  if (cached) {
+    return { data: cached.data, cache_hit: true, error: null };
+  }
+
+  // 2. Fetch from API
+  const url = `${CONDUITSCORE_API_BASE}/api/public/domain/${encodeURIComponent(domain)}/score`;
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'X-Extension-Version': chrome.runtime.getManifest().version,
+      },
+      // No credentials — this is a public unauthenticated endpoint
+    });
+  } catch (networkError) {
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'network_error',
+      message:
+        'Could not reach ConduitScore. Check your internet connection and try again.',
+    };
+  }
+
+  // 3. Parse rate limit headers regardless of status code
+  const rateLimitRemaining = parseInt(
+    response.headers.get('X-RateLimit-Remaining-IP') ?? '30',
+    10
+  );
+  const rateLimitResetEpoch = parseInt(
+    response.headers.get('X-RateLimit-Reset-IP') ?? '0',
+    10
+  );
+
+  // 4. Handle non-200 statuses
+  if (response.status === 429) {
+    const retryAfterSeconds =
+      rateLimitResetEpoch > 0
+        ? rateLimitResetEpoch - Math.floor(Date.now() / 1000)
+        : 60;
+    await writeRateLimitState(domain, retryAfterSeconds);
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'rate_limited',
+      message: `Too many requests. Try again in ${Math.max(retryAfterSeconds, 1)} seconds.`,
+      retry_after_seconds: Math.max(retryAfterSeconds, 1),
+    };
+  }
+
+  if (response.status === 404) {
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'domain_not_found',
+      message: `No scan results found for ${domain}. This domain may not have been scanned yet.`,
+    };
+  }
+
+  if (response.status === 400) {
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'invalid_domain',
+      message: `The domain ${domain} is not recognized as a valid hostname.`,
+    };
+  }
+
+  if (!response.ok) {
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'server_error',
+      message: `ConduitScore server returned an unexpected error (HTTP ${response.status}). Try again shortly.`,
+    };
+  }
+
+  // 5. Parse success response
+  let json: ScoreApiResponse;
+  try {
+    json = await response.json();
+  } catch {
+    return {
+      data: null,
+      cache_hit: false,
+      error: 'server_error',
+      message: 'Received an unreadable response from ConduitScore.',
+    };
+  }
+
+  // 6. Write to cache
+  await writeCache(domain, json);
+
+  return { data: json, cache_hit: false, error: null };
+}
+
+// ─── Cache: Read ─────────────────────────────────────────────────────────────
+
+async function readCache(domain: string): Promise<CacheEntry | null> {
+  const key = `${CACHE_KEY_PREFIX}${domain}`;
+  const result = await chrome.storage.local.get(key);
+  const entry: CacheEntry | undefined = result[key];
+
+  if (!entry) return null;
+
+  const now = Date.now();
+  if (entry.expires_at < now) {
+    // Expired — delete and return null (treat as cache miss)
+    await chrome.storage.local.remove(key);
+    return null;
+  }
+
+  return entry;
+}
+
+// ─── Cache: Write ─────────────────────────────────────────────────────────────
+
+async function writeCache(domain: string, data: ScoreApiResponse): Promise<void> {
+  const key = `${CACHE_KEY_PREFIX}${domain}`;
+  const entry: CacheEntry = {
+    domain,
+    data,
+    cached_at: Date.now(),
+    expires_at: Date.now() + CACHE_TTL_MS,
+  };
+  await chrome.storage.local.set({ [key]: entry });
+}
+
+// ─── Rate Limit State ─────────────────────────────────────────────────────────
+
+async function writeRateLimitState(
+  domain: string,
+  retryAfterSeconds: number
+): Promise<void> {
+  const key = `rl_state_${domain}`;
+  await chrome.storage.local.set({
+    [key]: {
+      blocked_until: Date.now() + retryAfterSeconds * 1000,
+    },
+  });
+}
+
+// ─── Badge ────────────────────────────────────────────────────────────────────
+
+async function updateBadgeForTab(
+  tabId: number,
+  domain: string,
+  result: ScanResult
+): Promise<void> {
+  let text = '?';
+  let color = '#9CA3AF'; // gray — unknown / error
+
+  if (result.data) {
+    const score = result.data.score;
+    text = String(score);
+    color = badgeColorForScore(score);
+  } else if (result.error === 'rate_limited') {
+    text = '429';
+    color = '#F59E0B'; // amber
+  } else if (result.error === 'domain_not_found') {
+    text = '—';
+    color = '#6B7280'; // medium gray
+  }
+
+  await chrome.action.setBadgeText({ text, tabId });
+  await chrome.action.setBadgeBackgroundColor({ color, tabId });
+
+  // Persist badge state so it can be restored when the user re-activates this tab
+  const badgeKey = `${BADGE_KEY_PREFIX}${tabId}`;
+  const badgeState: BadgeState = { domain, text, color, updated_at: Date.now() };
+  await chrome.storage.local.set({ [badgeKey]: badgeState });
+}
+
+async function restoreBadgeForTab(tabId: number): Promise<void> {
+  const badgeKey = `${BADGE_KEY_PREFIX}${tabId}`;
+  const result = await chrome.storage.local.get(badgeKey);
+  const state: BadgeState | undefined = result[badgeKey];
+
+  if (!state) {
+    // No cached badge for this tab — show default (empty badge)
+    await chrome.action.setBadgeText({ text: '', tabId });
+    return;
+  }
+
+  await chrome.action.setBadgeText({ text: state.text, tabId });
+  await chrome.action.setBadgeBackgroundColor({ color: state.color, tabId });
+}
+
+function badgeColorForScore(score: number): string {
+  if (score >= 90) return '#22C55E'; // green — A
+  if (score >= 75) return '#84CC16'; // lime — B
+  if (score >= 60) return '#EAB308'; // yellow — C
+  if (score >= 45) return '#F97316'; // orange — D
+  return '#EF4444';                  // red — F
+}
+
+// ─── Active Tab Domain ────────────────────────────────────────────────────────
+
+async function getActiveTabDomain(): Promise<{ success: boolean; domain: string | null }> {
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  const tab = tabs[0];
+  if (!tab?.url) return { success: true, domain: null };
+
+  try {
+    const raw = new URL(tab.url).hostname;
+    const domain = normalizeDomain(raw);
+    return { success: true, domain: domain ?? null };
+  } catch {
+    return { success: true, domain: null };
+  }
+}
+
+// ─── Type alias used only internally in service-worker.ts ────────────────────
+// (Full type is in shared/types.ts)
+interface ScoreApiResponse {
+  domain: string;
+  score: number;
+  grade: string;
+  scanned_at: string;
+  scan_id: string;
+  categories: Record<string, CategoryScore>;
+  badge_url: string;
+  og_image_url: string;
+  cache_hit: boolean;
+  cache_expires_at: string | null;
+}
+
+interface CategoryScore {
+  score: number;
+  label: string;
+  passed: boolean;
+  findings: string[];
+}
+```
+
+---
+
+## 5. Popup UI
+
+### 5.1 Dimensions and Layout
+
+The popup must render within Chrome's popup constraints:
+- Width: 380px (fixed — set on `<body>` and root container)
+- Height: auto (Chrome constrains to ~600px max — design for 420–500px typical case)
+- Font: System UI stack: `-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+
+### 5.2 Visual Design
+
+#### Color Palette
+
+```
+Background (popup body):  #FFFFFF
+Surface (card):           #F8FAFC
+Border:                   #E2E8F0
+Text primary:             #0F172A
+Text secondary:           #64748B
+Text muted:               #94A3B8
+
+Grade A (90–100):         #22C55E (green)
+Grade B (75–89):          #84CC16 (lime)
+Grade C (60–74):          #EAB308 (yellow)
+Grade D (45–59):          #F97316 (orange)
+Grade F (0–44):           #EF4444 (red)
+
+Brand accent:             #6366F1 (indigo)
+Button primary bg:        #6366F1
+Button primary hover:     #4F46E5
+Button disabled bg:       #E2E8F0
+Button disabled text:     #94A3B8
+
+Error background:         #FEF2F2
+Error border:             #FECACA
+Error text:               #DC2626
+
+Warning background:       #FFFBEB
+Warning border:           #FDE68A
+Warning text:             #92400E
+```
+
+#### Typography
+
+```
+Heading (score number):    font-size: 48px; font-weight: 700; line-height: 1
+Grade letter:              font-size: 28px; font-weight: 700
+Domain label:              font-size: 14px; font-weight: 500; color: #64748B
+Section label:             font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #94A3B8
+Category label:            font-size: 13px; font-weight: 500; color: #0F172A
+Category score:            font-size: 13px; font-weight: 600
+Finding text:              font-size: 12px; color: #64748B
+Button text:               font-size: 14px; font-weight: 600
+Input text:                font-size: 14px
+```
+
+### 5.3 States and Wireframes
+
+The popup renders in four states: Default (no scan), Loading, Results, and Error.
+
+#### State 1: Default (no scan yet)
+
+```
+┌────────────────────────────────────────┐
+│  [C]  ConduitScore             [?] ←help│
+├────────────────────────────────────────┤
+│                                        │
+│  Domain                                │
+│  ┌──────────────────────────────────┐  │
+│  │  example.com                    │  │
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │          Scan Domain             │  │  ← Primary CTA button (full width)
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ────────────────────────────────────  │
+│  Enter a domain above to check its     │
+│  trust score.                          │
+│                                        │
+└────────────────────────────────────────┘
+```
+
+- The domain input is pre-populated with the active tab's hostname (if available) via a `GET_ACTIVE_TAB_DOMAIN` message to the service worker. If the active tab is a `chrome://` or `about:` page, the field is empty and the placeholder text shows "example.com".
+- The input label reads "Domain" in the section label style.
+- The Scan button is full-width, indigo, rounded-md.
+- The "?" icon in the header links to `https://conduitscore.com/docs/extension`.
+
+#### State 2: Loading
+
+```
+┌────────────────────────────────────────┐
+│  [C]  ConduitScore             [?]     │
+├────────────────────────────────────────┤
+│                                        │
+│  Domain                                │
+│  ┌──────────────────────────────────┐  │
+│  │  example.com              [×]   │  │  ← × clears and cancels
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │   ⟳  Scanning...                │  │  ← Button disabled, spinner icon
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │  │  ← Skeleton loader rows (3)
+│  │  ░░░░░░░░░░░░░░░░░░░░░          │  │
+│  │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░    │  │
+│  └──────────────────────────────────┘  │
+│                                        │
+└────────────────────────────────────────┘
+```
+
+- Skeleton loader uses CSS animation `background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%)` shimmer.
+- The spinner is a 16px CSS-only rotating ring (no external icon library dependency).
+- The × button sends an `AbortController` signal to cancel the pending fetch in the service worker. Implementation: popup sends `CANCEL_SCAN` message; service worker calls `controller.abort()`.
+
+#### State 3: Results
+
+```
+┌────────────────────────────────────────┐
+│  [C]  ConduitScore             [?]     │
+├────────────────────────────────────────┤
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │  example.com                     │  │  ← Scanned domain (not an input)
+│  │                                  │  │
+│  │      84           B              │  │  ← Score (48px) + Grade (28px)
+│  │                                  │  │
+│  │  Scanned Mar 24, 2026 at 2:30 PM │  │  ← scanned_at formatted
+│  │                          [cache] │  │  ← small "cached" pill if cache_hit=true
+│  └──────────────────────────────────┘  │
+│                                        │
+│  CATEGORIES                            │  ← Section label
+│  ┌──────────────────────────────────┐  │
+│  │  SSL Certificate          100 ✓  │  │
+│  │  Redirect Chain            80 ✓  │  │
+│  │  Security Headers          75 ✓  │  │
+│  │  Performance               82 ✓  │  │
+│  │  Accessibility             68 ✗  │  │  ← ✗ red when passed=false
+│  └──────────────────────────────────┘  │
+│                                        │
+│  [↻ Refresh]  [Open in ConduitScore ↗]│  ← Two equal-width buttons
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │ Scan different domain            │  │  ← Collapsed — click to expand input
+│  └──────────────────────────────────┘  │
+└────────────────────────────────────────┘
+```
+
+- Each category row is clickable/expandable to reveal `findings` inline (accordion pattern — no new page). Chevron icon rotates 180deg on open.
+- The score number and grade letter are colored using the grade color palette.
+- "Refresh" button forces a cache bypass — adds `?nocache=1` query param or sends a `SCAN_DOMAIN` message with `force_refresh: true` flag to service worker.
+- "Open in ConduitScore" opens `https://conduitscore.com/domain/{domain}` in a new tab via `chrome.tabs.create`.
+- "cached" pill is only shown when `cache_hit === true`. Style: `font-size: 11px; background: #F0FDF4; color: #16A34A; border: 1px solid #BBF7D0; border-radius: 4px; padding: 1px 6px`.
+- The "Scan different domain" row at the bottom is a disclosure: clicking it reveals the domain input and Scan button in an animated slide-down.
+
+#### State 4: Error
+
+```
+┌────────────────────────────────────────┐
+│  [C]  ConduitScore             [?]     │
+├────────────────────────────────────────┤
+│                                        │
+│  Domain                                │
+│  ┌──────────────────────────────────┐  │
+│  │  notadomain                     │  │
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │          Scan Domain             │  │
+│  └──────────────────────────────────┘  │
+│                                        │
+│  ┌──────────────────────────────────┐  │
+│  │ ⚠  {Error message}              │  │  ← Error card (see 9. Error Scenarios)
+│  │    {Contextual hint}             │  │
+│  └──────────────────────────────────┘  │
+│                                        │
+└────────────────────────────────────────┘
+```
+
+### 5.4 popup.html
+
+Path: `public/popup.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ConduitScore</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
+```
+
+No external CDN links. No inline `<script>` tags (CSP violation in extensions).
+
+### 5.5 App.tsx Structure
+
+```typescript
+// src/popup/App.tsx
+
+import { useState, useEffect, useCallback } from 'react';
+import type { PopupState, ScoreData } from '../shared/types';
+import DomainInput from './components/DomainInput';
+import ScoreDisplay from './components/ScoreDisplay';
+import CategoryRow from './components/CategoryRow';
+import GradeBadge from './components/GradeBadge';
+import ErrorState from './components/ErrorState';
+import LoadingState from './components/LoadingState';
+
+type ViewState = 'idle' | 'loading' | 'results' | 'error';
+
+export default function App() {
+  const [domain, setDomain] = useState('');
+  const [viewState, setViewState] = useState<ViewState>('idle');
+  const [scoreData, setScoreData] = useState<ScoreData | null>(null);
+  const [error, setError] = useState<{ code: string; message: string } | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [showScanInput, setShowScanInput] = useState(false);
+
+  // Auto-populate domain from active tab on mount
+  useEffect(() => {
+    chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TAB_DOMAIN' }, (response) => {
+      if (response?.success && response.domain) {
+        setDomain(response.domain);
+      }
+    });
+  }, []);
+
+  const handleScan = useCallback(
+    async (domainToScan: string, forceRefresh = false) => {
+      setViewState('loading');
+      setError(null);
+
+      chrome.runtime.sendMessage(
+        {
+          type: 'SCAN_DOMAIN',
+          domain: domainToScan,
+          force_refresh: forceRefresh,
+        },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            setViewState('error');
+            setError({
+              code: 'extension_error',
+              message: 'Extension communication error. Reload the extension.',
+            });
+            return;
+          }
+          if (response.success) {
+            setScoreData(response.data);
+            setViewState('results');
+            setShowScanInput(false);
+          } else {
+            setError({ code: response.error, message: response.message });
+            setViewState('error');
+          }
+        }
+      );
+    },
+    []
+  );
+
+  const handleRefresh = useCallback(() => {
+    if (scoreData?.domain) {
+      handleScan(scoreData.domain, true);
+    }
+  }, [scoreData, handleScan]);
+
+  const handleOpenInApp = useCallback(() => {
+    if (scoreData?.domain) {
+      chrome.tabs.create({
+        url: `https://conduitscore.com/domain/${encodeURIComponent(scoreData.domain)}`,
+      });
+    }
+  }, [scoreData]);
+
+  // Render logic
+  return (
+    <div className="popup-root">
+      <header className="popup-header">
+        <div className="popup-logo">
+          <img src="icons/icon-32.png" alt="" width={20} height={20} />
+          <span>ConduitScore</span>
+        </div>
+        <a
+          href="https://conduitscore.com/docs/extension"
+          target="_blank"
+          rel="noreferrer"
+          className="help-link"
+          aria-label="Help"
+        >
+          ?
+        </a>
+      </header>
+
+      {(viewState === 'idle' || viewState === 'error') && (
+        <DomainInput
+          value={domain}
+          onChange={setDomain}
+          onScan={() => handleScan(domain)}
+          loading={false}
+        />
+      )}
+
+      {viewState === 'loading' && (
+        <LoadingState domain={domain} />
+      )}
+
+      {viewState === 'results' && scoreData && (
+        <>
+          <ScoreDisplay data={scoreData} />
+          <section className="categories-section">
+            <p className="section-label">Categories</p>
+            {Object.entries(scoreData.categories).map(([key, cat]) => (
+              <CategoryRow
+                key={key}
+                categoryKey={key}
+                category={cat}
+                expanded={expandedCategory === key}
+                onToggle={() =>
+                  setExpandedCategory(expandedCategory === key ? null : key)
+                }
+              />
+            ))}
+          </section>
+          <div className="action-row">
+            <button className="btn-secondary" onClick={handleRefresh}>
+              Refresh
+            </button>
+            <button className="btn-primary" onClick={handleOpenInApp}>
+              Open in ConduitScore
+            </button>
+          </div>
+          <button
+            className="scan-different-toggle"
+            onClick={() => setShowScanInput(!showScanInput)}
+          >
+            Scan different domain {showScanInput ? '▲' : '▼'}
+          </button>
+          {showScanInput && (
+            <DomainInput
+              value={domain}
+              onChange={setDomain}
+              onScan={() => handleScan(domain)}
+              loading={false}
+            />
+          )}
+        </>
+      )}
+
+      {viewState === 'error' && error && (
+        <ErrorState code={error.code} message={error.message} />
+      )}
+    </div>
+  );
+}
+```
+
+### 5.6 Accessibility Requirements
+
+All popup UI must meet WCAG 2.1 AA:
+
+- All interactive elements have visible focus rings (2px `#6366F1` outline, 2px offset).
+- Color is never the sole indicator — grade icons use both color AND a letter.
+- Category pass/fail uses both ✓/✗ symbol AND color.
+- Input label is a real `<label>` element with `htmlFor` bound to the input `id`.
+- Error messages are associated via `aria-describedby` to the relevant input.
+- Loading state announces to screen readers via `role="status"` live region.
+- Minimum touch target size: 32x32px for all interactive elements.
+- The popup header "?" link has `aria-label="Extension help"`.
+
+---
+
+## 6. Context Menu Integration
+
+### 6.1 Registration
+
+Registered in `service-worker.ts` `onInstalled` handler (see Section 4.2). Two entries:
+
+| Menu ID | Context | Title | Trigger |
+|---|---|---|---|
+| `conduitscore-check-link` | `link` | "Check ConduitScore for this link" | Right-click any `<a>` tag |
+| `conduitscore-check-page` | `page`, `frame` | "Check ConduitScore for this page" | Right-click anywhere on the page body |
+
+### 6.2 Domain Extraction Logic
+
+When `conduitscore-check-link` is clicked, extract domain from `info.linkUrl`:
+
+```
+1. Parse info.linkUrl with new URL()
+2. Take .hostname
+3. normalizeDomain() → strip www., lowercase
+4. If domain is invalid or empty → abort silently
+5. Dispatch performScan(domain)
+```
+
+When `conduitscore-check-page` is clicked, extract domain from `tab.url`:
+
+```
+1. Parse tab.url with new URL()
+2. Take .hostname
+3. normalizeDomain()
+4. Dispatch performScan(domain)
+```
+
+### 6.3 Result Delivery
+
+Context menu actions cannot open the popup programmatically in MV3 (no `chrome.action.openPopup()` without user activation). The pattern is:
+
+1. Service worker performs the scan silently in the background.
+2. Badge is updated with the result (score or error code — see Section 7).
+3. When the user next clicks the extension icon, the popup opens and reads the cached result from `chrome.storage.local`.
+4. The popup checks for a `pending_context_scan` key in storage on mount — if present, it loads those results into the results view directly.
+
+```typescript
+// In service-worker.ts context menu handler, after scan completes:
+if (result.data) {
+  await chrome.storage.local.set({
+    pending_context_scan: {
+      domain,
+      data: result.data,
+      triggered_at: Date.now(),
+    },
+  });
+}
+
+// In App.tsx useEffect on mount (after auto-populate):
+chrome.storage.local.get('pending_context_scan', (result) => {
+  const pending = result.pending_context_scan;
+  if (pending && Date.now() - pending.triggered_at < 30_000) {
+    // Only use if scan happened within last 30 seconds
+    setScoreData(pending.data);
+    setDomain(pending.domain);
+    setViewState('results');
+    chrome.storage.local.remove('pending_context_scan');
+  }
+});
+```
+
+---
+
+## 7. Badge Logic
+
+### 7.1 Badge States
+
+| Condition | Badge text | Badge color |
+|---|---|---|
+| Not yet scanned (default) | `""` (empty — no badge) | N/A |
+| Scanning in progress | `...` | `#9CA3AF` (gray) |
+| Score 90–100 (Grade A) | Score number (e.g. `94`) | `#22C55E` (green) |
+| Score 75–89 (Grade B) | Score number (e.g. `82`) | `#84CC16` (lime) |
+| Score 60–74 (Grade C) | Score number (e.g. `67`) | `#EAB308` (yellow) |
+| Score 45–59 (Grade D) | Score number (e.g. `51`) | `#F97316` (orange) |
+| Score 0–44 (Grade F) | Score number (e.g. `31`) | `#EF4444` (red) |
+| Rate limited (429) | `429` | `#F59E0B` (amber) |
+| Domain not found (404) | `—` | `#6B7280` (gray) |
+| Network error | `!` | `#EF4444` (red) |
+| Server error | `ERR` | `#EF4444` (red) |
+
+### 7.2 Badge Text Constraints
+
+Chrome badge text is capped at approximately 4 characters visibly. Two-digit scores (10–99) display cleanly. Three-digit score `100` and values like `429` display but may be slightly cramped — this is acceptable.
+
+### 7.3 Tab-Scoped Badge
+
+Badges in MV3 are scoped per-tab via the `tabId` parameter on `chrome.action.setBadgeText`. The service worker:
+
+1. Sets badge on the `tabId` provided with each message.
+2. Persists the badge state to `chrome.storage.local` keyed by `badge_state_{tabId}`.
+3. On `chrome.tabs.onActivated` and `chrome.tabs.onUpdated` (status: `complete`), reads the persisted badge state for the tab and re-applies it.
+
+### 7.4 Badge Text Contrast
+
+Chrome renders badge text in white by default. Ensure all badge background colors meet WCAG AA 4.5:1 contrast ratio against white text:
+
+| Color | Hex | Contrast vs white |
+|---|---|---|
+| Green (A) | `#22C55E` | 2.9:1 — use text color `#000000` for Grade A badges |
+| Lime (B) | `#84CC16` | 2.6:1 — use text color `#000000` |
+| Yellow (C) | `#EAB308` | 3.0:1 — use text color `#000000` |
+| Orange (D) | `#F97316` | 3.3:1 — acceptable with white |
+| Red (F) | `#EF4444` | 3.9:1 — acceptable with white |
+
+Chrome does not support per-badge text color. The background colors listed are the best available approximation. Consider using slightly darker shades for Grade A/B/C if the review team flags contrast:
+
+- Grade A: `#16A34A` (contrast 4.7:1 vs white)
+- Grade B: `#65A30D` (contrast 4.6:1 vs white)
+- Grade C: `#CA8A04` (contrast 4.8:1 vs white)
+
+---
+
+## 8. Storage Strategy
+
+### 8.1 Storage Namespace
+
+All keys written by the extension into `chrome.storage.local` use consistent prefixes to avoid collision:
+
+| Prefix | Purpose | Example key |
+|---|---|---|
+| `cs_cache_` | Scan result cache entries | `cs_cache_example.com` |
+| `cs_badge_` | Per-tab badge state | `cs_badge_1234` |
+| `cs_rl_` | Rate limit state per domain | `cs_rl_example.com` |
+| `cs_` (no sub-prefix) | Misc / schema | `cs_schema_version` |
+| `pending_context_scan` | Cross-component handoff | `pending_context_scan` |
+
+### 8.2 Cache Entry Schema
+
+```typescript
+interface CacheEntry {
+  domain: string;           // Normalized domain
+  data: ScoreApiResponse;   // Full API response object
+  cached_at: number;        // Date.now() at write time (ms epoch)
+  expires_at: number;       // cached_at + CACHE_TTL_MS
+}
+```
+
+### 8.3 Cache TTL
+
+```typescript
+// src/shared/constants.ts
+export const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour (3,600,000 ms)
+```
+
+Rationale: The ConduitScore API sets `cache_expires_at` approximately 1 hour after scan time (matching the server-side cache window). The extension cache mirrors this window to avoid serving stale data past the server's expiry.
+
+The extension cache does NOT use the API's `cache_expires_at` value directly because:
+1. The API cache and extension cache started at different times (API may have been cached before the extension request).
+2. Using a fixed local TTL from write time is simpler and safe.
+
+### 8.4 Cache Invalidation
+
+Three scenarios invalidate a cache entry:
+
+| Scenario | Action |
+|---|---|
+| TTL expired (checked on read) | `chrome.storage.local.remove(key)` on cache read |
+| User clicks "Refresh" button | Service worker receives `force_refresh: true` — skips cache read, always calls API, overwrites cache on success |
+| `chrome.storage.local` storage quota exceeded | Chrome auto-evicts LRU entries. Extension must handle `chrome.runtime.lastError` on `storage.set`. |
+
+### 8.5 Storage Quota Management
+
+`chrome.storage.local` default quota is 10MB. Each cache entry is approximately 2–4KB of JSON. Quota is unlikely to be reached in normal use, but the service worker must:
+
+1. Catch errors on `chrome.storage.local.set`.
+2. On quota error, attempt to evict the 5 oldest entries (sorted by `cached_at`) and retry once.
+3. If retry fails, skip caching and return the fresh API result without caching.
+
+```typescript
+async function safeStorageSet(key: string, value: unknown): Promise<void> {
+  try {
+    await chrome.storage.local.set({ [key]: value });
+  } catch (err) {
+    if (String(err).includes('QUOTA_BYTES_PER_ITEM') || String(err).includes('QuotaExceeded')) {
+      await evictOldestCacheEntries(5);
+      try {
+        await chrome.storage.local.set({ [key]: value });
+      } catch {
+        // Silently fail — fresh result was already returned to popup
+      }
+    }
+  }
+}
+
+async function evictOldestCacheEntries(count: number): Promise<void> {
+  const all = await chrome.storage.local.get(null);
+  const cacheEntries = Object.entries(all)
+    .filter(([k]) => k.startsWith(CACHE_KEY_PREFIX))
+    .map(([k, v]) => ({ key: k, cached_at: (v as CacheEntry).cached_at }))
+    .sort((a, b) => a.cached_at - b.cached_at)
+    .slice(0, count)
+    .map((e) => e.key);
+  if (cacheEntries.length > 0) {
+    await chrome.storage.local.remove(cacheEntries);
+  }
+}
+```
+
+### 8.6 Badge State Entry Schema
+
+```typescript
+interface BadgeState {
+  domain: string;    // Domain that triggered the badge
+  text: string;      // Badge text shown
+  color: string;     // Hex color
+  updated_at: number; // Date.now() at last update (ms epoch)
+}
+```
+
+Badge state entries are keyed by `tabId` (integer). They are not given a TTL — they are overwritten on new scans and orphaned entries for closed tabs are benign (Chrome tabs recycle IDs over time). Do not persist badge state beyond 24 hours: on read, if `updated_at` is older than 24 hours, discard and show empty badge.
+
+---
+
+## 9. Error Scenarios
+
+### 9.1 Error Handling Matrix
+
+| Scenario | HTTP Status | Error Code | User-Facing Message | Recovery Hint | Badge |
+|---|---|---|---|---|---|
+| Invalid domain format | 400 or pre-request | `invalid_domain` | "Enter a valid domain like example.com" | Show input with validation feedback | `!` (red) |
+| Domain not found | 404 | `domain_not_found` | "No scan data found for {domain}. This domain hasn't been scanned yet." | Link to scan via ConduitScore website | `—` (gray) |
+| Rate limited (IP) | 429 | `rate_limited` | "Too many requests. Try again in {N} seconds." | Show countdown timer | `429` (amber) |
+| Rate limited (domain) | 429 | `rate_limited` | "This domain has been queried too frequently. Try again in {N} seconds." | Same countdown | `429` (amber) |
+| Network error | N/A | `network_error` | "Could not connect. Check your internet connection." | Retry button | `!` (red) |
+| Server error (5xx) | 500–599 | `server_error` | "ConduitScore is temporarily unavailable. Try again in a moment." | Retry button | `ERR` (red) |
+| Extension messaging error | N/A | `extension_error` | "Extension communication error. Try reloading the extension." | Link to reload | `!` (red) |
+| Storage quota exceeded | N/A | (silent) | Result displayed without caching. No user notification needed. | N/A | Normal |
+
+### 9.2 Rate Limit Recovery
+
+When a 429 is received:
+
+1. Service worker reads `X-RateLimit-Reset-IP` header.
+2. Computes `retry_after_seconds = reset_epoch - Date.now()/1000`.
+3. Writes `cs_rl_{domain}` to storage with `blocked_until` timestamp.
+4. Returns error to popup with `retry_after_seconds` field.
+
+Popup behavior on rate limit error:
+
+```typescript
+// In ErrorState.tsx when code === 'rate_limited':
+const [secondsLeft, setSecondsLeft] = useState(retryAfterSeconds);
+
+useEffect(() => {
+  if (secondsLeft <= 0) return;
+  const timer = setInterval(() => {
+    setSecondsLeft((s) => {
+      if (s <= 1) {
+        clearInterval(timer);
+        // Re-enable scan button automatically
+        onRateLimitExpired?.();
+        return 0;
+      }
+      return s - 1;
+    });
+  }, 1000);
+  return () => clearInterval(timer);
+}, []);
+
+// Render:
+<p>Try again in <strong>{secondsLeft}s</strong></p>
+```
+
+On subsequent scan attempts while `blocked_until` has not elapsed, the service worker short-circuits and returns `rate_limited` without making any API call.
+
+### 9.3 Input Validation (Client-Side)
+
+Before sending a message to the service worker, the popup validates the domain field:
+
+- Not empty (after trim)
+- Does not contain a protocol (`http://`, `https://`)
+- Does not contain a path (`/`)
+- Does not contain spaces
+
+If any of these fail, show inline validation error on the input — do NOT send a message to the service worker:
+
+```
+┌──────────────────────────────────────┐
+│  http://example.com                  │  ← Red border
+└──────────────────────────────────────┘
+  ⚠ Remove "http://" — enter domain only
+```
+
+The inline error clears as soon as the user changes the input value.
+
+---
+
+## 10. TypeScript Types
+
+Path: `src/shared/types.ts`
+
+```typescript
+// ─── API Response (mirrors task-005 spec) ────────────────────────────────────
+
+export interface CategoryScore {
+  score: number;
+  label: string;
+  passed: boolean;
+  findings: string[];
+}
+
+export interface ScoreApiResponse {
+  domain: string;
+  score: number;
+  grade: string;
+  scanned_at: string;
+  scan_id: string;
+  categories: {
+    ssl: CategoryScore;
+    redirects: CategoryScore;
+    headers: CategoryScore;
+    performance: CategoryScore;
+    accessibility: CategoryScore;
+  };
+  badge_url: string;
+  og_image_url: string;
+  cache_hit: boolean;
+  cache_expires_at: string | null;
+}
+
+// Alias used in components
+export type ScoreData = ScoreApiResponse;
+
+// ─── Storage ─────────────────────────────────────────────────────────────────
+
+export interface CacheEntry {
+  domain: string;
+  data: ScoreApiResponse;
+  cached_at: number;
+  expires_at: number;
+}
+
+export interface BadgeState {
+  domain: string;
+  text: string;
+  color: string;
+  updated_at: number;
+}
+
+export interface RateLimitState {
+  blocked_until: number;
+}
+
+// ─── Messaging ───────────────────────────────────────────────────────────────
+
+export type ScanRequest =
+  | {
+      type: 'SCAN_DOMAIN';
+      domain: string;
+      tabId?: number;
+      force_refresh?: boolean;
+    }
+  | { type: 'GET_ACTIVE_TAB_DOMAIN' }
+  | { type: 'CANCEL_SCAN' };
+
+export type MessageResponse =
+  | {
+      success: true;
+      data: ScoreApiResponse;
+      domain: string;
+      cache_hit: boolean;
+    }
+  | {
+      success: false;
+      error: ErrorCode;
+      message: string;
+      domain?: string;
+      retry_after_seconds?: number;
+    }
+  | {
+      success: boolean;
+      domain: string | null;
+    };
+
+export type ErrorCode =
+  | 'invalid_domain'
+  | 'domain_not_found'
+  | 'rate_limited'
+  | 'network_error'
+  | 'server_error'
+  | 'extension_error';
+
+// ─── Internal ────────────────────────────────────────────────────────────────
+
+export interface ScanResult {
+  data: ScoreApiResponse | null;
+  cache_hit: boolean;
+  error: ErrorCode | null;
+  message?: string;
+  retry_after_seconds?: number;
+}
+
+export interface PopupState {
+  viewState: 'idle' | 'loading' | 'results' | 'error';
+  domain: string;
+  scoreData: ScoreData | null;
+  error: { code: ErrorCode; message: string } | null;
+  cacheHit: boolean;
+}
+```
+
+Path: `src/shared/constants.ts`
+
+```typescript
+export const CONDUITSCORE_API_BASE = 'https://conduitscore.com';
+
+// For staging/development:
+// export const CONDUITSCORE_API_BASE = 'https://staging.conduitscore.com';
+
+export const CACHE_TTL_MS = 60 * 60 * 1000;         // 1 hour
+export const CACHE_KEY_PREFIX = 'cs_cache_';
+export const BADGE_KEY_PREFIX = 'cs_badge_';
+export const RATE_LIMIT_KEY_PREFIX = 'cs_rl_';
+export const BADGE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+export const PENDING_CONTEXT_SCAN_KEY = 'pending_context_scan';
+export const PENDING_CONTEXT_SCAN_MAX_AGE_MS = 30_000; // 30 seconds
+```
+
+Path: `src/shared/utils.ts`
+
+```typescript
+const DOMAIN_REGEX = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+
+/**
+ * Normalize a raw hostname: strip www. prefix, lowercase.
+ * Returns null if the result does not pass format validation.
+ */
+export function normalizeDomain(raw: string): string | null {
+  let domain = raw.trim().toLowerCase();
+  if (domain.startsWith('www.')) {
+    domain = domain.slice(4);
+  }
+  if (!DOMAIN_REGEX.test(domain)) return null;
+  if (domain.length > 253) return null;
+  return domain;
+}
+
+/**
+ * Compute grade letter from score integer (mirrors server-side logic).
+ * Used to avoid depending on the API field in edge cases.
+ */
+export function gradeFromScore(score: number): string {
+  if (score >= 90) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 60) return 'C';
+  if (score >= 45) return 'D';
+  return 'F';
+}
+
+/**
+ * Format an ISO 8601 UTC string for display in the popup.
+ * Example: "2026-03-24T14:30:00Z" → "Mar 24, 2026 at 2:30 PM"
+ */
+export function formatScanDate(isoString: string): string {
+  const date = new Date(isoString);
+  return date.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+}
+```
+
+---
+
+## 11. Build Configuration
+
+### 11.1 Technology Stack
+
+| Tool | Version | Role |
+|---|---|---|
+| TypeScript | 5.x | Type checking across all source files |
+| React | 18.x | Popup UI component tree |
+| Webpack | 5.x | Bundle popup, service worker, content script as separate outputs |
+| `copy-webpack-plugin` | 12.x | Copy `manifest.json`, `popup.html`, and `icons/` to `dist/` |
+| `ts-loader` | 9.x | TypeScript transpilation |
+| `html-webpack-plugin` | 5.x | NOT used for popup (popup.html is static — copied, not generated) |
+
+### 11.2 webpack.config.js
+
+```javascript
+// webpack.config.js
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+
+module.exports = (env) => ({
+  mode: env.production ? 'production' : 'development',
+  devtool: env.production ? false : 'cheap-module-source-map',
+
+  entry: {
+    // Three separate bundles — Chrome loads each independently
+    'service-worker': './src/background/service-worker.ts',
+    'popup': './src/popup/index.tsx',
+    'content-script': './src/content/content-script.ts',
+  },
+
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+    clean: true,
+  },
+
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: 'manifest.json', to: 'manifest.json' },
+        { from: 'public/popup.html', to: 'popup.html' },
+        { from: 'public/icons', to: 'icons' },
+      ],
+    }),
+  ],
+});
+```
+
+### 11.3 package.json Scripts
+
+```json
+{
+  "name": "conduitscore-extension",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --env production",
+    "build:dev": "webpack --env development",
+    "watch": "webpack --env development --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "zip": "cd dist && zip -r ../conduitscore-extension-v1.0.0.zip .",
+    "ci": "npm run typecheck && npm run lint && npm run build"
+  },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.280",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "copy-webpack-plugin": "^12.0.0",
+    "css-loader": "^7.0.0",
+    "eslint": "^9.0.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.4.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.0"
+  }
+}
+```
+
+### 11.4 tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "ES2020",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src/**/*", "manifest.json"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+### 11.5 Loading the Extension in Chrome for Development
+
+1. Run `npm run build:dev`
+2. Open `chrome://extensions`
+3. Enable "Developer mode" (toggle, top right)
+4. Click "Load unpacked"
+5. Select the `dist/` directory
+6. The extension icon appears in the Chrome toolbar
+
+For live reloading during development:
+1. Run `npm run watch` in one terminal
+2. After Webpack rebuilds, click the refresh icon on the extension card in `chrome://extensions`
+
+---
+
+## 12. Chrome Web Store Submission Package
+
+### 12.1 Icon Requirements
+
+All icons must be PNG format, square, with transparency support.
+
+| File | Size | Usage |
+|---|---|---|
+| `icons/icon-16.png` | 16×16px | Favicon in Chrome UI, tab list |
+| `icons/icon-32.png` | 32×32px | Windows taskbar, retina small |
+| `icons/icon-48.png` | 48×48px | Extensions management page |
+| `icons/icon-128.png` | 128×128px | Chrome Web Store listing, installation dialog |
+
+Additionally, the Chrome Web Store requires a **store icon** (separate from the extension icons):
+
+| File | Size | Usage |
+|---|---|---|
+| `store-assets/store-icon.png` | 128×128px | CWS dashboard listing icon |
+
+The store icon must NOT have rounded corners applied — Chrome applies its own corner radius to the 128px store icon in the CWS listing.
+
+### 12.2 Store Listing Assets
+
+| Asset | Size | Format | Notes |
+|---|---|---|---|
+| Store icon | 128×128px | PNG | No rounded corners |
+| Promotional tile (small) | 440×280px | PNG or JPEG | Optional but strongly recommended for store discoverability |
+| Promotional tile (large) | 920×680px | PNG or JPEG | Optional |
+| Marquee banner | 1400×560px | PNG or JPEG | Optional, used for featured extensions |
+| Screenshots | 1280×800px or 640×400px | PNG or JPEG | Minimum 1, maximum 5. Show popup open with a score result displayed. |
+
+Screenshot recommendations:
+- Screenshot 1: Popup open showing a domain scan result (score 84, Grade B)
+- Screenshot 2: Context menu on a link showing "Check ConduitScore for this link"
+- Screenshot 3: Badge on extension icon showing score
+
+### 12.3 Store Description
+
+**Short description (132 characters max):**
+
+```
+Check any domain's trust score instantly — SSL, headers, performance, and accessibility in one click.
+```
+
+**Long description (up to 16,000 characters):**
+
+```
+ConduitScore gives you an instant trust score for any domain, right from your browser.
+
+WHAT IT CHECKS
+• SSL Certificate — Is the domain running a valid, non-expired certificate?
+• Redirect Chain — Does the domain redirect cleanly without excess hops?
+• Security Headers — Are modern HTTP security headers in place?
+• Performance — What is the server response time?
+• Accessibility — Does the page meet baseline accessibility standards?
+
+HOW TO USE
+1. Click the ConduitScore icon to check your current tab's domain
+2. Or right-click any link and choose "Check ConduitScore for this link"
+3. Results appear instantly with a 0–100 score, an A–F grade, and category breakdowns
+
+FEATURES
+• Instant badge: The extension icon badge shows the score at a glance
+• Cached results: Repeat lookups are served from local cache for speed
+• Open in ConduitScore: One click to view full scan details on conduitscore.com
+• No account required for public scans
+
+PRIVACY
+ConduitScore does not read page content, track your browsing history, or collect personal data. The only data sent to conduitscore.com is the domain you explicitly choose to scan. See our privacy policy at https://conduitscore.com/privacy.
+```
+
+### 12.4 Privacy Policy
+
+The extension MUST have a published privacy policy URL. Required content:
+
+- What data is collected: only the domain name explicitly provided by the user
+- What data is NOT collected: browsing history, page content, personal information, IP address (beyond what standard HTTP sends)
+- Data retention: cached locally in browser storage, TTL 1 hour, never stored server-side per-user
+- Third-party sharing: none
+
+URL to provide in CWS submission: `https://conduitscore.com/privacy`
+
+This page must be live before submitting to the Chrome Web Store.
+
+### 12.5 Single-Purpose Justification
+
+CWS reviewers assess whether the extension has a single, clear purpose. The justification statement to submit:
+
+> ConduitScore checks the trust score of any domain as explicitly requested by the user via the popup or context menu. The extension makes one type of external request: a GET request to the ConduitScore public API with the domain the user provided. It does not read page content, modify the DOM, or access any data beyond the tab URL. The single purpose is: show a domain trust score on demand.
+
+### 12.6 Submission Checklist
+
+- [ ] `manifest.json` version matches `package.json` version (both `1.0.0`)
+- [ ] All 4 icon sizes present in `dist/icons/` (16, 32, 48, 128)
+- [ ] `dist/` directory does NOT contain `node_modules/`, `.map` files (production build), or source `.ts` files
+- [ ] `dist/` directory DOES contain: `manifest.json`, `popup.html`, `popup.js`, `service-worker.js`, `content-script.js`, `icons/`
+- [ ] Privacy policy URL is live at `https://conduitscore.com/privacy`
+- [ ] Store description is filled in (short + long)
+- [ ] At minimum 1 screenshot uploaded (1280×800 or 640×400)
+- [ ] Store icon (128×128) uploaded to CWS dashboard
+- [ ] Category selected: "Productivity"
+- [ ] Language: English
+- [ ] Extension type: "Extension" (not "App" or "Theme")
+- [ ] Single-purpose justification written in "Single Purpose" field
+- [ ] Permission justifications written in "Justification for permissions" field (see Section 3.1)
+- [ ] `zip` file created via `npm run zip` from `dist/` — NOT a zip of the repo root
+
+---
+
+## 13. Acceptance Verification Checklist
+
+The Frontend Lead must verify each item before marking the sprint complete.
+
+### 13.1 manifest.json
+
+- [ ] `"manifest_version": 3` is present
+- [ ] `"minimum_chrome_version": "109"` is present
+- [ ] All four icon sizes are declared in `"icons"`, `"action.default_icon"`, and files exist in `dist/`
+- [ ] `"background.service_worker"` points to `service-worker.js`
+- [ ] `"background.type": "module"` is present
+- [ ] `"permissions"` contains exactly: `activeTab`, `storage`, `contextMenus`, `scripting`
+- [ ] `"host_permissions"` contains `https://conduitscore.com/*` (and/or staging equivalent)
+- [ ] No `eval` in CSP — `"extension_pages": "script-src 'self'"` is present
+
+### 13.2 Service Worker
+
+- [ ] `onInstalled` registers both context menu items
+- [ ] Cache read happens before any API call
+- [ ] Rate limit state is checked before API call if `blocked_until` has not elapsed
+- [ ] All four error codes (`invalid_domain`, `domain_not_found`, `rate_limited`, `network_error`, `server_error`) are handled and returned as typed responses
+- [ ] Badge is updated after every scan (success or error)
+- [ ] Badge state is persisted to `chrome.storage.local`
+- [ ] Badge is restored on `onActivated` and `onUpdated`
+- [ ] `return true` is present in `onMessage` listener to keep channel open for async response
+- [ ] Service worker does NOT use any in-memory global state for persistent data
+
+### 13.3 Popup UI
+
+- [ ] Domain input is pre-populated from active tab on popup open
+- [ ] Input strips `http://`/`https://` if pasted with protocol
+- [ ] All four states render correctly: idle, loading, results, error
+- [ ] Score, grade, and all 5 categories are displayed in results state
+- [ ] "Cached" pill is shown when `cache_hit === true`
+- [ ] Refresh button triggers re-scan with `force_refresh: true`
+- [ ] "Open in ConduitScore" opens `https://conduitscore.com/domain/{domain}` in new tab
+- [ ] Category rows expand to show findings on click
+- [ ] Rate limit error shows countdown timer that re-enables Scan button on expiry
+- [ ] Loading state shows skeleton and spinner
+- [ ] All inputs have associated `<label>` elements
+- [ ] All interactive elements have visible focus rings
+- [ ] No external CDN scripts or stylesheets in `popup.html`
+
+### 13.4 Context Menu
+
+- [ ] Right-clicking a link shows "Check ConduitScore for this link"
+- [ ] Right-clicking a page shows "Check ConduitScore for this page"
+- [ ] Clicking either item updates the badge for that tab
+- [ ] `pending_context_scan` is written to storage after context menu scan
+- [ ] Popup reads `pending_context_scan` on open and shows results if scan was within 30 seconds
+
+### 13.5 Badge
+
+- [ ] Badge shows score number after successful scan
+- [ ] Badge color matches grade color table
+- [ ] Badge shows `?` (actually empty by default — shows `!` on network error)
+- [ ] Badge shows `429` on rate limit error
+- [ ] Badge shows `—` on domain not found
+- [ ] Badge is tab-scoped (different tabs can show different badges simultaneously)
+- [ ] Badge is restored when switching back to a scanned tab
+
+### 13.6 Storage
+
+- [ ] Cache entries expire after 1 hour
+- [ ] Expired entries are deleted on next read
+- [ ] Force refresh bypasses cache and overwrites on success
+- [ ] Storage quota errors are caught and handled gracefully
+- [ ] All storage keys use `cs_` prefix convention
+
+### 13.7 Build
+
+- [ ] `npm run build` produces `dist/` with no TypeScript errors
+- [ ] `npm run typecheck` passes with zero errors
+- [ ] `dist/` contains `manifest.json`, `popup.html`, `popup.js`, `service-worker.js`, `content-script.js`
+- [ ] `dist/icons/` contains all four PNG sizes
+- [ ] Production build has no `.map` files
+- [ ] `npm run zip` produces a valid zip from `dist/` only
+
+---
+
+**Spec version:** 1.0
+**Prepared by:** UX/Design Architecture
+**Date:** 2026-03-24
+**Downstream dependency:** task-012 (QA Lead — Chrome Web Store submission package)
