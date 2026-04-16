@@ -85,7 +85,7 @@ export default function PrivacyPage() {
               </ul>
               <p>
                 The domain name is sent to the ConduitScore public API at{" "}
-                <code style={{ fontSize: "0.85em" }}>
+                <code style={{ fontSize: "0.85em", wordBreak: "break-all" }}>
                   https://conduitscore.com/api/public/domain/[domain]/score
                 </code>{" "}
                 to compute an AI visibility trust score. The result is returned directly to you.
