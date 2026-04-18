@@ -48,14 +48,9 @@
     <line x1="900" y1="0" x2="900" y2="630"/>
   </g>
 
-  <!-- Top brand bar -->
-  <g transform="translate(80, 72)">
-    <!-- Logo hex mark -->
-    <g transform="translate(0, 0)">
-      <polygon points="28,4 48,16 48,40 28,52 8,40 8,16" fill="none" stroke="url(#brandGrad)" stroke-width="3"/>
-      <polygon points="28,16 38,22 38,34 28,40 18,34 18,22" fill="url(#brandGrad)"/>
-    </g>
-    <text x="72" y="38" font-family="'Syne', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">ConduitScore</text>
+  <!-- Top brand bar - logo composited separately for fidelity -->
+  <g transform="translate(170, 102)">
+    <text font-family="'Syne', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">ConduitScore</text>
   </g>
 
   <!-- Main headline -->
