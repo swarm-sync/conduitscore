@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0810"/>
+      <stop offset="100%" stop-color="#080809"/>
+    </linearGradient>
+    <radialGradient id="glowCrimson" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#B91C3C" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#B91C3C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowMagenta" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A21BA6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#A21BA6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC2645"/>
+      <stop offset="50%" stop-color="#C4267C"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="scoreRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#DC2645"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Ambient glows -->
+  <ellipse cx="220" cy="180" rx="380" ry="280" fill="url(#glowCrimson)"/>
+  <ellipse cx="1000" cy="500" rx="380" ry="260" fill="url(#glowMagenta)"/>
+
+  <!-- Subtle grid texture -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="157" x2="1200" y2="157"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="472" x2="1200" y2="472"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+  </g>
+
+  <!-- Top brand bar -->
+  <g transform="translate(80, 72)">
+    <!-- Logo hex mark -->
+    <g transform="translate(0, 0)">
+      <polygon points="28,4 48,16 48,40 28,52 8,40 8,16" fill="none" stroke="url(#brandGrad)" stroke-width="3"/>
+      <polygon points="28,16 38,22 38,34 28,40 18,34 18,22" fill="url(#brandGrad)"/>
+    </g>
+    <text x="72" y="38" font-family="'Syne', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">ConduitScore</text>
+  </g>
+
+  <!-- Main headline -->
+  <g transform="translate(80, 230)">
+    <text font-family="'Syne', 'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="84" font-weight="800" fill="#ffffff" letter-spacing="-2.5">
+      <tspan x="0" y="0">Is AI Ignoring</tspan>
+      <tspan x="0" y="96">Your Site?</tspan>
+    </text>
+  </g>
+
+  <!-- Sub headline -->
+  <g transform="translate(80, 450)">
+    <text font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="500" fill="#cbd5e1" letter-spacing="-0.3">
+      <tspan x="0" y="0">Free 15-second AI visibility audit.</tspan>
+      <tspan x="0" y="40" fill="#94a3b8">ChatGPT • Claude • Perplexity • Gemini</tspan>
+    </text>
+  </g>
+
+  <!-- Score gauge visual on the right -->
+  <g transform="translate(870, 295)" filter="url(#softGlow)">
+    <!-- Track ring -->
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#1f1f28" stroke-width="18"/>
+    <!-- Score arc (32% = low) -->
+    <circle cx="0" cy="0" r="130" fill="none" stroke="url(#scoreRed)" stroke-width="18"
+      stroke-dasharray="261 816" stroke-linecap="round"
+      transform="rotate(-90)"/>
+    <!-- Score number -->
+    <text x="0" y="8" font-family="'Syne', 'Inter', Arial, sans-serif" font-size="88" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="-2">32</text>
+    <text x="0" y="52" font-family="'Inter', Arial, sans-serif" font-size="18" font-weight="600" fill="#ef4444" text-anchor="middle" letter-spacing="2">/100</text>
+    <text x="0" y="85" font-family="'Inter', Arial, sans-serif" font-size="14" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="3">AI VISIBILITY</text>
+  </g>
+
+  <!-- Bottom CTA bar -->
+  <g transform="translate(80, 558)">
+    <rect x="-2" y="-30" width="340" height="52" rx="26" fill="url(#brandGrad)"/>
+    <text x="168" y="4" font-family="'Inter', Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="-0.2">conduitscore.com</text>
+  </g>
+
+  <!-- Right-side tagline -->
+  <text x="1120" y="588" font-family="'Inter', Arial, sans-serif" font-size="16" font-weight="500" fill="#64748b" text-anchor="end" letter-spacing="0.5">46 signals • 7 categories • 15 seconds</text>
+
+</svg>
