@@ -4,6 +4,8 @@
  * Used by both /blog/page.tsx and /blog/[slug]/page.tsx
  */
 
+import { BLOG_GOOGLE_RANK_AI_INVISIBILITY_CONTENT } from "@/lib/blog-google-rank-ai-invisibility-content";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -3126,6 +3128,19 @@ Scan your site at ConduitScore.com to check whether llms.txt is present and read
     category: "Technical Guides",
     date: "2026-03-27",
     readTime: "13 min read",
+    author: "Ben Stone",
+    authorTitle: "Co-founder, ConduitScore",
+  },
+
+  "google-rank-ai-invisibility": {
+    slug: "google-rank-ai-invisibility",
+    title: "Your Google Ranking Can Be a Trophy and a Mirage—for AI Answers",
+    description:
+      "Being #1 on Google doesn't mean ChatGPT-style tools will mention you. Here's the gap in plain language—and three fixes that actually help.",
+    content: BLOG_GOOGLE_RANK_AI_INVISIBILITY_CONTENT,
+    category: "AI SEO Fundamentals",
+    date: "2026-04-29",
+    readTime: "6 min read",
     author: "Ben Stone",
     authorTitle: "Co-founder, ConduitScore",
   },
