@@ -13,6 +13,24 @@ vi.mock("@/lib/session", () => ({
   getSession: vi.fn(),
 }));
 
+// ── Mock @/lib/stripe — intercept SDK calls without hitting real Stripe ───────
+const mockCreate = vi.fn();
+vi.mock("@/lib/stripe", () => {
+  return {
+    getStripe: vi.fn(() => ({
+      checkout: { sessions: { create: mockCreate } },
+    })),
+    PRICE_MAP: {
+      starter:        "price_starter_monthly",
+      starter_annual: "price_starter_annual",
+      pro:            "price_pro_monthly",
+      pro_annual:     "price_pro_annual",
+      growth:         "price_growth_monthly",
+      growth_annual:  "price_growth_annual",
+    },
+  };
+});
+
 import { getSession } from "@/lib/session";
 
 // ── Set env vars so PRICE_MAP is populated ───────────────────────────────────
@@ -50,22 +68,10 @@ function makeRequest(body: unknown, origin = "https://conduitscore.com") {
 // ── Authenticated session fixture ─────────────────────────────────────────────
 const AUTHED_SESSION = { user: { email: "user@example.com" } };
 
-// ── Global fetch mock ─────────────────────────────────────────────────────────
-// Replaces the global fetch so we never hit real Stripe.
-function mockStripeFetch(url: string, priceId: string) {
-  return Promise.resolve({
-    ok: true,
-    json: () =>
-      Promise.resolve({
-        url: `https://checkout.stripe.com/pay/${priceId}`,
-      }),
-    status: 200,
-  } as Response);
-}
-
 describe("POST /api/stripe/checkout", () => {
   beforeEach(() => {
     vi.mocked(getSession).mockResolvedValue(AUTHED_SESSION as never);
+    mockCreate.mockReset();
   });
 
   afterEach(() => {
@@ -75,19 +81,10 @@ describe("POST /api/stripe/checkout", () => {
   // ── Happy-path tier tests ────────────────────────────────────────────────────
 
   it("POST { tier: 'starter' } → 200 with checkout URL", async () => {
-    const capturedArgs: { url: string; priceId: string }[] = [];
-    vi.stubGlobal(
-      "fetch",
-      async (url: RequestInfo | URL, init?: RequestInit) => {
-        const bodyStr = (init?.body as string) ?? "";
-        const params = new URLSearchParams(bodyStr);
-        capturedArgs.push({
-          url: url.toString(),
-          priceId: params.get("line_items[0][price]") ?? "",
-        });
-        return mockStripeFetch(url.toString(), params.get("line_items[0][price]") ?? "");
-      }
-    );
+    mockCreate.mockResolvedValueOnce({
+      url: "https://checkout.stripe.com/pay/price_starter_monthly",
+      id: "cs_test_mock",
+    });
 
     const req = makeRequest({ tier: "starter" });
     const res = await POST(req);
@@ -95,19 +92,14 @@ describe("POST /api/stripe/checkout", () => {
 
     expect(res.status).toBe(200);
     expect(data.url).toContain("price_starter_monthly");
-    expect(capturedArgs[0].priceId).toBe("price_starter_monthly");
+    const callParams = mockCreate.mock.calls[0][0] as { line_items: Array<{ price: string }> };
+    expect(callParams.line_items[0].price).toBe("price_starter_monthly");
   });
 
   it("POST { tier: 'starter', annual: true } → uses starter_annual price ID", async () => {
-    let capturedPriceId = "";
-    vi.stubGlobal("fetch", async (_url: RequestInfo | URL, init?: RequestInit) => {
-      const params = new URLSearchParams((init?.body as string) ?? "");
-      capturedPriceId = params.get("line_items[0][price]") ?? "";
-      return {
-        ok: true,
-        json: () => Promise.resolve({ url: "https://checkout.stripe.com/pay/annual" }),
-        status: 200,
-      } as Response;
+    mockCreate.mockResolvedValueOnce({
+      url: "https://checkout.stripe.com/pay/annual",
+      id: "cs_test_mock",
     });
 
     const req = makeRequest({ tier: "starter", annual: true });
@@ -115,46 +107,37 @@ describe("POST /api/stripe/checkout", () => {
     const data = await res.json();
 
     expect(res.status).toBe(200);
-    expect(capturedPriceId).toBe("price_starter_annual");
     expect(data.url).toBeDefined();
+    const callParams = mockCreate.mock.calls[0][0] as { line_items: Array<{ price: string }> };
+    expect(callParams.line_items[0].price).toBe("price_starter_annual");
   });
 
   it("POST { tier: 'pro' } → correct pro price ID sent to Stripe", async () => {
-    let capturedPriceId = "";
-    vi.stubGlobal("fetch", async (_url: RequestInfo | URL, init?: RequestInit) => {
-      const params = new URLSearchParams((init?.body as string) ?? "");
-      capturedPriceId = params.get("line_items[0][price]") ?? "";
-      return {
-        ok: true,
-        json: () => Promise.resolve({ url: "https://checkout.stripe.com/pay/pro" }),
-        status: 200,
-      } as Response;
+    mockCreate.mockResolvedValueOnce({
+      url: "https://checkout.stripe.com/pay/pro",
+      id: "cs_test_mock",
     });
 
     const req = makeRequest({ tier: "pro" });
     const res = await POST(req);
 
     expect(res.status).toBe(200);
-    expect(capturedPriceId).toBe("price_pro_monthly");
+    const callParams = mockCreate.mock.calls[0][0] as { line_items: Array<{ price: string }> };
+    expect(callParams.line_items[0].price).toBe("price_pro_monthly");
   });
 
   it("POST { tier: 'growth' } → correct growth price ID sent to Stripe", async () => {
-    let capturedPriceId = "";
-    vi.stubGlobal("fetch", async (_url: RequestInfo | URL, init?: RequestInit) => {
-      const params = new URLSearchParams((init?.body as string) ?? "");
-      capturedPriceId = params.get("line_items[0][price]") ?? "";
-      return {
-        ok: true,
-        json: () => Promise.resolve({ url: "https://checkout.stripe.com/pay/growth" }),
-        status: 200,
-      } as Response;
+    mockCreate.mockResolvedValueOnce({
+      url: "https://checkout.stripe.com/pay/growth",
+      id: "cs_test_mock",
     });
 
     const req = makeRequest({ tier: "growth" });
     const res = await POST(req);
 
     expect(res.status).toBe(200);
-    expect(capturedPriceId).toBe("price_growth_monthly");
+    const callParams = mockCreate.mock.calls[0][0] as { line_items: Array<{ price: string }> };
+    expect(callParams.line_items[0].price).toBe("price_growth_monthly");
   });
 
   // ── Error / rejection tests ─────────────────────────────────────────────────

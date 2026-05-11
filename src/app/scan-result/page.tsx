@@ -9,8 +9,7 @@ import { CategoryBreakdown } from "@/components/scan/category-breakdown";
 import { IssueList } from "@/components/scan/issue-list";
 import { FixPanel } from "@/components/scan/fix-panel";
 import type { ScanResult } from "@/lib/scanner/types";
-import { getClientFingerprint } from "@/lib/client-fingerprint";
-import { FINGERPRINT_HEADER } from "@/lib/free-tier-abuse";
+import { getClientFingerprint, FINGERPRINT_HEADER } from "@/lib/client-fingerprint";
 
 function LockOverlay({ title, body, ctaLabel, ctaHref }: {
   title: string;

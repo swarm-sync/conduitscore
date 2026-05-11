@@ -8,5 +8,16 @@
       "path": "/api/cron/drip",
       "schedule": "0 10 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "src/app/api/scan/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/cron/weekly-scan/route.ts": {
+      "maxDuration": 300
+    },
+    "src/app/api/cron/drip/route.ts": {
+      "maxDuration": 300
+    }
+  }
 }

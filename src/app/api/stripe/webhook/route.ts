@@ -95,18 +95,28 @@ export async function POST(request: NextRequest) {
         });
         if (!user) break;
 
+        // In Stripe API 2024-12-18.acacia the period timestamps moved to the
+        // subscription item level.  Fall back to 0 if the item is missing.
+        const subItem = subscription.items.data[0];
+        const periodStart = subItem?.current_period_start ?? 0;
+        const periodEnd = subItem?.current_period_end ?? 0;
+
         await prisma.subscription.upsert({
           where: { userId: user.id },
           update: {
             stripeSubscriptionId: subscription.id,
             stripePriceId: priceId,
             status: "active",
+            currentPeriodStart: periodStart ? new Date(periodStart * 1000) : null,
+            currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
           },
           create: {
             userId: user.id,
             stripeSubscriptionId: subscription.id,
             stripePriceId: priceId,
             status: "active",
+            currentPeriodStart: periodStart ? new Date(periodStart * 1000) : null,
+            currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : null,
           },
         });
         break;
@@ -119,12 +129,20 @@ export async function POST(request: NextRequest) {
         // Prefer subscription metadata; fall back to price ID reverse-lookup.
         const tier = resolveTierFromSubscription(sub, priceId);
 
+        // In Stripe API 2024-12-18.acacia the period timestamps moved to the
+        // subscription item level.  Fall back to null if the item is missing.
+        const updatedItem = sub.items.data[0];
+        const updatedPeriodStart = updatedItem?.current_period_start ?? 0;
+        const updatedPeriodEnd = updatedItem?.current_period_end ?? 0;
+
         await prisma.subscription.updateMany({
           where: { stripeSubscriptionId: sub.id },
           data: {
             stripePriceId: priceId,
             status: sub.status,
             cancelAtPeriodEnd: sub.cancel_at_period_end,
+            currentPeriodStart: updatedPeriodStart ? new Date(updatedPeriodStart * 1000) : null,
+            currentPeriodEnd: updatedPeriodEnd ? new Date(updatedPeriodEnd * 1000) : null,
           },
         });
 

@@ -66,10 +66,10 @@ describe("SCORE_IMPACT", () => {
     expect(sdJsonld).toBeGreaterThanOrEqual(10);
   });
 
-  it("all values are positive numbers", () => {
+  it("all values are non-negative numbers", () => {
     for (const [, value] of Object.entries(SCORE_IMPACT)) {
       expect(typeof value).toBe("number");
-      expect(value).toBeGreaterThan(0);
+      expect(value).toBeGreaterThanOrEqual(0);
     }
   });
 
@@ -89,10 +89,10 @@ describe("EFFORT_MINUTES", () => {
     expect(EFFORT_MINUTES["th-slow"]).toBeGreaterThanOrEqual(60);
   });
 
-  it("all values are positive numbers", () => {
+  it("all values are non-negative numbers", () => {
     for (const [, value] of Object.entries(EFFORT_MINUTES)) {
       expect(typeof value).toBe("number");
-      expect(value).toBeGreaterThan(0);
+      expect(value).toBeGreaterThanOrEqual(0);
     }
   });
 

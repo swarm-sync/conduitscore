@@ -1,5 +1,9 @@
 "use client";
 
+// Shared constant — must stay in this client-safe file so scan-result/page.tsx
+// can import it without pulling in server-only crypto/prisma from free-tier-abuse.ts.
+export const FINGERPRINT_HEADER = "x-conduitscore-fingerprint";
+
 const STORAGE_KEY = "conduitscore_device_fingerprint_v1";
 
 let fingerprintPromise: Promise<string> | null = null;

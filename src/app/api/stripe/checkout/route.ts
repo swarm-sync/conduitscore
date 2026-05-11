@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
-import { getStripeEnv, PRICE_MAP } from "@/lib/stripe";
+import { getStripe, PRICE_MAP } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,46 +33,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid plan tier" }, { status: 400 });
     }
 
-    const stripeKey = getStripeEnv("STRIPE_SECRET_KEY");
     const origin = request.headers.get("origin") || "https://conduitscore.com";
     const billing = annual ? "annual" : "monthly";
 
-    // Use native fetch instead of Stripe SDK (SDK's http module blocked on Vercel edge).
-    const params = new URLSearchParams({
-      mode: "subscription",
-      "payment_method_types[0]": "card",
-      "line_items[0][price]": priceId,
-      "line_items[0][quantity]": "1",
-      // Pre-fill customer email from the authenticated session.
-      customer_email: session.user.email,
-      // Metadata is read by the webhook handler to set subscriptionTier in the DB.
-      // tier is the canonical base name (starter / pro / growth).
-      // billing distinguishes monthly from annual for analytics and audit trails.
-      "metadata[tier]": tier,
-      "metadata[billing]": billing,
-      success_url: `${origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/pricing`,
-    });
+    // Idempotency key prevents double-charges if the client retries the request.
+    const idempotencyKey = `checkout-${session.user.email}-${key}-${Date.now()}`;
 
-    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${stripeKey}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+    const checkoutSession = await getStripe().checkout.sessions.create(
+      {
+        mode: "subscription",
+        payment_method_types: ["card"],
+        line_items: [{ price: priceId, quantity: 1 }],
+        // Pre-fill customer email from the authenticated session.
+        customer_email: session.user.email,
+        // Metadata is read by the webhook handler to set subscriptionTier in the DB.
+        // tier is the canonical base name (starter / pro / growth).
+        // billing distinguishes monthly from annual for analytics and audit trails.
+        metadata: { tier, billing },
+        success_url: `${origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/pricing`,
       },
-      body: params.toString(),
-    });
+      { idempotencyKey }
+    );
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: data.error?.message ?? "Stripe error" },
-        { status: res.status }
-      );
-    }
-
-    return NextResponse.json({ url: data.url });
+    return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Checkout failed";
     return NextResponse.json({ error: message }, { status: 500 });

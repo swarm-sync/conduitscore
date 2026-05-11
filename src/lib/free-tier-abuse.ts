@@ -3,7 +3,10 @@ import type { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { normalizeUrl } from "@/lib/scanner/url-normalizer";
 
-export const FINGERPRINT_HEADER = "x-conduitscore-fingerprint";
+import { FINGERPRINT_HEADER } from "@/lib/client-fingerprint";
+// Re-export so client components can import FINGERPRINT_HEADER from client-fingerprint
+// without pulling this server-only module (crypto/prisma) into the browser bundle.
+export { FINGERPRINT_HEADER };
 const FREE_SCAN_LIMIT = 3;
 const FREE_FIX_ABUSE_THRESHOLD = 60;
 const COMMON_DISPOSABLE_EMAIL_DOMAINS = new Set([
@@ -125,6 +128,9 @@ export function extractRootDomain(rawUrl: string): string {
   return parts.slice(-2).join(".");
 }
 
+const abuseScoreCache = new Map<string, { score: number; expiresAt: number }>();
+const ABUSE_CACHE_TTL_MS = 60_000; // 1 minute
+
 function monthWindowStart(now = new Date()): Date {
   return new Date(now.getFullYear(), now.getMonth(), 1);
 }
@@ -191,7 +197,9 @@ export async function checkFreeScanAccess(
     };
   }
 
-  return { allowed: true, used: 0, limit: FREE_SCAN_LIMIT };
+  // Both signals are absent (proxy, curl, or CDN masking) — deny rather than
+  // allow unconditionally, which would bypass the scan limit entirely.
+  return { allowed: false, used: FREE_SCAN_LIMIT, limit: FREE_SCAN_LIMIT, reason: "fingerprint_limit" };
 }
 
 async function calculateAbuseScore(
@@ -199,6 +207,10 @@ async function calculateAbuseScore(
   fingerprintHash: string | null,
   ipHash: string | null
 ): Promise<number> {
+  const cacheKey = `${normalizedEmail}:${fingerprintHash ?? ""}:${ipHash ?? ""}`;
+  const cached = abuseScoreCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) return cached.score;
+
   const since = rollingDaysAgo(30);
   let score = 0;
 
@@ -260,6 +272,13 @@ async function calculateAbuseScore(
     },
   });
   if (claimsForEmail >= 1) score += 15;
+
+  // Evict stale entries to prevent unbounded growth
+  const now = Date.now();
+  for (const [k, v] of abuseScoreCache) {
+    if (v.expiresAt <= now) abuseScoreCache.delete(k);
+  }
+  abuseScoreCache.set(cacheKey, { score, expiresAt: now + ABUSE_CACHE_TTL_MS });
 
   return score;
 }

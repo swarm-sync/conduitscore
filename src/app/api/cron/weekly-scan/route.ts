@@ -10,9 +10,13 @@ const EMAIL_ALERT_DROP_THRESHOLD = 5;
 
 // Vercel Cron invokes GET — runs every Monday at 9am UTC
 export async function GET(request: NextRequest) {
-  // Verify the request is from Vercel Cron
+  // Verify the request is from Vercel Cron — CRON_SECRET is required in production.
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    return NextResponse.json({ error: "CRON_SECRET env var is not set" }, { status: 500 });
+  }
   const authHeader = request.headers.get("authorization");
-  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

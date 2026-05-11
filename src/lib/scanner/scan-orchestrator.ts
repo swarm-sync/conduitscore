@@ -1,5 +1,6 @@
 import { normalizeUrl } from "./url-normalizer";
 import type { ScanResult, CategoryScore } from "./types";
+import { CATEGORIES } from "./types";
 import { IMPACT_MAP } from "./fix-meta";
 import { analyzeCrawlerAccess } from "./analyzers/crawler-access";
 import { analyzeStructuredData } from "./analyzers/structured-data";
@@ -112,10 +113,74 @@ async function fetchPageData(url: string): Promise<FetchedPageData> {
   };
 }
 
+/**
+ * When the homepage cannot be fetched (network, DNS, timeout, TLS), return a valid
+ * scan payload with score 0 instead of throwing — avoids HTTP 500 for "bad" target URLs.
+ */
+export function unreachableScanResult(url: string, scanId: string, reason: string): ScanResult {
+  const safeReason =
+    reason.trim() ||
+    "The scanner could not download this page. Check that the URL is correct and publicly reachable.";
+
+  const categories: CategoryScore[] = Object.values(CATEGORIES).map((c) => ({
+    name: c.name,
+    score: 0,
+    maxScore: c.maxScore,
+    issues: [],
+    fixes: [],
+  }));
+
+  const technical = categories.find((c) => c.name === "Technical Health");
+  if (technical) {
+    technical.issues.push({
+      id: "scan-fetch-failed",
+      category: "Technical Health",
+      severity: "critical",
+      title: "Could not load this page",
+      description: safeReason,
+    });
+  }
+
+  attachImpacts(categories);
+  const allIssues = categories.flatMap((c) => c.issues);
+
+  return {
+    url,
+    overallScore: 0,
+    categories,
+    issues: allIssues,
+    fixes: [],
+    scannedAt: new Date().toISOString(),
+    metadata: {
+      scanId,
+      scanFetchFailed: true,
+      fetchError: safeReason,
+      statusCode: 0,
+      loadTimeMs: 0,
+      finalUrl: url,
+      hasRobotsTxt: false,
+      hasLlmsTxt: false,
+      hasSitemapXml: false,
+    },
+    proof: null,
+    supplemental: {
+      aiBotPolicy: {},
+      answerExtractionReadiness: { score: 0, signals: [] },
+      publicReportabilityGap: { hasMethodology: false, hasExamples: false, hasAbout: false },
+    },
+  };
+}
+
 export async function runScan(rawUrl: string, scanId: string): Promise<ScanResult> {
   const url = normalizeUrl(rawUrl);
 
-  const pageData = await fetchPageData(url);
+  let pageData: FetchedPageData;
+  try {
+    pageData = await fetchPageData(url);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return unreachableScanResult(url, scanId, msg);
+  }
 
   const [
     crawlerAccess,

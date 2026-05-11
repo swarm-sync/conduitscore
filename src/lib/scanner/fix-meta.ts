@@ -53,6 +53,8 @@ export const IMPACT_MAP: Record<string, string> = {
     "Missing viewport meta may cause AI systems to classify your page as non-mobile-friendly, reducing visibility.",
   "th-no-desc":
     "Without a meta description, AI systems have no concise summary to use when citing your page in responses.",
+  "scan-fetch-failed":
+    "If the page cannot be loaded, AI crawlers cannot read or cite your content — fix hosting, DNS, SSL, or blocking before expecting visibility scores.",
 
   // Citation Signals
   "cs-few-links":

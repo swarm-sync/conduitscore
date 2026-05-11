@@ -6,6 +6,10 @@ import type { Adapter } from "next-auth/adapters";
 import prisma from "./prisma";
 
 export const authOptions: NextAuthOptions = {
+  // PrismaAdapter is required for magic-link (email) sign-in — it stores
+  // verification tokens. We pair it with strategy:"jwt" so session data
+  // lives in the JWT (no session table), while the adapter still handles
+  // user creation and email verification token storage.
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({

@@ -1,9 +1,9 @@
-export const PLAN_LIMITS: Record<string, { scansPerMonth: number; pagesPerScan: number }> = {
-  free:    { scansPerMonth: 3,        pagesPerScan: 1 },
-  starter: { scansPerMonth: 50,       pagesPerScan: 5 },
-  pro:     { scansPerMonth: 100,      pagesPerScan: 50 },
-  growth:  { scansPerMonth: 500,      pagesPerScan: 100 },
-  agency:  { scansPerMonth: Infinity, pagesPerScan: -1 },
+export const PLAN_LIMITS: Record<string, { scansPerMonth: number }> = {
+  free:    { scansPerMonth: 3 },
+  starter: { scansPerMonth: 50 },
+  pro:     { scansPerMonth: 100 },
+  growth:  { scansPerMonth: 500 },
+  agency:  { scansPerMonth: Infinity },
 };
 
 /** Human-readable display names for each tier (DB value → marketing name). */

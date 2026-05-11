@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { runScan } from "@/lib/scanner/scan-orchestrator";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { normalizeUrl } from "@/lib/scanner/url-normalizer";
-import { getRequestUser } from "@/lib/api-auth";
+import { getRequestUser, type RequestUserResult } from "@/lib/api-auth";
 import type { Fix, Issue } from "@/lib/scanner/types";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
 import {
@@ -84,6 +84,26 @@ const TIER_LIMITS: Record<string, number> = {
   agency:  Infinity,
 };
 
+/** First IP in X-Forwarded-For, or a stable string for local/dev. */
+function clientIp(request: NextRequest): string {
+  const raw = request.headers.get("x-forwarded-for") || "anonymous";
+  return raw.split(",")[0]?.trim() || "anonymous";
+}
+
+/**
+ * Short burst limit per caller so batch jobs (API key) don't share one IP bucket with the whole office.
+ * Anonymous browser traffic stays on a stricter per-IP limit.
+ */
+function scanBurstRateLimit(request: NextRequest, auth: RequestUserResult): boolean {
+  if (auth.source === "api-key" && auth.user) {
+    return checkRateLimit(`api:${auth.user.id}`, 90, 60_000);
+  }
+  if (auth.user) {
+    return checkRateLimit(`user:${auth.user.id}`, 30, 60_000);
+  }
+  return checkRateLimit(clientIp(request), 10, 60_000);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -101,14 +121,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid URL format" }, { status: 400 });
     }
 
-    const ip = request.headers.get("x-forwarded-for") || "anonymous";
-    if (!checkRateLimit(ip, 10, 60000)) {
-      return NextResponse.json({ error: "Rate limit exceeded. Try again in a minute." }, { status: 429 });
-    }
+    const ip = clientIp(request);
     const fingerprintHash = hashSignal(readFingerprint(request));
     const ipHash = hashSignal(getClientIp(request));
 
     if (!process.env.DATABASE_URL) {
+      if (!checkRateLimit(ip, 10, 60_000)) {
+        return NextResponse.json(
+          {
+            error: "Too many scans in a short time. Please wait up to a minute and try again.",
+            retryAfterSeconds: 60,
+            hint: "Demo mode limits how often one connection can start a scan.",
+          },
+          { status: 429, headers: { "Retry-After": "60" } }
+        );
+      }
       const result = await runScan(normalizedUrl, `ephemeral_${Date.now()}`);
       const enrichedIssues = applyIssueGate(enrichIssues(result.issues));
       const gatedFixes = lockAllFixes(enrichFixes(result.fixes));
@@ -130,6 +157,20 @@ export async function POST(request: NextRequest) {
     const auth = await getRequestUser(request);
     if (auth.error) {
       return NextResponse.json({ error: auth.error }, { status: 401 });
+    }
+
+    if (!scanBurstRateLimit(request, auth)) {
+      return NextResponse.json(
+        {
+          error: "Too many scans in a short time. Please wait about a minute and try again.",
+          retryAfterSeconds: 60,
+          hint:
+            auth.source === "api-key"
+              ? "API keys use a higher burst limit than anonymous traffic; spacing batch jobs still reduces queue errors."
+              : "Reduce how many scans you start at once, or wait a minute between batches.",
+        },
+        { status: 429, headers: { "Retry-After": "60" } }
+      );
     }
 
     let userId: string | undefined;

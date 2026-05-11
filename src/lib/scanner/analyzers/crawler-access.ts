@@ -28,11 +28,137 @@ export async function analyzeCrawlerAccess(
       language: "text",
     });
   } else {
+    // RFC-compliant line-by-line robots.txt parser.
+    //
+    // The robots-exclusion standard defines "records" separated by blank lines.
+    // Within a record, User-agent lines appear first, then Disallow/Allow lines.
+    // A new User-agent line following directives starts a new record.
+    // We must never let a regex cross blank-line boundaries.
+    //
+    // Data structure per bot:
+    //   disallowedPaths: Set<string>  — paths hit by Disallow rules in this record
+    //   allowedPaths:    Set<string>  — paths hit by Allow   rules in this record
+    //
+    // A bot is "blocked from root" when its merged rule set has Disallow: /
+    // and no Allow: / (or Allow: ) that overrides it.
+
+    interface BotRules {
+      disallowed: Set<string>;
+      allowed: Set<string>;
+    }
+
+    function parseRobotsTxt(content: string): Map<string, BotRules> {
+      const result = new Map<string, BotRules>();
+
+      const getOrCreate = (agent: string): BotRules => {
+        const key = agent.toLowerCase();
+        if (!result.has(key)) {
+          result.set(key, { disallowed: new Set(), allowed: new Set() });
+        }
+        return result.get(key)!;
+      };
+
+      const lines = content.split(/\r?\n/);
+      let currentAgents: string[] = [];
+      // Track whether the current record has already seen at least one directive.
+      // Per spec, a User-agent line after a directive line begins a new record.
+      let seenDirective = false;
+
+      for (const raw of lines) {
+        // Strip inline comments and trim whitespace
+        const line = raw.replace(/#.*$/, "").trim();
+
+        if (line === "") {
+          // Blank line ends the current record
+          currentAgents = [];
+          seenDirective = false;
+          continue;
+        }
+
+        const colonIdx = line.indexOf(":");
+        if (colonIdx === -1) continue; // malformed line; skip
+
+        const field = line.slice(0, colonIdx).trim().toLowerCase();
+        const value = line.slice(colonIdx + 1).trim();
+
+        if (field === "user-agent") {
+          if (seenDirective) {
+            // Directive already seen in this record — new record starts
+            currentAgents = [];
+            seenDirective = false;
+          }
+          currentAgents.push(value.toLowerCase());
+        } else if (field === "disallow") {
+          seenDirective = true;
+          for (const agent of currentAgents) {
+            getOrCreate(agent).disallowed.add(value);
+          }
+        } else if (field === "allow") {
+          seenDirective = true;
+          for (const agent of currentAgents) {
+            getOrCreate(agent).allowed.add(value);
+          }
+        }
+        // Other fields (Crawl-delay, Sitemap, etc.) are intentionally ignored here
+      }
+
+      return result;
+    }
+
+    // Returns true if the given bot is blocked from the root path ("/").
+    // A bot is blocked if:
+    //   1. Its specific record has Disallow: / and no Allow: / (or Allow: "")
+    //   2. OR the wildcard "*" record blocks root and the specific bot has no rules at all.
+    function isBotBlockedFromRoot(
+      rules: Map<string, BotRules>,
+      botName: string
+    ): boolean {
+      const key = botName.toLowerCase();
+      const botRules = rules.get(key);
+      const wildcardRules = rules.get("*");
+
+      const isBlockedInRecord = (r: BotRules): boolean =>
+        r.disallowed.has("/") && !r.allowed.has("/") && !r.allowed.has("");
+
+      if (botRules) {
+        // Specific record exists — honour it exclusively (specific beats wildcard)
+        return isBlockedInRecord(botRules);
+      }
+
+      // No specific record — fall back to wildcard
+      if (wildcardRules) {
+        return isBlockedInRecord(wildcardRules);
+      }
+
+      return false;
+    }
+
+    // Returns true if the given bot has an explicit Allow: / rule in its record
+    // (or via wildcard if no specific record exists).
+    function hasExplicitAllowForBot(
+      rules: Map<string, BotRules>,
+      botName: string
+    ): boolean {
+      const key = botName.toLowerCase();
+      const botRules = rules.get(key);
+
+      if (botRules) {
+        return botRules.allowed.has("/") || botRules.allowed.has("");
+      }
+
+      const wildcardRules = rules.get("*");
+      if (wildcardRules) {
+        return wildcardRules.allowed.has("/") || wildcardRules.allowed.has("");
+      }
+
+      return false;
+    }
+
+    const parsedRules = parseRobotsTxt(robotsTxt);
+
     // Check existing bots (GPTBot, ClaudeBot, PerplexityBot)
     for (const bot of bots) {
-      const disallowPattern = new RegExp(`User-agent:\\s*${bot}[\\s\\S]*?Disallow:\\s*/`, "i");
-      const allowPattern = new RegExp(`User-agent:\\s*${bot}[\\s\\S]*?Allow:\\s*/`, "i");
-      if (disallowPattern.test(robotsTxt) && !allowPattern.test(robotsTxt)) {
+      if (isBotBlockedFromRoot(parsedRules, bot)) {
         score -= 5;
         issues.push({
           id: `ca-blocked-${bot.toLowerCase()}`,
@@ -52,9 +178,7 @@ export async function analyzeCrawlerAccess(
     }
 
     // Check OAI-SearchBot
-    const oaiDisallow = /User-agent:\s*OAI-SearchBot[\s\S]*?Disallow:\s*\//i.test(robotsTxt);
-    const oaiAllow = /User-agent:\s*OAI-SearchBot[\s\S]*?Allow:\s*\//i.test(robotsTxt);
-    if (oaiDisallow && !oaiAllow) {
+    if (isBotBlockedFromRoot(parsedRules, "OAI-SearchBot")) {
       score -= 5;
       issues.push({
         id: "ca-blocked-oai-searchbot",
@@ -75,10 +199,8 @@ export async function analyzeCrawlerAccess(
     // --- Explicit Allow bonus section ---
     // Check which of the 4 named AI bots have an explicit Allow: / rule
     const explicitAllowBots = ["GPTBot", "ClaudeBot", "PerplexityBot", "OAI-SearchBot"];
-    const hasExplicitAllow = (bot: string): boolean => {
-      const pattern = new RegExp(`User-agent:\\s*${bot.replace("-", "\\-")}[\\s\\S]*?Allow:\\s*/`, "i");
-      return pattern.test(robotsTxt);
-    };
+    const hasExplicitAllow = (bot: string): boolean =>
+      hasExplicitAllowForBot(parsedRules, bot);
     const explicitAllowCount = explicitAllowBots.filter(hasExplicitAllow).length;
 
     if (explicitAllowCount === 4) {

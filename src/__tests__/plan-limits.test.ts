@@ -15,17 +15,15 @@ describe("PLAN_LIMITS shape", () => {
     }
   });
 
-  it("each tier has scansPerMonth and pagesPerScan", () => {
+  it("each tier has scansPerMonth", () => {
     for (const tier of EXPECTED_TIERS) {
       const limits = PLAN_LIMITS[tier];
       expect(typeof limits.scansPerMonth).toBe("number");
-      expect(typeof limits.pagesPerScan).toBe("number");
     }
   });
 
-  it("free tier: 3 scans/month, 1 page/scan", () => {
+  it("free tier: 3 scans/month", () => {
     expect(PLAN_LIMITS.free.scansPerMonth).toBe(3);
-    expect(PLAN_LIMITS.free.pagesPerScan).toBe(1);
   });
 
   it("starter tier: 50 scans/month", () => {

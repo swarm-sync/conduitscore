@@ -32,8 +32,13 @@ function pickGiftFix(fixes: Fix[], issues: Issue[]): Fix | null {
 }
 
 export async function GET(request: NextRequest) {
+  // CRON_SECRET is required — reject if unset to prevent unauthenticated triggers.
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) {
+    return NextResponse.json({ error: "CRON_SECRET env var is not set" }, { status: 500 });
+  }
   const authHeader = request.headers.get("authorization");
-  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -48,6 +53,13 @@ export async function GET(request: NextRequest) {
     // Day 7 — rescan and show what's still broken.
     if (lead.dripDay < DAY_7 && age >= DAY_7 && lead.scanUrl) {
       try {
+        // Atomic claim: only proceed if this instance wins the race.
+        const claimed7 = await prisma.scanLead.updateMany({
+          where: { id: lead.id, dripDay: { lt: DAY_7 } },
+          data: { dripDay: DAY_7, dripSentAt: new Date() },
+        });
+        if (claimed7.count === 0) continue; // another instance already claimed this lead
+
         const result = await runScan(lead.scanUrl, `drip_${lead.id}`);
         const remaining = result.issues.filter((i) => i.severity === "critical").length;
         const reportUrl = lead.scanId
@@ -72,10 +84,6 @@ export async function GET(request: NextRequest) {
           text: `7-day check-in for ${lead.scanUrl}.\n\nCurrent score: ${result.overallScore}/100. Critical issues remaining: ${remaining}.\n\nView report: ${reportUrl}`,
         });
 
-        await prisma.scanLead.update({
-          where: { id: lead.id },
-          data: { dripDay: DAY_7, dripSentAt: new Date() },
-        });
         day7Sent++;
       } catch {
         // Non-fatal — continue with other leads.
@@ -85,6 +93,13 @@ export async function GET(request: NextRequest) {
     // Day 30 — gift one complete code fix.
     if (lead.dripDay < DAY_30 && age >= DAY_30 && lead.scanUrl) {
       try {
+        // Atomic claim: only proceed if this instance wins the race.
+        const claimed30 = await prisma.scanLead.updateMany({
+          where: { id: lead.id, dripDay: { lt: DAY_30 } },
+          data: { dripDay: DAY_30, dripSentAt: new Date() },
+        });
+        if (claimed30.count === 0) continue; // another instance already claimed this lead
+
         const result = await runScan(lead.scanUrl, `drip30_${lead.id}`);
         const enrichedFixes: Fix[] = result.fixes.map((fix) => ({
           ...fix,
@@ -120,10 +135,6 @@ export async function GET(request: NextRequest) {
           text: `Here's a free fix for ${lead.scanUrl}.\n\n${giftFix ? `${giftFix.title}\n\n${giftFix.code}\n\n` : ""}View full report: ${reportUrl}\n\nUnlock all fixes at ${APP_URL}/pricing`,
         });
 
-        await prisma.scanLead.update({
-          where: { id: lead.id },
-          data: { dripDay: DAY_30, dripSentAt: new Date() },
-        });
         day30Sent++;
       } catch {
         // Non-fatal.

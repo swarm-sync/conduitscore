@@ -5,7 +5,7 @@
 **ConduitScore** — AI Visibility Score Scanner. A Next.js 15 SaaS that crawls any website and scores it for visibility to AI agents and LLMs (ChatGPT, Claude, Perplexity, etc.). Users get a 0–100 score, category breakdowns, issue lists, and actionable fixes.
 
 - **Live URL**: https://conduitscore.com
-- **GitHub**: https://github.com/bkauto3/conduitscore (branch: `main`)
+- **GitHub**: https://github.com/swarm-aync/conduitscore (branch: `main`)
 - **Vercel project**: `bens-projects-4026/conduitscore`
 - **Deploy**: push to `main` on GitHub → Vercel production. Optional: `npx vercel --prod` from repo root. Use **`bkauto3@gmail.com`** as commit author email in this repo so Vercel accepts the deployment.
 
@@ -105,13 +105,13 @@ Each analyzer returns category scores, issues, and fixes:
 
 ## Pricing Tiers
 
-| Tier | Price | Scans/mo | Pages/scan |
-|------|-------|----------|------------|
-| free | $0 | 3 | 1 |
-| starter | $29/mo | 50 | 5 |
-| pro | $49/mo | 100 | 50 |
-| growth | $79/mo | 500 | 100 |
-| agency | $149 (Contact Us) | Unlimited | Unlimited |
+| Tier | Price | Scans/mo |
+|------|-------|----------|
+| diagnose| $0 | 3 |
+| fix | $29/mo | 50 |
+| monitor | $49/mo | 100 |
+| alert | $79/mo | 500 |
+| scale | $149 (Contact Us) | Unlimited |
 
 **Stripe Price IDs** (env vars — must be set in Vercel):
 - Starter monthly: `STRIPE_PRICE_STARTER`

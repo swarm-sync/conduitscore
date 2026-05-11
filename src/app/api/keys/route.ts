@@ -36,3 +36,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Failed" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+    if (user.subscriptionTier !== "agency") return NextResponse.json({ error: "Agency tier required" }, { status: 403 });
+    const { id } = await request.json();
+    if (!id) return NextResponse.json({ error: "Key ID required" }, { status: 400 });
+    const apiKey = await prisma.apiKey.findUnique({ where: { id } });
+    if (!apiKey) return NextResponse.json({ error: "Key not found" }, { status: 404 });
+    if (apiKey.userId !== user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    await prisma.apiKey.delete({ where: { id } });
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed" }, { status: 500 });
+  }
+}
