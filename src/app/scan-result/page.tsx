@@ -366,7 +366,7 @@ export default function ScanResultPage() {
   // freeFixStatus is only set by the API for non-paid users — paid users get undefined.
   // Fallback: if freeFixStatus is absent but all fixes are locked, treat as gated.
   const freeFixStatus = result.metadata.freeFixStatus as { state?: string } | undefined;
-  const isGated = freeFixStatus?.state != null
+  const isGated = freeFixStatus?.state != null && freeFixStatus.state !== "paid"
     ? true
     : result.fixes.length > 0 && result.fixes.every((f) => f.locked);
 
