@@ -6,6 +6,15 @@ export const PLAN_LIMITS: Record<string, { scansPerMonth: number; pagesPerScan: 
   agency:  { scansPerMonth: Infinity, pagesPerScan: -1 },
 };
 
+/** Human-readable display names for each tier (DB value → marketing name). */
+export const PLAN_DISPLAY_NAMES: Record<string, string> = {
+  free:    "Diagnose",
+  starter: "Fix",
+  pro:     "Monitor",
+  growth:  "Alert",
+  agency:  "Scale",
+};
+
 const TIER_ORDER = ["free", "starter", "pro", "growth", "agency"] as const;
 
 export type SubscriptionTier = typeof TIER_ORDER[number];

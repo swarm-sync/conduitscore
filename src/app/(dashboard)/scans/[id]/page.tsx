@@ -283,6 +283,8 @@ export default function DashboardScanResultPage() {
         <FixPanel
           fixes={scan.fixes}
           scanDomain={scanDomain}
+          overallScore={scan.overallScore}
+          freeFixStatus={(scan as unknown as { metadata?: { freeFixStatus?: unknown } }).metadata?.freeFixStatus}
         />
       )}
 

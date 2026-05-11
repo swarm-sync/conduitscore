@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { PLAN_FEATURES, PLAN_LIMITS } from "@/lib/plan-limits";
+import { PLAN_DISPLAY_NAMES, PLAN_FEATURES, PLAN_LIMITS } from "@/lib/plan-limits";
 
 type ApiKeyRecord = {
   id: string;
@@ -18,13 +18,10 @@ type CreatedApiKey = {
   createdAt: string;
 };
 
-const PLAN_DETAILS: Record<string, { label: string }> = {
-  free: { label: "Diagnose" },
-  starter: { label: "Fix" },
-  pro: { label: "Monitor" },
-  growth: { label: "Alert" },
-  agency: { label: "Scale" },
-};
+// Use the canonical display names from plan-limits.ts
+const PLAN_DETAILS: Record<string, { label: string }> = Object.fromEntries(
+  Object.entries(PLAN_DISPLAY_NAMES).map(([k, v]) => [k, { label: v }])
+);
 
 const FEATURE_ROWS = [
   {

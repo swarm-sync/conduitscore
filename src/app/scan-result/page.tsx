@@ -362,15 +362,40 @@ export default function ScanResultPage() {
   const criticalCount = result.issues.filter((i) => i.severity === "critical").length;
   const warningCount  = result.issues.filter((i) => i.severity === "warning").length;
 
-  // Determine if this is a free/anonymous user using the server-authoritative signal.
-  // freeFixStatus is only set by the API for non-paid users — paid users get undefined.
-  // Fallback: if freeFixStatus is absent but all fixes are locked, treat as gated.
+  // Determine gating state using the server-authoritative freeFixStatus signal.
+  //
+  // "paid"    → no gate at all (all fixes and issues fully visible)
+  // "granted" → free sample unlocked; individual fix items handle their own lock UI
+  //             via FixPanel, so no full-page overlay is needed
+  // anything else (sign_in_required, monthly_limit, domain_cooldown, etc.)
+  //             → full blur + LockOverlay on both issues and fixes tabs
+  //
+  // Fallback: if freeFixStatus is absent AND every fix is locked, treat as fully gated
+  // so legacy/cached results don't expose raw content.
   const freeFixStatus = result.metadata.freeFixStatus as { state?: string } | undefined;
-  const isGated = freeFixStatus?.state != null && freeFixStatus.state !== "paid"
-    ? true
-    : result.fixes.length > 0 && result.fixes.every((f) => f.locked);
+  const freeFixState = freeFixStatus?.state;
 
-  const needsSignIn = freeFixStatus?.state === "sign_in_required";
+  // States where the user has no access whatsoever — show full blur overlay.
+  const HARD_GATE_STATES = new Set([
+    "sign_in_required",
+    "verified_email_required",
+    "disposable_email",
+    "monthly_limit",
+    "domain_cooldown",
+    "abuse_hold",
+  ]);
+
+  const isFullyGated =
+    freeFixState != null
+      ? HARD_GATE_STATES.has(freeFixState)
+      : result.fixes.length > 0 && result.fixes.every((f) => f.locked);
+
+  // Issue descriptions are stripped server-side for free/non-paid users.
+  // The issues tab overlay should only show when the user is completely blocked
+  // (not when they have a granted sample — they can still see issue titles).
+  const issuesGated = isFullyGated;
+
+  const needsSignIn = freeFixState === "sign_in_required";
   const gateCtaHref = needsSignIn
     ? `/signin?callbackUrl=${encodeURIComponent(
         typeof window !== "undefined"
@@ -624,11 +649,13 @@ export default function ScanResultPage() {
 
               {tab === "issues" && (
                 <div id="tabpanel-issues" role="tabpanel" style={{ position: "relative" }}>
-                  {/* Blurred preview for gated users */}
-                  <div style={{ filter: isGated ? "blur(6px)" : "none", pointerEvents: isGated ? "none" : "auto", userSelect: isGated ? "none" : "auto" }}>
+                  {/* Blur + overlay only for fully-blocked users (no access at all).
+                      Free users with a granted sample still see issue titles because
+                      descriptions are stripped server-side — no overlay needed. */}
+                  <div style={{ filter: issuesGated ? "blur(6px)" : "none", pointerEvents: issuesGated ? "none" : "auto", userSelect: issuesGated ? "none" : "auto" }}>
                     <IssueList issues={result.issues} />
                   </div>
-                  {isGated && (
+                  {issuesGated && (
                     <LockOverlay
                       title="Issues are locked"
                       body="Upgrade to see the full breakdown of what's hurting your AI visibility score."
@@ -641,8 +668,9 @@ export default function ScanResultPage() {
 
               {tab === "fixes" && (
                 <div id="tabpanel-fixes" role="tabpanel" style={{ position: "relative" }}>
-                  {/* Blurred preview for gated users */}
-                  <div style={{ filter: isGated ? "blur(6px)" : "none", pointerEvents: isGated ? "none" : "auto", userSelect: isGated ? "none" : "auto" }}>
+                  {/* Blur + overlay only for fully-blocked users.
+                      "granted" users see their 1 sample fix via FixPanel's own LockGate UI. */}
+                  <div style={{ filter: isFullyGated ? "blur(6px)" : "none", pointerEvents: isFullyGated ? "none" : "auto", userSelect: isFullyGated ? "none" : "auto" }}>
                     <FixPanel
                       fixes={result.fixes}
                       scanDomain={(() => { try { return new URL(result.url).hostname; } catch { return result.url; } })()}
@@ -650,7 +678,7 @@ export default function ScanResultPage() {
                       freeFixStatus={result.metadata.freeFixStatus}
                     />
                   </div>
-                  {isGated && (
+                  {isFullyGated && (
                     <LockOverlay
                       title="Code fixes are locked"
                       body="Get the exact code snippets to fix every issue and improve your score."
@@ -663,8 +691,8 @@ export default function ScanResultPage() {
             </div>
           </div>
 
-          {/* Upgrade CTA — only for gated (free/anonymous) users */}
-          {isGated && (
+          {/* Upgrade CTA — only for fully-blocked users (not for granted-sample free users) */}
+          {isFullyGated && (
             <div
               className="mt-12 rounded-xl p-8"
               style={{

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { UserMenu } from "@/components/layout/user-menu";
+import { PlanNudge } from "@/components/layout/plan-nudge";
 
 const BRAND_LOGO_SRC = "/NEWNEW/nav-logo-200w.png";
 
@@ -110,33 +111,9 @@ export default function DashboardLayout({
           ))}
         </nav>
 
-        {/* Bottom upgrade nudge */}
+        {/* Bottom plan nudge — fetches real tier/count from /api/user/billing */}
         <div className="p-3" style={{ borderTop: "1px solid var(--border-subtle)" }}>
-          <div
-            className="rounded-lg p-3"
-            style={{
-              background: "rgba(124,58,237,0.08)",
-              border: "1px solid var(--border-subtle)",
-            }}
-          >
-            <p className="text-xs font-medium mb-1.5" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
-              Free Plan
-            </p>
-            <p className="text-xs mb-2.5" style={{ color: "var(--text-tertiary)" }}>
-              3 scans/month remaining
-            </p>
-            <Link
-              href="/pricing"
-              className="block w-full text-center rounded-md py-1.5 text-xs font-semibold transition-all"
-              style={{
-                background: "var(--gradient-primary)",
-                color: "#fff",
-                fontFamily: "var(--font-body)",
-              }}
-            >
-              Upgrade
-            </Link>
-          </div>
+          <PlanNudge />
         </div>
       </aside>
 
