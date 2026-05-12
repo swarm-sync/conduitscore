@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-const BRAND_LOGO_SRC = "/logo.svg";
+const BRAND_LOGO_SRC = "/NEWNEW/nav-logo-v2.png";
 
 function SignInContent() {
   const [email, setEmail] = useState("");
@@ -59,32 +59,29 @@ function SignInContent() {
         aria-labelledby="signin-heading"
       >
         {/* Logo */}
-        <div className="mb-8 text-center">
-          <div className="flex justify-center mb-4">
+        <div className="mb-6 text-center">
+          <div className="flex justify-center mb-5">
             <Image
               src={BRAND_LOGO_SRC}
               alt="ConduitScore"
-              width={120}
-              height={46}
+              width={1003}
+              height={338}
               priority
               style={{
                 width: "auto",
-                height: "46px",
+                height: "60px",
                 display: "block",
-                filter: "brightness(0.95) contrast(1.1) drop-shadow(0 0 8px rgba(108,59,255,0.2))",
+                maxWidth: "100%",
               }}
             />
           </div>
           <h1
             id="signin-heading"
-            className="text-lg font-bold leading-tight"
+            className="text-2xl font-bold leading-tight"
             style={{
               fontFamily: "var(--font-display)",
               color: "var(--text-primary)",
-              letterSpacing: "-0.02em",
-              display: "block",
-              wordWrap: "break-word",
-              overflowWrap: "break-word",
+              letterSpacing: "-0.03em",
             }}
           >
             Sign in to{" "}
@@ -94,13 +91,13 @@ function SignInContent() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                display: "inline-block",
+                display: "inline",
               }}
             >
               ConduitScore
             </span>
           </h1>
-          <p className="mt-1.5 text-sm" style={{ color: "var(--text-tertiary)" }}>
+          <p className="mt-2 text-sm" style={{ color: "var(--text-tertiary)" }}>
             Access your AI visibility dashboard
           </p>
         </div>
