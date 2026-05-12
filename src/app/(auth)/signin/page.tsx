@@ -71,7 +71,7 @@ function SignInContent() {
                 width: "auto",
                 height: "46px",
                 display: "block",
-                mixBlendMode: "darken",
+                filter: "brightness(0.95) contrast(1.1) drop-shadow(0 0 8px rgba(108,59,255,0.2))",
               }}
             />
           </div>
