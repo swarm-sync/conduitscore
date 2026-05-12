@@ -1,0 +1,6 @@
+domain,email,source_url,source_type,found_in,crawl_depth,confidence_score,confidence_label,reason_flags,sighting_count
+ghost.org,support@ghost.org,https://ghost.org/contact/,httpx,html,1,100,high,domain_exact_match|contact_page|high_value_prefix,1
+cal.com,support@cal.com,https://cal.com/,httpx,cf_obfuscated,0,100,high,domain_exact_match|cf_obfuscated_decoded|seen_12_pages|high_value_prefix,12
+cloudflare.com,,,,,,0,reject,no_emails_found,0
+datadoghq.com,press@datadoghq.com,https://www.datadoghq.com/about/latest-news/press-releases/,httpx,mailto,1,100,high,domain_exact_match|about_or_team_page|mailto_link,1
+yourmechanic.com,hi@yourmechanic.com,https://yourmechanic.com/,httpx,mailto,0,100,high,domain_exact_match|mailto_link|seen_10_pages|high_value_prefix,10

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 import time
+import datetime as dt
 
 from conduit_outreach_pipeline import config
 
@@ -40,6 +41,18 @@ def _migrate(conn: sqlite3.Connection) -> None:
             domain TEXT,
             unsubscribed INTEGER NOT NULL DEFAULT 0,
             created_at REAL NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS smtp_daily_sends (
+            account TEXT NOT NULL,
+            date_utc TEXT NOT NULL,
+            count INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (account, date_utc)
+        );
+        CREATE TABLE IF NOT EXISTS send_retry (
+            dedupe_key TEXT PRIMARY KEY,
+            failure_count INTEGER NOT NULL DEFAULT 0,
+            next_eligible_at REAL NOT NULL DEFAULT 0,
+            last_error TEXT
         );
         """
     )
@@ -130,3 +143,83 @@ def unsub_mark(token: str) -> None:
             "UPDATE unsubscribe_tokens SET unsubscribed = 1 WHERE token = ?", (token,)
         )
         c.commit()
+
+
+def _utc_day_key() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d")
+
+
+def smtp_sent_today(account: str) -> int:
+    with connect() as c:
+        row = c.execute(
+            "SELECT count FROM smtp_daily_sends WHERE account = ? AND date_utc = ?",
+            (account.lower(), _utc_day_key()),
+        ).fetchone()
+        return int(row["count"]) if row else 0
+
+
+def smtp_mark_sent(account: str) -> None:
+    with connect() as c:
+        c.execute(
+            """
+            INSERT INTO smtp_daily_sends(account, date_utc, count)
+            VALUES(?,?,1)
+            ON CONFLICT(account, date_utc) DO UPDATE SET count = count + 1
+            """,
+            (account.lower(), _utc_day_key()),
+        )
+        c.commit()
+
+
+def send_retry_ready(dedupe_key: str) -> bool:
+    """True if no backoff row or current time >= next_eligible_at."""
+    with connect() as c:
+        row = c.execute(
+            "SELECT next_eligible_at FROM send_retry WHERE dedupe_key = ?", (dedupe_key,)
+        ).fetchone()
+        if not row:
+            return True
+        return time.time() >= float(row["next_eligible_at"])
+
+
+def send_retry_clear(dedupe_key: str) -> None:
+    with connect() as c:
+        c.execute("DELETE FROM send_retry WHERE dedupe_key = ?", (dedupe_key,))
+        c.commit()
+
+
+def send_retry_record_failure(dedupe_key: str, err: str) -> str:
+    """
+    Increment failure count, schedule next_eligible_at from SEND_BACKOFF_SECONDS.
+    Returns 'retry' (will try again later) or 'exhausted' (no more attempts).
+    """
+    max_att = config.send_max_attempts()
+    backoffs = config.send_backoff_seconds_list()
+    now = time.time()
+    err_short = (err or "")[:500]
+    with connect() as c:
+        row = c.execute(
+            "SELECT failure_count FROM send_retry WHERE dedupe_key = ?", (dedupe_key,)
+        ).fetchone()
+        fc = int(row["failure_count"]) if row else 0
+        fc += 1
+        if fc >= max_att:
+            c.execute("DELETE FROM send_retry WHERE dedupe_key = ?", (dedupe_key,))
+            c.commit()
+            return "exhausted"
+        idx = min(fc - 1, len(backoffs) - 1)
+        wait = float(backoffs[idx])
+        next_t = now + wait
+        c.execute(
+            """
+            INSERT INTO send_retry(dedupe_key, failure_count, next_eligible_at, last_error)
+            VALUES(?,?,?,?)
+            ON CONFLICT(dedupe_key) DO UPDATE SET
+              failure_count=excluded.failure_count,
+              next_eligible_at=excluded.next_eligible_at,
+              last_error=excluded.last_error
+            """,
+            (dedupe_key, fc, next_t, err_short),
+        )
+        c.commit()
+        return "retry"

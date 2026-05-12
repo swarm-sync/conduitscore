@@ -136,6 +136,26 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // Agent discovery: Rewrite agent files to API routes (avoids redirect chain)
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/llms.txt",
+          destination: "/api/agent/llms-txt",
+        },
+        {
+          source: "/llms-full.txt",
+          destination: "/api/agent/llms-full-txt",
+        },
+        {
+          source: "/.well-known/agent-card.json",
+          destination: "/api/agent/card",
+        },
+      ],
+    };
+  },
 };
 
 export default nextConfig;

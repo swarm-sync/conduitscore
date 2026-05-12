@@ -1,0 +1,11 @@
+domain,receiver_email,email,notes,scrape_source
+digitalnomadshq.com.au,hello@dnhq.com.au,hello@dnhq.com.au,sample force-scan batch,sample
+10xllm.com,hello@10xllm.com,hello@10xllm.com,had HTTP 500 before,sample
+hawksem.com,hello@hawksem.com,hello@hawksem.com,sample force-scan batch,sample
+ignitedigital.com,hello@ignitedigital.com,hello@ignitedigital.com,sample force-scan batch,sample
+openmoves.com,sales@openmoves.com,sales@openmoves.com,sample force-scan batch,sample
+skillprepare.com,team@skillprepare.com,team@skillprepare.com,sample force-scan batch,sample
+audionotes.app,hello@audionotes.app,hello@audionotes.app,sample force-scan batch,sample
+awsfundamentals.com,hello@awsfundamentals.com,hello@awsfundamentals.com,sample force-scan batch,sample
+writesonic.com,hello@ritesonic.com,hello@ritesonic.com,sample force-scan batch,sample
+blocksurvey.io,hello@blocksurvey.io,hello@blocksurvey.io,sample force-scan batch,sample

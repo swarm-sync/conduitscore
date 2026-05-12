@@ -1,0 +1,2 @@
+domain,receiver_email,first_name,company_name,industry_vertical,icp_tag,notes,scrape_source,batch_group,send_priority
+example.com,benoneteamgoal@gmail.com,Ben,Example Co,SaaS,B2B,live pass test,manual,live-pass,1

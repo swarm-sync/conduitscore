@@ -1,0 +1,61 @@
+C:\Python313\Lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (7.4.0.post2)/charset_normalizer (3.4.5) doesn't match a supported version!
+  warnings.warn(
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ Traceback (most recent call last) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé C:\Users\Administrator\Desktop\ConduitScore\conduit_outreach_pipeline\src\co Γöé
+Γöé nduit_outreach_pipeline\cli.py:75 in process_csv                             Γöé
+Γöé                                                                              Γöé
+Γöé    72 Γöé   Γöé   Γöé   Γöé   console.print(f"[yellow]Skip (no email): {domain}[/yel Γöé
+Γöé    73 Γöé   Γöé   Γöé   Γöé   continue                                               Γöé
+Γöé    74 Γöé   Γöé   Γöé                                                              Γöé
+Γöé >  75 Γöé   Γöé   Γöé   rows = build_sheet_rows_for_prospect(                      Γöé
+Γöé    76 Γöé   Γöé   Γöé   Γöé   domain=domain,                                         Γöé
+Γöé    77 Γöé   Γöé   Γöé   Γöé   receiver_email=email,                                  Γöé
+Γöé    78 Γöé   Γöé   Γöé   Γöé   first_name=(raw.get("first_name") or raw.get("first")  Γöé
+Γöé                                                                              Γöé
+Γöé C:\Users\Administrator\Desktop\ConduitScore\conduit_outreach_pipeline\src\co Γöé
+Γöé nduit_outreach_pipeline\row_builder.py:43 in build_sheet_rows_for_prospect   Γöé
+Γöé                                                                              Γöé
+Γöé    40 Γöé   force_refresh_scan: bool = False,                                  Γöé
+Γöé    41 Γöé   steps: tuple[int, ...] = (1, 2, 3, 4, 5),                          Γöé
+Γöé    42 ) -> list[dict[str, str]]:                                             Γöé
+Γöé >  43 Γöé   scan = scan_domain_cached(domain, force_refresh=force_refresh_scan Γöé
+Γöé    44 Γöé   top_title, top_desc = pick_top_issue(scan)                         Γöé
+Γöé    45 Γöé   fix_title, fix_desc, fix_code = pick_top_fix(scan, top_title)      Γöé
+Γöé    46 Γöé   seq = classify_sequence(                                           Γöé
+Γöé                                                                              Γöé
+Γöé C:\Users\Administrator\Desktop\ConduitScore\conduit_outreach_pipeline\src\co Γöé
+Γöé nduit_outreach_pipeline\conduit_cached.py:59 in scan_domain_cached           Γöé
+Γöé                                                                              Γöé
+Γöé    56 Γöé   Γöé   if cached:                                                     Γöé
+Γöé    57 Γöé   Γöé   Γöé   return json.loads(cached)                                  Γöé
+Γöé    58 Γöé   url = url_or_domain if "://" in url_or_domain else f"https://{url_ Γöé
+Γöé >  59 Γöé   data = scan_domain_raw(url)                                        Γöé
+Γöé    60 Γöé   db.cache_put(dom, json.dumps(data))                                Γöé
+Γöé    61 Γöé   return data                                                        Γöé
+Γöé    62                                                                        Γöé
+Γöé                                                                              Γöé
+Γöé C:\Users\Administrator\Desktop\ConduitScore\conduit_outreach_pipeline\src\co Γöé
+Γöé nduit_outreach_pipeline\conduit_cached.py:48 in scan_domain_raw              Γöé
+Γöé                                                                              Γöé
+Γöé    45 Γöé   Γöé   Γöé   if r.status_code in retry_on and attempt + 1 < max_attempt Γöé
+Γöé    46 Γöé   Γöé   Γöé   Γöé   time.sleep(base_backoff * (2**attempt))                Γöé
+Γöé    47 Γöé   Γöé   Γöé   Γöé   continue                                               Γöé
+Γöé >  48 Γöé   Γöé   Γöé   r.raise_for_status()                                       Γöé
+Γöé    49 Γöé   Γöé   Γöé   return r.json()                                            Γöé
+Γöé    50                                                                        Γöé
+Γöé    51                                                                        Γöé
+Γöé                                                                              Γöé
+Γöé C:\Python313\Lib\site-packages\httpx\_models.py:829 in raise_for_status      Γöé
+Γöé                                                                              Γöé
+Γöé    826 Γöé   Γöé   }                                                             Γöé
+Γöé    827 Γöé   Γöé   error_type = error_types.get(status_class, "Invalid status co Γöé
+Γöé    828 Γöé   Γöé   message = message.format(self, error_type=error_type)         Γöé
+Γöé >  829 Γöé   Γöé   raise HTTPStatusError(message, request=request, response=self Γöé
+Γöé    830 Γöé                                                                     Γöé
+Γöé    831 Γöé   def json(self, **kwargs: typing.Any) -> typing.Any:               Γöé
+Γöé    832 Γöé   Γöé   return jsonlib.loads(self.content, **kwargs)                  Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+HTTPStatusError: Server error '500 Internal Server Error' for url 
+'https://conduitscore.com/api/scan'
+For more information check: 
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500

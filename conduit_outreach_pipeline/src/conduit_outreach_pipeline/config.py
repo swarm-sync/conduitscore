@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import sys
+import json
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -49,15 +50,18 @@ def load_env() -> None:
     if pkg.is_file():
         load_dotenv(pkg, override=True)
 
+    # Reverse-funnel skill .env (or REVERSE_FUNNEL_ENV_DIR) should win for ConduitScore keys
+    # and other harvest/outreach vars — load last with override so empty values in pkg/.env
+    # do not block CONDUITSCORE_API_KEY from the skill.
     env_dir = os.environ.get("REVERSE_FUNNEL_ENV_DIR", "").strip()
     if env_dir:
         p = Path(env_dir) / ".env"
         if p.is_file():
-            load_dotenv(p, override=False)
+            load_dotenv(p, override=True)
     else:
         sk = _skill_env_dir()
         if sk and (sk / ".env").is_file():
-            load_dotenv(sk / ".env", override=False)
+            load_dotenv(sk / ".env", override=True)
 
     load_dotenv(override=False)
 
@@ -181,6 +185,59 @@ def sender_emails_rotation() -> list[str]:
     return [x.strip() for x in raw.split(",") if x.strip()]
 
 
+def smtp_accounts_rotation() -> list[dict[str, str]]:
+    """
+    SMTP account rotation from JSON in SMTP_ACCOUNTS.
+    Example:
+    [{"user":"a@gmail.com","password":"app-pass","from_name":"Ben","from_email":"a@gmail.com","daily_limit":200}]
+    """
+    raw = get_str("SMTP_ACCOUNTS", "")
+    if not raw:
+        return []
+    try:
+        parsed = json.loads(raw)
+    except Exception as exc:
+        raise RuntimeError("SMTP_ACCOUNTS must be valid JSON array") from exc
+    if not isinstance(parsed, list):
+        raise RuntimeError("SMTP_ACCOUNTS must be a JSON array")
+    out: list[dict[str, str]] = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            continue
+        user = str(item.get("user", "")).strip()
+        password = str(item.get("password", "")).strip()
+        if not user or not password:
+            continue
+        out.append(
+            {
+                "user": user,
+                "password": password,
+                "from_name": str(item.get("from_name", "")).strip(),
+                "from_email": str(item.get("from_email", "")).strip() or user,
+                "daily_limit": str(item.get("daily_limit", "")).strip(),
+            }
+        )
+    return out
+
+
+def smtp_safety_ratio() -> float:
+    """
+    Safety multiplier for hard per-account send cap.
+    Example: allowed 40/day with ratio 0.75 => hard cap 30/day.
+    """
+    v = get_float("SMTP_DAILY_SAFETY_RATIO", 0.75)
+    if v <= 0:
+        return 0.75
+    return min(v, 1.0)
+
+
+def smtp_default_allowed_daily() -> int:
+    """
+    Fallback allowed daily limit when account JSON has no daily_limit.
+    """
+    return get_int("SMTP_DEFAULT_ALLOWED_DAILY", 40)
+
+
 def template_root() -> Path:
     return Path(__file__).resolve().parent / "templates"
 
@@ -202,3 +259,22 @@ def template_version() -> str:
     if vfile.is_file():
         return vfile.read_text(encoding="utf-8").strip() or "1.1"
     return get_str("TEMPLATE_VERSION", "1.1")
+
+
+def send_max_attempts() -> int:
+    """Max failed send attempts per dedupe key before sheet status becomes failed_max_retries."""
+    return max(1, get_int("SEND_MAX_ATTEMPTS", 5))
+
+
+def send_backoff_seconds_list() -> list[int]:
+    """
+    Comma-separated backoff seconds after each failure (stages repeat last value if more failures).
+    Default: 5m, 15m, 1h, 4h, 24h.
+    """
+    raw = get_str("SEND_BACKOFF_SECONDS", "300,900,3600,14400,86400")
+    out: list[int] = []
+    for part in raw.split(","):
+        p = part.strip()
+        if p.isdigit():
+            out.append(int(p))
+    return out if out else [300, 900, 3600, 14400, 86400]

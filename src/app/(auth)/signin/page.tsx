@@ -60,32 +60,19 @@ function SignInContent() {
       >
         {/* Logo */}
         <div className="mb-8 text-center">
-          <div className="flex justify-center mb-4 overflow-hidden">
-            <div
+          <div className="flex justify-center mb-4">
+            <Image
+              src={BRAND_LOGO_SRC}
+              alt="ConduitScore"
+              width={120}
+              height={46}
+              priority
               style={{
-                width: "140px",
-                height: "54px",
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: "auto",
+                height: "46px",
+                display: "block",
               }}
-            >
-              <Image
-                src={BRAND_LOGO_SRC}
-                alt="ConduitScore"
-                width={756}
-                height={292}
-                priority
-                style={{
-                  objectFit: "contain",
-                  width: "100%",
-                  height: "100%",
-                  display: "block",
-                  filter: "drop-shadow(0 0 0 transparent)",
-                }}
-              />
-            </div>
+            />
           </div>
           <h1
             id="signin-heading"

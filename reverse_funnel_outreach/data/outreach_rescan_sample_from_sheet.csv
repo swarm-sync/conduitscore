@@ -1,0 +1,11 @@
+domain,receiver_email,email,notes,scrape_source
+10xllm.com,hello@10xllm.com,hello@10xllm.com,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+tastejury.com,hello@tastejury.com,hello@tastejury.com,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+tempo.ms,hello@tempo.ms,hello@tempo.ms,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+popup-project.io,hello@popup-project.io,hello@popup-project.io,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+toolske.com,hello@toolske.com,hello@toolske.com,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+trustloop.co,hello@trustloop.co,hello@trustloop.co,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+byjus.com,hello@byjus.com,hello@byjus.com,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+tableandtwist.in,hello@tableandtwist.in,hello@tableandtwist.in,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+140proof.com,hello@140proof.com,hello@140proof.com,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample
+printrash.in,hello@printrash.in,hello@printrash.in,rescan_sample picked from Google Sheet (placeholder or low score),sheet_rescan_sample

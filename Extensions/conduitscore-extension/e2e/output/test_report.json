@@ -1,0 +1,155 @@
+{
+  "run_at": "2026-04-16T22:01:43.270884Z",
+  "base_url": "https://conduitscore.com",
+  "duration_seconds": 66.1,
+  "total": 17,
+  "passed": 16,
+  "failed": 1,
+  "checkpoints": {
+    "p0_pass_rate": 1.0,
+    "p1_pass_rate": 1.0,
+    "p2_pass_rate": 0.6666666666666666
+  },
+  "deployment_gate": {
+    "p0_blocking": false,
+    "p1_blocking": false
+  },
+  "results": [
+    {
+      "test": "P0.homepage_loads",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "title='ConduitScore \u2014 See Why AI Ignores Your Site' status=200",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:45.842088Z"
+    },
+    {
+      "test": "P0.privacy_chrome_extension_section",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "CWS requirement met \u2014 deploy is live",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:48.277186Z"
+    },
+    {
+      "test": "P0.pricing_renders",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "3/3 tier prices present",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:50.783639Z"
+    },
+    {
+      "test": "P0.signin_loads",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "google_btn=True email_input=True",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:52.865013Z"
+    },
+    {
+      "test": "P0.scan_form_present",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "inputs=2 buttons=2",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:55.290656Z"
+    },
+    {
+      "test": "P0.api_health",
+      "priority": "P0",
+      "status": "PASS",
+      "note": "status=200",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:00:55.970319Z"
+    },
+    {
+      "test": "P1.scan_result_invalid_id_graceful",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "status=200 len=22656",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:03.781681Z"
+    },
+    {
+      "test": "P1.pricing_has_ctas",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "upgrade/subscribe affordance present",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:05.939654Z"
+    },
+    {
+      "test": "P1.homepage_mobile_no_overflow",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "scrollW=375 clientW=375",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:08.765992Z"
+    },
+    {
+      "test": "P1.privacy_mobile_no_overflow",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "scrollW=375 clientW=375",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:10.252760Z"
+    },
+    {
+      "test": "P1.pricing_mobile_no_overflow",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "scrollW=375 clientW=375",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:11.859889Z"
+    },
+    {
+      "test": "P1.robots_txt",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "status=200",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:12.585696Z"
+    },
+    {
+      "test": "P1.sitemap_xml",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "status=200",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:21.467555Z"
+    },
+    {
+      "test": "P1.homepage_no_404_subresources",
+      "priority": "P1",
+      "status": "PASS",
+      "note": "all subresources loaded",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:23.482286Z"
+    },
+    {
+      "test": "P2.homepage_meta_desc",
+      "priority": "P2",
+      "status": "PASS",
+      "note": "len=228",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:24.292618Z"
+    },
+    {
+      "test": "P2.privacy_title",
+      "priority": "P2",
+      "status": "PASS",
+      "note": "title='Privacy Policy \u2014 ConduitScore | ConduitScore'",
+      "screenshot": null,
+      "timestamp": "2026-04-16T22:01:24.743485Z"
+    },
+    {
+      "test": "homepage_og_image",
+      "priority": "P2",
+      "status": "FAIL",
+      "note": "TimeoutError: Locator.get_attribute: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator(\"meta[property=\\\"og:image\\\"]\")\n",
+      "screenshot": "C:\\Users\\Administrator\\Desktop\\ConduitScore\\Extensions\\conduitscore-extension\\e2e\\output\\failures\\homepage_og_image_attempt1.png",
+      "timestamp": "2026-04-16T22:01:42.180368Z"
+    }
+  ]
+}

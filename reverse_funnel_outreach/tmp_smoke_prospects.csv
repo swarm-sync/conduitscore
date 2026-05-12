@@ -1,0 +1,6 @@
+domain,receiver_email,email,notes,scrape_source
+stripe.com,jane.diaz@stripe.com,jane.diaz@stripe.com,score=100; label=high; source=https://stripe.com/,site_page
+notion.com,team@makenotion.com,team@makenotion.com,score=96; label=high; source=https://www.notion.com/security,site_page
+airtable.com,sales@airtable.com,sales@airtable.com,score=100; label=high; source=https://www.airtable.com/company/trust-and-security,site_page
+vercel.com,privacy@vercel.com,privacy@vercel.com,score=100; label=high; source=https://vercel.com/legal/privacy-policy,site_page
+cal.com,support@cal.com,support@cal.com,score=100; label=high; source=https://cal.com/,site_page

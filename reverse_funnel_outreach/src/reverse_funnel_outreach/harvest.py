@@ -14,6 +14,17 @@ from reverse_funnel_outreach import config
 from reverse_funnel_outreach.email_extract import extract_emails_from_text, prefer_contact_emails
 
 
+def _set_windows_asyncio_for_playwright() -> None:
+    """Crawl4AI/Playwright subprocess transport requires Proactor on Windows."""
+    import sys
+
+    if sys.platform == "win32":
+        try:
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+        except Exception:
+            pass
+
+
 @dataclass
 class HarvestResult:
     url: str
@@ -51,6 +62,7 @@ async def _harvest_crawl4ai_async(url: str) -> str:
 
 
 def harvest_crawl4ai(url: str) -> tuple[str, list[str]]:
+    _set_windows_asyncio_for_playwright()
     html = asyncio.run(_harvest_crawl4ai_async(url))
     if not html:
         return "", []
@@ -160,6 +172,23 @@ def harvest_url(
                 result.sources.append("crawl4ai+trafilatura")
         except Exception as e:
             result.sources.append(f"crawl4ai_error:{e!s}")
+
+    if config.use_conduit_browser():
+        try:
+            from reverse_funnel_outreach.harvest_conduit import harvest_conduit_crawl
+
+            _, cond = harvest_conduit_crawl(
+                url,
+                max_depth=config.conduit_harvest_max_depth(),
+                page_limit=config.conduit_harvest_page_limit(),
+            )
+            if cond:
+                for e in cond:
+                    if e not in result.emails:
+                        result.emails.append(e)
+                result.sources.append("conduit+crawl")
+        except Exception as e:
+            result.sources.append(f"conduit_error:{e!s}")
 
     if use_scrapy:
         try:

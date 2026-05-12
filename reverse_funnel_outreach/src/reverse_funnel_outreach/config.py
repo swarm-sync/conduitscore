@@ -110,3 +110,53 @@ def user_agent() -> str:
         "USER_AGENT",
         "ReverseFunnelOutreach/0.1 (+https://conduitscore.com)",
     )
+
+
+def use_conduit_browser() -> bool:
+    """
+    When auto (default): enable Conduit crawl if CONDUIT_ROOT exists (or default path).
+    Set USE_CONDUIT_BROWSER=false to skip; true to require (fails loudly if Conduit missing).
+    """
+    v = get_str("USE_CONDUIT_BROWSER", "auto").lower()
+    if v in ("1", "true", "yes", "on"):
+        return True
+    if v in ("0", "false", "no", "off"):
+        return False
+    try:
+        from reverse_funnel_outreach.harvest_conduit import conduit_available
+
+        return conduit_available()
+    except Exception:
+        return False
+
+
+def conduit_harvest_max_depth() -> int:
+    return max(0, get_int("CONDUIT_HARVEST_MAX_DEPTH", 1))
+
+
+def conduit_harvest_page_limit() -> int:
+    return max(1, min(200, get_int("CONDUIT_HARVEST_PAGE_LIMIT", 25)))
+
+
+def osint_limit() -> int:
+    return max(1, min(100, get_int("OSINT_LIMIT", 20)))
+
+
+def min_deliverability_confidence() -> int:
+    return max(0, min(100, get_int("MIN_DELIVERABILITY_CONFIDENCE", 0)))
+
+
+def respect_robots() -> bool:
+    return get_bool("RESPECT_ROBOTS", True)
+
+
+def max_seconds_per_domain() -> int:
+    return max(10, get_int("MAX_SECONDS_PER_DOMAIN", 120))
+
+
+def browser_fallback_enabled() -> bool:
+    return get_bool("BROWSER_FALLBACK_ENABLED", True)
+
+
+def browser_fallback_min_pages() -> int:
+    return max(1, get_int("BROWSER_FALLBACK_MIN_PAGES", 2))

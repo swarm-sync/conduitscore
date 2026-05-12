@@ -129,6 +129,8 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#FF2D55",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "llms.txt": "/llms.txt",
+    "agent-manifest": "/.well-known/agent-card.json",
   },
 };
 
@@ -274,6 +276,9 @@ export default function RootLayout({
         <link rel="shortcut icon" href={FAVICON_ICO_PATH} />
         <link rel="apple-touch-icon" href={APPLE_TOUCH_ICON_PATH} />
         <link rel="manifest" href={SITE_MANIFEST_PATH} />
+        {/* Agent discovery: llms.txt and agent-card.json */}
+        <link rel="llms-full" href="/llms-full.txt" type="text/plain" />
+        <link rel="agent-manifest" href="/.well-known/agent-card.json" type="application/json" />
         <OrganizationJsonLd />
         <SoftwareApplicationJsonLd />
         <WebSiteJsonLd />

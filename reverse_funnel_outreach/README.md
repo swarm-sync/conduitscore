@@ -6,6 +6,8 @@ Standalone pipeline:
 2. **Scan** domains with **ConduitScore** `POST /api/scan` (Agency API key).
 3. **Render** cold emails from `cold-email-variants.md` (Jinja-style `{{placeholders}}`).
 
+**Only need scraped emails at scale?** Use **`rf-outreach bulk-emails`** — domains in (CSV or `.txt`) → one CSV with every email found. No API scan, no sheet, no mail merge. The separate `conduit-op` stack is optional glue for later.
+
 **Plain-English walkthrough:** [`REVERSE_FUNNEL_OUTREACH_GUIDE.md`](REVERSE_FUNNEL_OUTREACH_GUIDE.md)
 
 **Full production pipeline** (Google Sheet columns, Gmail sender, A/B/C×5, snippets, caching): see [`../conduit_outreach_pipeline/`](../conduit_outreach_pipeline/) and `conduit-op`.
@@ -37,6 +39,11 @@ Standalone pipeline:
 ## Commands
 
 ```bash
+# Big list of domains → harvested_emails.csv (full httpx + Crawl4AI + Scrapy stack)
+rf-outreach bulk-emails my_domains.txt -o harvested_emails.csv
+rf-outreach bulk-emails prospects.csv -o out.csv --one-per-domain --no-dedupe
+rf-outreach prepare-prospects out.csv -o prospects_ready.csv --one-per-domain --min-confidence 55
+
 rf-outreach harvest https://example.com
 rf-outreach harvest https://example.com --no-crawl4ai --no-scrapy
 rf-outreach scan https://example.com -o scan.json

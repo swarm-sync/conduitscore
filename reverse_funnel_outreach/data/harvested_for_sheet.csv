@@ -1,0 +1,17 @@
+domain,email,sources,note
+ghost.org,hello@ghost.org,conduit+crawl;scrapy,
+cal.com,support@cal.com,crawl4ai+trafilatura;conduit+crawl;scrapy_error:,
+astro.build,michael@lexingtonthemes.com,httpx+trafilatura;crawl4ai+trafilatura;conduit+crawl;scrapy_error:,
+fly.io,,scrapy_error:,no_emails_found
+railway.app,,scrapy_error:,no_emails_found
+render.com,abuse@render.com,conduit+crawl;scrapy_error:,
+netlify.com,fraud@netlify.com,httpx+trafilatura;crawl4ai+trafilatura;scrapy_error:,
+cloudflare.com,legal@cloudflare.com,httpx+trafilatura;crawl4ai+trafilatura;scrapy_error:,
+digitalocean.com,,scrapy_error:,no_emails_found
+heroku.com,,scrapy_error:,no_emails_found
+mongodb.com,bob@smith.com,conduit+crawl;scrapy_error:,
+redis.io,alice@work.com,httpx+trafilatura;crawl4ai+trafilatura;conduit+crawl;scrapy_error:,
+elastic.co,,scrapy_error:,no_emails_found
+datadoghq.com,info@datadoghq.com,httpx+trafilatura;crawl4ai+trafilatura;scrapy_error:,
+hashicorp.com,,"httpx_error:Client error '429 Too Many Requests' for url 'https://hashicorp.com'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429;scrapy_error:",no_emails_found

@@ -1,12 +1,39 @@
 from __future__ import annotations
 
 import json
+import logging
+import random
 import time
 from typing import Any
 
 import httpx
 
 from conduit_outreach_pipeline import config, db
+
+logger = logging.getLogger(__name__)
+
+
+def _api_error_message(response: httpx.Response | None) -> str:
+    """Pull plain-text error from JSON body when the API returns 4xx/5xx."""
+    if response is None:
+        return ""
+    try:
+        data = response.json()
+        if isinstance(data, dict):
+            err = data.get("error")
+            if isinstance(err, str) and err.strip():
+                out = err.strip()
+                hint = data.get("hint")
+                if isinstance(hint, str) and hint.strip():
+                    out = f"{out} — {hint.strip()}"
+                retry = data.get("retryAfterSeconds")
+                if isinstance(retry, (int, float)) and retry > 0:
+                    out = f"{out} (retry after ~{int(retry)}s)"
+                return out[:500]
+    except Exception:
+        pass
+    text = (response.text or "").strip()
+    return text[:300] if text else ""
 
 
 def _normalize_domain(url_or_domain: str) -> str:
@@ -31,14 +58,60 @@ def scan_domain_raw(url: str) -> dict[str, Any]:
         "Accept": "application/json",
         "x-api-key": key,
     }
-    rlm = config.get_int("RATE_LIMIT_PER_MINUTE", 30)
+    # Default 8/min (~7.5s between calls) stays under anonymous burst limits when many tools share one IP.
+    rlm = config.get_int("RATE_LIMIT_PER_MINUTE", 8)
+    jitter = max(0.0, config.get_float("CONDUITSCAN_REQUEST_JITTER_SECONDS", 0.35))
     if rlm > 0:
-        time.sleep(60.0 / max(rlm, 1))
+        time.sleep(60.0 / max(rlm, 1) + random.uniform(0, jitter))
+
+    max_attempts = max(1, config.get_int("CONDUITSCAN_RETRY_ATTEMPTS", 4))
+    base_backoff = max(0.5, config.get_float("CONDUITSCAN_RETRY_BACKOFF_SECONDS", 2.0))
+    retry_on = {429, 500, 502, 503, 504}
 
     with httpx.Client(timeout=120.0) as client:
-        r = client.post(f"{base}/api/scan", headers=headers, json={"url": url})
-        r.raise_for_status()
-        return r.json()
+        for attempt in range(max_attempts):
+            r = client.post(f"{base}/api/scan", headers=headers, json={"url": url})
+            if r.status_code in retry_on and attempt + 1 < max_attempts:
+                extra = 0.0
+                if r.status_code == 429:
+                    try:
+                        ra = r.headers.get("Retry-After")
+                        if ra and str(ra).isdigit():
+                            extra = float(ra)
+                    except Exception:
+                        extra = 0.0
+                wait = base_backoff * (2**attempt) + extra
+                logger.warning(
+                    "ConduitScore scan retry %s/%s for %s (HTTP %s)",
+                    attempt + 1,
+                    max_attempts,
+                    url,
+                    r.status_code,
+                )
+                time.sleep(wait)
+                continue
+            r.raise_for_status()
+            return r.json()
+
+
+def _failed_scan_placeholder(reason: str) -> dict[str, Any]:
+    """Minimal payload when the API errors so sheet rows and emails can still be built."""
+    r = (reason or "unknown error").strip()[:500]
+    return {
+        "overallScore": 0,
+        "issues": [
+            {
+                "severity": "info",
+                "title": "Scan temporarily unavailable",
+                "description": r,
+                "id": "scan_failed",
+            }
+        ],
+        "fixes": [],
+        "categories": [],
+        "id": None,
+        "metadata": {"scan_failed": True},
+    }
 
 
 def scan_domain_cached(url_or_domain: str, *, force_refresh: bool = False) -> dict[str, Any]:
@@ -48,7 +121,20 @@ def scan_domain_cached(url_or_domain: str, *, force_refresh: bool = False) -> di
         if cached:
             return json.loads(cached)
     url = url_or_domain if "://" in url_or_domain else f"https://{url_or_domain}"
-    data = scan_domain_raw(url)
+    try:
+        data = scan_domain_raw(url)
+    except httpx.HTTPStatusError as e:
+        code = e.response.status_code if e.response is not None else "?"
+        detail = _api_error_message(e.response) if e.response is not None else ""
+        msg = f"HTTP {code} from ConduitScore for {dom}"
+        if detail:
+            msg = f"{msg}: {detail}"
+        logger.warning("%s", msg)
+        return _failed_scan_placeholder(msg)
+    except httpx.RequestError as e:
+        msg = f"{type(e).__name__} for {dom}: {e}"
+        logger.warning("%s", msg)
+        return _failed_scan_placeholder(msg)
     db.cache_put(dom, json.dumps(data))
     return data
 

@@ -1,0 +1,5 @@
+stripe.com
+notion.so
+airtable.com
+vercel.com
+cal.com

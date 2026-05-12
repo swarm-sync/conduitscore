@@ -1,0 +1,5 @@
+domain,receiver_email,first_name,company_name,industry_vertical,icp_tag,notes,scrape_source,batch_group,send_priority
+ghost.org,support@ghost.org,,Ghost,SaaS,B2B,source_url=https://ghost.org/contact/ | confidence=100 high | flags=domain_exact_match|contact_page|high_value_prefix,engine_evidence_smoke,engine-smoke,1
+cal.com,support@cal.com,,Cal,SaaS,B2B,source_url=https://cal.com/ | confidence=100 high | flags=domain_exact_match|cf_obfuscated_decoded|seen_12_pages|high_value_prefix,engine_evidence_smoke,engine-smoke,1
+datadoghq.com,press@datadoghq.com,,Datadoghq,SaaS,B2B,source_url=https://www.datadoghq.com/about/latest-news/press-releases/ | confidence=100 high | flags=domain_exact_match|about_or_team_page|mailto_link,engine_evidence_smoke,engine-smoke,1
+yourmechanic.com,hi@yourmechanic.com,,Yourmechanic,SaaS,B2B,source_url=https://yourmechanic.com/ | confidence=100 high | flags=domain_exact_match|mailto_link|seen_10_pages|high_value_prefix,engine_evidence_smoke,engine-smoke,1

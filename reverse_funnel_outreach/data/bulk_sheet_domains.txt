@@ -1,0 +1,16 @@
+# One domain per line — bulk harvest then push to Sheet
+ghost.org
+cal.com
+astro.build
+fly.io
+railway.app
+render.com
+netlify.com
+cloudflare.com
+digitalocean.com
+heroku.com
+mongodb.com
+redis.io
+elastic.co
+datadoghq.com
+hashicorp.com

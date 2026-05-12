@@ -1,0 +1,5060 @@
+{
+  "total": 232,
+  "num_batches": 6,
+  "batches": {
+    "1": [
+      {
+        "id": "4a32eed9-1b85-4a0d-b113-3d518c2efb78",
+        "name": "Launched",
+        "website": "https://launched.io",
+        "submission_url": "https://launched.io/submit",
+        "category": "startup",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 71.4
+      },
+      {
+        "id": "cf24acd5-09f0-49b8-8ee4-c6b431a81ca2",
+        "name": "Inc42",
+        "website": "https://inc42.com",
+        "submission_url": "https://inc42.com/",
+        "category": "startup",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 68.5
+      },
+      {
+        "id": "a9515b99-ccef-4d5d-ac69-78d93685cd2c",
+        "name": "10words",
+        "website": "https://10words.io",
+        "submission_url": "https://10words.io/submit",
+        "category": "startup",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 63.5
+      },
+      {
+        "id": "84c3986a-402e-4de6-b229-844dc310b48a",
+        "name": "AI Tools Library",
+        "website": "https://aitoolslibrary.com",
+        "submission_url": "https://aitoolslibrary.com/submit",
+        "category": "ai_tools",
+        "domain_authority": 35,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 60.5
+      },
+      {
+        "id": "c2bcf45a-93ec-4d97-90a1-4c60bfd39940",
+        "name": "AI Tools Universe",
+        "website": "https://www.aitoolsuniverse.com",
+        "submission_url": "https://www.aitoolsuniverse.com/submit",
+        "category": "ai_tools",
+        "domain_authority": 25,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "url"
+        ],
+        "optional_fields": [
+          "description"
+        ],
+        "score": 57.5
+      },
+      {
+        "id": "2e9099c8-5565-4850-b310-cb18120d2ef0",
+        "name": "Bitbucket",
+        "website": "https://bitbucket.org",
+        "submission_url": "https://bitbucket.org/account/signup/",
+        "category": "tech",
+        "domain_authority": 85,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 53.5
+      },
+      {
+        "id": "76fd3f32-5a7c-4710-a1d1-80bf0ecf792b",
+        "name": "HighYa",
+        "website": "https://www.highya.com",
+        "submission_url": "https://www.highya.com",
+        "category": "review_platforms",
+        "domain_authority": 65,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "name"
+        ],
+        "score": 49.5
+      },
+      {
+        "id": "27cc7a0e-cc60-4594-955a-7d4d110f48c4",
+        "name": "Betalist",
+        "website": "http://betalist.com",
+        "submission_url": "https://betalist.com/submit",
+        "category": "local_business",
+        "domain_authority": 60,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "email"
+        ],
+        "optional_fields": [
+          "city"
+        ],
+        "score": 48.0
+      },
+      {
+        "id": "1fb03c51-b51a-44fb-9614-48c5046aab42",
+        "name": "LinkedIn Business Page",
+        "website": "https://www.linkedin.com",
+        "submission_url": "https://www.linkedin.com/company/setup/new/",
+        "category": "social_media",
+        "domain_authority": 99,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "social_media"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.7
+      },
+      {
+        "id": "dad1c99c-a2e6-4585-9176-c6d92ec8a4d2",
+        "name": "Makerlog",
+        "website": "https://getmakerlog.com",
+        "submission_url": "https://getmakerlog.com/submit",
+        "category": "local_business",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "email"
+        ],
+        "score": 47.4
+      },
+      {
+        "id": "517a45f3-5185-4d2b-8914-f356f9388e7d",
+        "name": "BigCommerce Apps",
+        "website": "https://www.bigcommerce.com/apps/",
+        "submission_url": "https://www.bigcommerce.com/apps/",
+        "category": "ecommerce",
+        "domain_authority": 80,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.0
+      },
+      {
+        "id": "42afe707-097b-4398-940b-b4b7828c75a7",
+        "name": "UK Business List",
+        "website": "https://ukbusinesslist.co.uk",
+        "submission_url": "https://ukbusinesslist.co.uk/add",
+        "category": "business_general",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "e5fbada0-1a68-40cc-9f78-51fdc295cfcf",
+        "name": "MeetUp Business",
+        "website": "https://www.meetup.com",
+        "submission_url": "https://www.meetup.com/create/",
+        "category": "social_media",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "social_media"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "a9698bc7-811a-4222-91a8-f8594b1c38f5",
+        "name": "AlternativeSoft",
+        "website": "https://www.alternativesoft.com",
+        "submission_url": "https://www.alternativesoft.com/submit",
+        "category": "software",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "software"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 44.4
+      },
+      {
+        "id": "e7fb514f-cf2e-48ad-b45c-f138d94eb83a",
+        "name": "Yelp",
+        "website": "https://biz.yelp.com/",
+        "submission_url": "https://biz.yelp.com/",
+        "category": "General",
+        "domain_authority": 93,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 42.9
+      },
+      {
+        "id": "342dfafa-169d-4648-a870-2a7cabce70c2",
+        "name": "Hcilab",
+        "website": "http://Hcilab.org/ai-tools-directory",
+        "submission_url": "https://Hcilab.org/submit",
+        "category": "business_general",
+        "domain_authority": 40,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 42.0
+      },
+      {
+        "id": "4eef2a5b-a3b7-4102-bdee-891765007665",
+        "name": "CanadaBusiness",
+        "website": "https://canadabusiness.ca",
+        "submission_url": "https://canadabusiness.ca/",
+        "category": "business_general",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "405e0814-9f8c-474f-ba67-6050c391849d",
+        "name": "MapQuest",
+        "website": "https://business.mapquest.com/",
+        "submission_url": "https://business.mapquest.com/",
+        "category": "General",
+        "domain_authority": 88,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 41.4
+      },
+      {
+        "id": "f429918c-723f-4a44-bd34-cd599951328e",
+        "name": "Jasmine Directory",
+        "website": "https://www.jasminedirectory.com",
+        "submission_url": "https://www.jasminedirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.4
+      },
+      {
+        "id": "0901d367-4bd5-4808-9774-ac0aaf5897c0",
+        "name": "DesignRush",
+        "website": "https://www.designrush.com",
+        "submission_url": "https://www.designrush.com/add-agency",
+        "category": "design",
+        "domain_authority": 72,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "design"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.6
+      },
+      {
+        "id": "17d8b46d-f599-44c6-b9c4-5ba7fd7bf769",
+        "name": "Brownbook",
+        "website": "https://www.brownbook.net",
+        "submission_url": "https://www.brownbook.net/add-business/",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "819842a3-38d1-4ee5-893b-548fdb845d57",
+        "name": "AutoTrader",
+        "website": "https://www.autotrader.com/add-business",
+        "submission_url": "https://www.autotrader.com/add-business",
+        "category": "business_general",
+        "domain_authority": 35,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai"
+        ],
+        "required_fields": [
+          "email"
+        ],
+        "optional_fields": [
+          "name"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "b26cfa31-d413-4c72-8c4c-b46b14c24610",
+        "name": "Top Similar Sites",
+        "website": "http://www.topsimilarsites.com/add.aspx",
+        "submission_url": "https://www.topsimilarsites.com/submit",
+        "category": "business_general",
+        "domain_authority": 34,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "state"
+        ],
+        "score": 40.2
+      },
+      {
+        "id": "e16dcb96-db51-4bdd-93e6-4d1a65a78e3f",
+        "name": "ResellerRatings",
+        "website": "https://www.resellerratings.com",
+        "submission_url": "https://www.resellerratings.com/business",
+        "category": "review",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "review"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "211c3207-7cbb-400e-92e5-12aeaca36861",
+        "name": "EuroBizOnline",
+        "website": "https://eurobizonline.com",
+        "submission_url": "https://eurobizonline.com/",
+        "category": "business_general",
+        "domain_authority": 52,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.6
+      },
+      {
+        "id": "3e0479af-4aed-45db-8509-bb5340cbbeac",
+        "name": "Thomson Local",
+        "website": "https://www.thomsonlocal.com",
+        "submission_url": "https://www.thomsonlocal.com/advertise",
+        "category": "business_general",
+        "domain_authority": 68,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.4
+      },
+      {
+        "id": "9b5eb523-758e-469b-be10-4285c1c2ad38",
+        "name": "LinkCentre",
+        "website": "https://www.linkcentre.com",
+        "submission_url": "https://www.linkcentre.com/submit.html",
+        "category": "business_general",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.0
+      },
+      {
+        "id": "23a05b13-7e03-4ed9-9694-37d893b33ee5",
+        "name": "Viadeo",
+        "website": "https://www.viadeo.com",
+        "submission_url": "https://www.viadeo.com/",
+        "category": "social_media",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "social_media"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.5
+      },
+      {
+        "id": "3542c573-94bd-411f-a1b6-2dca01aac659",
+        "name": "Free Web Submission",
+        "website": "https://www.freewebsubmission.com",
+        "submission_url": "https://www.freewebsubmission.com/",
+        "category": "business_general",
+        "domain_authority": 26,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "saas",
+          "tech",
+          "business",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "url",
+          "name",
+          "email"
+        ],
+        "score": 37.8
+      },
+      {
+        "id": "66659328-c03e-4a46-8954-d397745e625b",
+        "name": "Extra Directory 32",
+        "website": "https://example32.com/submit",
+        "submission_url": "https://example32.com/submit",
+        "category": "local_business",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 37.2
+      },
+      {
+        "id": "51f846ef-f66b-4b1d-93c8-818b0f0c060c",
+        "name": "PRLeap",
+        "website": "https://www.prleap.com",
+        "submission_url": "https://www.prleap.com/pr-submit/",
+        "category": "pr",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "pr"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "49144e45-aa82-4aed-bfe5-d5489fbf191f",
+        "name": "Balti Biz",
+        "website": "http://www.balti.biz",
+        "submission_url": "http://www.balti.biz/submit.php",
+        "category": "business_general",
+        "domain_authority": 23,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 36.9
+      },
+      {
+        "id": "731afd9f-4150-4127-a481-3c50562f8c86",
+        "name": "Asia Pages",
+        "website": "https://www.asia-pages.com",
+        "submission_url": "https://www.asia-pages.com/",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "0b662a09-1035-420b-9657-67cada49a4e9",
+        "name": "Blog Directory",
+        "website": "https://www.blog-directory.org",
+        "submission_url": "https://www.blog-directory.org/submit",
+        "category": "blog",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "blog"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "06ec51c4-0baf-446d-989a-8100e543374f",
+        "name": "Expressbusinessdirectory",
+        "website": "https://www.expressbusinessdirectory.com",
+        "submission_url": "https://www.expressbusinessdirectory.com/add",
+        "category": "business_general",
+        "domain_authority": 42,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 32.6
+      },
+      {
+        "id": "263a647a-1bfc-4d5f-a3a5-346df6b23d87",
+        "name": "UK Small Business Directory",
+        "website": "https://uksmallbusinessdirectory.co.uk",
+        "submission_url": "https://uksmallbusinessdirectory.co.uk/add",
+        "category": "business_general",
+        "domain_authority": 34,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 30.2
+      },
+      {
+        "id": "9e90c2a7-9b93-4453-b01f-3723c54187d1",
+        "name": "1Webs Directory",
+        "website": "https://www.1websdirectory.com",
+        "submission_url": "https://www.1websdirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.7
+      },
+      {
+        "id": "eb975839-19e8-4ffe-a422-5f46ba2558db",
+        "name": "Fire Directory",
+        "website": "https://www.firedirectory.com",
+        "submission_url": "https://www.firedirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.4
+      },
+      {
+        "id": "33a9afa8-652e-45a4-ad55-c492f633b8b3",
+        "name": "9Sites",
+        "website": "https://www.9sites.net/submit.php",
+        "submission_url": "https://www.9sites.net/submit.php",
+        "category": "business_general",
+        "domain_authority": 22,
+        "difficulty": "Easy",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 26.6
+      }
+    ],
+    "2": [
+      {
+        "id": "9a176976-cce6-4fad-8528-d640fdeb7ec2",
+        "name": "Gust",
+        "website": "https://www.gust.com",
+        "submission_url": "https://www.gust.com/",
+        "category": "startup",
+        "domain_authority": 74,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 71.2
+      },
+      {
+        "id": "ecfc1342-3d77-442a-b342-c9a00a12341a",
+        "name": "Appvizer",
+        "website": "https://www.appvizer.com",
+        "submission_url": "https://www.appvizer.com/join",
+        "category": "saas",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "saas"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 68.5
+      },
+      {
+        "id": "95ef5b01-0be1-44ce-97b9-cc954bc6bec7",
+        "name": "FutureTools",
+        "website": "https://futuretools.io",
+        "submission_url": "https://futuretools.io/submit-a-tool",
+        "category": "ai_tools",
+        "domain_authority": 43,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "design",
+          "tools",
+          "web"
+        ],
+        "required_fields": [
+          "name",
+          "email",
+          "url",
+          "description"
+        ],
+        "optional_fields": [
+          "address",
+          "tags",
+          "url"
+        ],
+        "score": 62.9
+      },
+      {
+        "id": "3908bbbc-0859-4613-858c-fa9a9c2f8304",
+        "name": "AI Tools Archive",
+        "website": "https://aitoolsarchive.com",
+        "submission_url": "https://aitoolsarchive.com/submit",
+        "category": "ai_tools",
+        "domain_authority": 30,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 59.0
+      },
+      {
+        "id": "4eab3c7e-13dc-4352-b9b9-5f78955f40ea",
+        "name": "Foursquare",
+        "website": "https://foursquare.com/business/",
+        "submission_url": "https://foursquare.com/business/",
+        "category": "General",
+        "domain_authority": 91,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "address",
+          "name"
+        ],
+        "score": 57.3
+      },
+      {
+        "id": "254e88a6-9c74-4e31-8230-d03ffe74c90a",
+        "name": "Citysearch",
+        "website": "https://www.citysearch.com",
+        "submission_url": "https://www.citysearch.com/add",
+        "category": "local_business",
+        "domain_authority": 75,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "city",
+          "zip"
+        ],
+        "score": 52.5
+      },
+      {
+        "id": "254ceae7-f757-45f6-81f1-ad997061adc1",
+        "name": "TopDevelopers.co",
+        "website": "https://www.topdevelopers.co",
+        "submission_url": "https://www.topdevelopers.co/add-company",
+        "category": "tech",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 48.5
+      },
+      {
+        "id": "547d0ecc-a5ea-41a8-a314-6410e1314a0e",
+        "name": "Facebook Business Page",
+        "website": "https://www.facebook.com/business",
+        "submission_url": "https://www.facebook.com/pages/creation/",
+        "category": "social_media",
+        "domain_authority": 100,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "social_media"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 48.0
+      },
+      {
+        "id": "8c84c953-d75a-4c3c-9bf8-165390c84b40",
+        "name": "Europages",
+        "website": "https://www.europages.com",
+        "submission_url": "https://www.europages.com/",
+        "category": "business_general",
+        "domain_authority": 82,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.6
+      },
+      {
+        "id": "32e908ec-4da9-481c-a47b-610410f04c8b",
+        "name": "TomTom Place",
+        "website": "https://place.tomtom.com",
+        "submission_url": "https://place.tomtom.com",
+        "category": "business_general",
+        "domain_authority": 81,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.3
+      },
+      {
+        "id": "e4f7e918-3ccd-468b-9447-d0b57b98e08c",
+        "name": "XING",
+        "website": "https://www.xing.com",
+        "submission_url": "https://www.xing.com/companies",
+        "category": "social_media",
+        "domain_authority": 80,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "social_media"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.0
+      },
+      {
+        "id": "4475d78c-9f2a-44eb-8573-6615108bd041",
+        "name": "Startup Deals",
+        "website": "https://www.startupdeals.tech",
+        "submission_url": "https://www.startupdeals.tech/submit",
+        "category": "local_business",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 45.0
+      },
+      {
+        "id": "e81e6e5e-dba2-43e4-baff-0033596fe3d7",
+        "name": "Walmart Marketplace",
+        "website": "https://marketplace.walmart.com",
+        "submission_url": "https://marketplace.walmart.com/",
+        "category": "ecommerce",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "21e33088-34b9-40fb-8394-6b80b9dee4ce",
+        "name": "Rakuten",
+        "website": "https://www.rakuten.com",
+        "submission_url": "https://www.rakuten.com/",
+        "category": "ecommerce",
+        "domain_authority": 85,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 43.5
+      },
+      {
+        "id": "8e191248-34d4-4455-842f-4b1070b0795e",
+        "name": "AllBusiness",
+        "website": "https://allbusiness.com",
+        "submission_url": "https://allbusiness.com/submit",
+        "category": "business_general",
+        "domain_authority": 79,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 42.7
+      },
+      {
+        "id": "4e05a29a-51e0-49f6-bda9-4bd819a2c6e8",
+        "name": "Landing Folio",
+        "website": "https://www.landingfolio.com",
+        "submission_url": "https://www.landingfolio.com/submit",
+        "category": "local_business",
+        "domain_authority": 40,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ecommerce",
+          "design",
+          "tools",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "url"
+        ],
+        "score": 42.0
+      },
+      {
+        "id": "83d7589c-263d-4487-a5c2-ea124e9d45d1",
+        "name": "Kompass",
+        "website": "https://gb.kompass.com",
+        "submission_url": "https://gb.kompass.com/user/signup",
+        "category": "b2b",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "8359ce1d-982a-430b-9c56-8017baa2eb46",
+        "name": "Singapore Business Directory",
+        "website": "https://www.singaporebusiness.sg",
+        "submission_url": "https://www.singaporebusiness.sg/",
+        "category": "business_general",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.4
+      },
+      {
+        "id": "28fdf2ca-467b-4688-9f67-0023c335fcd8",
+        "name": "SoMuch",
+        "website": "https://www.somuch.com",
+        "submission_url": "https://www.somuch.com/submit/",
+        "category": "business_general",
+        "domain_authority": 37,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 41.1
+      },
+      {
+        "id": "7791d507-8ba0-4e0a-8d23-2965740bdf75",
+        "name": "Das Telefonbuch",
+        "website": "https://www.dastelefonbuch.de",
+        "submission_url": "https://www.dastelefonbuch.de/",
+        "category": "business_general",
+        "domain_authority": 72,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.6
+      },
+      {
+        "id": "1b62897b-74e1-4c7f-a63b-0f2d084ad2d5",
+        "name": "PR Fire",
+        "website": "https://www.prfire.com",
+        "submission_url": "https://www.prfire.com/submit.php",
+        "category": "pr",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "pr"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "962f00e1-64a1-4b38-8dac-359a4e0cc4c6",
+        "name": "Hotfrog",
+        "website": "https://www.hotfrog.com/",
+        "submission_url": "https://www.hotfrog.com/",
+        "category": "General",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "64614c99-9877-4fcb-bc7c-c48c575023f2",
+        "name": "GoodFirms",
+        "website": "https://www.goodfirms.co",
+        "submission_url": "https://www.goodfirms.co/add-review/company",
+        "category": "b2b",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "f45be012-1ceb-4b24-ba30-a09e603b45f6",
+        "name": "EC21",
+        "website": "https://www.ec21.com",
+        "submission_url": "https://www.ec21.com/join/register.jsp",
+        "category": "b2b",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "298973b5-65f8-4e07-aaa2-1bbf4097ec60",
+        "name": "Tupalo",
+        "website": "https://www.tupalo.com",
+        "submission_url": "https://www.tupalo.com/add",
+        "category": "business_general",
+        "domain_authority": 52,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.6
+      },
+      {
+        "id": "ac5763a5-7c38-44a5-b325-277f805e2a5e",
+        "name": "BlogCatalog",
+        "website": "https://www.blogcatalog.com",
+        "submission_url": "https://www.blogcatalog.com/register",
+        "category": "blog",
+        "domain_authority": 68,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "blog"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.4
+      },
+      {
+        "id": "e436a558-5fa6-4db4-a351-394da0d57c28",
+        "name": "Owler",
+        "website": "https://www.owler.com",
+        "submission_url": "https://www.owler.com/company/claim",
+        "category": "business_general",
+        "domain_authority": 66,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.8
+      },
+      {
+        "id": "2e2fd649-8bf9-42e6-b2a1-090ef0b2c0a9",
+        "name": "TradeB2B",
+        "website": "https://www.tradeb2b.net",
+        "submission_url": "https://www.tradeb2b.net/register",
+        "category": "b2b",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.5
+      },
+      {
+        "id": "e9675b6c-c3f6-4437-8cd8-bdca8b425504",
+        "name": "LocalStack Business",
+        "website": "https://localstack.com/add-business",
+        "submission_url": "https://localstack.com/add-business",
+        "category": "local_business",
+        "domain_authority": 26,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "design",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "address",
+          "city"
+        ],
+        "score": 37.8
+      },
+      {
+        "id": "94d13158-3f44-4018-b35a-ede1e4fdb394",
+        "name": "ZipLeaf",
+        "website": "https://www.zipleaf.us/Add-Your-Business",
+        "submission_url": "https://www.zipleaf.us/Add-Your-Business",
+        "category": "business_general",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "business",
+          "marketing",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "zip"
+        ],
+        "score": 37.2
+      },
+      {
+        "id": "60781775-0b91-4dbb-9810-929894437b59",
+        "name": "Local.com",
+        "website": "https://www.local.com/",
+        "submission_url": "https://www.local.com/",
+        "category": "General",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "3b075b14-2814-454e-95eb-7ea62426c6e5",
+        "name": "Add Free Web Directory",
+        "website": "https://www.addfreewebdirectory.com",
+        "submission_url": "https://www.addfreewebdirectory.com/submit.php",
+        "category": "local_business",
+        "domain_authority": 22,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "marketing"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category"
+        ],
+        "score": 36.6
+      },
+      {
+        "id": "7f581a4a-7aca-4cc3-bbe0-a8538273ffcb",
+        "name": "Korea Business Directory",
+        "website": "https://www.koreabusinessdirectory.com",
+        "submission_url": "https://www.koreabusinessdirectory.com/",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "34f85289-29cd-44d1-8355-6cac1182b5ab",
+        "name": "Golocal247",
+        "website": "https://www.golocal247.com",
+        "submission_url": "https://www.golocal247.com/register",
+        "category": "business_general",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "78199190-9f08-4150-83d0-ba219d2ef28d",
+        "name": "Jayde",
+        "website": "https://www.jayde.com",
+        "submission_url": "https://www.jayde.com/add-url.html",
+        "category": "business_general",
+        "domain_authority": 41,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 32.3
+      },
+      {
+        "id": "9f1bae77-a348-49bb-ba11-8665884e5986",
+        "name": "HDV Connect",
+        "website": "http://www.hdvconnect.com",
+        "submission_url": "http://www.hdvconnect.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 33,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 29.9
+      },
+      {
+        "id": "c73e91a1-55d7-4d66-b85a-8980aa4590e6",
+        "name": "LinkNThink",
+        "website": "http://linknthink.com/add-business",
+        "submission_url": "http://linknthink.com/add-business",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 28.7
+      },
+      {
+        "id": "e10ad3f8-d556-47d1-baa8-1a42720f93da",
+        "name": "USGeo",
+        "website": "http://www.usgeo.org/submit",
+        "submission_url": "http://www.usgeo.org/submit",
+        "category": "business_general",
+        "domain_authority": 27,
+        "difficulty": "Easy",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 28.1
+      },
+      {
+        "id": "732a1831-79b1-4c4a-9754-afa8bf7fed60",
+        "name": "Directory.com.au",
+        "website": "https://www.directory.com.au",
+        "submission_url": "https://www.directory.com.au/submit",
+        "category": "business_general",
+        "domain_authority": 22,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 26.6
+      }
+    ],
+    "3": [
+      {
+        "id": "e4aa4fdc-4af8-445c-baf0-cecd236cb17b",
+        "name": "SaaS Genius",
+        "website": "https://www.saasgenius.com",
+        "submission_url": "https://www.saasgenius.com/submit",
+        "category": "saas",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "saas"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 70.5
+      },
+      {
+        "id": "0fbc13f0-053f-41c2-a8e8-e85094fabe3f",
+        "name": "SaaS Directory",
+        "website": "https://www.saasdirectory.com",
+        "submission_url": "https://www.saasdirectory.com/submit",
+        "category": "saas",
+        "domain_authority": 60,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "saas",
+          "tech",
+          "mobile"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 68.0
+      },
+      {
+        "id": "d97e772e-579e-4ed6-bac3-95142a82ddc8",
+        "name": "Launching Next",
+        "website": "https://launchingnext.com",
+        "submission_url": "https://launchingnext.com/submit/",
+        "category": "tech_startups",
+        "domain_authority": 42,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "marketing"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "name",
+          "url",
+          "description",
+          "tags",
+          "email"
+        ],
+        "score": 62.6
+      },
+      {
+        "id": "28488f85-a4ba-4b68-9bab-4b70e5ea59a6",
+        "name": "Apple Business Connect",
+        "website": "https://businessconnect.apple.com/",
+        "submission_url": "https://businessconnect.apple.com/",
+        "category": "saas",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "state",
+          "url"
+        ],
+        "score": 58.7
+      },
+      {
+        "id": "e07cb25b-6b5c-4528-8a41-83b4d7cca1e1",
+        "name": "AI Finder",
+        "website": "https://ai-finder.net",
+        "submission_url": "https://ai-finder.net/submit",
+        "category": "ai_tools",
+        "domain_authority": 21,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 56.3
+      },
+      {
+        "id": "eaa5e861-4a54-4f8c-94b1-b5df6b337c9b",
+        "name": "Better Business Bureau",
+        "website": "https://www.bbb.org/",
+        "submission_url": "https://www.bbb.org/",
+        "category": "General",
+        "domain_authority": 91,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category",
+          "city",
+          "state",
+          "zip",
+          "country",
+          "phone",
+          "name",
+          "email"
+        ],
+        "score": 52.3
+      },
+      {
+        "id": "386ab2d5-510b-4bc7-83d0-686b720a2868",
+        "name": "WebWiki",
+        "website": "https://www.webwiki.com/info/add-website.html",
+        "submission_url": "https://www.webwiki.com/submit",
+        "category": "local_business",
+        "domain_authority": 78,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 48.4
+      },
+      {
+        "id": "6b1b3cdb-134c-43d5-9071-84ba78ccd876",
+        "name": "Landing",
+        "website": "https://landing.com",
+        "submission_url": "https://landing.com",
+        "category": "content_media",
+        "domain_authority": 60,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "design",
+          "web"
+        ],
+        "required_fields": [
+          "email"
+        ],
+        "optional_fields": [
+          "address"
+        ],
+        "score": 48.0
+      },
+      {
+        "id": "a61f30d2-fb0f-47cc-8d30-51266b215c51",
+        "name": "Clutch",
+        "website": "https://clutch.co",
+        "submission_url": "https://clutch.co/profile/edit",
+        "category": "b2b",
+        "domain_authority": 82,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.6
+      },
+      {
+        "id": "74f91d80-7007-4200-b44d-d99d8a0b2368",
+        "name": "TrueLocal",
+        "website": "https://www.truelocal.com.au",
+        "submission_url": "https://www.truelocal.com.au/business/add",
+        "category": "business_general",
+        "domain_authority": 81,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.3
+      },
+      {
+        "id": "1ca74a7f-d212-4aba-843f-dff581b1545b",
+        "name": "iBegin",
+        "website": "https://www.ibegin.com",
+        "submission_url": "https://www.ibegin.com/add",
+        "category": "local_business",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "phone"
+        ],
+        "score": 46.5
+      },
+      {
+        "id": "8dcad478-86a2-4ad1-9153-18409091b0c7",
+        "name": "Yellow Pages",
+        "website": "https://www.yellowpages.com",
+        "submission_url": "https://advertisers.yellowpages.com",
+        "category": "business_general",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "fffb7966-c0df-4559-83ff-39fe5336c2a1",
+        "name": "Shopify App Store",
+        "website": "https://apps.shopify.com",
+        "submission_url": "https://www.shopify.com/partners/apps",
+        "category": "ecommerce",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "3b8cccc1-96de-45fb-bb90-38faabcd276d",
+        "name": "ReviewStream",
+        "website": "https://www.reviewstream.com",
+        "submission_url": "https://www.reviewstream.com",
+        "category": "review_platforms",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "ecommerce",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 43.5
+      },
+      {
+        "id": "50ba8eac-8c27-46c3-bd41-1dfe6f2c4ff4",
+        "name": "Global Sources",
+        "website": "https://www.globalsources.com",
+        "submission_url": "https://www.globalsources.com/sellers",
+        "category": "b2b",
+        "domain_authority": 78,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 42.4
+      },
+      {
+        "id": "d86a22f5-ee9d-4174-8c9c-8415a36a19b3",
+        "name": "TechPluto",
+        "website": "http://www.techpluto.com/submit-a-startup",
+        "submission_url": "https://www.techpluto.com/submit",
+        "category": "content_media",
+        "domain_authority": 40,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category"
+        ],
+        "score": 42.0
+      },
+      {
+        "id": "89f68b5a-69ac-4c89-acea-9ea572f88d64",
+        "name": "The Manifest",
+        "website": "https://themanifest.com",
+        "submission_url": "https://themanifest.com/profile",
+        "category": "b2b",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "a6648903-d16f-4899-b209-588cbbbaf48b",
+        "name": "Century21",
+        "website": "https://www.century21.com/add-business",
+        "submission_url": "https://www.century21.com/add-business",
+        "category": "business_general",
+        "domain_authority": 38,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "business",
+          "design",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 41.4
+      },
+      {
+        "id": "4d11cc7e-7d12-403f-8019-3a95e7bab25c",
+        "name": "YellowPages",
+        "website": "https://marketing.yp.com/claim",
+        "submission_url": "https://marketing.yp.com/claim",
+        "category": "General",
+        "domain_authority": 87,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 41.1
+      },
+      {
+        "id": "b52d6c3e-1b2d-44ec-9448-53b54ad5a3bd",
+        "name": "Infobel",
+        "website": "https://www.infobel.com",
+        "submission_url": "https://www.infobel.com/en/add-company",
+        "category": "business_general",
+        "domain_authority": 72,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.6
+      },
+      {
+        "id": "371ac44a-0e07-49b0-a679-8c982cd3d237",
+        "name": "Business Directory Asia",
+        "website": "https://www.businessdirectory.asia",
+        "submission_url": "https://www.businessdirectory.asia/",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "a262690d-782f-4419-84ee-f1135d3dbb80",
+        "name": "Salespider",
+        "website": "https://www.salespider.com",
+        "submission_url": "https://www.salespider.com/signup",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "77dc87e2-359e-427e-9859-a6e52215edc8",
+        "name": "White Pages Australia",
+        "website": "https://www.whitepages.com.au",
+        "submission_url": "https://www.whitepages.com.au/",
+        "category": "business_general",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "4598a90f-f690-469c-b69a-cbe13e71439b",
+        "name": "Article Alley Directory",
+        "website": "https://www.articlealley.com",
+        "submission_url": "https://www.articlealley.com/submit.php",
+        "category": "content_media",
+        "domain_authority": 33,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 39.9
+      },
+      {
+        "id": "5fff5eaf-67e0-4d22-aa07-f19633734051",
+        "name": "Hong Kong Business Directory",
+        "website": "https://www.hkbusinessdirectory.com",
+        "submission_url": "https://www.hkbusinessdirectory.com/",
+        "category": "business_general",
+        "domain_authority": 52,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.6
+      },
+      {
+        "id": "373853c9-50b5-4c5c-98e0-2496cda2e170",
+        "name": "Hotfrog UK",
+        "website": "https://www.hotfrog.co.uk",
+        "submission_url": "https://www.hotfrog.co.uk/add-your-business",
+        "category": "business_general",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.0
+      },
+      {
+        "id": "6f079b62-1b61-4a74-9501-7807593deaae",
+        "name": "founderio",
+        "website": "https://www.founderio.com",
+        "submission_url": "https://www.founderio.com/submit",
+        "category": "social_media",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "saas",
+          "startup",
+          "tech",
+          "business"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "email"
+        ],
+        "score": 38.7
+      },
+      {
+        "id": "c4445ec6-483b-4341-9670-b86fd2913074",
+        "name": "Paginas Amarillas Mexico",
+        "website": "https://www.seccionamarilla.com.mx",
+        "submission_url": "https://www.seccionamarilla.com.mx/",
+        "category": "business_general",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.5
+      },
+      {
+        "id": "ba3f00e1-8d92-413f-874e-94231925e2c8",
+        "name": "Yellow.co.nz",
+        "website": "https://yellow.co.nz",
+        "submission_url": "https://yellow.co.nz/y/advertising",
+        "category": "business_general",
+        "domain_authority": 62,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.6
+      },
+      {
+        "id": "958a4298-7e82-4e44-b705-40d11601b235",
+        "name": "DN2I",
+        "website": "http://www.dn2i.com/add-business",
+        "submission_url": "http://www.dn2i.com/add-business",
+        "category": "business_general",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 37.2
+      },
+      {
+        "id": "617b5f99-1a40-4db2-bd7d-7e26ec0059d6",
+        "name": "Web Designer News",
+        "website": "http://www.webdesignernews.com",
+        "submission_url": "http://www.webdesignernews.com/submit",
+        "category": "design",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "design"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "53755077-c4b1-4c60-89cb-6b66e7525b50",
+        "name": "Arctic Directory",
+        "website": "https://www.arcticdirectory.com",
+        "submission_url": "https://www.arcticdirectory.com/submit.php",
+        "category": "local_business",
+        "domain_authority": 20,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "marketing"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "name",
+          "url",
+          "description",
+          "email",
+          "category"
+        ],
+        "score": 36.0
+      },
+      {
+        "id": "cfd4e7f1-34c8-4339-8713-578e15873a6f",
+        "name": "Hotfrog Canada",
+        "website": "https://www.hotfrog.ca",
+        "submission_url": "https://www.hotfrog.ca/add-your-business",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "3e4e7237-a4e4-4ca3-85fa-1bda1a45bfe1",
+        "name": "Hotfrog India",
+        "website": "https://www.hotfrog.in",
+        "submission_url": "https://www.hotfrog.in/add-your-business",
+        "category": "business_general",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "c8fd6aa9-d4fc-4c67-97c2-2b5597d88dfd",
+        "name": "ABC Directory",
+        "website": "https://www.abc-directory.com",
+        "submission_url": "https://www.abc-directory.com/submit.asp",
+        "category": "business_general",
+        "domain_authority": 37,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 31.1
+      },
+      {
+        "id": "e19cfc4a-b5d6-4055-b2b9-4062684109ee",
+        "name": "Cipinet",
+        "website": "https://www.cipinet.com",
+        "submission_url": "https://www.cipinet.com/suggest.php",
+        "category": "business_general",
+        "domain_authority": 33,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 29.9
+      },
+      {
+        "id": "e353ae4e-5013-4d05-b737-8aa5a1efaa84",
+        "name": "High Rank Directory",
+        "website": "https://www.highrankdirectory.com",
+        "submission_url": "https://www.highrankdirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.7
+      },
+      {
+        "id": "ea463ae0-f2df-4cce-837a-258348ad486a",
+        "name": "Britain Business Directory",
+        "website": "https://www.britainbusinessdirectory.co.uk",
+        "submission_url": "https://www.britainbusinessdirectory.co.uk/add",
+        "category": "business_general",
+        "domain_authority": 27,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.1
+      },
+      {
+        "id": "f528fe11-ae9f-4309-a18f-1edbefe3e2bb",
+        "name": "Care More Dir",
+        "website": "https://www.caremore.org",
+        "submission_url": "https://www.caremore.org/submit.php",
+        "category": "business_general",
+        "domain_authority": 22,
+        "difficulty": "Easy",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 26.6
+      }
+    ],
+    "4": [
+      {
+        "id": "47714e36-5e7d-435f-996c-8e44e464b371",
+        "name": "e27",
+        "website": "https://e27.co",
+        "submission_url": "https://e27.co/",
+        "category": "startup",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 70.0
+      },
+      {
+        "id": "b8f33983-187c-46a1-af1b-18eaff19fa7c",
+        "name": "All my faves",
+        "website": "https://allmyfaves.com",
+        "submission_url": "https://allmyfaves.com/submit",
+        "category": "saas",
+        "domain_authority": 60,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "business",
+          "web",
+          "education"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 68.0
+      },
+      {
+        "id": "016f87ca-0d59-4311-83bb-601956d672a1",
+        "name": "Freeble",
+        "website": "https://freeble.in",
+        "submission_url": "https://freeble.in/submit",
+        "category": "startup",
+        "domain_authority": 40,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 62.0
+      },
+      {
+        "id": "cb0e88b4-c8a4-42ec-8129-a8b866193065",
+        "name": "Apple Maps Connect",
+        "website": "https://mapsconnect.apple.com",
+        "submission_url": "https://mapsconnect.apple.com",
+        "category": "local_business",
+        "domain_authority": 95,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "state",
+          "url"
+        ],
+        "score": 58.5
+      },
+      {
+        "id": "6765d78f-56dd-4349-94f8-08da091dd1b5",
+        "name": "iLib.com",
+        "website": "https://www.ilib.com",
+        "submission_url": "https://www.ilib.com/submit",
+        "category": "saas",
+        "domain_authority": 20,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 56.0
+      },
+      {
+        "id": "5591c013-8844-4bb6-8e2d-606ebe5e3644",
+        "name": "GeekWire",
+        "website": "https://www.geekwire.com",
+        "submission_url": "https://www.geekwire.com/submit-tip/",
+        "category": "tech",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 51.5
+      },
+      {
+        "id": "e0655db5-bbe7-480b-8e7e-55342eb4e633",
+        "name": "solo to",
+        "website": "https://solo.to",
+        "submission_url": "https://solo.to/submit",
+        "category": "business_general",
+        "domain_authority": 78,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ai"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "description"
+        ],
+        "score": 48.4
+      },
+      {
+        "id": "6e56c901-0347-48cb-b3bf-086b933bfbcd",
+        "name": "LocalPages",
+        "website": "https://www.localpages.com",
+        "submission_url": "https://www.localpages.com/add",
+        "category": "local_business",
+        "domain_authority": 60,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [
+          "email"
+        ],
+        "optional_fields": [
+          "city",
+          "state",
+          "email"
+        ],
+        "score": 48.0
+      },
+      {
+        "id": "cca8f8b1-2fb9-49e8-8916-4ff0796b638b",
+        "name": "Freeindex",
+        "website": "https://www.freeindex.co.uk",
+        "submission_url": "https://www.freeindex.co.uk/signup.php",
+        "category": "business_general",
+        "domain_authority": 82,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.6
+      },
+      {
+        "id": "89d5a091-8858-449e-8edd-da91ada87c99",
+        "name": "Bing Places for Business",
+        "website": "https://www.bingplaces.com",
+        "submission_url": "https://www.bingplaces.com",
+        "category": "business_general",
+        "domain_authority": 81,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.3
+      },
+      {
+        "id": "8b3e6d9b-5786-4e83-a5b5-c67be220c3ae",
+        "name": "eBay Stores",
+        "website": "https://www.ebay.com/stores",
+        "submission_url": "https://www.ebay.com/sl/sell",
+        "category": "ecommerce",
+        "domain_authority": 95,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 46.5
+      },
+      {
+        "id": "93ffbf1d-980c-41e8-98fe-a382252dbfe5",
+        "name": "Open Startup",
+        "website": "https://openstartup.tm",
+        "submission_url": "https://openstartup.tm/submit",
+        "category": "local_business",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup",
+          "productivity",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 45.0
+      },
+      {
+        "id": "adca6160-c673-47c6-9696-044f295601e7",
+        "name": "Apple Maps",
+        "website": "https://register.apple.com/placesonmaps/",
+        "submission_url": "https://register.apple.com/placesonmaps/",
+        "category": "General",
+        "domain_authority": 99,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 44.7
+      },
+      {
+        "id": "5d6832a0-2e2c-4ea3-96ca-b6c0702ae076",
+        "name": "BigStartups",
+        "website": "https://bigstartups.co",
+        "submission_url": "https://bigstartups.co/submit",
+        "category": "local_business",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup",
+          "tech",
+          "ecommerce",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 43.5
+      },
+      {
+        "id": "754b5d5f-96c3-4926-a3eb-a8cd2988d569",
+        "name": "Pages Jaunes France",
+        "website": "https://www.pagesjaunes.fr",
+        "submission_url": "https://www.pagesjaunes.fr/",
+        "category": "business_general",
+        "domain_authority": 78,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 42.4
+      },
+      {
+        "id": "31d85202-3479-4267-af5a-022df1cde2e5",
+        "name": "Sulekha",
+        "website": "https://sulekha.com",
+        "submission_url": "https://www.sulekha.com/business-listings",
+        "category": "business_general",
+        "domain_authority": 76,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.8
+      },
+      {
+        "id": "bcd277b9-1b9b-4afd-8572-29d8f5dbbe94",
+        "name": "Made-in-China",
+        "website": "https://www.made-in-china.com",
+        "submission_url": "https://supplier.made-in-china.com/",
+        "category": "b2b",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "b813f41a-3ee2-4964-b88d-27c472fe560c",
+        "name": "Lista Brazil",
+        "website": "https://www.lista.com.br",
+        "submission_url": "https://www.lista.com.br/",
+        "category": "business_general",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.4
+      },
+      {
+        "id": "8c5cc1f8-37ea-47a6-9778-404903ab2e85",
+        "name": "EZilon",
+        "website": "https://www.ezilon.com",
+        "submission_url": "https://www.ezilon.com/suggest.html",
+        "category": "business_general",
+        "domain_authority": 57,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.1
+      },
+      {
+        "id": "bbd3edbb-9952-4386-822f-83338250b078",
+        "name": "SuperPages",
+        "website": "https://www.superpages.com",
+        "submission_url": "https://www.superpages.com/advertise/",
+        "category": "business_general",
+        "domain_authority": 72,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.6
+      },
+      {
+        "id": "41c6c500-25ce-4c8d-a8a7-8d698f4ef5f6",
+        "name": "Prolink Directory",
+        "website": "https://www.prolinkdirectory.com",
+        "submission_url": "https://www.prolinkdirectory.com/submit.php",
+        "category": "local_business",
+        "domain_authority": 35,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "marketing",
+          "design",
+          "tools",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "url",
+          "category",
+          "name",
+          "description",
+          "tags",
+          "email",
+          "logo"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "cae883af-8f81-43b9-9bbf-113336e75922",
+        "name": "Opendi",
+        "website": "https://www.opendi.com",
+        "submission_url": "https://www.opendi.com/add",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "81c0bd9c-bc60-42b9-b8be-39a9c4e80d9b",
+        "name": "Pagine Gialle",
+        "website": "https://www.paginegialle.it",
+        "submission_url": "https://www.paginegialle.it/",
+        "category": "business_general",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "6352f2e2-fa22-4722-a5ad-cfafe2367949",
+        "name": "MapQuest Business",
+        "website": "https://listings.mapquest.com/apps",
+        "submission_url": "https://listings.mapquest.com/apps",
+        "category": "business_general",
+        "domain_authority": 33,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "business",
+          "marketing",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category",
+          "url",
+          "name",
+          "phone"
+        ],
+        "score": 39.9
+      },
+      {
+        "id": "96f12115-a13b-4eaf-8183-edc609812c61",
+        "name": "Guia Comercial Argentina",
+        "website": "https://www.guiacomercial.com.ar",
+        "submission_url": "https://www.guiacomercial.com.ar/",
+        "category": "business_general",
+        "domain_authority": 52,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.6
+      },
+      {
+        "id": "8d2d2e35-fb16-4f86-bee4-6d54b26e79a7",
+        "name": "Yalwa",
+        "website": "https://www.yalwa.info",
+        "submission_url": "https://www.yalwa.info/add-your-business",
+        "category": "business_general",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.0
+      },
+      {
+        "id": "d0aeb3be-951c-45a5-a2be-83d0c5cabb41",
+        "name": "ExactSeek",
+        "website": "https://www.exactseek.com/add.html",
+        "submission_url": "https://www.exactseek.com/add.html",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "design",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "name",
+          "url",
+          "email",
+          "description",
+          "tags"
+        ],
+        "score": 38.7
+      },
+      {
+        "id": "7b503df8-fabc-4dc0-ab7c-89941d73123b",
+        "name": "Startup Collections",
+        "website": "http://startupcollections.com",
+        "submission_url": "https://startupcollections.com/submit",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "marketing",
+          "ecommerce"
+        ],
+        "required_fields": [
+          "email",
+          "name",
+          "url"
+        ],
+        "optional_fields": [
+          "address",
+          "description"
+        ],
+        "score": 38.4
+      },
+      {
+        "id": "83b9ded3-7236-4cc2-9188-d23be3f2ea38",
+        "name": "OnlineSociety",
+        "website": "http://onlinesociety.org/submit",
+        "submission_url": "http://onlinesociety.org/submit",
+        "category": "business_general",
+        "domain_authority": 25,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "ecommerce",
+          "web",
+          "finance",
+          "healthcare"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 37.5
+      },
+      {
+        "id": "e1928a37-d1d0-4419-b7e7-24a197353d36",
+        "name": "Startupbase",
+        "website": "https://startupbase.io",
+        "submission_url": "https://startupbase.io/submit",
+        "category": "local_business",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "ecommerce",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category"
+        ],
+        "score": 37.2
+      },
+      {
+        "id": "78506b64-410d-44dd-9b91-87e18549b76e",
+        "name": "Globy",
+        "website": "https://globy.com",
+        "submission_url": "https://globy.com/register",
+        "category": "b2b",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "671bf132-2ab1-420d-9274-df1dfa027644",
+        "name": "Promote Business Directory",
+        "website": "https://www.promotebusinessdirectory.com",
+        "submission_url": "https://www.promotebusinessdirectory.com/submit.php",
+        "category": "local_business",
+        "domain_authority": 20,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "marketing"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "category"
+        ],
+        "score": 36.0
+      },
+      {
+        "id": "dcff2b56-0ad0-4737-88fd-aba9b0305faa",
+        "name": "OnTopList",
+        "website": "https://www.ontoplist.com",
+        "submission_url": "https://www.ontoplist.com/add.php",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "6fef9e5e-fb2a-43e2-9db2-99a909ac51d1",
+        "name": "Business Directory",
+        "website": "https://www.business-directory.co.uk",
+        "submission_url": "https://www.business-directory.co.uk/submit",
+        "category": "business_general",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "07b9bb90-b48a-4bf7-a5a9-da19dd9f009e",
+        "name": "EasyLinkList",
+        "website": "http://easylinklist.com/add-business",
+        "submission_url": "http://easylinklist.com/add-business",
+        "category": "business_general",
+        "domain_authority": 36,
+        "difficulty": "Easy",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 30.8
+      },
+      {
+        "id": "ee46c20d-d6fb-43d6-bcda-f8018f0955a2",
+        "name": "AList Directory",
+        "website": "http://www.alistdirectory.com",
+        "submission_url": "http://www.alistdirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 30,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 29.0
+      },
+      {
+        "id": "756df494-ccd1-4fe1-9e9b-7309997ee4ac",
+        "name": "SonicRun",
+        "website": "https://www.sonicrun.com",
+        "submission_url": "https://www.sonicrun.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.4
+      },
+      {
+        "id": "eee8cc68-0f90-409d-bc2a-e0cfb5088b4e",
+        "name": "GMA Web Directory",
+        "website": "https://www.gmawebdirectory.com",
+        "submission_url": "https://www.gmawebdirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 27,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.1
+      },
+      {
+        "id": "c9c49ec8-74c3-4e57-8ffc-75a744c94a07",
+        "name": "AwesomeIndie",
+        "website": "https://awesomeindie.com",
+        "submission_url": "https://awesomeindie.com/submit",
+        "category": "business_general",
+        "domain_authority": 20,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 26.0
+      }
+    ],
+    "5": [
+      {
+        "id": "08aad35e-231c-4dbd-9a01-76e7dbaa1c1e",
+        "name": "Deal Mirror",
+        "website": "https://www.dealmirror.com",
+        "submission_url": "https://www.dealmirror.com/submit",
+        "category": "saas",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "saas"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 69.0
+      },
+      {
+        "id": "b53aaa91-f654-431c-8140-8de45e98ce9c",
+        "name": "Betapage",
+        "website": "https://betapage.co",
+        "submission_url": "https://betapage.co/submit",
+        "category": "startup",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 67.0
+      },
+      {
+        "id": "6cc8218e-f2e6-466b-9427-21391c5c1291",
+        "name": "Happal",
+        "website": "https://www.happal.com",
+        "submission_url": "https://www.happal.com/submit.php",
+        "category": "saas",
+        "domain_authority": 39,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "web"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 61.7
+      },
+      {
+        "id": "cb458eb7-860d-41ad-9e5c-10ad59d7ace8",
+        "name": "Blogger",
+        "website": "https://www.blogger.com",
+        "submission_url": "https://www.blogger.com",
+        "category": "content_media",
+        "domain_authority": 95,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 58.5
+      },
+      {
+        "id": "de54cb72-d576-4651-ad03-fbbf96eb1ef3",
+        "name": "Crunchbase",
+        "website": "https://www.crunchbase.com/",
+        "submission_url": "https://www.crunchbase.com/",
+        "category": "Startup/Tech",
+        "domain_authority": 90,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 55.0
+      },
+      {
+        "id": "1b891265-99ab-4610-b355-2ea05edddacf",
+        "name": "Remote Tools",
+        "website": "https://www.remote.tools",
+        "submission_url": "https://www.remote.tools/submit",
+        "category": "tech",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 50.5
+      },
+      {
+        "id": "6d032def-74a5-4538-8033-52edde736fc0",
+        "name": "Cloud Foundry",
+        "website": "https://slack.cloudfoundry.org",
+        "submission_url": "https://slack.cloudfoundry.org/submit",
+        "category": "social_media",
+        "domain_authority": 61,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "email"
+        ],
+        "score": 48.3
+      },
+      {
+        "id": "7e5938a9-8a65-463d-97f1-f07a2ae00365",
+        "name": "Local Business",
+        "website": "https://local-business.co.uk",
+        "submission_url": "https://local-business.co.uk/add-business",
+        "category": "business_general",
+        "domain_authority": 100,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 48.0
+      },
+      {
+        "id": "f15a2eb6-c10e-489f-a612-8081457e52ca",
+        "name": "Yell",
+        "website": "https://www.yell.com",
+        "submission_url": "https://www.yell.com/s/create-a-listing.html",
+        "category": "business_general",
+        "domain_authority": 82,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.6
+      },
+      {
+        "id": "dd9b4f0a-7664-4f6a-a41a-b9ffed5df1ea",
+        "name": "Business.com",
+        "website": "https://business.com",
+        "submission_url": "https://business.com/submit",
+        "category": "business_general",
+        "domain_authority": 81,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.3
+      },
+      {
+        "id": "6f261281-d1f7-48b6-a977-583dd097d3c8",
+        "name": "Yelp Business",
+        "website": "https://business.yelp.com",
+        "submission_url": "https://business.yelp.com/claim",
+        "category": "business_general",
+        "domain_authority": 93,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.9
+      },
+      {
+        "id": "d2032a15-ccea-40b8-bd27-89985d687822",
+        "name": "EZLocal",
+        "website": "https://ezlocal.com/",
+        "submission_url": "https://ezlocal.com/",
+        "category": "Local",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "marketing",
+          "design"
+        ],
+        "required_fields": [
+          "name",
+          "description"
+        ],
+        "optional_fields": [
+          "state",
+          "phone",
+          "description"
+        ],
+        "score": 45.0
+      },
+      {
+        "id": "8d8d0a15-3937-440f-b733-cbc70af243b7",
+        "name": "Mercado Libre",
+        "website": "https://www.mercadolibre.com",
+        "submission_url": "https://www.mercadolibre.com/",
+        "category": "ecommerce",
+        "domain_authority": 88,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 44.4
+      },
+      {
+        "id": "b34fac2e-c603-463a-93dd-2af798082ccf",
+        "name": "WooCommerce Extensions",
+        "website": "https://woocommerce.com/products/",
+        "submission_url": "https://woocommerce.com/document/marketplace-overview/",
+        "category": "ecommerce",
+        "domain_authority": 85,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 43.5
+      },
+      {
+        "id": "97f4b0b0-88ac-4d48-9200-b6ca3a44a894",
+        "name": "Magento Marketplace",
+        "website": "https://marketplace.magento.com",
+        "submission_url": "https://commercemarketplace.adobe.com/",
+        "category": "ecommerce",
+        "domain_authority": 78,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 42.4
+      },
+      {
+        "id": "dad34d61-471e-4474-a49f-1091ad4eb106",
+        "name": "ReviewCentre",
+        "website": "https://www.reviewcentre.com",
+        "submission_url": "https://www.reviewcentre.com/business",
+        "category": "review",
+        "domain_authority": 76,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "review"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.8
+      },
+      {
+        "id": "d0722285-c2d3-496b-9dce-638fd3265d0e",
+        "name": "Yellow Pages Australia",
+        "website": "https://www.yellowpages.com.au",
+        "submission_url": "https://www.yellowpages.com.au/advertise",
+        "category": "business_general",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "c2553e05-f4de-4389-ae1b-be7a230b6199",
+        "name": "Hotfrog Australia",
+        "website": "https://www.hotfrog.com.au",
+        "submission_url": "https://www.hotfrog.com.au/add-your-business",
+        "category": "business_general",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.4
+      },
+      {
+        "id": "def6286b-847d-485b-9eca-f7cf10795f7e",
+        "name": "Data-Axle Listings",
+        "website": "https://local-listings.data-axle.com",
+        "submission_url": "https://local-listings.data-axle.com",
+        "category": "business_general",
+        "domain_authority": 57,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.1
+      },
+      {
+        "id": "dda91341-616e-448b-aab6-27f18b8496b8",
+        "name": "PRLog",
+        "website": "https://www.prlog.org",
+        "submission_url": "https://www.prlog.org/pub/freepr.html",
+        "category": "pr",
+        "domain_authority": 72,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "pr"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.6
+      },
+      {
+        "id": "4ae9a453-432c-4679-9560-407394c7a60c",
+        "name": "Entireweb",
+        "website": "https://www.entireweb.com/free_submission/",
+        "submission_url": "https://www.entireweb.com/free_submission/",
+        "category": "business_general",
+        "domain_authority": 35,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "business",
+          "marketing",
+          "design",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 40.5
+      },
+      {
+        "id": "d8175048-3ae0-4784-a78b-da5d48c55aff",
+        "name": "BOTW",
+        "website": "https://www.botw.org",
+        "submission_url": "https://www.botw.org/submit.aspx",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "c646d7e8-f4f1-475d-b044-0f16c838719c",
+        "name": "Bonanza",
+        "website": "https://www.bonanza.com",
+        "submission_url": "https://www.bonanza.com/sell",
+        "category": "ecommerce",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "ae437da1-1123-4b20-a9c7-d6ee05983e7c",
+        "name": "RobinGood",
+        "website": "https://tools.robingood.com",
+        "submission_url": "https://tools.robingood.com/submit",
+        "category": "local_business",
+        "domain_authority": 33,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "saas",
+          "startup",
+          "tech",
+          "marketing"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 39.9
+      },
+      {
+        "id": "08c8cab6-7919-4e39-bfba-6c9a7255bc45",
+        "name": "CRIF Margo",
+        "website": "https://businessdirectory.crif.com",
+        "submission_url": "https://businessdirectory.crif.com/",
+        "category": "business_general",
+        "domain_authority": 68,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.4
+      },
+      {
+        "id": "8ea7cc12-f732-44de-a8a7-928995699c4d",
+        "name": "Vietnam Yellow Pages",
+        "website": "https://www.yellowpages.com.vn",
+        "submission_url": "https://www.yellowpages.com.vn/",
+        "category": "business_general",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.0
+      },
+      {
+        "id": "15be3678-2433-457b-abba-1e5e0f6ab539",
+        "name": "Consultancy.org",
+        "website": "https://www.consultancy.org",
+        "submission_url": "https://www.consultancy.org/register",
+        "category": "consulting",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "consulting"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.5
+      },
+      {
+        "id": "c78c750e-b7bc-4253-81f0-124977d1210f",
+        "name": "Judy's Book",
+        "website": "https://www.judysbook.com/signupbusiness",
+        "submission_url": "https://www.judysbook.com/signupbusiness",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "state",
+          "address",
+          "name",
+          "zip",
+          "email"
+        ],
+        "score": 38.4
+      },
+      {
+        "id": "21b1d34a-b0d2-4dd2-b756-b891f0e1b59c",
+        "name": "LocalSearch",
+        "website": "https://www.localsearch.com.au",
+        "submission_url": "https://www.localsearch.com.au",
+        "category": "business_general",
+        "domain_authority": 61,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.3
+      },
+      {
+        "id": "1cd194b6-fe11-4e0c-b2ff-9f63ff111d3f",
+        "name": "Trustlink",
+        "website": "https://www.trustlink.org",
+        "submission_url": "https://www.trustlink.org/business/",
+        "category": "review",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "review"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "c8626ead-260c-44cc-a9bc-85674da2acc8",
+        "name": "10 Best Design",
+        "website": "https://www.10bestdesign.com",
+        "submission_url": "https://www.10bestdesign.com/add-agency/",
+        "category": "design",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "design"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "3714a941-b18e-4a38-aac8-69fb913a3664",
+        "name": "Superpages",
+        "website": "https://www.superpages.com/",
+        "submission_url": "https://www.superpages.com/",
+        "category": "General",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 34.5
+      },
+      {
+        "id": "ddb1d5d0-0ac3-42ae-b118-fc829f605644",
+        "name": "LatinLocate",
+        "website": "https://www.latinlocate.com",
+        "submission_url": "https://www.latinlocate.com/",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "b4dfd4eb-4e90-4e70-a15b-fd3bc16f44b9",
+        "name": "South America Business Directory",
+        "website": "https://southamericabusinessdirectory.com",
+        "submission_url": "https://southamericabusinessdirectory.com/",
+        "category": "business_general",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "8fa93522-0e6d-4f64-9dae-864edf50df72",
+        "name": "LinkDevils",
+        "website": "http://linkdevils.com/add-business",
+        "submission_url": "http://linkdevils.com/add-business",
+        "category": "business_general",
+        "domain_authority": 36,
+        "difficulty": "Easy",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 30.8
+      },
+      {
+        "id": "5be84419-4849-4d9e-856a-49d56346a6b4",
+        "name": "Splut",
+        "website": "https://www.splut.com",
+        "submission_url": "https://www.splut.com/submit.html",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.7
+      },
+      {
+        "id": "b21ae187-399f-47e3-a19d-3b6227e49fc1",
+        "name": "Elite Sites Directory",
+        "website": "https://www.elitesitesdirectory.com",
+        "submission_url": "https://www.elitesitesdirectory.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.4
+      },
+      {
+        "id": "333e2a44-2e31-49ae-bd70-8d7e10864042",
+        "name": "Skoobe",
+        "website": "https://www.skoobe.biz",
+        "submission_url": "https://www.skoobe.biz/submit",
+        "category": "business_general",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 27.2
+      }
+    ],
+    "6": [
+      {
+        "id": "c3a2987d-f51c-4945-9875-482a160eafcc",
+        "name": "Startup Buffer",
+        "website": "https://startupbuffer.com",
+        "submission_url": "https://startupbuffer.com/submit-startup",
+        "category": "startup",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "startup"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 69.0
+      },
+      {
+        "id": "6cb8c74c-211a-43d8-802b-22a1693248de",
+        "name": "AI Tools List",
+        "website": "https://aitoolslist.com",
+        "submission_url": "https://aitoolslist.com/submit",
+        "category": "ai_tools",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "startup",
+          "tech",
+          "business",
+          "ecommerce"
+        ],
+        "required_fields": [],
+        "optional_fields": [
+          "url"
+        ],
+        "score": 66.5
+      },
+      {
+        "id": "5d19f083-6409-4889-9c40-5e21387cc24c",
+        "name": "OpenFuture AI",
+        "website": "https://openfuture.ai",
+        "submission_url": "https://openfuture.ai/submit-tool",
+        "category": "ai_tools",
+        "domain_authority": 36,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "ecommerce",
+          "productivity",
+          "tools"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 60.8
+      },
+      {
+        "id": "6ea059e5-de2b-40bc-b891-3e7836170947",
+        "name": "AlternativeTo",
+        "website": "https://alternativeto.net",
+        "submission_url": "https://alternativeto.net/application/new/",
+        "category": "tech",
+        "domain_authority": 83,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 57.9
+      },
+      {
+        "id": "46aff27c-d05f-4094-a688-a3817368d5e9",
+        "name": "AI Tools Market",
+        "website": "https://aitoolsmarket.com",
+        "submission_url": "https://aitoolsmarket.com/submit",
+        "category": "ai_tools",
+        "domain_authority": 15,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 54.5
+      },
+      {
+        "id": "91e79ad3-5e2d-46ea-b647-b072dc0ce5a6",
+        "name": "SnapMunk",
+        "website": "https://www.snapmunk.com",
+        "submission_url": "https://www.snapmunk.com/submit/",
+        "category": "tech",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "tech"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 50.5
+      },
+      {
+        "id": "ed5ff60c-bc72-4225-9cc4-3b14528c6662",
+        "name": "JustDial",
+        "website": "https://www.justdial.com",
+        "submission_url": "https://www.justdial.com/Add-My-Business",
+        "category": "business_general",
+        "domain_authority": 84,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 48.2
+      },
+      {
+        "id": "b025f19e-6c66-4207-a1f5-5581d8717ab7",
+        "name": "Chamber of Commerce",
+        "website": "https://www.uschamber.com",
+        "submission_url": "https://www.uschamber.com/co/",
+        "category": "business_general",
+        "domain_authority": 83,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.9
+      },
+      {
+        "id": "3ffc27b8-93db-48cc-9181-1a85b30ef7b2",
+        "name": "Amazon Seller",
+        "website": "https://sell.amazon.com",
+        "submission_url": "https://sell.amazon.com/",
+        "category": "ecommerce",
+        "domain_authority": 98,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.4
+      },
+      {
+        "id": "22c2aab1-15bb-4685-9d08-ec3fada8fa32",
+        "name": "Angie's List",
+        "website": "https://www.angieslist.com",
+        "submission_url": "https://www.angieslist.com/join/",
+        "category": "review",
+        "domain_authority": 80,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "review"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 47.0
+      },
+      {
+        "id": "bdd9a810-a53a-4945-9106-415dfc14cec6",
+        "name": "Etsy",
+        "website": "https://www.etsy.com",
+        "submission_url": "https://www.etsy.com/sell",
+        "category": "ecommerce",
+        "domain_authority": 92,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "ecommerce"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 45.6
+      },
+      {
+        "id": "dfaf02b6-3e19-439c-ab7d-2d4701ca542f",
+        "name": "Makerpad",
+        "website": "https://www.makerpad.co",
+        "submission_url": "https://www.makerpad.co/submit",
+        "category": "local_business",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 45.0
+      },
+      {
+        "id": "a0dc82cd-9064-41a2-b541-dd923fe0d535",
+        "name": "TradeIndia",
+        "website": "https://www.tradeindia.com",
+        "submission_url": "https://www.tradeindia.com/seller/",
+        "category": "b2b",
+        "domain_authority": 88,
+        "difficulty": "Hard",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 44.4
+      },
+      {
+        "id": "2adc1a9d-ad9a-4d4e-8632-cad58703d48a",
+        "name": "Bing Places",
+        "website": "https://www.bingplaces.com/",
+        "submission_url": "https://www.bingplaces.com/",
+        "category": "General",
+        "domain_authority": 94,
+        "difficulty": "Medium",
+        "niche_tags": [],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 43.2
+      },
+      {
+        "id": "6e923cd8-0147-44a7-b2d4-be6fc585b01c",
+        "name": "Bizcommunity",
+        "website": "https://www.bizcommunity.com",
+        "submission_url": "https://www.bizcommunity.com/AddNewBiz.aspx",
+        "category": "business_general",
+        "domain_authority": 77,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 42.1
+      },
+      {
+        "id": "37fd07a6-62f2-4946-a104-1630e908e6d9",
+        "name": "Cylex UK",
+        "website": "https://www.cylex-uk.co.uk",
+        "submission_url": "https://www.cylex-uk.co.uk/add_listing.html",
+        "category": "business_general",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "f0c13920-2a76-4f29-9af0-976d8ff8d9be",
+        "name": "Wer Liefert Was",
+        "website": "https://www.wlw.de",
+        "submission_url": "https://www.wlw.de/",
+        "category": "b2b",
+        "domain_authority": 75,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.5
+      },
+      {
+        "id": "ceeda51b-dc2e-471a-ac71-b042baf81273",
+        "name": "Guia Local Spain",
+        "website": "https://www.guialocal.com",
+        "submission_url": "https://www.guialocal.com/",
+        "category": "business_general",
+        "domain_authority": 58,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 41.4
+      },
+      {
+        "id": "2b7afe81-94d9-40dd-b982-5beb5d434d3a",
+        "name": "Extra Directory 9",
+        "website": "https://example9.com/submit",
+        "submission_url": "https://example9.com/submit",
+        "category": "local_business",
+        "domain_authority": 36,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "business",
+          "ecommerce",
+          "design"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 40.8
+      },
+      {
+        "id": "0c0e7835-6a23-44fa-8eef-844b391667e4",
+        "name": "WebDesignRanking",
+        "website": "https://www.webdesignranking.com",
+        "submission_url": "https://www.webdesignranking.com/add-agency/",
+        "category": "design",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "design"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "52fdd74c-b9e3-4f84-9d0b-1c9dc3b477c7",
+        "name": "BizIn EU",
+        "website": "https://bizin.eu",
+        "submission_url": "https://bizin.eu/",
+        "category": "business_general",
+        "domain_authority": 55,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.5
+      },
+      {
+        "id": "9cade8b4-51fa-49b0-8cd3-4af93f928dc9",
+        "name": "Web Tools Weekly",
+        "website": "http://webtoolsweekly.com/submit",
+        "submission_url": "https://webtoolsweekly.com/submit",
+        "category": "business_general",
+        "domain_authority": 34,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "saas",
+          "tech",
+          "ecommerce",
+          "design",
+          "productivity"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 40.2
+      },
+      {
+        "id": "c88a659a-c2ed-4f0f-8c0c-2f9cc14120ed",
+        "name": "PR.com",
+        "website": "https://www.pr.com",
+        "submission_url": "https://www.pr.com/press-release-writing",
+        "category": "pr",
+        "domain_authority": 70,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "pr"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 40.0
+      },
+      {
+        "id": "b8a9673c-4b92-45f0-92de-4ab987aa9d98",
+        "name": "eBusinessPages",
+        "website": "https://www.ebusinesspages.com",
+        "submission_url": "https://www.ebusinesspages.com/submitlisting.php",
+        "category": "business_general",
+        "domain_authority": 53,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.9
+      },
+      {
+        "id": "1d92f4ed-a81c-4374-9cb1-66c5959b3c9b",
+        "name": "Exporters India",
+        "website": "https://www.exportersindia.com",
+        "submission_url": "https://www.exportersindia.com/registration/",
+        "category": "b2b",
+        "domain_authority": 68,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.4
+      },
+      {
+        "id": "96af3e12-03a4-4280-b312-bb6216ffea6c",
+        "name": "TopBlogs",
+        "website": "https://www.topblogs.com",
+        "submission_url": "https://www.topblogs.com/submit",
+        "category": "blog",
+        "domain_authority": 50,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "blog"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 39.0
+      },
+      {
+        "id": "1b516a2c-0c4b-49ef-be6e-c0e270afc731",
+        "name": "Japan Yellow Pages",
+        "website": "https://www.yellowpages.co.jp",
+        "submission_url": "https://www.yellowpages.co.jp/",
+        "category": "business_general",
+        "domain_authority": 65,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 38.5
+      },
+      {
+        "id": "43677414-11c1-42ab-bf12-e246455ee80f",
+        "name": "Extra Directory 16",
+        "website": "https://example16.com/submit",
+        "submission_url": "https://example16.com/submit",
+        "category": "local_business",
+        "domain_authority": 27,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "ai",
+          "tech",
+          "mobile"
+        ],
+        "required_fields": [],
+        "optional_fields": [],
+        "score": 38.1
+      },
+      {
+        "id": "b0a6e265-b0d4-4c4f-a73b-3d2bef01ce1f",
+        "name": "Yext",
+        "website": "https://www.yext.com",
+        "submission_url": "https://www.yext.com",
+        "category": "business_general",
+        "domain_authority": 61,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.3
+      },
+      {
+        "id": "2e99ce58-3531-44a6-a05d-3fc85f29370e",
+        "name": "Company Directory",
+        "website": "https://directory.company.com",
+        "submission_url": "https://directory.company.com",
+        "category": "business_general",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "dc886bab-7515-4cc5-b193-605c8e5968f8",
+        "name": "Scoot",
+        "website": "https://www.scoot.co.uk",
+        "submission_url": "https://www.scoot.co.uk/advertise",
+        "category": "business_general",
+        "domain_authority": 60,
+        "difficulty": "Medium",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 37.0
+      },
+      {
+        "id": "6970eb6a-5af3-48c1-8480-2ddf84388bfa",
+        "name": "B2BYellowPages",
+        "website": "https://www.b2byellowpages.com",
+        "submission_url": "https://www.b2byellowpages.com/register",
+        "category": "b2b",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "b2b"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "f22e7cfc-0e44-4bff-8d1c-a2dbf5745290",
+        "name": "ViESearch",
+        "website": "https://www.viesearch.com",
+        "submission_url": "https://www.viesearch.com/add-url",
+        "category": "business_general",
+        "domain_authority": 48,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 34.4
+      },
+      {
+        "id": "c1a18d82-f6cb-4825-8de4-86207da55873",
+        "name": "Thai Business Directory",
+        "website": "https://www.thaibusinessdirectory.com",
+        "submission_url": "https://www.thaibusinessdirectory.com/",
+        "category": "business_general",
+        "domain_authority": 45,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 33.5
+      },
+      {
+        "id": "1c19f2c0-5e04-488b-82b8-ce02be9571db",
+        "name": "Pointcom",
+        "website": "https://www.pointcom.com",
+        "submission_url": "https://www.pointcom.com/add",
+        "category": "business_general",
+        "domain_authority": 35,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 30.5
+      },
+      {
+        "id": "71a0f2f5-f08c-4821-8778-0b4ec894d746",
+        "name": "TSection",
+        "website": "https://www.tsection.com",
+        "submission_url": "https://www.tsection.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 29,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.7
+      },
+      {
+        "id": "c4b3fea9-090c-4573-a091-69c87ae31e0e",
+        "name": "UK Internet Directory",
+        "website": "https://www.ukinternetdirectory.net",
+        "submission_url": "https://www.ukinternetdirectory.net/submit.php",
+        "category": "business_general",
+        "domain_authority": 28,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 28.4
+      },
+      {
+        "id": "9058b1cc-68fe-44eb-9251-af39dec65fbe",
+        "name": "Canada Web Dir",
+        "website": "https://www.canadawebdir.com",
+        "submission_url": "https://www.canadawebdir.com/submit.php",
+        "category": "business_general",
+        "domain_authority": 24,
+        "difficulty": "Easy",
+        "niche_tags": [
+          "business_general"
+        ],
+        "required_fields": [
+          "name",
+          "website",
+          "category"
+        ],
+        "optional_fields": [
+          "description",
+          "email",
+          "phone"
+        ],
+        "score": 27.2
+      }
+    ]
+  }
+}

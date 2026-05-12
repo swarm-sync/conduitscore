@@ -1,0 +1,14 @@
+C:\Python313\Lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (7.4.0.post2)/charset_normalizer (3.4.5) doesn't match a supported version!
+  warnings.warn(
+HTTP 500 from ConduitScore API for 10xllm.com
+HTTP 500 from ConduitScore API for tastejury.com
+HTTP 500 from ConduitScore API for tempo.ms
+HTTP 500 from ConduitScore API for popup-project.io
+HTTP 500 from ConduitScore API for toolske.com
+HTTP 429 from ConduitScore API for trustloop.co
+HTTP 500 from ConduitScore API for byjus.com
+HTTP 500 from ConduitScore API for tableandtwist.in
+HTTP 500 from ConduitScore API for 140proof.com
+HTTP 500 from ConduitScore API for printrash.in
+HTTP 429 from ConduitScore API for ribuy.in
+Appended 1750 rows to Google Sheet

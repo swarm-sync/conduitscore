@@ -17,6 +17,8 @@ dependencies = [
   "trafilatura>=1.8.0",
   "scrapy>=2.11.0",
   "crawl4ai>=0.4.0",
+  "dnspython>=2.6.1",
+  "extruct>=0.16.0",
 ]
 
 [project.optional-dependencies]

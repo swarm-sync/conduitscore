@@ -1,0 +1,5 @@
+domain,receiver_email,first_name,company_name,industry_vertical,icp_tag,notes,scrape_source,batch_group,send_priority
+ghost.org,hello@ghost.org,,Ghost,SaaS,B2B,scrapy,bulk_harvest,bulk-harvest,1
+netlify.com,fraud@netlify.com,,Netlify,SaaS,B2B,httpx+trafilatura;crawl4ai_error:;scrapy_error:,bulk_harvest,bulk-harvest,1
+cloudflare.com,legal@cloudflare.com,,Cloudflare,SaaS,B2B,httpx+trafilatura;crawl4ai_error:;scrapy_error:,bulk_harvest,bulk-harvest,1
+datadoghq.com,info@datadoghq.com,,Datadoghq,SaaS,B2B,httpx+trafilatura;crawl4ai_error:;scrapy_error:,bulk_harvest,bulk-harvest,1
