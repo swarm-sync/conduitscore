@@ -111,7 +111,7 @@ function BadgeEmbedSection({ scanId, score }: { scanId: string; score: number })
           <img
             src={`/api/badge/${scanId}`}
             alt={`ConduitScore badge: ${score}/100 AI-Visible`}
-            style={{ display: "block", maxHeight: "28px", width: "auto" }}
+            style={{ display: "block", maxHeight: "40px", width: "auto" }}
           />
         </div>
         <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
