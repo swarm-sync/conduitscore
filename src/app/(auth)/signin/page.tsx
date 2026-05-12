@@ -60,26 +60,44 @@ function SignInContent() {
       >
         {/* Logo */}
         <div className="mb-8 text-center">
-          <div className="flex justify-center mb-4">
-            <Image
-              src={BRAND_LOGO_SRC}
-              alt="ConduitScore"
-              width={756}
-              height={292}
-              priority
+          <div className="flex justify-center mb-4 overflow-hidden">
+            <div
               style={{
-                objectFit: "contain",
-                width: "220px",
-                height: "auto",
-                display: "block",
-                marginInline: "auto",
+                width: "140px",
+                height: "54px",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >
+              <Image
+                src={BRAND_LOGO_SRC}
+                alt="ConduitScore"
+                width={756}
+                height={292}
+                priority
+                style={{
+                  objectFit: "contain",
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                  filter: "drop-shadow(0 0 0 transparent)",
+                }}
+              />
+            </div>
           </div>
           <h1
             id="signin-heading"
-            className="text-xl font-bold"
-            style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)", letterSpacing: "-0.02em" }}
+            className="text-lg font-bold leading-tight"
+            style={{
+              fontFamily: "var(--font-display)",
+              color: "var(--text-primary)",
+              letterSpacing: "-0.02em",
+              display: "block",
+              wordWrap: "break-word",
+              overflowWrap: "break-word",
+            }}
           >
             Sign in to{" "}
             <span
@@ -88,6 +106,7 @@ function SignInContent() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                display: "inline-block",
               }}
             >
               ConduitScore
