@@ -71,7 +71,7 @@ function SignInContent() {
                 width: "auto",
                 height: "46px",
                 display: "block",
-                mixBlendMode: "multiply",
+                mixBlendMode: "darken",
               }}
             />
           </div>
